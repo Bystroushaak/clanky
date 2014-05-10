@@ -220,7 +220,7 @@ class Wallet {
 Package HiringAPI {
     class Validators {
         Hires people who
-        checks given
+        check given
         source or idea.
         
         hire_validators()
@@ -228,7 +228,7 @@ Package HiringAPI {
     
     class Programmers {
         Hires programmers
-        who implements
+        who implement
         new ideas and API.
         
         hire_programmers()
@@ -241,7 +241,7 @@ Package HiringAPI {
     }
     
     class ValidatorsOfValidators {
-        Also hires people, who validates
+        Hires people who validate
         work of the validators.
     }
     
@@ -272,7 +272,7 @@ Programmers ---&gt; Others: implements
 -->
 
 
-<p>Jak je vidět, celé to funguje poměrně jednoduše: Workers získávají peníze, ze kterých jsou poté financováni kontraktoři, mající za úkol jednak vymýšlet kam dál se E<sup>2</sup>ntita může rozvíjet, druhak implementovat nové schopnosti a ověřovat ostatní kontraktory.</p>
+<p>Jak je vidět, celé to funguje poměrně jednoduše: Workers získávají peníze, ze kterých jsou poté financováni kontraktoři, mající za úkol jednak vymýšlet kam dál se E<sup>2</sup>ntita může rozvíjet, jednak implementovat nové schopnosti a ověřovat ostatní kontraktory.</p>
 
 
 <p>Architektura je silně distribuovaná a jednotlivé části nemají možnost zasahovat do kódu a stavu ostatních částí. Celé to může běžet třeba jako XML RPC, REST API, či jako microservices na ZeroMQ.</p>
