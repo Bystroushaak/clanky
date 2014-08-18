@@ -193,7 +193,7 @@ in-target update-grub</pre>
 
 
 <h4>Řádky 23 až 29</h4>
-<p>Statické nastavení sítě. Tyto řádky je nutné odkomentovat, pokud chcete aby instalátor použil uvedenou IP adresy a konfiguraci sítě. Pokud zůstanou tyto řádky zakomentované, tak je použito <code>dhcp</code> a může být složité zjistit adresu instalátoru, hlavně v případě VPS.</p>
+<p>Statické nastavení sítě. Tyto řádky je odkomentujte pokud chcete aby instalátor použil uvedené IP adresy a konfiguraci sítě. Pokud zůstanou tyto řádky zakomentované, tak je použito <code>dhcp</code> a může být složité zjistit adresu instalátoru (hlavně v případě VPS).</p>
 
 
 <h4>Řádek 35</h4>
@@ -219,7 +219,7 @@ in-target update-grub</pre>
 <p>Jestliže chcete provést nějaké změny v nainstalovaném systému ještě v době instalace, je možné přidat další řádky, které například nastaví statickou IP adresu (doporučuji použít postup na řádku 36, tedy uložit soubory na ISO do složky <code>preseed/</code> a pak je prostě zkopírovat stylem <code>cp cdrom/preseed/soubor target/etc/soubor; \</code>), či podobné konfigurace.</p>
 
 
-<p>Následující ukázka nastaví <code>OpenSSH</code> (nikoliv dropbear!) aby zamezil loginu <code>root</code>a:</p>
+<p>Následující ukázka nastaví <code>OpenSSH</code> (nikoliv <code>dropbear</code>!) aby zamezil loginu <code>root</code>a:</p>
 
 <pre class="brush: bash">in-target sed 's/^PermitRootLogin.*/PermitRootLogin no/g' -i /etc/ssh/sshd_config; \</pre>
 
@@ -231,7 +231,7 @@ in-target update-grub</pre>
 
 
 <h5>IP adresa dropbearu</h5>
-<p>Poměrně pravděpodobnou možností například je, že budete chtít upravit IP adresu, na které se startuje <code>dropbear</code>. Ta je v základě vybrána automaticky a ovlivnit jí je možné úpravou souboru <code>/etc/initramfs-tools/conf.d/network_config</code>, kam lze přidat řádek ve formátu:</p>
+<p>Poměrně užitečnou možností je například úprava IP adresy, na které se startuje <code>dropbear</code>. Ta je v defaultu vybrána automaticky a ovlivnit jí je možné úpravou souboru <code>/etc/initramfs-tools/conf.d/network_config</code>, kam lze přidat řádek ve formátu:</p>
 
 <pre class="brush: bash">export IP=&lt;client-ip&gt;:&lt;server-ip&gt;:&lt;gw-ip&gt;:&lt;netmask&gt;:&lt;hostname&gt;:&lt;device&gt;:&lt;autoconf&gt;.</pre>
 
@@ -277,7 +277,7 @@ mkisofs -r -V &quot;Ubuntu headless&quot; -cache-inodes -J -l -b isolinux/isolin
 
 
 <h1>Odemčení disku přes SSH</h1>
-<p>Odemčení provedete tak, že se připojíte přes <code>SSH</code> na port zadaný při instalaci. Pokud jste nedělali změny v <i>preseed</i> souboru, tak by to měl být port <code>80</code>. Automaticky by se vám měl načíst busybox shell, neboť při vytváření instalačního média byl přidán váš veřejný klíč. Zde stačí spustit script <code>unlock.sh</code>, chvíli počkat, zadat heslo a to je vše. Tedy skoro.</p>
+<p>Odemčení provedete tak, že se připojíte přes <code>SSH</code> jako <code>root</code> na port zadaný při instalaci. Pokud jste nedělali změny v <i>preseed</i> souboru, tak by to měl být port <code>80</code>. Automaticky by se vám měl načíst busybox shell, neboť při vytváření instalačního média byl přidán váš veřejný klíč. Zde stačí spustit script <code>unlock.sh</code>, chvíli počkat, zadat heslo a to je vše. Tedy skoro.</p>
 
 <pre class="brush: bash">$ ssh root@192.168.1.114 -p 80
 
