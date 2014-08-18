@@ -175,7 +175,7 @@ in-target bash -c &quot;echo 'GRUB_RECORDFAIL_TIMEOUT=3' &gt;&gt; /etc/default/g
 in-target update-initramfs -u -k all ; \
 in-target update-grub</pre>
 
-<p>Tento soubor je automaticky načten instalátorem, který si z něj vyzobe informace, které potřebuje pro běh. Všímavější čtenáři se mohou podívat do složky <code>preseed/</code>, kde je již několik scriptů k dispozici.</p>
+<p>Tento soubor je automaticky načten instalátorem, který si z něj vyzobe informace potřebné pro automatické spuštění netinstall konzole. Všímavější čtenáři se mohou podívat do složky <code>preseed/</code>, kde je již několik scriptů k dispozici.</p>
 
 <p>Předpokládám, že budete chtít provést některé úpravy, proto jsem zvýraznil několik řádků:</p>
 
