@@ -1,0 +1,386 @@
+<p>Dnes se podíváme na to jak nainstalovat linux na stroj, ke kterému není k dispozici ani klávesnice, ani monitor. Aby to nebylo tak jednoduché, tak to všechno bude nainstalováno do šifrovaného kontejneru, ke kterému se po rebootu zadává heslo přes SSH.</p>
+
+<!--break-->
+
+<h1>Motivace</h1>
+<p>Jak říkával můj oblíbený učitel na střední škole: <i>„Doba je zlá, ne-li kritická“</i>. NSA šmíruje kde se dá, ale i ostatní orgány se už pomalu začínají orientovat ve světě informačních technologií. Podniková špionáž, všeobecná paranoia. Přesto skoro kamkoliv přijdu, tak stačí nabootovat <i>live</i> distribuci Linuxu a během pár minut si můžu dělat s nainstalovaným systémem <a href="https://github.com/secretsquirrel/the-backdoor-factory">co chci</a> - přidávat tam soubory, mazat a upravovat stávající, či si kopírovat citlivá data. Proto tedy šifrovaný disk.</p>
+
+
+<p>
+<br />
+<a href="/images/screenshots/2/3/207332-headless-instalace-ubuntu-serveru-6423237687638791689.jpg"><img src="/images/screenshots/2/3/207332-headless-instalace-ubuntu-serveru-6905814014650685900.jpg" /></a>
+<br /><br />
+</p>
+
+
+<p>Nevím kde máte server vy, já mám jeden pod dřezem a druhý kdesi v cloudu u poskytovatele. Oboje dvoje je relativně špatně dostupné - pod dřezem je nedostatek zásuvek a přenášet server či monitory se mi nechtělo. Do cloudu mě pro změnu nikdo fyzicky nepustí. Proto tedy <i>headless</i> instalace.</p>
+
+
+<h1>early-ssh</h1>
+<p>Na internetu se dá najít odkaz na balíček <code>early-ssh</code>, který údajně dělá více/méně všechno zde popsané, co se <code>dropbear</code>u týče (<i>headless</i> instalaci vám nevyrobí). </p>
+
+
+<p>Pokud narazíte na něj narazíte, rozhodně ho <b>nepoužívejte</b>! Jedná se o neudržovaný a velmi rozbitý script, který nejenže nefunguje, ale má tendence navíc rozbít i některé potenciálně obtížně opravitelné věci (<code>initramfs</code>).</p>
+
+
+<h1>Shrnutí postupu</h1>
+<p>Vše níže popsáno bylo odzkoušeno v systému <a href="http://www.linux-mint-czech.cz/">Linux Mint</a> založeném na <a href="http://www.ubuntu.cz/">Ubuntu</a>, se standardní softwarovou výbavou.</p>
+
+
+<p>1. Stažení současného <a href="http://www.ubuntu.cz/ziskejte/stahnout#tabs-3">serverového</a> 64b instalátoru Ubuntu 14.04, což je LTS (Long Time Support) verze s dlouhodobou podporou. Ubuntu používám protože je uživatelsky příjemné a je pro něj dostupno asi nejvíc balíčků software. Také je to relativně jednoduchá a blbuvzdorná distribuce, se kterou mám na serveru dost zkušeností.</p>
+
+
+<p>2. Rozbalení staženého ISO souboru na disk, přidání <a href="https://wiki.debian.org/DebianInstaller/Preseed">preseed souboru</a> a několika dalších scriptů. Tento krok zajistí, že instalátor nebude vyžadovat interaktivní přítomnost uživatele na vstupně výstupních zařízeních serveru (monitor, klávesnice). Místo toho bude spuštěno <code>SSH</code> s textovým dialogovým menu, přes které je možné dále postupovat v instalaci.</p>
+
+
+<p>3. Vytvoření nového ISO souboru z modifikovaných komponent.</p>
+
+
+<p>4. Instalace systému na disk. V tomto kroku nainstaluji Ubuntu na disk. Na konci se spustí <i>preseed</i> konfigurace, která zajistí instalaci <a href="https://matt.ucc.asn.au/dropbear/dropbear.html">dropbearu</a> (miniaturní SSH server) a jeho přidání do <code>initramfs</code>, aby startoval během žádosti o zadání hesla k disku. Dále je zde upraveni <a href="https://cs.wikipedia.org/wiki/GRUB">grubu</a> aby přeskakoval interaktivní menu, nastavení portu pro <code>dropbear</code> a tak dále.</p>
+
+
+<p>5. Zadání hesla pro šifrovaný disk. Celá procedura není tak jednoduchá a uživatelsky přívětivá, jak by mohla, proto je jí věnován větší prostor.</p>
+
+
+<h2>Upozornění</h2>
+<p>V průběhu článku budeme konfigurovat tři různé SSH servery/sessiony:</p>
+
+
+<ol>
+    <li><strong>Preseed</strong> netinstall konzole. Tímto se připojujeme na proces instalace.</li>
+    <li><strong>Dropbear</strong> SSH server, který slouží k zadání hesla k šifrovanému disku. Používáme certifikát (heslo se nejspíš ani nedá použít, zkoušel jsem, ale nepochodil).</li>
+    <li><strong>OpenSSH</strong> server, který běží po <i>bootu</i> a odemčení disku na serveru.</li>
+</ol>
+
+
+<h1>Postup úprav</h1>
+
+
+<h2>Instalační médium</h2>
+<p>Začněme stažením instalačního média. Celý postup mám odzkoušený na 64b verzi a je možné, že některé detaily, hlavně co se týče <i>preseed</i> souboru a cest, které jsou v něm specifikované, mohou být odlišné.</p>
+
+<pre class="brush: bash">wget -c http://releases.ubuntu.com/trusty/ubuntu-14.04.1-server-amd64.iso</pre>
+<p>Dále je dobré se ujistit, že máte nainstalovaný program <a href="/software/soubory/vypalovani/mkisofs">mkisofs</a>, který je použit k opětovnému sestavení ISO souboru po jeho rozbalení:</p>
+
+<pre class="brush: bash">sudo aptitude install mkisofs</pre>
+
+
+<h2>Upravení instalace</h2>
+<p>Ze všeho nejdříve si vytvořím dvě složky a přepnu se na <code>root</code>a, abych nemusel neustále opisovat <code>sudo</code>:</p>
+
+<pre class="brush: bash">mkdir ubuntu_iso
+mkdir headless_ubuntu
+sudo su</pre>
+
+<p>Nyní je na čase si vybalit obsah ISO souboru do samostatné složky, aby bylo možné provést všechny nutné úpravy.</p>
+
+<pre class="brush: bash">mount -o loop ubuntu-14.04.1-server-amd64.iso ubuntu_iso/
+cp -rT ubuntu_iso/ headless_ubuntu/
+umount ubuntu_iso
+rm -r ubuntu_iso
+
+cd headless_ubuntu/</pre>
+
+
+<h3>authorized_keys</h3>
+<p>Naprostou nutností je přidat soubor <code><strong>preseed/authorized_keys</strong></code>, který je použit <code>dropbear</code>em pro zpřístupnění konzole, kam zadáváte heslo k disku. Do tohoto souboru nakopírujte váš veřejný klíč, který většinou najdete v <code>~/.ssh/id_dsa.pub</code>.</p>
+
+<p>Zkopírovat ho můžete například tímto příkazem:</p>
+
+<pre class="brush: bash">cat ~/.ssh/id_dsa.pub &gt;&gt; preseed/authorized_keys</pre>
+
+<p>Upozornění: Pokud tento soubor nebude vytvořen, nebude možné ani vzdáleně odemknout šifrovaný disk. Zkoušel jsem si hrát s nastavením <code>dropbear</code>u a donutit ho používat heslo, ale bezúspěšně.</p>
+
+
+<p>Poznámka: Pokud nemáte soubor <code>~/.ssh/id_dsa.pub</code>, je možné, že je uložen jinde, nebo že ještě nebyl vygenerován. Jak na to zjistíte například zde: <a href="http://www.root.cz/clanky/jak-se-prihlasovat-na-ssh-bez-zadavani-hesla/">Jak se přihlašovat na <code>SSH</code> bez zadávání hesla</a>.</p>
+
+
+<h3>isolinuc.cfg</h3>
+<p>Dále je zapotřebí upravit jeden soubor a vytvořit další dva. Začněme úpravou souboru <code><strong>isolinux/isolinux.cfg</strong></code>, který je možné celý přepsat, proto jsem vše shrnul do jednoho příkazu, jenž stačí zkopírovat do konzole:</p>
+
+
+<pre class="brush: bash">cat &gt; isolinux/isolinux.cfg &lt;&lt;EOF
+F9 f9.txt
+F0 f10.txt
+
+prompt 0
+timeout 0
+
+DEFAULT netconsole
+
+LABEL netconsole
+    kernel /install/vmlinuz
+    append auto=true vga=normal file=/cdrom/preseed/preseed.seed initrd=/install/initrd.gz locale=cs_CZ console-keymaps-at/keymap=cz-lat2
+EOF
+</pre>
+
+<h3>unlock.sh</h3>
+<p>Hodit se nám bude také soubor <code><strong>preseed/unlock.sh</strong></code>, který slouží k odemčení šifrovaného disku. Není toho zde moc k vidění a tak jsem opět soubor upravil do tvaru, který je možné jednoduše vložit do terminálu a vytvořit ho tak automaticky:</p>
+
+<pre class="brush: bash">cat &gt; preseed/unlock.sh &lt;&lt;EOF
+#!/bin/sh
+kill -9 `ps | grep &quot;/bin/sh&quot; | grep cryptroot | cut -d &quot; &quot; -f 3`
+
+echo &quot;Please wait, this will take some time (35s)..&quot;
+sleep 35
+
+/scripts/local-top/cryptroot
+kill -9 `ps | grep &quot;/bin/sh&quot; | grep -v grep | cut -d &quot; &quot; -f 3`
+EOF</pre>
+
+
+<h3>preseed.seed</h3>
+<p>Nyní přichází na řadu první část instalace, kde je zapotřebí dávat důkladný pozor na to co děláte. Vytvořte soubor <code><strong>preseed/preseed.seed</strong></code> (doporučuji použít editor, protože pravděpodobně budete chtít změnit některé detaily) s následujícím obsahem:</p>
+
+<pre class="brush: bash">d-i debian-installer/locale          string    cs_CZ
+
+# Podstatné je hlavně NEWMACHINE, neboť bude nastaveno jako hostname nového stroje
+d-i debconf/priority                 select    critical
+d-i auto-install/enabled             boolean   true
+d-i netcfg/choose_interface          select    auto
+d-i netcfg/get_hostname              string    NEWMACHINE
+
+# Instalace potřebných balíčků pro připojení po SSH
+d-i preseed/early_command            string    anna-install network-console
+d-i pkgsel/include                   string    openssh-server build-essential
+d-i anna/choose_modules              string    network-console
+
+# Nastavení hesla uživatele SSH sessiony
+d-i network-console/password         password  r00tme
+d-i network-console/password-again   password  r00tmeE
+
+# Pokud dáváte přednost ručnímu nastavení sítě:
+#d-i netcfg/disable_dhcp             boolean   true
+
+# Defaultně je použito DHCP. Pokud chcete použít statické nastavení,
+# odkomentujte řádky dole.
+#d-i netcfg/dhcp_failed              note
+#d-i netcfg/dhcp_options             select    Configure network manually
+#d-i netcfg/get_nameservers          string    10.0.0.1
+#d-i netcfg/get_ipaddress            string    10.0.0.20
+#d-i netcfg/get_netmask              string    255.255.255.0
+#d-i netcfg/get_gateway              string    10.0.0.1
+#d-i netcfg/confirm_static           boolean   true
+
+# Postinstall příkazy - in-target se provedou v systému
+d-i preseed/late_command string \
+in-target aptitude update ; \
+in-target aptitude -y install dropbear busybox libnss3 ; \
+in-target sed 's/^\/sbin\/dropbear.*/\/sbin\/dropbear -p 80/g' -i /usr/share/initramfs-tools/scripts/init-premount/dropbear ; \
+cp cdrom/preseed/authorized_keys target/etc/initramfs-tools/root/.ssh/authorized_keys; \
+cp cdrom/preseed/unlock.sh target/etc/initramfs-tools/root/unlock.sh; \
+in-target chmod +x /etc/initramfs-tools/root/unlock.sh ; \
+in-target bash -c &quot;echo 'cp /etc/initramfs-tools/root/unlock.sh \&quot;\${DESTDIR}/bin/\&quot;' &gt;&gt; /usr/share/initramfs-tools/hooks/dropbear&quot; ; \
+in-target bash -c &quot;echo 'GRUB_RECORDFAIL_TIMEOUT=3' &gt;&gt; /etc/default/grub&quot; ; \
+in-target update-initramfs -u -k all ; \
+in-target update-grub</pre>
+
+<p>Tento soubor je automaticky načten instalátorem, který si z něj vyzobe informace, které potřebuje pro běh. Všímavější čtenáři se mohou podívat do složky <code>preseed/</code>, kde je již několik scriptů k dispozici.</p>
+
+<p>Předpokládám, že budete chtít provést některé úpravy, proto jsem zvýraznil několik řádků:</p>
+
+
+<h4>Řádek 7</h4>
+<p>Zde je možné změnit <i>hostname</i> počítače. Instalátor si ho pamatuje a automaticky ho nastaví pro nainstalovaný systém. Dá se to změnit i později, ale je to otrava.</p>
+
+
+<h4>Řádek 9</h4>
+<p>Heslo, pod kterým se připojíte <strong>do instalátoru</strong>.</p>
+
+
+<h4>Řádek 10</h4>
+<p>Heslo ještě jednou.</p>
+
+
+<h4>Řádky 23 až 29</h4>
+<p>Statické nastavení sítě. Tyto řádky je nutné odkomentovat, pokud chcete aby instalátor použil uvedenou IP adresy a konfiguraci sítě. Pokud zůstanou tyto řádky zakomentované, tak je použito <code>dhcp</code> a může být složité zjistit adresu instalátoru, hlavně v případě VPS.</p>
+
+
+<h4>Řádek 35</h4>
+<p>Tento řádek obsahuje příkaz, který poněkud barbarským způsobem donutí <code>SSH</code> server <code>dropbear</code> startovat na portu <code>80</code>, místo standardního <code>22</code>.</p>
+
+
+<p>Toto chování je zvoleno z prostého důvodu; <code>dropbear</code> spuštěný při zadávání hesla k disku používá (a měl by používat!) jiné klíče než <code>OpenSSH</code>, který je spuštěn později. To ovšem vede ke konfliktu fingerprintu, který je uložený ve vašem <code>~/.ssh/known_hosts</code>, a <code>SSH</code> klient se odmítne připojit, dokud zadaný fingerprint neodstraníte.</p>
+
+
+<p>Tuto procedůru by bylo nutné provádět po každém restartu serveru, proto byl zvolen alternativní port, u kterého je navíc jistá jeho dostupnost i skrz některé nepříliš přátelské firewally.</p>
+
+
+<p>Pokud vám toto chování nevyhovuje, můžete řádek číslo 35 smazat (v tom případe je použit port <code>22</code>), či zvolené číslo portu nahradit.</p>
+
+
+<p><strong>Pozor: jedná pouze o port pro zadání hesla k šifrovanému disku, ne o port, kde bude naslouchat <code>OpenSSH</code>, jakmile je heslo úspěšně zadáno a systém nabootuje!</strong></p>
+
+
+<h4>Bonus</h4>
+<p>Jak je možné pochopit z komentáře na řádku 31, veškeré následující příkazy se provedou, jakmile bude instalace dokončena. Řádky začínající na <code>in-target</code> jsou provedeny v <a href="https://cs.wikipedia.org/wiki/Chroot">chrootu</a>, ostatní z cesty instalátoru. Pokud si vyberete druhou možnost, obsah ISO souboru je dostupný v adresáři <code>cdrom/</code>, nainstalovaný systém pak v <code>target/</code>.</p>
+
+
+<p>Jestliže chcete provést nějaké změny v nainstalovaném systému ještě v době instalace, je možné přidat další řádky, které například nastaví statickou IP adresu (doporučuji použít postup na řádku 36, tedy uložit soubory na ISO do složky <code>preseed/</code> a pak je prostě zkopírovat stylem <code>cp cdrom/preseed/soubor target/etc/soubor; \</code>), či podobné konfigurace.</p>
+
+
+<p>Následující ukázka nastaví <code>OpenSSH</code> (nikoliv dropbear!) aby zamezil loginu <code>root</code>a:</p>
+
+<pre class="brush: bash">in-target sed 's/^PermitRootLogin.*/PermitRootLogin no/g' -i /etc/ssh/sshd_config; \</pre>
+
+<p>Dále je možné také změnit port pro <code>OpenSSH</code> například na můj oblíbený <code>443</code>:</p>
+
+<pre class="brush: bash">in-target sed 's/^Port.*/Port 443/g' -i /etc/ssh/sshd_config; \</pre>
+
+<p>Příkazy můžete zamíchat někam mezi ostatní, či přidat na konec. V takovém případě si ale musíte dát pozor, aby všechny mezi prvním a posledním končily sekvencí <code>; \</code> a poslední řádek byl bez nich.</p>
+
+
+<h5>IP adresa dropbearu</h5>
+<p>Poměrně pravděpodobnou možností například je, že budete chtít upravit IP adresu, na které se startuje <code>dropbear</code>. Ta je v základě vybrána automaticky a ovlivnit jí je možné úpravou souboru <code>/etc/initramfs-tools/conf.d/network_config</code>, kam lze přidat řádek ve formátu:</p>
+
+<pre class="brush: bash">export IP=&lt;client-ip&gt;:&lt;server-ip&gt;:&lt;gw-ip&gt;:&lt;netmask&gt;:&lt;hostname&gt;:&lt;device&gt;:&lt;autoconf&gt;.</pre>
+
+<p>K tomu je možné použít například následující snippet:</p>
+
+<pre class="brush: bash">in-target bash -c &quot;echo 'export IP=&lt;client-ip&gt;:&lt;server-ip&gt;:&lt;gw-ip&gt;:&lt;netmask&gt;:&lt;hostname&gt;:&lt;device&gt;:&lt;autoconf&gt;' &gt;&gt; /etc/initramfs-tools/conf.d/network_config&quot; ; \</pre>
+
+<p>Konkrétně tedy třeba:</p>
+
+<pre class="brush: bash">in-target bash -c &quot;echo 'export IP=10.0.0.2::10.0.0.1:255.255.255.0:myserver:eth0' &gt;&gt; /etc/initramfs-tools/conf.d/network_config&quot; ; \</pre>
+
+
+<p>Snippet přidejte před řádek 41, kde probíhá update <code>initramfs</code>.</p>
+
+
+<p>Poznámka: Styl <code>'bash -c &quot;echo ..'</code> je použit záměrně. Nemám dobrou zkušenost s přesměrováním pomocí <code>&gt;&gt;</code> použitými v <i>preseed</i> souboru. Možná by se to dalo nějak vyescapovat, ale případné testování je docela pomalé, protože jestli to fungovalo se dozvíte vždy až na konci instalace a po dvanácti pokusech už nemám moc náladu na experimentování.</p>
+
+
+<h2>Vytvoření ISO souboru</h2>
+<p>Jakmile máme všechny úpravy hotové, o vytvoření nového instalačního média se postará tento dlouhý příkaz:</p>
+
+<pre class="brush: bash">cd ..
+mkisofs -r -V &quot;Ubuntu headless&quot; -cache-inodes -J -l -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o headless_ubuntu-14.04.1-server-amd64.iso headless_ubuntu/</pre>
+
+<p>Výsledkem by měl být přibližně 600MB velký soubor soubor <code>headless_ubuntu-14.04.1-server-amd64.iso</code>.</p>
+
+
+<h1>Instalace</h1>
+<p>Instalace serveru probíhá poměrně standardním způsobem a každý kdo někdy instaloval ubuntu na server by to měl zvládnout.</p>
+
+
+<p>Osobně jsem si zvolil <i>expert mode</i>, jednoduše jsem se proklikal všemi nastaveními a počkal, dokud se vše neprovede. Nezapomeňte hlavně zvolit že chcete šifrovaný disk, nikoliv šifrovanou jen home složku uživatele!</p>
+
+
+<p>Pokud by někoho zajímaly detaily, zde je šestnáctiminutová videoukázka celého postupu:</p>
+
+
+<p>
+<br />
+<a href="https://www.youtube.com/watch?v=RykHva_rk4w"><img src="/images/screenshots/2/3/207332-headless-instalace-ubuntu-serveru-1298286175392935198.png" /></a>
+<br /><br />
+</p>
+
+
+<h1>Odemčení disku přes SSH</h1>
+<p>Odemčení provedete tak, že se připojíte přes <code>SSH</code> na port zadaný při instalaci. Pokud jste nedělali změny v <i>preseed</i> souboru, tak by to měl být port <code>80</code>. Automaticky by se vám měl načíst busybox shell, neboť při vytváření instalačního média byl přidán váš veřejný klíč. Zde stačí spustit script <code>unlock.sh</code>, chvíli počkat, zadat heslo a to je vše. Tedy skoro.</p>
+
+<pre class="brush: bash">$ ssh root@192.168.1.114 -p 80
+
+
+BusyBox v1.21.1 (Ubuntu 1:1.21.0-1ubuntu1) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+# unlock.sh
+Please wait, this will take some time (35s)..
+/scripts/local-top/cryptroot: line 1: modprobe: not found
+Unlocking the disk /dev/disk/by-uuid/1ffe6c90-d053-4c49-9225-137e6e21a491 (sda5_crypt)
+Enter passphrase:
+Reading all physical volumes.  This may take a while...
+  Found volume group &quot;NEWMACHINE-vg&quot; using metadata type lvm2
+  2 logical volume(s) in volume group &quot;NEWMACHINE-vg&quot; now active
+cryptsetup: sda5_crypt set up successfully
+Killed
+# kill: can't kill pid 274: No such process
+kill: can't kill pid 278: No such process</pre>
+
+<p>Jak je možné vidět, celý proces generuje podstatně víc textu, než je očekávané a občas se stane, že celý proces odemykání zamrzne na nějaké podivné hlášce. Potom je zapotřebí vše zopakovat, či provést restart, což zatím vždy zabralo.</p>
+
+
+<p>Pokud se podíváte do scriptu <code>/bin/unlock.sh</code>, zjistíte, že je to docela bastl, který prvně zabije proces čekající na interaktivní konzoli. Z nějakého důvodu to trvá přibližně 30 vteřin, než se proces ukončí. Poté je zadáno heslo pro šifrovaný disk přes program <code>cryptroot</code> a následně je opět zabit proces na interaktivní konzoli.</p>
+
+<pre class="brush: bash">#!/bin/sh
+kill -9 `ps | grep "/bin/sh" | grep cryptroot | cut -d " " -f 3`
+
+echo "Please wait, this will take some time (35s).."
+sleep 35
+
+/scripts/local-top/cryptroot
+kill -9 `ps | grep "/bin/sh" | grep -v grep | cut -d " " -f 3`
+</pre>
+
+<p>Poznámka: Zkoušel jsem přijít na to, jak to udělat bez zabíjení procesu, ale nepodařilo se mi. Na internetu se dá najít starší verze celého postupu, kde je heslo zadáno do jakési pojmenované roury, což nyní nefunguje, neboť roura již není kde by měla být.</p>
+
+
+<p>Pokud by někdo stále tápal, zde je videoukázka:</p>
+
+
+<p>
+<br />
+<a href="https://www.youtube.com/watch?v=YvbXEbgS5TI"><img src="/images/screenshots/2/3/207332-headless-instalace-ubuntu-serveru-3440967244602865915.png" /></a>
+<br /><br />
+</p>
+
+
+<h1>Zdroje</h1>
+<p>Přijít na celý postup a hlavně ho otestovat mi zabralo cca třináct hodin čistého času na dva zátahy. Během té doby jsem prošel nemalé množství zdrojů na tohle téma. Většina z nich je buď neaktuální, nekompletní, nebo blbě, ale přesto si myslím, že stojí za zmínku:</p>
+
+<ul>
+    <li><a href="http://alyandon.blogspot.cz/2011/06/unlocking-luks-encrypted-lvm-via-ssh-in.html">http://alyandon.blogspot.cz/2011/06/unlocking-luks-encrypted-lvm-via-ssh-in.html</a></li>
+    <li><a href="http://askubuntu.com/questions/122505/how-do-i-create-a-completely-unattended-install-of-ubuntu">http://askubuntu.com/questions/122505/how-do-i-create-a-completely-unattended-install-of-ubuntu</a></li>
+    <li><a href="http://askubuntu.com/questions/13106/how-can-i-install-ubuntu-on-a-headless-machine">http://askubuntu.com/questions/13106/how-can-i-install-ubuntu-on-a-headless-machine</a></li>
+    <li><a href="http://askubuntu.com/questions/148095/how-do-i-set-the-grub-timeout-and-the-grub-default-boot-entry">http://askubuntu.com/questions/148095/how-do-i-set-the-grub-timeout-and-the-grub-default-boot-entry</a></li>
+    <li><a href="http://askubuntu.com/questions/178091/how-to-disable-grubs-menu-from-showing-up-after-failed-boot">http://askubuntu.com/questions/178091/how-to-disable-grubs-menu-from-showing-up-after-failed-boot</a></li>
+    <li><a href="http://askubuntu.com/questions/337726/full-system-encryption-with-luks-on-headless-server-unlock-with-dropbear-and-b">http://askubuntu.com/questions/337726/full-system-encryption-with-luks-on-headless-server-unlock-with-dropbear-and-b</a></li>
+    <li><a href="http://blog.neutrino.es/2011/unlocking-a-luks-encrypted-root-partition-remotely-via-ssh/">http://blog.neutrino.es/2011/unlocking-a-luks-encrypted-root-partition-remotely-via-ssh/</a></li>
+    <li><a href="http://blog.nguyenvq.com/blog/2011/09/13/remote-unlocking-luks-encrypted-lvm-using-dropbear-ssh-in-ubuntu/">http://blog.nguyenvq.com/blog/2011/09/13/remote-unlocking-luks-encrypted-lvm-using-dropbear-ssh-in-ubuntu/</a></li>
+    <li><a href="http://dev.kakaopor.hu/early-ssh/">http://dev.kakaopor.hu/early-ssh/</a></li>
+    <li><a href="http://dev.kakaopor.hu/early-ssh/example-initialization-script-with-mdadm-luks-crypto-and-scp-copy">http://dev.kakaopor.hu/early-ssh/example-initialization-script-with-mdadm-luks-crypto-and-scp-copy</a></li>
+    <li><a href="http://fabian-affolter.ch/blog/running-dropbear-on-port-222/">http://fabian-affolter.ch/blog/running-dropbear-on-port-222/</a></li>
+    <li><a href="http://forums.debian.net/viewtopic.php?f=5&amp;t=76966">http://forums.debian.net/viewtopic.php?f=5&amp;t=76966</a></li>
+    <li><a href="http://gpl.coulmann.de/ssh_luks_unlock.html">http://gpl.coulmann.de/ssh_luks_unlock.html</a></li>
+    <li><a href="http://hacksr.blogspot.cz/2012/05/ssh-unlock-with-fully-encrypted-ubuntu.html">http://hacksr.blogspot.cz/2012/05/ssh-unlock-with-fully-encrypted-ubuntu.html</a></li>
+    <li><a href="http://serverfault.com/questions/528674/disable-root-login-for-dropbear">http://serverfault.com/questions/528674/disable-root-login-for-dropbear</a></li>
+    <li><a href="http://ubuntuforums.org/archive/index.php/t-1648319.html">http://ubuntuforums.org/archive/index.php/t-1648319.html</a></li>
+    <li><a href="http://ubuntuforums.org/showthread.php?t=1648319">http://ubuntuforums.org/showthread.php?t=1648319</a></li>
+    <li><a href="http://ubuntuforums.org/showthread.php?t=829768">http://ubuntuforums.org/showthread.php?t=829768</a></li>
+    <li><a href="http://unix.stackexchange.com/questions/37024/how-to-open-a-port-early-in-boot-process-to-unlock-luks-via-ssh">http://unix.stackexchange.com/questions/37024/how-to-open-a-port-early-in-boot-process-to-unlock-luks-via-ssh</a></li>
+    <li><a href="http://unix.stackexchange.com/questions/5017/ssh-to-decrypt-encrypted-lvm-during-headless-server-boot">http://unix.stackexchange.com/questions/5017/ssh-to-decrypt-encrypted-lvm-during-headless-server-boot</a></li>
+    <li><a href="http://wefixbugs.com/blog/Full-System-encryption-with-LUKS-on-headless-server---unlock-with-dropbear-and-busybox-How-311973.html">http://wefixbugs.com/blog/Full-System-encryption-with-LUKS-on-headless-server---unlock-with-dropbear-and-busybox-How-311973.html</a></li>
+    <li><a href="http://wiki.openwrt.org/doc/uci/dropbear">http://wiki.openwrt.org/doc/uci/dropbear</a></li>
+    <li><a href="http://wiki.openwrt.org/doku.php?id=oldwiki:dropbearpublickeyauthenticationhowto">http://wiki.openwrt.org/doku.php?id=oldwiki:dropbearpublickeyauthenticationhowto</a></li>
+    <li><a href="http://www.debian-administration.org/article/579/Unlocking_a_LUKS_encrypted_root_partition_via_ssh">http://www.debian-administration.org/article/579/Unlocking_a_LUKS_encrypted_root_partition_via_ssh</a></li>
+    <li><a href="http://www.howtoforge.com/unlock-a-luks-encrypted-root-partition-via-ssh-on-ubuntu">http://www.howtoforge.com/unlock-a-luks-encrypted-root-partition-via-ssh-on-ubuntu</a></li>
+    <li><a href="http://www.ttylinux.net/Documents/multi/node32.html">http://www.ttylinux.net/Documents/multi/node32.html</a></li>
+    <li><a href="https://askubuntu.com/questions/250869/how-can-i-install-ubuntu-on-a-device-without-a-screen-nor-a-keyboard/260469#260469">https://askubuntu.com/questions/250869/how-can-i-install-ubuntu-on-a-device-without-a-screen-nor-a-keyboard/260469#260469</a></li>
+    <li><a href="https://gist.github.com/timabell/9568173">https://gist.github.com/timabell/9568173</a></li>
+    <li><a href="https://gist.github.com/wolli/5295625">https://gist.github.com/wolli/5295625</a></li>
+    <li><a href="https://help.ubuntu.com/10.04/installation-guide/i386/automatic-install.html">https://help.ubuntu.com/10.04/installation-guide/i386/automatic-install.html</a></li>
+    <li><a href="https://help.ubuntu.com/community/Installation/FromUSBStick">https://help.ubuntu.com/community/Installation/FromUSBStick</a></li>
+    <li><a href="https://help.ubuntu.com/community/Installation/NetworkConsole">https://help.ubuntu.com/community/Installation/NetworkConsole</a></li>
+    <li><a href="https://kiza.eu/journal/entry/697">https://kiza.eu/journal/entry/697</a></li>
+    <li><a href="https://projectgus.com/2013/05/encrypted-rootfs-over-ssh-with-debian-wheezy/">https://projectgus.com/2013/05/encrypted-rootfs-over-ssh-with-debian-wheezy/</a></li>
+    <li><a href="https://wiki.debian.org/DebianInstaller/Preseed">https://wiki.debian.org/DebianInstaller/Preseed</a></li>
+    <li><a href="https://www.debian.org/releases/wheezy/example-preseed.txt">https://www.debian.org/releases/wheezy/example-preseed.txt</a></li>
+</ul>
+
+
+<h1>Deklarace</h1>
+<p>Tento postup nemusí být jediný správný, ani nejlepší možný, určitě je však stoprocentně funkční, protože jsem 14x ozkoušel, že funguje. Pokud máte poznámky k uvedeným informacím, podělte se v diskuzi. Pokud by měl někdo opravy gramatických a faktických chyb, vaše pull requesty jsou jako vždy vítány:</p>
+
+
+<ul>
+    <li><a href="https://github.com/Bystroushaak/clanky">https://github.com/Bystroushaak/clanky</a></li>
+</ul>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
