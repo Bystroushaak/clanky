@@ -66,13 +66,13 @@
 
 
 <h2>Upravení instalace</h2>
-<p>Ze všeho nejdříve si vytvořím dvě složky a přepnu se na <code>root</code>a, abych nemusel neustále opisovat <code>sudo</code>:</p>
+<p>Ze všeho nejdříve si vytvořím dva adresáře a přepnu se na <code>root</code>a, abych nemusel neustále opisovat <code>sudo</code>:</p>
 
 <pre class="brush: bash">mkdir ubuntu_iso
 mkdir headless_ubuntu
 sudo su</pre>
 
-<p>Nyní je na čase si vybalit obsah ISO souboru do samostatné složky, aby bylo možné provést všechny nutné úpravy.</p>
+<p>Nyní je na čase si vybalit obsah ISO souboru do samostatného adresáře, aby bylo možné provést všechny nutné úpravy.</p>
 
 <pre class="brush: bash">mount -o loop ubuntu-14.04.1-server-amd64.iso ubuntu_iso/
 cp -rT ubuntu_iso/ headless_ubuntu/
@@ -95,7 +95,7 @@ cd headless_ubuntu/</pre>
 <p>Poznámka: Pokud nemáte soubor <code>~/.ssh/id_dsa.pub</code>, je možné, že je uložen jinde, nebo že ještě nebyl vygenerován. Jak na to zjistíte například zde: <a href="http://www.root.cz/clanky/jak-se-prihlasovat-na-ssh-bez-zadavani-hesla/">Jak se přihlašovat na <code>SSH</code> bez zadávání hesla</a>.</p>
 
 
-<h3>isolinuc.cfg</h3>
+<h3>isolinux.cfg</h3>
 <p>Dále je zapotřebí upravit jeden soubor a vytvořit další dva. Začněme úpravou souboru <code><strong>isolinux/isolinux.cfg</strong></code>, který je možné celý přepsat, proto jsem vše shrnul do jednoho příkazu, jenž stačí zkopírovat do konzole:</p>
 
 
@@ -175,7 +175,7 @@ in-target bash -c &quot;echo 'GRUB_RECORDFAIL_TIMEOUT=3' &gt;&gt; /etc/default/g
 in-target update-initramfs -u -k all ; \
 in-target update-grub</pre>
 
-<p>Tento soubor je automaticky načten instalátorem, který si z něj vyzobe informace potřebné pro automatické spuštění netinstall konzole. Všímavější čtenáři se mohou podívat do složky <code>preseed/</code>, kde je již několik scriptů k dispozici.</p>
+<p>Tento soubor je automaticky načten instalátorem, který si z něj vyzobe informace potřebné pro automatické spuštění netinstall konzole. Všímavější čtenáři se mohou podívat do adresáře <code>preseed/</code>, kde je již několik scriptů k dispozici.</p>
 
 <p>Předpokládám, že budete chtít provést některé úpravy, proto jsem zvýraznil několik řádků:</p>
 
@@ -216,7 +216,7 @@ in-target update-grub</pre>
 <p>Jak je možné pochopit z komentáře na řádku 31, veškeré následující příkazy se provedou, jakmile bude instalace dokončena. Řádky začínající na <code>in-target</code> jsou provedeny v <a href="https://cs.wikipedia.org/wiki/Chroot">chrootu</a>, ostatní z cesty instalátoru. Pokud si vyberete druhou možnost, obsah ISO souboru je dostupný v adresáři <code>cdrom/</code>, nainstalovaný systém pak v <code>target/</code>.</p>
 
 
-<p>Jestliže chcete provést nějaké změny v nainstalovaném systému ještě v době instalace, je možné přidat další řádky, které například nastaví statickou IP adresu (doporučuji použít postup na řádku 36, tedy uložit soubory na ISO do složky <code>preseed/</code> a pak je prostě zkopírovat stylem <code>cp cdrom/preseed/soubor target/etc/soubor; \</code>), či podobné konfigurace.</p>
+<p>Jestliže chcete provést nějaké změny v nainstalovaném systému ještě v době instalace, je možné přidat další řádky, které například nastaví statickou IP adresu (doporučuji použít postup na řádku 36, tedy uložit soubory na ISO do adresáře <code>preseed/</code> a pak je prostě zkopírovat stylem <code>cp cdrom/preseed/soubor target/etc/soubor; \</code>), či podobné konfigurace.</p>
 
 
 <p>Následující ukázka nastaví <code>OpenSSH</code> (nikoliv <code>dropbear</code>!) aby zamezil loginu <code>root</code>a:</p>
@@ -263,7 +263,7 @@ mkisofs -r -V &quot;Ubuntu headless&quot; -cache-inodes -J -l -b isolinux/isolin
 <p>Instalace serveru probíhá poměrně standardním způsobem a každý kdo někdy instaloval ubuntu na server by to měl zvládnout.</p>
 
 
-<p>Osobně jsem si zvolil <i>expert mode</i>, jednoduše jsem se proklikal všemi nastaveními a počkal, dokud se vše neprovede. Nezapomeňte hlavně zvolit že chcete šifrovaný disk, nikoliv šifrovanou jen home složku uživatele!</p>
+<p>Osobně jsem si zvolil <i>expert mode</i>, jednoduše jsem se proklikal všemi nastaveními a počkal, dokud se vše neprovede. Nezapomeňte hlavně zvolit že chcete šifrovaný disk, nikoliv šifrovanou jen home adresář uživatele!</p>
 
 
 <p>Pokud by někoho zajímaly detaily, zde je šestnáctiminutová videoukázka celého postupu:</p>
