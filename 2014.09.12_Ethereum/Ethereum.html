@@ -1,0 +1,485 @@
+<p>První polovina roku 2014 je za námi a na světě existuje víc virtuálních měn, než se dá spočítat, protože než dopočítáte, tak alespoň dvě nové vzniknou. Mnoho jich vzniká prostě proto, že je jednoduché si vytvořit vlastní fork Bitcoinu či <a href="http://cs.wikipedia.org/wiki/Litecoin">Litecoinu</a>. Je možné najít všechny možné varianty zvířat (<a href="/blog/bystroushaak/2013/12/dogecoin">doge</a>, <a href="http://www.catcoins.org/">catcoin</a>, <a href="https://github.com/CoinFox/FoxCoin">foxcoin</a>, <a href="https://github.com/KungFuCoin/Birdcoin">birdcoin</a>, <a href="https://github.com/HorseCoinProject/Horsecoin">horsecoin</a> atp..), různé národní měny (<a href="http://czechcoin.org/">czechcoin</a>, <a href="https://e-gulden.com/">e-gulden</a>, ..), ale i zajímavé myšlenky (<a href="http://namecoin.info/">namecoin</a>, <a href="http://www.gridcoin.us/">gridcoin</a>, <a href="http://coloredcoins.org/">coloredcoin</a>). Kdo chce, může si projít celý <a href="https://bitcointalk.org/index.php?board=159.0">dlouhý seznam</a>. </p>
+
+
+<!--break-->
+
+
+<p>Naprostá většina z existujících kryptoměn nepřidává vůbec žádnou hodnotu oproti ostatním, a jediné čim se odlišují je název a <i>&quot;marketing&quot;</i>. Existuje pár pokusů, které snaží například věnovat výpočetní výkon na hledání léku rakoviny, či mimozemšťanů. Žádný z nich se však však široce neujal a není používanou měnou. Lidi je používají protože chtějí pomoci, nikoliv proto, že by se jim to hodilo. Ethereum se od nich odlišuje, protože kromě samotné hodnoty dané nedostatkem má i hlubší ekonomický smysl.
+</p>
+
+
+<h1>Upozornění</h1>
+<p>Tento článek zcela určitě obsahuje chyby, jak gramatického, tak faktického druhu. Pokud s nimi nesouhlasíte, nebo vám vadí, nepište mi to do diskuze, ale pošlete <a href="https://github.com/Bystroushaak/clanky/tree/master/2014.09.12_Ethereum">pull request</a>. GitHub má pěkný online editor, takže můžete poslat vaše změny během okamžiku, jen pomocí několika kliknutí.</p>
+
+
+<h1>O co se jedná</h1>
+<img src="/images/screenshots/5/6/207765-ethereum-3183210153044279595.png" class="floatright" />
+<p>Ethereum je možné popsat jako blockchain s turingovsky kompletní podporou scriptování, či jako na konsenzu založený virtuální stroj. Od Bitcoinu se liší hned v několika bodech:</p>
+
+<p>
+<ul>
+    <li>posílání zpráv</li>
+    <li><i>cloud &quot;účty&quot;</i></li>
+    <li>podporou scriptování</li>
+</ul>
+</p>
+
+<p>Jinak řečeno, jedná se o výpočetní cloud a kryptoměnu zároveň. Příjemci zpráv a peněz (Etherů) nemusí být jen uživatelé, ale i jednotlivé <i>cloud účty</i>, kde běží nahraný bytecode a které mohou posílat zprávy ostatním, či zakládat další účty, do kterých nahrají další bytecode. Tím jak tyto <i>cloud účty</i> běží, dochází ke spalování Etherů, které mají na svém kontě, ve prospěch těžařů, kteří poskytují výpočetní výkon.</p>
+
+
+<p>Zatímco Bitcoin je jako zlato a jeho cena je dána jeho nedostatkem, Ethereum je jako energie, která se neztrácí, ale jen transformuje. Těžením věnujete výkon <i>cloud účtům</i> a dostáváte za to <i>Ether</i>. Běh <i>cloud účtů</i> a posílání zpráv vás stojí <i>Ether</i>, čímž vracíte měnu zpět do oběhu.</p>
+
+
+<p>Ač to na první pohled může vypadat trochu jako mix všech momentálně populárních buzzwordů, zůstaňte ještě chvíli se mnou a podívejte se, proč jsem tomu věnoval čas na psaní článku.</p>
+
+
+<h1>Jak to funguje</h1>
+<p>Na rozdíl od Bitcoinu, Ethereum zavádí dva druhy účtů, které si mezi sebou mohou posílat zprávy a <i>Ether</i>:</p>
+
+
+<p>1. Externě vlastněné účty, dále jen <strong>EOA</strong> (<strong>E</strong>xternally <strong>O</strong>wned <strong>A</strong>ccounts)<br />
+2. <i>Smluvní účty</i>, dále jen <strong>CA</strong> (<strong>C</strong>ontract <strong>A</strong>ccounts)</p>
+
+
+<p><strong>EOA</strong> jsou běžné uživatelské účty, které neobsahují žádný program a umožňují vytváření transakcí. Pod tím si můžeme představit posílání hodnoty, či zpráv, ostatním účtům, ale také založení <strong>CA</strong> jejich nahráním do Ethereum sítě.</p>
+
+
+<p><strong>CA</strong> obsahují program, který je aktivován pokaždé, když dojde k transakci (ať už jde o zprávu či převod <i>Etherů</i>) na adresu <strong>CA</strong>. Takto aktivovaný účet může vytvářet transakce (posílat zprávy/<i>Ether</i>), zapisovat do interního úložiště, či vytvářet další <strong>CA</strong>. Každá provedená instrukce a každý uložený bajt ho stojí <i>Gas</i>, což je tržně určená hodnota <i>Etherů</i>. Tento spálený <i>Gas</i> je poté sítí předán těžařům.</p>
+
+
+<p>Data nahraná do <strong>CA</strong> není možné nějakým podvodem změnit. Máte tak jistotu, že jednou nahraný kód poběží tak jak byl naprogramován. To hraje velkou roli v mnoha konceptech, kde potřebujete důvěřovat provozovateli, například loterie, různé fondy, pojištění a tak dále. </p>
+
+<p>
+<br />
+<a href="/images/screenshots/5/6/207765-ethereum-4687121708319987880.png"><img src="/images/screenshots/5/6/207765-ethereum-8276163132824406067.png" /></a><br />
+(<a href="http://etherscripter.com/">Grafické klikátko</a> na vytváření kontraktů.)
+<br />
+<br />
+</p>
+
+
+<h2>Transakce</h2>
+<p>Ethereovské transakce se dost podobají těm bitcoiním, až na tři odlišnosti:</p>
+
+
+<ul>
+    <li>Transakce může být vytvořena jak z účtu <strong>EOA</strong>, tak <strong>CA</strong>. V Bitcoinu mohou vytvářet transakce pouze uživatelé (a síť, když přiděluje odměny).</li>
+    <li>Transakce může obsahovat data (zprávy).</li>
+    <li>Příjemce transakce má možnost na transakci odpovědět. V případě <strong>CA</strong> se to trochu podobá volání funkcí.</li>
+</ul>
+
+
+<p>Co se smluvních účtů týče, jsou aktivovány pokaždé, když obdrží transakci a běží tak dlouho, dokud se samy neukončí, či dokud nevyčerpají veškerý <i>Ether</i>, který mají k dispozici (<i>Gas</i>).</p>
+
+
+<h2>EVM</h2>
+<p><strong>E</strong>thereum <strong>V</strong>irtual <strong>M</strong>achine je možné brát jako obrovský decentralizovaný počítač obsahující miliony objektů nazvaných &quot;účty&quot;. Každý účet má k dispozici paměť, úložiště, peněženku a API pro posílání a příjem transkací.</p>
+
+
+<h3>EVM-code</h3>
+<p>Bytecode, který je vykonáván Ethereum sítí je znám jako <i>EVM-code</i> (někdy též také jako <i>EtherScript</i>). Jedná se o na zásobníku založený bytecode, jehož plnou specifikaci můžete najít na straně 18 <a href="http://gavwood.com/Paper.pdf">yellow paperu</a>, či v <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial#virtual-machine-opcodes">Development tutorialu</a>.</p>
+
+
+<p>Výkon připadající na jeden jediný <strong>CA</strong> není moc velký, podle některých odhadů se pohybuje přibližně na úrovni mobilního telefonu z roku 1998, což ovšem bohatě stačí na spoustu kryptograficky velmi zajímavých aplikací.</p>
+
+
+<h2>Podporované jazyky</h2>
+<p>Kromě samotné EVM-, který je vykonáván přímo Ethereovskou sítí, je k dispozici několik programovacích jazyků, které je možné použít k psaní <strong>CA</strong>.</p>
+
+
+<h3>LLL</h3>
+<p><a href="https://github.com/ethereum/cpp-ethereum/wiki/LLL-PoC-5">LLL</a> je na lispu založený jazyk, do kterého jsou v současnosti kompilovány všechny ostatní, v Ethereum ekosystému dostupné jazyky. Jedná se dost nízkoúrovňový jazyk s místy docela šílenou syntaxí:</p>
+
+<pre>(for [i]:0 (&lt; @i 10) [i](+ @i 1) 
+  ;; do something
+)</pre>
+
+<p>Pokud vás LLL zaujal, pár zajímavých odkazů se dá najít v diskuzi na redditu: <a href="http://www.reddit.com/r/ethereum/comments/2dug8k/learning_lll/">http://www.reddit.com/r/ethereum/comments/2dug8k/learning_lll/</a></p>
+
+
+<h3>Serpent</h3>
+<p><a href="https://github.com/ethereum/wiki/wiki/Serpent">Serpent</a> je Python-like jazyk implementující část <a href="http://pypy.readthedocs.org/en/latest/coding-guide.html#rpython-definition">RPython</a> specifikace. Dostupné překladače ho momentálně překládají do <strong>LLL</strong>. Ve většině tutoriálů se můžete setkat právě se Serpentem, jelikož je ze všech uvedených relativně nejvíc uživatelsky přívětivý.</p>
+
+
+<ul>
+    <li><a href="https://blog.ethereum.org/2014/04/10/pyethereum-and-serpent-programming-guide/">https://blog.ethereum.org/2014/04/10/pyethereum-and-serpent-programming-guide/</a></li>
+</ul>
+
+
+<h3>Mutan</h3>
+<p><a href="https://github.com/ethereum/go-ethereum/wiki/Mutan-0.2">Mutan</a> je pro změnu C-like jazyk s místy poněkud ujetou syntaxí. Například nevyžaduje středníky, před proměnné se dává <tt>var</tt> a přiřazení je někdy <tt>=</tt> a někdy <tt>:=</tt>. Hodit se bude hlavně ve chvíli, kdy potřebujete vyždímat co nejvíc výkonu, protože umožňuje práci s pointery a inline vkládání bytecode.</p>
+
+
+<h1>Technické detaily</h1>
+<p></p>
+
+
+<h2>Oficiální spuštění</h2>
+<p>Ethereum v současnosti běží pouze v testovacím režimu (<a href="https://blog.ethereum.org/2014/08/27/state-ethereum-august-edition/">PoC 5</a>). Cokoliv co nyní vytěžíte je z dlouhodobého hlediska bezcenné, neboť po přepnutí sítě do ostrého režimu dojde k použití jiného blockchainu. Na druhou stranu vám to vám dává možnost si s dostatečným předstihem ozkoušet všechny koncepty, nastavit minery a naučit se pracovat s různými klienty.</p>
+
+
+<p>Oficiální spuštění by mělo proběhnout někdy na konci tohoto roku, či začátkem příštího.</p>
+
+
+<h2>Předprodej</h2>
+
+<p>Ačkoliv jsem psal, že síť momentálně neběží v ostrém režimu, autoři již začali s předprodejem prvních <i>Etherů</i> vytěžených v novém blockchainu. Během akce která probíhala o prázdninách se prodalo 60 102 216 <i>Etherů</i> za cenu <a href="http://www.reddit.com/r/ethereum/comments/2fhmzm/ethereum_was_second_largest_crowdsale_in_history/">okolo 18.5 milionů dolarů</a> (začínalo se na ceně 2000 <i>Etherů</i> za 1 BTC, postupně to klesalo až k 1200 <i>Etherům</i> za 1BTC).</p>
+
+
+<p>Celá akce vzbudila mezi uživateli dost kontroverze, jednak protože cena byla docela vysoká (začínalo to na 6kč za <i>Ether</i>, což je pro novou a stále ještě neexistující měnu nevídané), ale také proto, že autoři na všem vybrali takhle ohromnou částku.</p>
+
+
+<h2>Jednotky</h2>
+<p>Ether je poměrně velká jednotka, kterou je možné <a href="https://github.com/ethereum/wiki/wiki/%5BEnglish%5D-White-Paper#currency-and-issuance">rozdělit</a> na triliontiny (10^-18, neboli 0.000000000000000001 ETH) <i>wei</i>, podobně jako je možné jeden Bitcoin rozdělit na <i>milibitcoiny</i>, <i>microbitcoiny</i> až na miniaturní <i>sathoshi</i>.</p>
+
+
+<p>Celá stupnice vypadá takhle:</p>
+
+<table>
+<tr>
+    <td>1</td>
+    <td>wei</td>
+</tr>
+<tr>
+    <td>10^3</td>
+    <td>lovelace</td>
+</tr>
+<tr>
+    <td>10^6</td>
+    <td>babbage</td>
+</tr>
+<tr>
+    <td>10^9</td>
+    <td>shannon</td>
+</tr>
+<tr>
+    <td>10^12</td>
+    <td>szabo</td>
+</tr>
+<tr>
+    <td>10^15</td>
+    <td><a href="/zpravicky/zemrel-hal-finney">finney</a></td>
+</tr>
+<tr>
+    <td>10^18</td>
+    <td>ether</td>
+</tr>
+</table>
+
+
+
+<h1>Jak to použít</h1>
+<p>Tak jako u každé jiné kryptoměny budete potřebovat klienta, kterým se připojíte do sítě a přes kterého můžete vytvářet transakce. Pro Ethereum momentálně <a href="https://github.com/ethereum/cpp-ethereum/wiki">existují</a> dva klienti - jeden pro <a href="https://github.com/ethereum/cpp-ethereum/wiki/Using-Ethereum-CLI-Client">příkazovou řádku</a>, druhý jako <a href="https://github.com/ethereum/cpp-ethereum/wiki/Using-AlethZero">grafické rozhraní</a>.</p>
+
+
+<h2>Instalace</h2>
+<p>Postupoval jsem podle <a href="https://github.com/ethereum/cpp-ethereum/wiki">návodu</a> na githubu, za použití čerstvé instalace <a href="http://www.linux-mint-czech.cz/">Mintu</a> 17 s Mate.</p>
+
+<pre class="brush: bash"># Prvně pár závislostí
+sudo apt-get install build-essential g++-4.8 git cmake libgmp-dev \
+libboost-all-dev automake unzip libtool libleveldb-dev yasm libminiupnpc-dev \
+libreadline-dev scons libncurses5-dev qtbase5-dev qt5-default qtdeclarative5-dev \
+libqt5webkit5-dev libcurl4-openssl-dev
+
+# Stažení zdrojových souborů z githubu
+git clone https://github.com/ethereum/cpp-ethereum
+
+cd cpp-ethereum
+git clone https://github.com/mmoss/cryptopp.git
+
+# Cryptopp
+git clone https://github.com/mmoss/cryptopp.git
+cd cryptopp
+sudo scons --shared --prefix=/usr
+cd ..
+
+# JSON RPC API - tenhle krok se dá vynechat
+git clone git://github.com/cinemast/libjson-rpc-cpp.git
+cd libjson-rpc-cpp/build
+cmake .. &amp;&amp; make
+sudo make install
+sudo ldconfig
+cd ../..
+
+# Sestavení klienta
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release &amp;&amp; make  # přidejte k cmake parametr -DHEADLESS=1 pokud nechcete GUI</pre>
+
+
+<p>Jakmile budete mít dokompilováno, všimněte si dvou složek <tt>eth/</tt> a <tt>alethzero/</tt>. To první je klient pro příkazovou řádku, to druhé poněkud divoký grafický klient.</p>
+
+
+<p>Pokud se vám podaří vše korektně zprovoznit, gratuluji, ale jak to použít budete muset zjistit sami. Alethzero mi přijde absolutně nedodělaný a použití CLI je na článek samo o sobě.</p>
+
+
+<h1>FAQ</h1>
+
+<h2>Kolik může být maximálně etherů?</h2>
+<p>Každý rok se vytěží 0.4x předešlý rok, jestli to chápu správně. Konkrétnější odpověď jsem nenašel.</p>
+
+<p>
+<br />
+<a href="/images/screenshots/5/6/207765-ethereum-7399003204711381160.png"><img src="/images/screenshots/5/6/207765-ethereum-6407579765566870348.png" /></a><br />
+(kredit <a href="https://xrptalk.org/topic/1071-ripple-has-a-competitor/page-4">XRPTalk diskuze</a>)
+<br />
+<br />
+</p>
+
+<p>Zdroje:</p>
+
+<ul>
+    <li><a href="https://forum.ethereum.org/discussion/46/total-supply-of-eth">https://forum.ethereum.org/discussion/46/total-supply-of-eth</a></li>
+    <li><a href="https://forum.ethereum.org/discussion/652/how-many-ether">https://forum.ethereum.org/discussion/652/how-many-ether</a></li>
+</ul>
+
+
+<h2>Kolik bude k dispozici Etherů za 5 let?</h2>
+<p>Předpovědi se momentálně dost liší a to tak, že o celé řády. Viděl jsem odhady okolo 107 986 582Ξ, ale i 31 344 216Ξ. Názor si udělejte sami:</p>
+
+<p>Zdroje:</p>
+
+<ul>
+    <li><a href="http://www.reddit.com/r/ethereum/comments/2cq7m2/how_many_ether_will_be_in_existence_after_about_5/">http://www.reddit.com/r/ethereum/comments/2cq7m2/how_many_ether_will_be_in_existence_after_about_5/</a></li>
+    <li><a href="http://www.reddit.com/r/ethereum/comments/2bni1j/there_will_be_approximately_30_million_total/">http://www.reddit.com/r/ethereum/comments/2bni1j/there_will_be_approximately_30_million_total/</a></li>
+</ul>
+
+
+<h2>Jak můžu na serveru pracovat se sítí?</h2>
+<p>K dispozici je <a href="https://github.com/ethereum/go-ethereum/wiki/PoC-5-JSON-RPC-API">JSON RPC API</a>.</p>
+
+
+<h2>Jak velkou výpočetní sílu má jeden CA?</h2>
+<p>Ve whitepaperu je vysloveně uvedeno, že je to přibližně na úrovni mobilu z roku 1998. Převedeno na reálný hardware, tak se výkon pohybuje někde na úrovni jednočipů, které se používají v elektronice. To se může zdát jako docela málo, ale pro spoustu různých úkolů to bude zcela postačující. Cílem není vytvořit decentralizované VPS, ale co nejbezpečnější cloud. Pokud někdo potřebuje výkon, lze ho outsourcovat.</p>
+
+
+<p>Detaily zde: <a href="http://www.reddit.com/r/ethereum/comments/2bzyrs/computation/">http://www.reddit.com/r/ethereum/comments/2bzyrs/computation/</a></p>
+
+
+<p>Do budoucna je plánováno zvyšování výkonu pomocí speciálních instrukcí. K dispozici by tak měly být například instrukce pro podporu eliptické kryptografie, takže výkon může být z hlediska šifrování podstatně vyšší. Také se pracuje na jakési metodě definování pevných procedur, které bude možné volat s nižšími náklady, než kdyby byly vykonávány přímo CA. Detaily najdete v kapitole <a href="https://blog.ethereum.org/2014/08/27/state-ethereum-august-edition/">Native Code Extensions</a>. Zatím se jedná o teorii, první implementace budou k vidění nejdříve v PoC 7.</p>
+
+
+<h2>Jak často je vydáván blok?</h2>
+<p>Původně se jednalo o každou minutu. Před nedávnem se objevily <a href="https://blog.ethereum.org/2014/07/11/toward-a-12-second-block-time/">informace</a>, že by se doba měla zkrátit na 12 vteřin, v posledním update se <a href="https://www.youtube.com/watch?v=ykODAK3gWeo">mluví</a> dokonce i o 6 vteřinách.</p>
+
+
+<h2>Symbol</h2>
+<p>Tak jako Bitcoin používá ฿, pro Ether je momentálně používán Ξ (html element <code>&amp;Xi;</code>). Podle všeho to vypadá, že už to tak zůstane.</p>
+
+
+<h2>Kde se kód vykonává a kdo má data?</h2>
+<p>Data jsou uloženy v blockchainu (Merkele-Patricia stromy), který mezi sebou sdílí všechny <i>úplné uzly</i> (full nodes). Tak jak to chápu já, kód je na úrovni konců stromu vykonáván všemi <i>úplnými uzly</i>, které potom výsledek odešlou síti a hlasují o správnosti.</p>
+
+<p>Zdroj:</p>
+
+<ul>
+    <li><a href="http://www.reddit.com/r/ethereum/comments/230d7n/white_paper_questions/">http://www.reddit.com/r/ethereum/comments/230d7n/white_paper_questions/</a></li>
+</ul>
+
+
+<h2>Kolik toho spočítám s jedním etherem?</h2>
+<p>Síť momentálně funguje v testovacím režimu, takže je v podstatě nemožné tuto otázku zodpovědět. Výpočty samotné nestojí <i>Ether</i>, ale <i>Gas</i>. <i>Gas</i> jsou <i>Ethery</i> nahrané na účet <strong>CA</strong> a jeho hodnota se může tržně měnit v závislosti na momentálním zatížení sítě.</p>
+
+
+<p>Komu to stále není jasné: Při založení <strong>CA</strong> mu pošlu pár <i>Etherů</i> a on je spaluje vždy za každou operaci daný násobek <i>Gasu</i> (násobení stojí 1 <i>Gas,</i> operace nad úložištěm třeba 100), jak je to předem deklarováno. Co se mění je kolik <i>Etherů</i> je jeden <i>Gas</i>.</p>
+
+
+<p>Pro <i>testnet</i> se hodnota <i>Gasu</i> pohybuje na <a href="http://www.reddit.com/r/ethereum/comments/2cqfk2/how_much_computational_power_is_1eth/">10 <i>szabo</i> za 1 Gas</a>. Za jeden <i>Ether</i> si tak koupíte 100 000 <i>Gasu</i>, přičemž platí, že většina instrukcí vás bude stát 1 <i>Gas</i>. Jakmile dojde k ostrému spuštění, cena se bude pohybovat někde jinde a za 1 <i>Ether</i> si pravděpodobně koupíte podstatně víc operací.</p>
+
+
+<p>Konverzní poměr mezi <i>Gasem</i> a <i>Etherem</i> se bude měnit, podle vytížení. Tím se předchází útokům, které by jinak nesmyslně zatěžovaly síť.</p>
+
+
+<p>Zdroje:</p>
+
+<ul>
+    <li><a href="http://www.reddit.com/r/ethereum/comments/2d7vr8/what_happens_to_the_gas/">http://www.reddit.com/r/ethereum/comments/2d7vr8/what_happens_to_the_gas/</a></li>
+    <li><a href="http://www.reddit.com/r/ethereum/comments/271qdz/can_someone_explain_the_concept_of_gas_in_ethereum/">http://www.reddit.com/r/ethereum/comments/271qdz/can_someone_explain_the_concept_of_gas_in_ethereum/</a></li>
+</ul>
+
+
+<h2>Kdo stojí za Ethereem?
+</h2>
+<p><a href="http://en.wikipedia.org/wiki/Vitalik_Buterin">Vitalik Buterin</a> je zakládajícím členem. Vývoji se nyní věnuje celý <a href="https://blog.ethereum.org/team/">tým lidí</a>. Poté co vybrali 15 milionů dolarů v předprodeji pravděpodobně ještě přiberou další lidi.</p>
+
+
+<h2>Nebojíš se, že se jedná o podvod?</h2>
+<p>Ne. Tým okolo Etherea sice vybral 18 a půl milionu dolarů, ale taky všichni dostanou podíly z prvních vytěžených <i>Etherů</i>. Nyní jsou z nich milionáři. Pokud vše půjde jak má a podaří se jim rozjet síť a vytvořit skvělý produkt, který bude užitečný milionům lidí, budou z nich pravděpodobně miliardáři.</p>
+
+
+<p>To ovšem není to důležité, důležité je, že jsou v pozici změnit svět. Kdo by se toho vzdal kvůli penězům?</p>
+
+
+<h2>Zajímají mě technické detaily
+</h2>
+<p><i>Jak se Ethereum brání 51% útoku? Jak </i><i><strong>přesně</strong></i><i> funguje těžení? Když full nody počítají kontrakty, tak tím vlastně těží. Komu je vyplácena odměna za těžení? Všem, prvnímu, náhodnému? Slyšel jsem, že to má být ASIC resistant, jak to bude fungovat?</i></p>
+
+
+<p>Opravdu rád bych odpověděl, ale nemá to moc smysl. Návrh protokolu se mezi PoC 5, 6 a 7 silně mění a tohle jsou věci, na kterých se pracuje právě teď. Podle toho co jsem tak viděl diskuze na internetu, nemalá část z 18 milionů vybraných dolarů bude do nalitá do dalšího vývoje, aby byly tyto problémy vyřešeny nejlepším způsobem.</p>
+
+
+<p>Některé odpovědi, domněnky a spekulace najdete zde: <a href="http://www.reddit.com/r/ethereum/comments/2g3hwn/questions/">http://www.reddit.com/r/ethereum/comments/2g3hwn/questions/</a></p>
+
+
+<h1>Je to k něčemu?</h1>
+<p>Momentálně více/méně ne. Jak tomu bude v budoucnosti samozřejmě ukáže čas. Běžný uživatel bude využívat pravděpodobně hlavně tu &quot;měnovou&quot; část, tedy posílání a příjem <i>Etherů</i> z jednoho účtu na druhý. Pro programátory a kryptology je zajímavá zase scriptovací část, protože jim umožňuje vytvářet některé v současnosti nevytvořitelné koncepty založené na možnosti důvěřovat CA:</p>
+
+
+<ul>
+    <li>Distribuované key/value úložiště</li>
+    <li>Namecoinu podobné systémy</li>
+    <li>Osobní měnu implementovanou nad Ethereem</li>
+    <li>Systémy vlastnictví účtu vícero osobami, kde jen nadpoloviční většina může odhlasovat výběr z účtu</li>
+    <li>Automatické burzy, které nejsou nikým vlastněné</li>
+    <li>Hlasovací systémy a decentralizovaná demokracie</li>
+    <li>Ukládání hodnot na určený čas</li>
+    <li>P2P aukce bez centrálních serverů</li>
+    <li>Decentralizované a 100% transparentní sázení</li>
+    <li><a href="https://blog.ethereum.org/2014/08/18/building-decentralized-web/">Decentralizovaný web</a></li>
+    <li>a <a href="http://www.reddit.com/r/ethereum/comments/27wsgq/eli5_ethereum_its_uses_its_features_its_future/">spousta</a> dalších <a href="https://github.com/ethereum/wiki/wiki/Problems">nápadů</a></li>
+</ul>
+
+<p>
+<br />
+<a href="/images/screenshots/5/6/207765-ethereum-265560474113676530.jpg"><img src="/images/screenshots/5/6/207765-ethereum-2248089058095939241.jpg" /></a><br />
+(Jedna z možností použití. Kredit <a href="http://www.bitcongress.org/projects.html">bitcoingress</a>.)
+<br />
+<br />
+</p>
+
+
+<p>Pokud by to někomu nestačilo, aby jste si udělali představu, zde je překlad části <a href="http://www.reddit.com/r/ethereum/comments/2ces36/i_believe_ethereum_is_overhyped_convince_me/cjexdsf">jednoho příspěvku</a> na redditu:</p>
+
+<blockquote>
+<p>Myslím, že je špatně uvažovat o Ethereu jako o lepším či snad jiném typu počítače.</p>
+
+<p>Ethereum (pokud bude fungovat) otevře úplně nové oblasti ke zkoumání. Bude to něco jako objevení Ameriky v patnáctém století, zpřístupnění nízké orbity v 60 letech, či jako vynález rádia na začátku dvacátého století.</p>
+
+<p>Když byly tyhle nové oblasti zpřístupněny, nikdo skutečně nevěděl co s tím dělat, nebo jak by to mělo fungovat. Mnoho bohatství bylo nabyto a ztraceno hned ze začátku a spousta dnešního majetku, kultury atd. je vytvářena na základě těchto sfér.</p>
+
+<p>Ve době objevení Ameriky neměl nikdo ani tušení, že se z ní stane dominantní supervelmoc, GPS a komunikační satelity budou létat po nebesích, či že radio a televize redefinuje způsob šíření informací a zábavy skrz celou společnost.</p>
+
+<p>Ethereum (pokud bude fungovat) bude počítač, který nejde vypnout. Softwarová platforma, na které může kdokoliv a kdekoliv na světě stavět a být si jist, že jejich výtvor bude přístupný všem.</p>
+
+<p>To je novinka, která dovolí vytváření dalších úplně nových věcí. Mezinárodní společnosti s reputací, spoluvlastníky atp, které nemohou být nespravedlivě uzavřeny politicky zainteresovanými stranami. Komplexní směnárny, kde si účastníci mohou přečíst zdrojový kód a ujistit se, že podvod je nemožný. Komplexní charity, kde dárci můžou mít aktivní spoluúčast na toku peněz, to vše s téměř nulovou režií. Taky doufám spousta dalších věcí, které si ani neumím představit.</p>
+</blockquote>
+
+
+<p>V současnosti neexistuje žádná alternativní služba (když tedy pominu, že v praxi neexistuje ani Ethereum), která by se dala použít podobným způsobem. Jednou nahraná data do EVM, tak se můžete spolehnout na to, že nebudou nikým externě manipulována a poběží přesně tak, jak bylo naprogramováno.</p>
+
+
+<p>Dovolím si opět citovat <a href="http://www.reddit.com/r/ethereum/comments/2bzyrs/computation/cjaosgk">diskutující z redditu</a>:</p>
+
+<blockquote>
+Výhodou Etherea není výpočetní síla (váš notebook může pravděpodobně předstihnout celou síť), ale fakt že veškeré výpočty probíhají důvěryhodným, decentralizovaným způsobem.</blockquote>
+
+
+<p>Osobně jsem přesvědčený, že Ethereum je budoucnost a nezáleží na tom, jestli se konkrétní (stávající) implementace ujme, nebo ne. I kdyby autory někdo zabil a zničil všechnu jejich práci, myšlenka již byla zasazena a dříve nebo později se najde někdo, kdo vytvoří stejný koncept.</p>
+
+
+<p>
+<br />
+<a href="http://bitcoinagile.com/5E897/ethereum-art-is_stream"><img src="/images/screenshots/5/6/207765-ethereum-5327161995084255136.png" /></a><br />
+<br />
+</p>
+
+
+<p>Ethereum je ochutnávka budoucnosti, která je podivná a ještě před pár lety téměř nepředstavitelná. Budoucnosti plné <a href="/blog/bystroushaak/2014/5/entity">softwarových entit</a>, kde není nic podivného, když je řeka, hora, či nějaký jiný neživý předmět <a href="https://forum.ethereum.org/discussion/392/deodands-dacs-for-natural-systems">ekonomicky zastupovaná</a> softwarem, který se o ní stará a dává jí podobná práva, jako mají lidé.</p>
+
+
+<h1>Co dál?</h1>
+<p>Po přečtení tohoto článku by jste měli mít základní představu co je Ethereum, jak ho použít a k čemu to je. Pokud vás to zaujalo, doporučuji projít si zdroje v následující kapitole. Potom se můžete zapojit do vývoje, počkat až přijde finální verze, nebo na všechno zapomenout.</p>
+
+<p>Osobně doporučuji nastudovat si detaily, přidat si do čtečky <a href="http://www.reddit.com/r/ethereum/.rss">RSS kanál subredditu</a> a připravit minery na spuštění sítě. Nechci tvrdit, že to bude bůh ví jak skvělá měna, na které zbohatnete, ale co se samotné technologie distribuovaných kontraktů týče, něco mi říká že má velký potenciál.</p>
+
+
+<p>
+<br />
+<a href="http://www.reddit.com/r/dogethereum"><img src="/images/screenshots/5/6/207765-ethereum-7636364179084986263.png" /></a><br />
+(Doge samozřejmě nezůstává pozadu a pracuje na svojí verzi..)
+<br />
+<br />
+</p>
+
+
+<h1>Další čtení</h1>
+<p>Tento článek má být spíš přehledem, který se snaží upozornit na novou technologii, než vyčerpávajícím popisem obsahujícím všechny aspekty technologie, která stojí za Ethereem.</p>
+
+
+<p>Pokud se chcete dozvědět víc, doporučuji Ethereum Development Tutorial, který velmi názorně a prakticky ukazuje, jak vše funguje z uživatelského hlediska.</p>
+
+
+<ul>
+    <li><a href="https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial">https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial</a></li>
+</ul>
+
+
+<p>Více do hloubky poté jde <i>White Paper</i>, který se více věnuje rozdílům oproti Bitcoinu a implementačním detailům. </p>
+
+
+<ul>
+    <li><a href="https://github.com/ethereum/wiki/wiki/White-Paper">https://github.com/ethereum/wiki/wiki/White-Paper</a></li>
+</ul>
+
+
+<p>Nejkomplexnější popis na který jsem narazil je potom tento pdf dokument obsahující kompletní <i>proof of concept</i>.</p>
+
+
+<ul>
+    <li><a href="http://gavwood.com/Paper.pdf">http://gavwood.com/Paper.pdf</a></li>
+</ul>
+
+
+<p>A zde je seznam praktických ukázek vytváření CA;</p>
+
+
+<ul>
+    <li><a href="http://forum.ethereum.org/discussion/505/writing-smart-contracts-faq-live-updates">http://forum.ethereum.org/discussion/505/writing-smart-contracts-faq-live-updates</a></li>
+</ul>
+
+
+<h2>Komunitní zdroje</h2>
+
+<ul>
+    <li><a href="https://twitter.com/chain">https://twitter.com/chain</a></li>
+    <li><a href="https://forum.ethereum.org/">https://forum.ethereum.org/</a></li>
+    <li><a href="http://www.reddit.com/r/ethereum/">http://www.reddit.com/r/ethereum/</a></li>
+</ul>
+
+
+<h2>Obecné články</h2>
+
+<ul>
+    <li><a href="https://medium.com/p/4790bf5f7743">https://medium.com/p/4790bf5f7743</a></li>
+    <li><a href="http://blog.chain.com/post/92660909216/explaining-ethereum">http://blog.chain.com/post/92660909216/explaining-ethereum</a></li>
+    <li><a href="http://america.aljazeera.com/articles/2014/4/7/code-your-own-utopiameetethereumbitcoinasmostambitioussuccessor.html">http://america.aljazeera.com/articles/2014/4/7/code-your-own-utopiameetethereumbitcoinasmostambitioussuccessor.html</a><br /></li>
+</ul>
+
+
+<h2>Ostatní odkazy</h2>
+
+<ul>
+    <li><a href="http://etherscripter.com/">http://etherscripter.com/</a> - webnástroj usnadňující vytváření scriptů pro CA pomocí grafického programování</li>
+    <li><a href="http://www.mintchalk.com/">http://www.mintchalk.com/</a> - cosi mezi pastebin a githubem pro Ethereovské scripty, <a href="https://www.youtube.com/watch?v=mhy38EpSkE0">relevantní video</a></li>
+    <li><a href="https://github.com/ethereum/tryethereum">https://github.com/ethereum/tryethereum</a> - zdrojové kódy webového klienta</li>
+    <li><a href="https://github.com/ethereum/pyethereum">https://github.com/ethereum/pyethereum</a> - pythonní klient</li>
+    <li><a href="https://k1n0k0.github.io/ethereum-simulator/">https://k1n0k0.github.io/ethereum-simulator/</a> - ethereum simulátor</li>
+    <li><a href="https://bitcointalk.org/index.php?topic=412878.0">https://bitcointalk.org/index.php?topic=412878.0</a> - tradiční bitcointalk vlákno, které nesmí chybět u každé kryptoměny</li>
+    <li><a href="https://bitcointalk.org/index.php?topic=428589.0">https://bitcointalk.org/index.php?topic=428589.0</a> - a nová verze, poté co bylo staré vlákno uzavřeno</li>
+    <li><a href="https://www.youtube.com/watch?v=ykODAK3gWeo">https://www.youtube.com/watch?v=ykODAK3gWeo</a> - poslední update, video od jednoho z autorů ohledně změn a možných aplikací</li>
+</ul>
+
+
+<h1>Omluva</h1>
+
+<p>Napsání tohohle článku mi zabralo přes čtyři měsíce. Všem komu jsem to <a href="/blog/bystroushaak/2014/5/entity/diskuse#9">sliboval</a> dřív se omlouvám, ale nějakou dobu mi trvalo uchopit co jsem to vlastně našel a dohledat si k tomu relevantní informace. Taky práce z člověka saje chuť po večerech psát články, tak to prostě nešlo tak jednoduše, jak jsem čekal.
+</p>
+
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
