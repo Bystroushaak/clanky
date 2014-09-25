@@ -43,13 +43,10 @@ OEBPS/
 <p>Původně jsem psal jednoduché stahovátko, které mělo poukládat všechny odkazy z indexu, poměrně záhy jsem ale zjistil, že index obsahuje jen dvě úrovně nadpisů. Stránky, kde kapitoly začínají třetí úrovní nebyly staženy a než jsem přišel na to co se vlastně děje, celé se to zkomplikovalo víc, než bylo nezbytně nutné.</p>
 
 
-<p>Zpětně docela lituji, že jsem tu stahovací část psal v pythonu, protože je do velké míry zbytečně složitá a na stejnou věc by bohatě stačil wget. Takhle mi pod rukou vykvasily čtyři třídy, které se rekurzivně volají a celá ta architektura je dost divná a zpětně nemám tušení, proč jsem to tak napsal, prostě mi to nějak organicky vyrostlo pod rukama, ani nevím jak. Moc dobře jsem se nevyspal a tohle byl prostě jeden z těch dní, kdy je jednodušší upravovat zdroják, než se zastavit, rozmyslet si co vlastně dělám a pak to udělat pořádně.</p>
+<p>Zpětně docela lituji, že jsem tu stahovací část psal v pythonu, protože je do velké míry zbytečně složitá a na stejnou věc by bohatě stačil wget. Takhle mi pod rukou vykvasily čtyři třídy, které se rekurzivně volají a celá ta architektura je dost divná. Zpětně nemám tušení, proč jsem to takhle napsal, prostě mi to nějak organicky vyrostlo pod rukama, ani nevím jak. Moc dobře jsem se nevyspal a tohle byl prostě jeden z těch dní, kdy je jednodušší upravovat zdroják a nabalovat další věci, než se zastavit, rozmyslet si co vlastně dělám a pak to udělat pořádně.</p>
 
 
-<p>Script v podstatě rekurzivně prochází web, vyřezává ze stránek patřičný div s odkazem, aby tam nebyly různé blbosti kolem jako menu a tak a ukládá si je do paměti jako objekty. Když narazí na obrázek, tak ho stáhne do paměti, zkonvertuje cesty na lokální složku </p>
-
-
-<p><code>images/</code> a upraví odkazy v HTML, aby ukazovaly správně.</p>
+<p>Script v podstatě rekurzivně prochází web, vyřezává ze stránek patřičný <code>&lt;div&gt;</code> s odkazem, aby tam nebyly různé blbosti kolem jako menu a tak a ukládá si je do paměti jako objekty. Když narazí na obrázek, tak ho stáhne do paměti, zkonvertuje cesty na lokální složku <code>images/</code> a upraví odkazy v HTML, aby ukazovaly správně.</p>
 
 
 <p>Původně jsem si říkal, že by bylo dobré soubory průběžně ukládat na disk, ale pak mi došlo, že u těhle objemů je to stejně jedno. Co jsem tak koukal, vezme si to něco okolo ~40MB paměti a tak je to stejně buřta. Nemá smysl předčasně optimalizovat.</p>
