@@ -4,7 +4,7 @@
 <!--break-->
 
 
-<p>Na začátku jsem o epubu nevěděl skoro nic, kromě toho že to jsou XML v ZIPu. Postupně jsem zjistil, že epub je docela fajn formát, i když má pár svých podivností.</p>
+<p>Na začátku jsem o epubu nevěděl skoro nic, kromě toho že to jsou XML v ZIPu. Postupně jsem zjistil, že epub je docela fajn formát, i když má pár svých podivností. <a href="http://en.wikipedia.org/wiki/EPUB">Stránka na anglické wikipedii</a> se v tomhle ohledu ukázala jako víc než užitečná, v podstatě se dá použít jako návod.</p>
 
 
 <p>Co se mi na něm líbí je struktura, kde jednotlivé kapitoly v podstatě odpovídají HTML stránkám, tak jak jsou na webu. To celé se obalí dvěma XML, přidá se trocha omáčky v podobě dvou zbytečných souborů, které tam vůbec být nemusely, zabalí do zipu a je z toho <i>skoro</i> epub.</p>
@@ -22,7 +22,7 @@ OEBPS/
 
 <p><code>container.xml</code> je základní informační soubor, který musí být ve složce <code>META-INF</code> a skoro nic neobsahuje:</p>
 
-<pre class="brush: xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+<pre>&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;container version=&quot;1.0&quot; xmlns=&quot;urn:oasis:names:tc:opendocument:xmlns:container&quot;&gt;
   &lt;rootfiles&gt;
     &lt;rootfile full-path=&quot;OEBPS/content.opf&quot; media-type=&quot;application/oebps-package+xml&quot;/&gt;
