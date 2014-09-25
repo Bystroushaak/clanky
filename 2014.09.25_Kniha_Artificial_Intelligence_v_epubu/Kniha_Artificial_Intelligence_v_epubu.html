@@ -1,0 +1,198 @@
+<p>Narazil jsem na velmi zajímavě vypadající knihu o umělé inteligenci, plným názvem <a href="http://www.cs.ubc.ca/%7Epoole/aibook/html/ArtInt.html">Artificial Intelligence - foundations of computational agents</a>. Kniha je na webu dostupná pod <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/ca/">Creative commons</a> licencí, ale jen jako HTML. Na webu se sice s trochou snahy dá najít i jako <code>.pdf</code>, ale to mi moc nepasuje do <a href="/blog/bystroushaak/2013/5/cybook-odyssey-hd-frontlight">čtečky</a>, proto jsem se jí rozhodl převést na epub.</p>
+
+
+<!--break-->
+
+
+<p>Na začátku jsem o epubu nevěděl skoro nic, kromě toho že to jsou XML v ZIPu. Postupně jsem zjistil, že epub je docela fajn formát, i když má pár svých podivností.</p>
+
+
+<p>Co se mi na něm líbí je struktura, kde jednotlivé kapitoly v podstatě odpovídají HTML stránkám, tak jak jsou na webu. To celé se obalí dvěma XML, přidá se trocha omáčky v podobě dvou zbytečných souborů, které tam vůbec být nemusely, zabalí do zipu a je z toho <i>skoro</i> epub.</p>
+
+<pre>mimetype
+META-INF/
+    container.xml
+OEBPS/
+    content.opf
+    toc.ncx
+    ...</pre>
+
+<p>První tři řádky obsahují soubory, které jsou jasně dané a není na nich co řešit. <code>mimetype</code> je jen textový soubor obsahující string &quot;<code>application/epub+zip</code>&quot;.</p>
+
+
+<p><code>container.xml</code> je základní informační soubor, který musí být ve složce <code>META-INF</code> a skoro nic neobsahuje:</p>
+
+<pre class="brush: xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;container version=&quot;1.0&quot; xmlns=&quot;urn:oasis:names:tc:opendocument:xmlns:container&quot;&gt;
+  &lt;rootfiles&gt;
+    &lt;rootfile full-path=&quot;OEBPS/content.opf&quot; media-type=&quot;application/oebps-package+xml&quot;/&gt;
+  &lt;/rootfiles&gt;
+&lt;/container&gt;
+</pre>
+
+<p>Podstatný je jen <code>full-path</code> argument tagu <code>&lt;rootfile&gt;</code>, který obsahuje cestu k souboru kde jsou v podstatě všechna ostatní metadata. Z nějakého divného důvodu je ve většině souborů do kterých jsem koukal konvence používat složku pojmenovanou <code>OEBPS/</code>, ale našel jsem i takové, které jí neobsahují a všechno ostatní je rovnou v rootu e-knihy.</p>
+
+
+<h2>Data</h2>
+<p>Ve složce <code>OEBPS/</code> už není nijak definovaná struktura a tak jsem jí použil jako hlavní úložiště na všechny <code>.xhtml</code> soubory z webu. V případě <i>Artificial inteligence</i> jich je přes 350. Kniha používá docela velkou granularitu a tak v podstatě co pár stránek je nová podkapitolka ve vlastním souboru.</p>
+
+
+<p>Do složky <code>OEBPS/images</code> jsem pak nacpal všechny obrázky, na které se HTML soubory odkazují.</p>
+
+
+<p>Původně jsem psal jednoduché stahovátko, které mělo poukládat všechny odkazy z indexu, poměrně záhy jsem ale zjistil, že index obsahuje jen dvě úrovně nadpisů. Stránky, kde kapitoly začínají třetí úrovní nebyly staženy a než jsem přišel na to co se vlastně děje, celé se to zkomplikovalo víc, než bylo nezbytně nutné.</p>
+
+
+<p>Zpětně docela lituji, že jsem tu stahovací část psal v pythonu, protože je do velké míry zbytečně složitá a na stejnou věc by bohatě stačil wget. Takhle mi pod rukou vykvasily čtyři třídy, které se rekurzivně volají a celá ta architektura je dost divná a zpětně nemám tušení, proč jsem to tak napsal, prostě mi to nějak organicky vyrostlo pod rukama, ani nevím jak. Moc dobře jsem se nevyspal a tohle byl prostě jeden z těch dní, kdy je jednodušší upravovat zdroják, než se zastavit, rozmyslet si co vlastně dělám a pak to udělat pořádně.</p>
+
+
+<p>Script v podstatě rekurzivně prochází web, vyřezává ze stránek patřičný div s odkazem, aby tam nebyly různé blbosti kolem jako menu a tak a ukládá si je do paměti jako objekty. Když narazí na obrázek, tak ho stáhne do paměti, zkonvertuje cesty na lokální složku </p>
+
+
+<p><code>images/</code> a upraví odkazy v HTML, aby ukazovaly správně.</p>
+
+
+<p>Původně jsem si říkal, že by bylo dobré soubory průběžně ukládat na disk, ale pak mi došlo, že u těhle objemů je to stejně jedno. Co jsem tak koukal, vezme si to něco okolo ~40MB paměti a tak je to stejně buřta. Nemá smysl předčasně optimalizovat.</p>
+
+
+<h3>Cover</h3>
+<p>Speciálním souborem je XML soubor s titulním obrázkem. To je to co většina čteček zobrazuje jako ikonu a v metadatech to má své speciální místo.</p>
+
+<pre class="brush: xml">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;Cover&lt;/title&gt;
+&lt;meta content=&quot;urn:uuid:c02e8919-1dc2-4489-a5ce-979dc262dd1e&quot; name=&quot;Adept.expected.resource&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a id=&quot;cover&quot;/&gt;
+&lt;img alt=&quot;cover&quot; src=&quot;images/182_9780521519007.jpg&quot; style=&quot;height: 100%;&quot;/&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+
+<p>Osobně moc nechápu, proč je soubor s obrázkem XML, kde je obrázek vložený stejně jako do HTML stránky. Asi je fajn mít možnost tam přidat nějaké texty, ale naprostá většina ebooků stejně použije rastrový obrázek, když už pro nic jiného, tak aspoň jako pozadí. Optimalizovat se s tím, aby se přes CSS všechny HTML nadpisy a jména autorů zobrazila správně na všech čtečkách a ještě i jako miniatury, to může asi jen masochista.</p>
+
+
+<p>Edit: Při závěrečných kontrolách článku jsem si všiml <code>&lt;meta&gt;</code> značky. Ta tam být pravděpodobně nemusí, vzal jsem to někde z nějakého příkladu a teď jsem moc líný to všude odstraňovat.</p>
+
+
+<h2>Metadata</h2>
+<p>Nyní se konečně dostávám k tomu, co mi na celém procesu zabralo nejvíc času. Vytvoření validních metadat se ukázalo jako poměrně složité, protože mi stačilo na tom všem zabít celé odpoledne a nechtělo se mi trávit další čas studiem kompletní specifikace.</p>
+
+
+<h3>toc.ncx</h3>
+<p>Tenhle soubor je jedna z prvních zbytečností. Měl by to být obsah knihy, celé to má ale dva problémy - jednak je to samé v podstatě znova duplikováno v <code>content.opf</code> a druhak skoro každá kniha, na kterou jsem koukal používá separátní HTML soubor, kde je obsah nastylovaný tak jak ho tam chtějí autoři.</p>
+
+
+<p>XML je docela jednoduché:</p>
+
+<pre class="brush: xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE ncx PUBLIC &quot;-//NISO//DTD ncx 2005-1//EN&quot; &quot;http://www.daisy.org/z3986/2005/ncx-2005-1.dtd&quot;&gt;
+&lt;ncx xmlns=&quot;http://www.daisy.org/z3986/2005/ncx/&quot; version=&quot;2005-1&quot;&gt;
+&lt;head&gt;
+&lt;meta name=&quot;Artificial Intelligence - foundations of computational agents&quot; content=&quot;&quot;/&gt;
+&lt;/head&gt;
+&lt;docTitle&gt;
+&lt;text&gt;Artificial Intelligence - foundations of computational agents&lt;/text&gt;
+&lt;/docTitle&gt;
+&lt;navMap&gt;
+
+&lt;navPoint id=&quot;navpoint-0&quot; playOrder=&quot;0&quot;&gt;
+&lt;navLabel&gt;
+&lt;text&gt;Cover&lt;/text&gt;
+&lt;/navLabel&gt;
+&lt;content src=&quot;book_cover.xhtml&quot;/&gt;
+&lt;/navPoint&gt;
+
+&lt;/navMap&gt;
+&lt;/ncx&gt;
+</pre>
+
+<p>V <code>&lt;meta&gt;</code> tagu a v <code>&lt;text&gt;</code> je název knihy. V kontejneru <code>&lt;navMap&gt;</code> se potom pro každou kapitolu opakuje tag <code>&lt;navPoint&gt;</code>.
+
+V <code>&lt;navPoint&gt;</code> jsou atributy <code>id</code> a <code>playOrder</code>, které prostě inkrementuju výš a výš, s každým dalším <code>&lt;navPoint&gt;</code> tagem. Podelement <code>&lt;navLabel&gt;</code> obsahuje tag <code>&lt;text&gt;</code> s názvem kapitoly, na kterou se odkazuje. Tag <code>&lt;content&gt;</code> pak má v atributu <code>src</code> odkaz na soubor s kapitolou.</p>
+
+
+<h3>content.opf</h3>
+<p>Hlavním souborem se všemi podstatnými metadaty je <code>content.opf</code>. Pojmenovaný a umístěný může být v podstatě jakkoliv, kde ho najít ukazuje <code>META-INF/container.xml</code>, o kterém jsem už psal.</p>
+
+
+<p>V souboru jsou v kontejneru <code>&lt;manifest&gt;</code> uloženy odkazy na všechny ostatní soubory kromě sebe sama, zmiňovaného <code>container.xml</code> a <code>mimetype</code>.</p>
+
+<pre class="brush: xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;package version=&quot;2.0&quot; xmlns=&quot;http://www.idpf.org/2007/opf&quot; unique-identifier=&quot;BookId&quot;&gt;
+&lt;metadata xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:opf=&quot;http://www.idpf.org/2007/opf&quot;&gt;
+&lt;dc:title&gt;Artificial Intelligence&lt;/dc:title&gt;
+&lt;dc:title&gt;foundations of computational agents&lt;/dc:title&gt;
+&lt;dc:creator opf:role=&quot;aut&quot;&gt;David Poole&lt;/dc:creator&gt;
+&lt;dc:creator opf:role=&quot;aut&quot;&gt;Alan Mackworth&lt;/dc:creator&gt;
+&lt;dc:format/&gt;
+&lt;dc:date&gt;2010-06-07&lt;/dc:date&gt;
+&lt;dc:subject/&gt;
+&lt;dc:description/&gt;
+&lt;dc:rights/&gt;
+&lt;dc:language&gt;en&lt;/dc:language&gt;
+&lt;dc:identifier id=&quot;BookId&quot; opf:scheme=&quot;ISBN&quot;&gt;9780521519007&lt;/dc:identifier&gt;
+&lt;meta content=&quot;cover&quot; name=&quot;cover&quot;/&gt;
+&lt;/metadata&gt;
+
+&lt;manifest&gt;
+&lt;item href=&quot;toc.ncx&quot; id=&quot;ncx&quot; media-type=&quot;application/x-dtbncx+xml&quot;/&gt;
+&lt;item href=&quot;images/ch04_GradientDescent.png&quot; id=&quot;ch04_GradientDescent_png&quot; media-type=&quot;image/png&quot;/&gt;
+...
+&lt;/manifest&gt;
+
+&lt;spine toc=&quot;ncx&quot;&gt;
+&lt;itemref idref=&quot;book_cover_xhtml&quot; linear=&quot;yes&quot;/&gt;
+&lt;itemref idref=&quot;ArtInt_html&quot; linear=&quot;yes&quot;/&gt;
+...
+&lt;/spine&gt;
+
+&lt;guide&gt;
+&lt;reference href=&quot;book_cover.xhtml&quot; title=&quot;Cover&quot; type=&quot;cover&quot;/&gt;
+&lt;reference href=&quot;ArtInt.html&quot; title=&quot;Table of Contents&quot; type=&quot;toc&quot;/&gt;
+&lt;/guide&gt;
+&lt;/package&gt;</pre>
+
+
+<p>Kontejner <code>&lt;spine&gt;</code> je potom jeden z důvodů, proč se mi zdá předchozí soubor <code>toc.ncx</code> jako blbost, protože obsahuje v podstatě to samé - všechny kapitoly tak jak mají jít za sebou, s tím že se na ně odkazuje přes parametr <code>id</code> tak, jak byl definovaný v kontejneru <code>&lt;manifest&gt;</code>. Na pořadí zde záleží.</p>
+
+
+<p>Na konci je pak kontejner <code>&lt;guide&gt;</code> obsahující <code>&lt;reference&gt;</code> tagy na věci jako je vlastní HTML index knihy a stránka obsahující obálku.</p>
+
+
+<h2>Skoro epub</h2>
+<p>Výsledkem celého uvedeného souboru je skoro epub. Tváří se to jako epub, calibre to otevře jako epub, plugin do firefoxu to otevře jako epub, ale moje čtečka si z toho pšíkne, zakoulí očima a vysvětlí, že to teda ne.</p>
+
+
+<p>Jak udělat ze skoro epubu epub jak se patří? Zkonvertovat ho z epubu do epubu přece!</p>
+
+
+<p>Použít se k tomu dá program <code>ebook-convert</code>, který je součástí balíku <code>calibre</code>:</p>
+
+<pre class="brush: bash">ebook-convert skoro.epub uplny.epub</pre>
+
+<p>Chvíli si povídá pro sebe, vypisuje co všechno vyházel, opravil a udělal správně a pak vyplivne krásný, více/méně validní epub, se kterým nemělo problémy žádné zařízení, kde jsem to zkoušel.</p>
+
+
+<h2>Automatizace</h2>
+<p>Pokud by měl někdo o knihu zájem, stačí si naklonovat příslušný repozitář a spustit script <code>create_book.sh</code>:</p>
+
+<ul>
+<li><a href="https://github.com/Bystroushaak/Artificial-Intelligence-epub">https://github.com/Bystroushaak/Artificial-Intelligence-epub</a></li>
+</ul>
+
+<h2>Filosofická otázka</h2>
+<p>To by bylo na téma <i>&quot;jak jsem zabil středeční odpoledne a večer&quot;</i> za mě. Co vy?</p>
+
+
+<h2>Thx</h2>
+<p>Za tip ohledně knihy děkuji <a href="https://github.com/FEE1DE4D">FEE1DE4D</a>ovi.</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
