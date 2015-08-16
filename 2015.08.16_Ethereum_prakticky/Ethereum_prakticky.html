@@ -1,4 +1,4 @@
-<p>Zhruba před rokem jsem tu <a href="/blog/bystroushaak/2014/9/ethereum">psal</a> o nové, <i>„revoluční“</i> technologii nazvané Ethereum. Tenkrát se ještě nejednalo o nic víc, než teorii a pár <i>„proof of concept“ </i>ukázek. Zhruba před čtrnácti dny bylo však Ethereum spuštěno ve <i>Frontier</i> verzi, což se dá považovat za takovou veřejnou betu a tak se můžeme podívat, jak to vypadá prakticky.</p>
+<p>Zhruba před rokem jsem tu <a href="/blog/bystroushaak/2014/9/ethereum">psal</a> o nové, <i>„revoluční“</i> technologii nazvané Ethereum. Tenkrát se ještě nejednalo o nic víc, než teorii a pár <i>„proof of concept“ </i>ukázek. Zhruba před čtrnácti dny bylo však Ethereum spuštěno ve <i>Frontier</i> verzi, což se dá považovat za veřejnou betu. Dnes se tudíž můžeme podívat, jak to vypadá prakticky.</p>
 
 
 <!--break-->
@@ -26,7 +26,7 @@
 <p>Kontrakty nemohou běžet do nekonečna - typicky se aktivují s příchozí transakcí a běží pouze dokud nespálí <i>gas</i>, který mají k dispozici.</p>
 
 
-<p>Výhoda <i>kontraktů</i> spočívá ve faktu, že jednou nahrané do <i>blockchainu</i> se již nedají měnit a tedy je zaručeno, že dojde k jejich vykonání. Zdrojový <a href="https://cs.wikipedia.org/wiki/Bajtk%C3%B3d">bajtkód</a> (a někdy i víc, podrobnosti dále) je přitom dostupný všem a všichni si tedy mohou ověřit, že kontrakt dělá co deklaruje že dělat má.</p>
+<p>Výhoda <i>kontraktů</i> spočívá ve faktu, že jednou nahrané do <i>blockchainu</i> se již nedají měnit a tedy je zaručeno, že dojde k jejich vykonání. Zdrojový <a href="https://cs.wikipedia.org/wiki/Bajtk%C3%B3d">bajtkód</a> (a někdy i kompletní zdrojáky) je přitom dostupný všem a všichni si tedy mohou ověřit, že kontrakt dělá co deklaruje že dělat má.</p>
 
 
 <p>K čemu to?</p>
@@ -35,13 +35,13 @@
 <p>Díky této vlastnosti je možné implementovat netriviální systémy vyžadující důvěru. Automatizované směnárny, banky, úložny peněz, <a href="/blog/bystroushaak/2014/5/entity">distribuované organizace</a>, kasína, tržiště, volební systémy a tak dále.</p>
 
 
-<p>Všechny tyto systémy byly v minulosti implementovány jako blackboxy, které tvrdily, že nepodvádí, neměli jste ale žádnou možnost podvodu zabránit, či ověřit, že vše skutečně pracují jak deklarují. To s Ethereem nyní neplatí, protože na <i>kontrakty</i> se můžete spolehnout.</p>
+<p>Všechny tyto systémy byly v minulosti implementovány jako blackboxy, které tvrdily, že nepodvádí, neměli jste ale žádnou možnost podvodu zabránit, či ověřit, že skutečně pracují a za každých okolností (i pod nátlakem) budou pracovat jak deklarují. To s Ethereem nyní neplatí, neboť na <i>kontrakty</i> se můžete spolehnout.</p>
 
 
 <p>Kromě toho je samozřejmě <i>kontrakt</i> <a href="https://cs.wikipedia.org/wiki/Turingovsk%C3%A1_%C3%BAplnost">turingovsky kompletní</a>, což znamená, že v něm můžete naprogramovat cokoliv chcete. Typickou ukázkou jsou třeba jmenné registry ala DNS implementované jako <a href="https://en.wikipedia.org/wiki/Key-value_database"><i>key:val storage</i></a>, která na příchozí transakci odpoví překladem <i>key</i> na <i>val</i>.</p>
 
 
-<p>Tím však možnosti rozhodně nekončí - protokol je designovaný na podporu nízkých datových toků a tenkých klientů. Díky tomu je možné zabudovávat klienty například do různých miniaturních zařízení, kde Ethereum slouží jako distribuovaná platforma zajišťující komunikaci (představte si třeba email postavený nad Ethereem).</p>
+<p>Tím však možnosti rozhodně nekončí, protokol totiž podporuje nízké datové toky pro tenké klienty. Díky tomu je možné zabudovávat podporu například do různých miniaturních zařízení, kde Ethereum slouží jako distribuovaná platforma zajišťující komunikaci (představte si třeba email či jabber postavený nad Ethereem).</p>
 
 
 <p>Aby toho všeho nebylo málo, celé Ethereum je vymyšleno a implementováno velmi chytře, s matematickými důkazy, <a href="https://github.com/ethereum/wiki/wiki/Patricia-Tree">Merkle Patricia stromy</a>, automatickým tržním balancováním a tak dále. Dá se více/méně spolehnout, že autoři mysleli na všechno a pokud si u něčeho na laické úrovni říkáte <i>„to přece nemůže fungovat“</i>, nebo <i>„tady je určitě chyba a proto to přestane fungovat“</i>, autoři s tím počítali a problém řeší v samotném zárodku.</p>
@@ -127,7 +127,7 @@ Account #0: {797e99024a03481ad2a00ffe9c98fe145c817969}</pre>
 <p><tt>ethminer</tt> je podstatně jednodušší program než <tt>geth</tt>, protože jak už název napovídá, umožňuje jen těžit. Zde je ukázka příkazu pro poolové těžení na mém procesoru pomocí 5 threadů:</p>
 
 <pre class="brush: bash">$ ethminer -t 5 -F http://us1.ethpool.org/miner/0x797e99024a03481ad2a00ffe9c98fe145c817969/0.1</pre>
-<p>Pool funguje tak, že jakmile dosáhne vytěžená hodnota 1 <i>etheru</i>, je poslána na adresu uvedenou v URL. Poslední parametr označuje požadovanou difficulty, v tomto případě 0.1, tedy na 100kHash/s.</p>
+<p>Pool funguje tak, že jakmile dosáhne vytěžená hodnota 1 <i>etheru</i>, je poslána na adresu uvedenou v URL (všimněte si <tt>0x</tt> na začátku). Poslední parametr označuje požadovanou difficulty, v tomto případě 0.1, tedy na 100kHash/s.</p>
 
 
 <p>Těžení na procesoru není moc výhodné, proto je zde parametr -G. K tomu aby vám však fungoval potřebujete správnou konstelaci výkonné grafiky, podporovaných ovladačů, OpenCL, Venuše s Merkurem, sudiček u kolébky a <a href="http://iting.timetree.info/default.asp">I-ťingu</a>. Pokud jí nemáte, bude vám to shazovat Xka a vyhazovat roztomilou hlášku:</p>
@@ -166,7 +166,7 @@ at block: 76287 (2015-08-13 00:17:27)
 
 <pre class="brush: bash">&gt; web3.fromWei(eth.getBalance(eth.coinbase), &quot;ether&quot;)
 '18.27723449'</pre>
-<p>Jak můžete vidět, mám na účtu momentálně přesně <tt>18.27723449</tt> <i>etherů</i>, které jsem koupil za přibližně 500kč (0.07BTC) ve středu. <i>„Příkaz“</i> se skládá ze dvou funkcí a dvou konstant:</p>
+<p>Jak můžete vidět, mám na účtu momentálně přesně <tt>18.27723449</tt> <i>etherů</i>, které jsem koupil za přibližně 500kč (0.07BTC) ve středu 12.8.2015. <i>„Příkaz“</i> se skládá ze dvou funkcí a dvou konstant:</p>
 
 
 <p>Funkce <tt>web3.fromWei()</tt> konvertuje částku ve <i>wei</i> (nejnižší jednotka, 10<sup>-18</sup> <i>etheru</i>) na <i>ethery</i>, resp. na hodnotu zadanou string konstantou v druhém parametru (<tt>&quot;ether&quot;</tt> v tomhle případě). Pokud bych použil samotné <tt>eth.getBalance(eth.accounts[0])</tt>, dostal bych hodnotu <tt>18277234490000000000</tt>, což je kapku nepřehledné.</p>
@@ -217,6 +217,8 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 &gt; web3.fromWei(eth.getBalance(eth.coinbase), &quot;ether&quot;)
 0.05</pre>
 
+Zde si můžete všimnout <i>„divného“</i> čísla bloku a datumu. Jedná se o geth na serveru, kde jsem <tt>geth</tt> nainstaloval nově (proto to nízké číslo bloku), přesto se téměř okamžitě synchronizoval se sítí.
+
 <h2>JavaScript API</h2>
 <p>Kompletní popis celého dostupného JavaScriptového API se dá najít opět na GitHubu: <a href="https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console#management-api-reference">Management API Reference</a>. Zde zmíním jen ty části, které mi přijdou nejdůležitější.</p>
 
@@ -252,7 +254,7 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 <p>Zajímavé jsou hlavně první tři, které vám umožňují spustit a zastavit miner a zjistit kolik váš procesor dává <i>hashrate</i> (v H/s). Pokud chcete těžit, potřebujete taky DAG, takže doporučuji zavolat <tt>miner.startAutoDAG()</tt>, nebo <tt>geth</tt>  spouštět s parametrem <tt>--autodag</tt>.</p>
 
 
-<p>Někomu také může přijít zajímavý parametr <tt>miner.setExtra(&quot;extra data&quot;)</tt>, který do každého vytěženého bloku přidá &quot;extra data&quot; jako podpis. Ty se pak zobrazují v různých přehledech bloků a tak, ale k ničemu praktickému to imho není.</p>
+<p>Někomu také může přijít zajímavý parametr <tt>miner.setExtra(&quot;extra data&quot;)</tt>, který do každého vytěženého bloku přidá <tt>&quot;extra data&quot;</tt> jako podpis. Ty se pak zobrazují v různých přehledech bloků a tak, ale k ničemu praktickému to imho není.</p>
 
 
 <h3>web3</h3>
@@ -376,10 +378,10 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 <p><a href="https://github.com/ethereum/go-ethereum/wiki/Mining">Těžení</a> se dá rozdělit na CPU, GPU a poolované. Co to znamená?</p>
 
 
-<p>Pomocí standardně dodávaného programu <tt>geth</tt> máte možnost těžit přímo ve spolupráci se sítí. To znamená, že nějakou dobu těžíte třeba pomocí procesoru, pak konečně vytěžíte blok (síť uzná váš výkon a odmění vás za jeho pálení pro ní) a dostanete 5 <i>etherů</i>. I když je <a href="https://blog.ethereum.org/2014/07/11/toward-a-12-second-block-time/"><i>block-time</i></a> je v Ethereu 12-20 vteřin a tedy máte podstatně větší šanci blok vytěžit, než třeba v Bitcoinu, přeci jen pomocí procesoru by to trvalo řádově desítky, až stovky dní.</p>
+<p>Pomocí standardně dodávaného programu <tt>geth</tt> máte možnost těžit přímo ve spolupráci se sítí. To znamená, že nějakou dobu těžíte třeba pomocí procesoru, pak konečně vytěžíte blok (síť uzná váš výkon a odmění vás za jeho pálení pro ní) a dostanete 5 <i>etherů</i>. I když je <a href="https://blog.ethereum.org/2014/07/11/toward-a-12-second-block-time/"><i>block-time</i></a> v Ethereu 12-20 vteřin a tedy máte podstatně větší šanci blok vytěžit, než třeba v Bitcoinu, těžení čistě pomocí procesoru by to trvalo řádově desítky až stovky dní.</p>
 
 
-<p>Těžení na grafice je jiná, zde již máte praktickou šanci narazit na blok v řádu dnů. Pořád to ale vypadá stylem, že pustíte miner, ten běží a nic moc viditelného nedělá a po nějaké nespecifikované době možná vytěžíte blok. Čím méně máte výkonu, tím je doba delší, či pravděpodobnost nižší.</p>
+<p>Těžení na grafice je jiná, zde již máte praktickou šanci narazit na blok v řádu dnů. Pořád to ale má ten <i>workflow</i> pustím miner, ten běží a nic moc viditelného nedělá a po nějaké nespecifikované době možná vytěžím blok. Čím méně máte výkonu, tím je doba delší, či pravděpodobnost nižší a nejhorší na tom je, že více/méně nevidíte žádný progress bar, takže to celé působí dost depresivně.</p>
 
 
 <p>Netrpěliví lidé s nic moc hardwarem jako já tedy těží v poolech, kde se na těžení jednoho bloku skládá velký počet těžařů. Momentálně jediným mě známým poolem je <a href="http://ethpool.org/">http://ethpool.org/</a>. Ten funguje bez registrace. <tt>ethminer</tt> nakrmíte URL, jejíž součástí je adresa vaší peněženky, vyberete <i>difficulty</i> podle vašeho hardware a můžete začít (viz příkaz výše v sekci <tt>ethminer</tt>).</p>
@@ -388,7 +390,9 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 <p>Pak se již můžete posadit do křesla, dát si nohy na stůl a sledovat, jak vám naskakují <i>ethery</i>, což vypadá třeba takto:</p>
 
 
-<p>• <a href="http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969">http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969</a></p>
+<ul>
+    <li><a href="http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969">http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969</a></li>
+</ul>
 
 
 <p>Jakmile dosáhnete jednoho <i>etheru</i>, pool by vám ho měl odeslat na uvedenou adresu.</p>
@@ -401,7 +405,7 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 <p>V budoucnu bych to rád napravil a napsal pár článků na tohle téma, zatím se ale pojďme podívat alespoň na <i>hello world</i> příklad uvedený na stránce Etherea jako <a href="https://www.ethereum.org/greeter">greeter</a>.</p>
 
 
-<p>Jelikož je <i>greeter</i> napsaný v jazyku <a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial"><i>Solidity</i></a>, bude se prvně hodit kompiler. Na Ubuntu je dostupný v již přidaném PPA pod jménem <tt>solc</tt>, nainstalovat ho tedy můžete pomocí „sudo aptitude install solc“.</p>
+<p>Jelikož je <i>greeter</i> napsaný v jazyku <a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial"><i>Solidity</i></a>, bude se prvně hodit kompiler. Na Ubuntu je dostupný v již přidaném PPA pod jménem <tt>solc</tt>, nainstalovat ho tedy můžete pomocí <tt>„sudo aptitude install solc“</tt>.</p>
 
 
 <p>V konzoli potom můžete ověřit že je dostupný pomocí:</p>
@@ -452,10 +456,12 @@ contract greeter is mortal {
 <p>Pokud by někoho <i>Solidity</i> zaujalo, zde jsou další zdroje:</p>
 
 
-<p>• <a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial">https://github.com/ethereum/wiki/wiki/Solidity-Tutorial</a><br />
-• <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format">https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format</a><br />
-• <a href="http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html">http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html</a><br />
-• <a href="http://ether.fund/contracts/solidity">http://ether.fund/contracts/solidity</a></p>
+<ul>
+    <li><a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial">https://github.com/ethereum/wiki/wiki/Solidity-Tutorial</a></li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format">https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format</a></li>
+    <li><a href="http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html">http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html</a></li>
+    <li><a href="http://ether.fund/contracts/solidity">http://ether.fund/contracts/solidity</a></li>
+</ul>
 
 
 <h3>Kompilace</h3>
@@ -531,7 +537,7 @@ var greeter = greeterContract.new(_greeting,{from:web3.eth.accounts[0], data: gr
     }
 })</pre>
 
-<p><tt>geth</tt> nás samozřejmě opět vyzve k zadání hesla (při nahrání kontraktu musíme poslat i gas který bude spalovat):</p>
+<p><tt>geth</tt> nás samozřejmě opět vyzve k zadání hesla (při nahrání kontraktu musíme poslat i <i>gas</i> který bude spalovat):</p>
 
 <pre class="brush: js">Please unlock account 797e99024a03481ad2a00ffe9c98fe145c817969.
 Passphrase: 
@@ -640,65 +646,79 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 <p>Zatímco většina se soustředí převážně na <i>kontrakty</i>, v IBM si řekli, jak moc je asi tak Ethereum použitelné jako decentralizovaná platforma pro Internet of Things. Ukázalo se, že docela hodně, díky nízkým datovým tokům, které umožňuje mít velmi tenké klienty. Provozovatel tím získává decentralizovanou komunikační platformu, po které si spolu můžou povídat nejrůznější senzory.</p>
 
 
-<p>• <a href="https://www.theprotocol.tv/adept-demo-ibm-samsung/">https://www.theprotocol.tv/adept-demo-ibm-samsung/</a><br />
-• <a href="https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/">https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/</a><br />
-• <a href="http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/">http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/</a></p>
+<ul>
+    <li><a href="https://www.theprotocol.tv/adept-demo-ibm-samsung/">https://www.theprotocol.tv/adept-demo-ibm-samsung/</a></li>
+    <li><a href="https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/">https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/</a></li>
+    <li><a href="http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/">http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/</a></li>
+</ul>
 
 
 <h2>Augur</h2>
 <p>Augur je decentralizovaná burza crowdsourcovaných analýz, odhadů a predikcí. Něco jako když se dělají ankety, akorát bez společnosti, co by ty ankety dělala a mohla falšovat.</p>
 
 
-<p>• <a href="http://www.augur.net/">http://www.augur.net/</a></p>
+<ul>
+    <li><a href="http://www.augur.net/">http://www.augur.net/</a></li>
+</ul>
 
 
 <h2>BoardRoom</h2>
 <p>BoardRoom vypadá jako podnikový systém, přes který je možné provádět veškeré činnosti nutné k řízení a organizaci firmy. Zahrnuje různé pluginy pro zasedání, hlasování, komise, šifrovanou komunikaci a tak podobně.</p>
 
 
-<p>• <a href="http://boardroom.to/">http://boardroom.to/</a></p>
+<ul>
+    <li><a href="http://boardroom.to/">http://boardroom.to/</a></li>
+</ul>
 
 
 <h2>airlock</h2>
 <p>Airlock představuje správu klíčů a přístupů k zámkům. Zámky mohou být otevřené pro všechny, pro držitele klíčů, časově, či pouze pro jedno použití.</p>
 
 
-<p>• <a href="http://airlock.me/">http://airlock.me/</a></p>
+<ul>
+    <li><a href="http://airlock.me/">http://airlock.me/</a></li>
+</ul>
 
 
 <h2>slock.it</h2>
 <p>Sdílení přístupů k čemukoliv zamykatelnému, od praček po domy. Pokud to dokážete zamknout, oni se postarají o pronájem.</p>
 
 
-<p>• <a href="http://slock.it/">http://slock.it/</a></p>
+<ul>
+    <li><a href="http://slock.it/">http://slock.it/</a></li>
+</ul>
 
 
 <h2>Maker</h2>
 <p>DAO starající se o půjčky. K čemu banky, když můžete svěřit své finance nemyslícím korporacím? :)</p>
 
 
-<p>• <a href="http://makerdao.com/">http://makerdao.com/</a></p>
+<ul>
+    <li><a href="http://makerdao.com/">http://makerdao.com/</a></li>
+</ul>
 
 
 <h2>WeiFund</h2>
 <p>Decentralizovaný crowdsourcing. Představte si něco jako kickstarter, akorát bez lidí a bez cenzury. Uživatelé hlasují penězi, pokud projekty nevyjdou, jsou jim vráceny.</p>
 
 
-<p>• <a href="http://weifund.io/">http://weifund.io/</a></p>
+<ul>
+    <li><a href="http://weifund.io/">http://weifund.io/</a></li>
+</ul>
 
 
 <h2>Váš projekt</h2>
 <p>Ethereum není jen výpočetní síť, je to také komunikační platforma, databáze a měna. Všechno důležité integrované do jednoho systému.</p>
 
 
-<p>Na tomhle místě se příště může nacházet i váš projekt. Víte co je to Ethereum, víte jak ho použít, tak na co čekáte? Ti kdo přijdou první s originálními myšlenkami, v nově vznikajícím světě chytrých kontraktů, mají ty největší šance zbohatnout a přetvořit svět.</p>
+<p>Na tomhle místě se příště může nacházet i váš projekt. Víte co je to Ethereum, víte jak ho použít, tak na co čekáte? Ti kdo přijdou první s originálními myšlenkami v nově vznikajícím světě chytrých kontraktů mají ty největší šance zbohatnout a přetvořit svět.</p>
 
 
 <h1>Cena a dohady</h1>
-<p>Ethereum je momentálně číslo čtyři na <a href="http://coinmarketcap.com/">http://coinmarketcap.com/</a>, s finančními toky v řádu pěti milionů dolarů za den. To není špatné, uvážíme-li že existuje teprve něco přes dva týdny. Během tohoto týdne jsem viděl, jak se z jednoho dolaru zvedlo na 2.22, načež zase pokleslo na 1.58.</p>
+<p>Ethereum je momentálně číslo čtyři na <a href="http://coinmarketcap.com/">http://coinmarketcap.com/</a>, s finančními toky v řádu pěti milionů dolarů za den. To není špatné, uvážíme-li že existuje teprve něco přes dva týdny. Během tohoto týdne jsem viděl, jak se z jednoho dolaru zvedlo na 2.22, načež zase pokleslo na 1.39.</p>
 
 
-<p>Jak je vidět, jedná se o ideální měnu pro spekulace. Vzhledem k tomu, že se momentálně nachází ve veřejné betaverzi a nejsou k dispozici žádné nástroje, dá se očekávat, že až opadne počáteční hype, cena ještě klesne a bude docházet k velkým fluktuacím. </p>
+<p>Jak je vidět, jedná se o ideální měnu pro spekulace. Vzhledem k tomu, že se momentálně nachází ve veřejné betaverzi a nejsou k dispozici žádné uživatelsky přívětivé nástroje, dá se očekávat, že až opadne počáteční hype, cena ještě klesne a bude docházet k velkým fluktuacím. </p>
 
 
 <p>Pokud věříte technologii Etherea a nezpanikaříte, až uvidíte jak kolísá, doporučuji nakoupit a trochu si přivydělat prodejem ve správnou chvíli.</p>
@@ -759,7 +779,7 @@ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1
 
 
 <h1>Shameless self-bump</h1>
-<p>Tento článek mě podle mého <a href="https://github.com/Bystroushaak/Timetracker">timetrackeru</a> stál přibližně deset hodin čistého času. Nejenom to; jedná se dokonce o již druhý článek na téma Ethereum, který mě stál desítky hodin času strávených výzkumy a psaním. Aby toho nebylo málo, sdělil jsem vám v ucelené a čitelné formě spoustu <i>knowhow</i>, které jinak stojí desítky a stovky hodin získávání, čtení, studování a zkoušení. V případě prvního článku dokonce s ročním předstihem. Nyní jste na podobné úrovni jako já - můžete Ethereum začít používat, těžit, nakupovat, prodávat, spekulovat a programovat.</p>
+<p>Tento článek mě podle mého <a href="https://github.com/Bystroushaak/Timetracker">timetrackeru</a> stál přibližně jedenáct hodin čistého času. Nejenom to; jedná se dokonce o již druhý článek na téma Ethereum, který mě stál desítky hodin času strávených výzkumy a psaním. Aby toho nebylo málo, sdělil jsem vám v ucelené a čitelné formě spoustu <i>knowhow</i>, které jinak stojí desítky a stovky hodin získávání, čtení, studování a zkoušení. V případě prvního článku dokonce s ročním předstihem. Nyní jste na podobné úrovni jako já - můžete Ethereum začít používat, těžit, nakupovat, prodávat, spekulovat a programovat.</p>
 
 
 <p>Proč to dělám?</p>
