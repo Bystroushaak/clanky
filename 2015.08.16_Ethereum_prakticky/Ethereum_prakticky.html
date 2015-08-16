@@ -1,0 +1,781 @@
+<p>Zhruba před rokem jsem tu <a href="/blog/bystroushaak/2014/9/ethereum">psal</a> o nové, <i>„revoluční“</i> technologii nazvané Ethereum. Tenkrát se ještě nejednalo o nic víc, než teorii a pár <i>„proof of concept“ </i>ukázek. Zhruba před čtrnácti dny bylo však Ethereum spuštěno ve <i>Frontier</i> verzi, což se dá považovat za takovou veřejnou betu a tak se můžeme podívat, jak to vypadá prakticky.</p>
+
+
+<!--break-->
+
+
+<h1>Rekapitulace</h1>
+<p>Můj oblíbený, a většině smrtelníků nicneříkající <a href="https://cs.wikipedia.org/wiki/Prezentace_ve_v%C3%BDtahu"><i>elevator pitch</i></a> je:</p>
+
+
+<blockquote>Na konsenzu založený virtuální stroj a měna používající decentralizovanou technologii blockchainu.</blockquote>
+
+
+<p>Ethereum je technologie postavená nad blockchainem, tedy sdílenou databází, kde o transakcích a úkonech nad touto databází hlasuje celá síť. Oproti kryptoměnám se však nejedná jen o další druh <i>„peněz“</i>, protože přináší navíc koncept <i>„smart contracts“, tedy </i><i>„chytrých kontraktů“</i>.</p>
+
+
+<p>Tyto <i>kontrakty</i> jsou v podstatě miniaturní programy běžící v gigantické virtuální mašině, kterou mezi sebou sdílí a vykonává celá síť. <i>Kontrakty</i> můžou mít vlastní adresu, na a z které je možné posílat <i>ether</i> - jednotku virtuální měny.</p>
+
+
+<p>Těžaři kromě běžného <a href="https://en.bitcoin.it/wiki/Proof_of_work"><i>Proof of Work</i></a> algoritmu a zpracování transakcí mezi účty také vyhodnocují běh této virtuální mašiny stejně jako transakce, tedy hlasováním o dalším stavu.</p>
+
+
+<p>Aby se to těžařům vyplatilo, dostávají od sítě zaplaceno za běh virtuální mašiny „<i>gas</i>“ <i>etherů</i> za každou proběhlou instrukci, každý uložený bajt a každou poslanou zprávu. <i>Gas</i> je nastavený tržně, samotnými těžaři.</p>
+
+
+<p>Kontrakty nemohou běžet do nekonečna - typicky se aktivují s příchozí transakcí a běží pouze dokud nespálí <i>gas</i>, který mají k dispozici.</p>
+
+
+<p>Výhoda <i>kontraktů</i> spočívá ve faktu, že jednou nahrané do <i>blockchainu</i> se již nedají měnit a tedy je zaručeno, že dojde k jejich vykonání. Zdrojový <a href="https://cs.wikipedia.org/wiki/Bajtk%C3%B3d">bajtkód</a> (a někdy i víc, podrobnosti dále) je přitom dostupný všem a všichni si tedy mohou ověřit, že kontrakt dělá co deklaruje že dělat má.</p>
+
+
+<p>K čemu to?</p>
+
+
+<p>Díky této vlastnosti je možné implementovat netriviální systémy vyžadující důvěru. Automatizované směnárny, banky, úložny peněz, <a href="/blog/bystroushaak/2014/5/entity">distribuované organizace</a>, kasína, tržiště, volební systémy a tak dále.</p>
+
+
+<p>Všechny tyto systémy byly v minulosti implementovány jako blackboxy, které tvrdily, že nepodvádí, neměli jste ale žádnou možnost podvodu zabránit, či ověřit, že vše skutečně pracují jak deklarují. To s Ethereem nyní neplatí, protože na <i>kontrakty</i> se můžete spolehnout.</p>
+
+
+<p>Kromě toho je samozřejmě <i>kontrakt</i> <a href="https://cs.wikipedia.org/wiki/Turingovsk%C3%A1_%C3%BAplnost">turingovsky kompletní</a>, což znamená, že v něm můžete naprogramovat cokoliv chcete. Typickou ukázkou jsou třeba jmenné registry ala DNS implementované jako <a href="https://en.wikipedia.org/wiki/Key-value_database"><i>key:val storage</i></a>, která na příchozí transakci odpoví překladem <i>key</i> na <i>val</i>.</p>
+
+
+<p>Tím však možnosti rozhodně nekončí - protokol je designovaný na podporu nízkých datových toků a tenkých klientů. Díky tomu je možné zabudovávat klienty například do různých miniaturních zařízení, kde Ethereum slouží jako distribuovaná platforma zajišťující komunikaci (představte si třeba email postavený nad Ethereem).</p>
+
+
+<p>Aby toho všeho nebylo málo, celé Ethereum je vymyšleno a implementováno velmi chytře, s matematickými důkazy, <a href="https://github.com/ethereum/wiki/wiki/Patricia-Tree">Merkle Patricia stromy</a>, automatickým tržním balancováním a tak dále. Dá se více/méně spolehnout, že autoři mysleli na všechno a pokud si u něčeho na laické úrovni říkáte <i>„to přece nemůže fungovat“</i>, nebo <i>„tady je určitě chyba a proto to přestane fungovat“</i>, autoři s tím počítali a problém řeší v samotném zárodku.</p>
+
+
+<h1>Současný stav</h1>
+<p>V současné době se technologie nachází v takzvaném <i><strong>Frontier</strong></i> stavu. Jedná se o veřejnou betu, která (oproti původním prohlášením a očekáváním) <a href="https://www.reddit.com/r/ethereum/comments/3d53f9/stephan_tuals_explanation_of_the_mining_rewards/ct1z7qg">funguje</a> již v plnohodnotném módu (tedy 100% těžení<sup>[1, 2]</sup>), není však příliš vhodná pro obyčejné uživatele.</p>
+
+
+<p>Většina softwaru je v současné době ovladatelná čistě z příkazové řádky, často velmi složitě (javascript konzole) a můžete narazit na nejrůznější bugy. Blockchain se již ale měnit nebude, tedy všechny <i>ethery</i> které získáte na <i>Frontieru</i> vám zůstanou i do budoucna.</p>
+
+
+<p>Poté co budou odladěny bugy a vznikne uživatelsky příjemný software <a href="https://blog.ethereum.org/2015/03/03/ethereum-launch-process/">bude</a> následovat fáze <i><strong>Homestead</strong></i>, během které lze předpokládat nárůst uživatelů. V této fázi by již nemělo hrozit, že dojde k nějakému problému, či větší změně.</p>
+
+
+<p>Po fázi <i>Homestead</i> bude následovat fáze <i><strong>Metropolis</strong></i>, která předpokládá možnost plnohodnotného použití netechnickými osobami. Grafické nástroje, mobilní peněženky, <i>etheromaty</i>, eshopy a tak podobně.</p>
+
+
+<p>Existuje ještě jedna fáze <i><strong>Serenity</strong></i>, která teoreticky může přinést změnu <i>Proof of Work</i> algoritmu, který je používaný při hlasování o konsenzu, na něco použitelnějšího a méně zbytečného. Samotných uživatelů by se to ale mělo dotknout minimálně.</p>
+
+
+<h1>Instalace</h1>
+<p>Proces instalace základní sady programů go implementace (existují i C++, python a další) je popsán na githubu, v sekci <a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">Building Ethereum</a>.</p>
+
+
+<p>Sám používám <a href="http://www.linux-mint-czech.cz/">Linux Mint</a> a na serverech Ubuntu, budu se tedy věnovat pouze Ubuntu verzi. Instalaci započneme přidáním PPA do systému:</p>
+
+<pre class="brush: bash">sudo apt-get install software-properties-common
+sudo add-apt-repository -y ppa:ethereum/ethereum
+sudo add-apt-repository -y ppa:ethereum/ethereum-dev
+sudo apt-get update
+sudo apt-get install ethereum ethminer</pre>
+<h1>Programy</h1>
+<p>Instalací jsme získali několik programů, ze kterých nás nejvíc zajímá dvojice <a href="https://github.com/ethereum/go-ethereum/wiki/geth">geth</a> a <tt>ethminer</tt>.</p>
+
+
+<h2>geth</h2>
+<p><tt>geth</tt> slouží jako miner, ale i jako základní uživatelský klient. Po svém spuštění zahájí synchronizaci se sítí. K dispozici dává JavaScriptovou konzoli a také RPC API.</p>
+
+
+<p>Úplně nejzákladnějším krokem hned po instalaci je vytvoření nového účtu následujícím příkazem:</p>
+
+<pre class="brush: bash">$ geth account new
+
+=======================================
+Disclaimer of Liabilites and Warranties
+=======================================
+
+THE USER EXPRESSLY KNOWS AND AGREES THAT THE USER IS USING THE ETHEREUM PLATFORM AT THE USER’S SOLE
+RISK. THE USER REPRESENTS THAT THE USER HAS AN ADEQUATE UNDERSTANDING OF THE RISKS, USAGE AND
+INTRICACIES OF CRYPTOGRAPHIC TOKENS AND BLOCKCHAIN-BASED OPEN SOURCE SOFTWARE, ETH PLATFORM AND ETH.
+THE USER ACKNOWLEDGES AND AGREES THAT, TO THE FULLEST EXTENT PERMITTED BY ANY APPLICABLE LAW, THE
+DISCLAIMERS OF LIABILITY CONTAINED HEREIN APPLY TO ANY AND ALL DAMAGES OR INJURY WHATSOEVER CAUSED
+BY OR RELATED TO RISKS OF, USE OF, OR INABILITY TO USE, ETH OR THE ETHEREUM PLATFORM UNDER ANY CAUSE
+OR ACTION WHATSOEVER OF ANY KIND IN ANY JURISDICTION, INCLUDING, WITHOUT LIMITATION, ACTIONS FOR
+BREACH OF WARRANTY, BREACH OF CONTRACT OR TORT (INCLUDING NEGLIGENCE) AND THAT NEITHER STIFTUNG
+ETHEREUM NOR ETHEREUM TEAM SHALL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY OR
+CONSEQUENTIAL DAMAGES, INCLUDING FOR LOSS OF PROFITS, GOODWILL OR DATA. SOME JURISDICTIONS DO NOT
+ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE LIMITATION OR EXCLUSION OF LIABILITY FOR CERTAIN
+TYPES OF DAMAGES. THEREFORE, SOME OF THE ABOVE LIMITATIONS IN THIS SECTION MAY NOT APPLY TO A USER.
+IN PARTICULAR, NOTHING IN THESE TERMS SHALL AFFECT THE STATUTORY RIGHTS OF ANY USER OR EXCLUDE
+INJURY ARISING FROM ANY WILLFUL MISCONDUCT OR FRAUD OF STIFTUNG ETHEREUM.
+
+Do you accept this agreement? [y/N] y
+
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase:
+Repeat Passphrase: 
+Address: {797e99024a03481ad2a00ffe9c98fe145c817969}</pre>
+
+<p>Výsledek si hned můžete zkontrolovat:</p>
+
+<pre class="brush: bash">$ geth account
+Account #0: {797e99024a03481ad2a00ffe9c98fe145c817969}</pre>
+
+<p>Jak vidíte, v systému mám nyní nový účet s adresou <tt>797e99024a03481ad2a00ffe9c98fe145c817969</tt>. Tato adresa se často zadává s předponou určující její hexadecimálnost, tedy 0x.</p>
+
+
+<p>Jakmile mám adresu, můžu si na ní nechat poslat <i>ethery</i>, či obecně transakce, posílat transakce z ní, dívat se na stavy ostatních účtů, vytvářet kontrakty a také těžit.</p>
+
+
+<h2>ethminer</h2>
+<p><tt>ethminer</tt> je podstatně jednodušší program než <tt>geth</tt>, protože jak už název napovídá, umožňuje jen těžit. Zde je ukázka příkazu pro poolové těžení na mém procesoru pomocí 5 threadů:</p>
+
+<pre class="brush: bash">$ ethminer -t 5 -F http://us1.ethpool.org/miner/0x797e99024a03481ad2a00ffe9c98fe145c817969/0.1</pre>
+<p>Pool funguje tak, že jakmile dosáhne vytěžená hodnota 1 <i>etheru</i>, je poslána na adresu uvedenou v URL. Poslední parametr označuje požadovanou difficulty, v tomto případě 0.1, tedy na 100kHash/s.</p>
+
+
+<p>Těžení na procesoru není moc výhodné, proto je zde parametr -G. K tomu aby vám však fungoval potřebujete správnou konstelaci výkonné grafiky, podporovaných ovladačů, OpenCL, Venuše s Merkurem, sudiček u kolébky a <a href="http://iting.timetree.info/default.asp">I-ťingu</a>. Pokud jí nemáte, bude vám to shazovat Xka a vyhazovat roztomilou hlášku:</p>
+
+<pre class="brush: bash">[OPENCL]:No OpenCL platforms found
+No GPU device with sufficient memory was found. Can't GPU mine. Remove the -G argument</pre>
+<p>Těžení na grafice je přibližně 10 - 50x výkonnější. Pokud se vám s tím nechce moc experimentovat, je zde také možnost koupit si na amazonu EC2 instanci s výkonnou grafikou, která funguje přibližně na 9MHash/s. Detaily instalace viz <a href="https://github.com/angelomilan/ethereum-guides/blob/master/GPU-cloud_mining.md">ETHEREUM CLOUD MINING FOR DUMMIES</a>. Den běhu / jeden <i>ether</i> v pool těžení vás tam podle mého experimentu vyjde na přibližně 14 dolarů.</p>
+
+
+<h1>Použití geth</h1>
+<p>Předpokládám, že jste si nainstalovali <tt>geth</tt>. Pokud jste dobrodruzi, tak jste možná i spustili příkaz <tt>geth console</tt> a byli zavaleni tunou neustále se updatujících hlášek. Co teď s tím?</p>
+
+
+<p>Otevřete si dva terminály. V prvním spusťte konzoli s přesměrováním:</p>
+
+<pre class="brush: bash">$ geth console 2&gt;geth.log
+instance: Geth/v1.0.1/linux/go1.4.2
+ datadir: /home/bystrousak/.ethereum
+coinbase: 0x797e99024a03481ad2a00ffe9c98fe145c817969
+at block: 76287 (2015-08-13 00:17:27)
+ modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1.0 txpool:1.0 web3:1.0
+&gt;</pre>
+
+<p>Ve druhém si pak můžete pustit synchronizační zprávy:</p>
+
+<pre class="brush: bash">tail -f geth.log</pre>
+
+<p>Pokud by se vám <tt>geth</tt> nechtěl synchronizovat a vyhazoval v synchronizačním logu spoustu hlášek jako „<tt>Synchronisation failed: block downloading canceled (requested)</tt>“ a tak, vypněte konzoli, spusťte <tt>geth upgradedb</tt>, počkejte než skončí a zase jí zapněte. Tohle se stává typicky po upgrade na novou verzi.</p>
+
+
+<p>Nyní jste tedy v konzoli. Dobré. Co s tím?</p>
+
+
+<h2>Stav účtu</h2>
+<p>Úplně nejzákladnější je příkaz na zjištění stavu účtu. Jedná se o JavaScriptovou konzoli, celý příkaz je tedy v JavaScriptu:</p>
+
+<pre class="brush: bash">&gt; web3.fromWei(eth.getBalance(eth.coinbase), &quot;ether&quot;)
+'18.27723449'</pre>
+<p>Jak můžete vidět, mám na účtu momentálně přesně <tt>18.27723449</tt> <i>etherů</i>, které jsem koupil za přibližně 500kč (0.07BTC) ve středu. <i>„Příkaz“</i> se skládá ze dvou funkcí a dvou konstant:</p>
+
+
+<p>Funkce <tt>web3.fromWei()</tt> konvertuje částku ve <i>wei</i> (nejnižší jednotka, 10<sup>-18</sup> <i>etheru</i>) na <i>ethery</i>, resp. na hodnotu zadanou string konstantou v druhém parametru (<tt>&quot;ether&quot;</tt> v tomhle případě). Pokud bych použil samotné <tt>eth.getBalance(eth.accounts[0])</tt>, dostal bych hodnotu <tt>18277234490000000000</tt>, což je kapku nepřehledné.</p>
+
+
+<p><tt>eth.coinbase</tt> je <i>by default</i> pointer na <tt>eth.accounts[0]</tt>.</p>
+
+
+<h2>Poslání etherů</h2>
+<p>Příjem je jednoduchý a stačí vám k němu pouze adresa. Jak na odeslání peněz?</p>
+
+<pre class="brush: js">&gt; eth.sendTransaction({from:eth.coinbase, to:&quot;0x685628357ea28e77263ea037e2fad6d34e59ab10&quot;, value: web3.toWei(0.05, &quot;ether&quot;)})</pre>
+<p>Jedná se o příkaz v konzoli, zde jsem ho pro přehlednost rozepsal:</p>
+
+<pre class="brush: js">eth.sendTransaction({
+    from:eth.coinbase,
+    to:&quot;0x685628357ea28e77263ea037e2fad6d34e59ab10&quot;,
+    value: web3.toWei(0.05, &quot;ether&quot;)
+})</pre>
+<p>Jak je možné vidět, k odesílání <i>etherů</i> slouží funkce <tt>eth.sendTransaction()</tt>, která očekává jako parametr slovník sestávající se z klíčů <tt>from</tt>, <tt>to</tt> a <tt>value</tt> (ve wei).</p>
+
+
+<p>Poté co funkci odešlete do konzole vás <tt>geth</tt> vyzve k zadání hesla, které jste nastavili v době generování adresy a vrátí jako návratovou hodnotu ID transakce:</p>
+
+<pre class="brush: js">Please unlock account 797e99024a03481ad2a00ffe9c98fe145c817969.
+Passphrase: 
+Account is now unlocked for this session.
+&quot;0x0129afe425d6eab2aef3e55834bac8e11ccffa35dc77feb1b87dd6d55b340cd6&quot;</pre>
+
+
+<p>
+<br />
+<a href="/images/screenshots/4/0/214304-ethereum-prakticky-687653390592301353.png"><img src="/images/screenshots/4/0/214304-ethereum-prakticky-2229286814333658995.png" /></a><br />
+(Na webu <a href="https://etherchain.org">https://etherchain.org</a> pak můžete vidět, že transakce <a href="https://etherchain.org/tx/0x0129afe425d6eab2aef3e55834bac8e11ccffa35dc77feb1b87dd6d55b340cd6">skutečně odešla</a>.)
+<br />
+<br />
+</p>
+
+
+<p>a na druhém počítači:</p>
+
+<pre class="brush: js">$ geth console 2&gt;geth.log 
+instance: Geth/v1.0.1/linux/go1.4.2
+ datadir: /home/bystrousak/.ethereum
+coinbase: 0x685628357ea28e77263ea037e2fad6d34e59ab10
+at block: 28709 (Mon, 03 Aug 2015 21:30:02 CEST)
+modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1.0 txpool:1.0 web3:1.0
+&gt; web3.fromWei(eth.getBalance(eth.coinbase), &quot;ether&quot;)
+0.05</pre>
+
+<h2>JavaScript API</h2>
+<p>Kompletní popis celého dostupného JavaScriptového API se dá najít opět na GitHubu: <a href="https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console#management-api-reference">Management API Reference</a>. Zde zmíním jen ty části, které mi přijdou nejdůležitější.</p>
+
+
+<h3>personal</h3>
+<p>Objekt <tt>personal</tt> vám umožňuje manipulovat s vaší peněženkou. Názvy jsou docela samopopisné:</p>
+
+
+<ul>
+    <li>personal.listAccounts</li>
+    <li>personal.newAccount()</li>
+    <li>personal.deleteAccount()</li>
+    <li>personal.unlockAccount()</li>
+</ul>
+
+<h3>miner</h3>
+<p>Jak už název napovídá, <tt>miner</tt> vám umožňuje kontrolovat <tt>geth</tt> miner zevnitř. <tt>geth</tt> ovšem neumí těžit v poolu, takže to není zas tak moc užitečné.</p>
+
+
+<ul>
+    <li>miner.start(threads)</li>
+    <li>miner.stop()</li>
+    <li>miner.hashrate</li>
+    <li>miner.setEtherbase()</li>
+    <li>miner.setGasPrice()</li>
+    <li>miner.makeDAG()</li>
+    <li>miner.setExtra()</li>
+    <li>miner.startAutoDAG()</li>
+    <li>miner.stopAutoDAG()</li>
+</ul>
+
+
+<p>Zajímavé jsou hlavně první tři, které vám umožňují spustit a zastavit miner a zjistit kolik váš procesor dává <i>hashrate</i> (v H/s). Pokud chcete těžit, potřebujete taky DAG, takže doporučuji zavolat <tt>miner.startAutoDAG()</tt>, nebo <tt>geth</tt>  spouštět s parametrem <tt>--autodag</tt>.</p>
+
+
+<p>Někomu také může přijít zajímavý parametr <tt>miner.setExtra(&quot;extra data&quot;)</tt>, který do každého vytěženého bloku přidá &quot;extra data&quot; jako podpis. Ty se pak zobrazují v různých přehledech bloků a tak, ale k ničemu praktickému to imho není.</p>
+
+
+<h3>web3</h3>
+<p><tt>web3</tt> zpřístupňuje všechno možné JavaScriptové API vhodné pro psaní a práci s kontrakty. Jsou tam desítky funkcí, kompletní přehled najdete zde: <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3-javascript-%C3%90app-api-reference">Web3 Javascript Ðapp API Reference</a>.</p>
+
+
+<h3>net</h3>
+<p><tt>net</tt> je zkratka pro <tt>web3.net</tt>, jenž vám umožňuje zjišťovat základní info o síti.</p>
+
+
+<ul>
+    <li>net.peerCount</li>
+    <li>net.listening</li>
+</ul>
+
+
+<p>První vrací počet připojených peerů (0 = nesynchronizujete se), druhý <tt>true</tt> v případě že jste připojeni.</p>
+
+
+<h3>eth</h3>
+<p><tt>eth</tt> je opět zkratka, tentokrát pro <tt>web3.eth</tt>. Jak je vidět, nachází se toho zde opravdu hodně:</p>
+
+<ul>
+    <li>eth.accounts</li>
+    <li>eth.blockNumber</li>
+    <li>eth.call()</li>
+    <li>eth.coinbase</li>
+    <li>eth.compile.lll()</li>
+    <li>eth.compile.serpent()</li>
+    <li>eth.compile.solidity()</li>
+    <li>eth.contract()</li>
+    <li>eth.defaultAccount</li>
+    <li>eth.defaultBlock</li>
+    <li>eth.estimateGas()</li>
+    <li>eth.filter()</li>
+    <li>eth.gasPrice</li>
+    <li>eth.getBalance(adresa)</li>
+    <li>eth.getBlock()</li>
+    <li>eth.getBlockTransactionCount()</li>
+    <li>eth.getBlockUncleCount()</li>
+    <li>eth.getCode()</li>
+    <li>eth.getCompilers()</li>
+    <li>eth.getStorageAt()</li>
+    <li>eth.getTransaction()</li>
+    <li>eth.getTransactionCount()</li>
+    <li>eth.getTransactionFromBlock()</li>
+    <li>eth.getTransactionReceipt()</li>
+    <li>eth.getUncle()</li>
+    <li>eth.hashrate</li>
+    <li>eth.mining</li>
+    <li>eth.namereg</li>
+    <li>eth.pendingTransactions</li>
+    <li>eth.resend()</li>
+    <li>eth.sendRawTransaction()</li>
+    <li>eth.sendTransaction()</li>
+    <li>eth.sign()</li>
+</ul>
+
+
+<p>Co vás bude pravděpodobně zajímat je:</p>
+
+
+<ul>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethcoinbase">eth.coinbase</a> -&gt; string, adresa vaší primární peněženky, kam jdou peníze když těžíte</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethmining">eth.mining</a> -&gt; true/false, podle toho jestli těžíte, nebo ne</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethhashrate">eth.hashrate</a> -&gt; int, vaše hashrate</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethaccounts">eth.accounts</a> -&gt; list, seznam vašich adres</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethblocknumber">eth.blockNumber</a> -&gt; int, číslo současného bloku</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethgetbalance">eth.getBalance(adresa)</a> -&gt; int, zůstatek na adrese ve <i>wei</i> (nejnižší jednotka, 10<sup>-18</sup> <i>etheru</i>).</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethsendtransaction">eth.sendTransaction()</a> -&gt; odesílání transakcí, již bylo vysvětleno v předchozím textu</li>
+    <li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethgetcompilers">eth.getCompilers()</a> -&gt; přehled dostupných kompilerů na kontrakty, <tt>[&quot;lll&quot;, &quot;solidity&quot;, &quot;serpent&quot;]</tt>, detaily viz minulý článek</li>
+    <li><a href="https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console#ethsign">eth.sign(signer_adresa, data)</a> -&gt; podpis dat</li>
+</ul>
+
+
+<h1>Kde a jak získat ethery</h1>
+<p>Nejjednodušší cesta je momentálně přes Bitcoin. Ti co jsou z Prahy, či ostatních měst kde se <a href="http://coinatmradar.com/country/57/bitcoin-atm-czech-republic/">nacházejí</a> bitcoinomaty (Plzeň, Brno a Ostrava) to mají lehké; stačí jim přijít k <a href="http://zpravy.e15.cz/byznys/finance-a-bankovnictvi/v-praze-zacal-fungovat-prvni-bankomat-s-bitcoiny-1088698">bitcoinomatu</a>, nakrmit ho penězi a získané Bitcoiny pak směnit na jedné z burz za Ethereum. Samotného mě překvapilo, jak moc jednoduché to je, zhruba na úrovni použití běžného bankomatu a tak si troufám tvrdit, že to zvládne opravdu každý.</p>
+
+
+<p>Pokud bitcoiny, či bitcoinomat poblíž nemáte, můžete se poohlédnout po burze, která bude brát třeba převody z karty, z účtu na účet, či pomocí paypalu. Zde se již nemusíte omezovat na Bitcoin, ale můžete takhle zkusit koupit rovnou <i>ether</i>.</p>
+
+
+<p>Jestliže by se vám nechtělo ani do tohohle, pořád ještě máte možnost si nějaké ty <i>ethery</i> poctivě vytěžit, pokud tedy máte vhodný hardware.</p>
+
+
+<h2>Burzy</h2>
+<p>Burz momentálně existuje několik a dá se říct, že jen přibývají. Kompletní přehled najdete zde: <a href="https://www.cryptocompare.com/coins/eth/#/overview">https://www.cryptocompare.com/coins/eth/</a>. Zde je malý přehled burz fungujících ke dni vydání článku:</p>
+
+
+<ul>
+    <li><a href="https://poloniex.com/">https://poloniex.com/</a></li>
+    <li><a href="https://www.kraken.com/">https://www.kraken.com/</a></li>
+    <li><a href="https://gatecoin.com/">https://gatecoin.com/</a></li>
+    <li><a href="https://www.cryptsy.com/">https://www.cryptsy.com/</a></li>
+    <li><a href="https://bittrex.com/">https://bittrex.com/</a></li>
+</ul>
+
+
+<p>Na všech se musíte zaregistrovat a často poněkud složitě ověřit svojí totožnost, než vás burza pustí k obchodování. Výhoda je, že jak máte jednou ověřenou totožnost, není problém dělat například bankovní transakce, či nakupovat za paypal.</p>
+
+
+<p>Můj oblíbenec je potom <a href="https://shapeshift.io/">https://shapeshift.io/</a>, což je cosi jako transformátor kryptoměn. Vyberete z čeho do čeho a bez registrace odešlete na zobrazenou adresu vaší kryptoměnu, přičemž vám skoro hned přijde kryptoměna do které transformujete (samozřejmě mínus poplatky za převod). Kupoval jsem takhle dvakrát <i>ether</i> pro ostatní lidi a funguje to krásně.</p>
+
+
+<p>Bohužel, spousta lidí neprojde testem inteligence ohledně toho kam napsat jakou adresu, zde je tedy vysvětlující screenshot, který jsem dělal pro kamaráda:</p>
+
+
+<p>
+<br />
+<a href="/images/screenshots/4/0/214304-ethereum-prakticky-5247547678434510458.png"><img src="/images/screenshots/4/0/214304-ethereum-prakticky-1775136535739146230.png" /></a><br />
+(Na vyplnění opravdu není nic těžkého.)
+<br />
+<br />
+</p>
+
+
+<p>Zrada je v tom, že tam musíte dát i svojí bitcoinovou adresu pro případ, že by došlo k chybě v transakci, aby vám mohli peníze vrátit.</p>
+
+
+<h2>Těžení</h2>
+<p><a href="https://github.com/ethereum/go-ethereum/wiki/Mining">Těžení</a> se dá rozdělit na CPU, GPU a poolované. Co to znamená?</p>
+
+
+<p>Pomocí standardně dodávaného programu <tt>geth</tt> máte možnost těžit přímo ve spolupráci se sítí. To znamená, že nějakou dobu těžíte třeba pomocí procesoru, pak konečně vytěžíte blok (síť uzná váš výkon a odmění vás za jeho pálení pro ní) a dostanete 5 <i>etherů</i>. I když je <a href="https://blog.ethereum.org/2014/07/11/toward-a-12-second-block-time/"><i>block-time</i></a> je v Ethereu 12-20 vteřin a tedy máte podstatně větší šanci blok vytěžit, než třeba v Bitcoinu, přeci jen pomocí procesoru by to trvalo řádově desítky, až stovky dní.</p>
+
+
+<p>Těžení na grafice je jiná, zde již máte praktickou šanci narazit na blok v řádu dnů. Pořád to ale vypadá stylem, že pustíte miner, ten běží a nic moc viditelného nedělá a po nějaké nespecifikované době možná vytěžíte blok. Čím méně máte výkonu, tím je doba delší, či pravděpodobnost nižší.</p>
+
+
+<p>Netrpěliví lidé s nic moc hardwarem jako já tedy těží v poolech, kde se na těžení jednoho bloku skládá velký počet těžařů. Momentálně jediným mě známým poolem je <a href="http://ethpool.org/">http://ethpool.org/</a>. Ten funguje bez registrace. <tt>ethminer</tt> nakrmíte URL, jejíž součástí je adresa vaší peněženky, vyberete <i>difficulty</i> podle vašeho hardware a můžete začít (viz příkaz výše v sekci <tt>ethminer</tt>).</p>
+
+
+<p>Pak se již můžete posadit do křesla, dát si nohy na stůl a sledovat, jak vám naskakují <i>ethery</i>, což vypadá třeba takto:</p>
+
+
+<p>• <a href="http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969">http://ethpool.org/balance/797e99024a03481ad2a00ffe9c98fe145c817969</a></p>
+
+
+<p>Jakmile dosáhnete jednoho <i>etheru</i>, pool by vám ho měl odeslat na uvedenou adresu.</p>
+
+
+<h1>Smart contracts</h1>
+<p>Vzhledem k tomu, že síť byla spuštěna ve <i>Frontier</i> režimu teprve před dvěma týdny (do té doby bylo relativně těžké získat <i>ether</i> k pokusům) a týden z toho jsem měl dovolenou mimo internet, nenašel jsem si zatím moc času na to si <i>kontrakty</i> zkusit programovat.</p>
+
+
+<p>V budoucnu bych to rád napravil a napsal pár článků na tohle téma, zatím se ale pojďme podívat alespoň na <i>hello world</i> příklad uvedený na stránce Etherea jako <a href="https://www.ethereum.org/greeter">greeter</a>.</p>
+
+
+<p>Jelikož je <i>greeter</i> napsaný v jazyku <a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial"><i>Solidity</i></a>, bude se prvně hodit kompiler. Na Ubuntu je dostupný v již přidaném PPA pod jménem <tt>solc</tt>, nainstalovat ho tedy můžete pomocí „sudo aptitude install solc“.</p>
+
+
+<p>V konzoli potom můžete ověřit že je dostupný pomocí:</p>
+
+<pre class="brush: js">&gt; eth.getCompilers()
+[&quot;Solidity&quot;]</pre>
+
+<p>Nyní k samotnému greeteru:</p>
+
+<pre class="brush: js">contract mortal {
+    /* Define variable owner of the type address*/
+    address owner;
+
+    /* this function is executed at initialization and sets the owner of the contract */
+    function mortal() { owner = msg.sender; }
+
+    /* Function to recover the funds on the contract */
+    function kill() { if (msg.sender == owner) suicide(owner); }
+}
+
+contract greeter is mortal {
+    /* define variable greeting of the type string */
+    string greeting;
+
+    /* this runs when the contract is executed */
+    function greeter(string _greeting) public {
+        greeting = _greeting;
+    }
+
+    /* main function */
+    function greet() constant returns (string) {
+        return greeting;
+    }
+}</pre>
+
+<p>Jak můžete vidět, jsou zde definovány dva kontrakty - <tt>mortal</tt> (smrtelník) a <tt>greeter</tt>, který od smrtelníka dědí vlastnosti.</p>
+
+
+<p><tt>mortal</tt> v podstatě jen definuje základní věci, které by každý kontrakt měl umět, tedy znát svého vlastníka a umět sám sebe zabít, pokud mu to vlastník přikáže.</p>
+
+
+<p><tt>greeter</tt> pak definuje konstruktor, který dynamicky do objektu uloží pozdrav a pak ho vrátí, pokud je zavolána metoda <tt>greet()</tt>.</p>
+
+
+<p>Z ukázky je možné vidět, že <i>Solidity</i> je divná sprsklotina C-like jazyka a <tt>go</tt> s poněkud divnou syntaxí definování metod. Nevím, co vedlo tvůrce zrovna k tomuhle, ale osobně se mi to moc nelíbí, příště se tedy podívám na <a href="https://github.com/ethereum/cpp-ethereum/wiki/LLL-PoC-6">lll</a> a <a href="https://github.com/ethereum/wiki/wiki/Serpent">serpent</a>.</p>
+
+
+<p>Pokud by někoho <i>Solidity</i> zaujalo, zde jsou další zdroje:</p>
+
+
+<p>• <a href="https://github.com/ethereum/wiki/wiki/Solidity-Tutorial">https://github.com/ethereum/wiki/wiki/Solidity-Tutorial</a><br />
+• <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format">https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format</a><br />
+• <a href="http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html">http://ethereumbuilders.gitbooks.io/guide/content/en/solidity_features.html</a><br />
+• <a href="http://ether.fund/contracts/solidity">http://ether.fund/contracts/solidity</a></p>
+
+
+<h3>Kompilace</h3>
+<p>Výše uvedený zdrojový kód v je nyní třeba zkompilovat, pomocí <tt>solc</tt>. Ten je přístupný přímo z <tt>geth console</tt>. Bohužel v současnosti <a href="https://forum.ethereum.org/discussion/2160/hi-is-there-any-way-to-load-a-text-file-in-the-geth-console">není možné</a> načítat scripty nějak rozumně z disku, musíme vše tedy do konzole vložit manuálně (je vidět, že počítají hlavně s RPC API, kde tohle nevadí):</p>
+
+<pre class="brush: js">var greeterSource = 'contract mortal { address owner; function mortal() { owner = msg.sender; } function kill() { if (msg.sender == owner) suicide(owner); } } contract greeter is mortal { string greeting; function greeter(string _greeting) public { greeting = _greeting; } function greet() constant returns (string) { return greeting; } }'
+</pre>
+
+<p>Kompilace se pak volá funkcí <tt>web3.eth.compile.solidity(source):</tt></p>
+
+<pre class="brush: js">var greeterCompiled = web3.eth.compile.solidity(greeterSource)</pre>
+
+<p>Tím získáme strukturu popisující zkompilovaný kód:</p>
+
+<pre class="brush: js">&gt; greeterCompiled
+{
+  greeter: {
+    code: &quot;0x60606040526040516102b43803806102b48339016040526060805160600190602001505b5b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b806001600050908051906020019082805482825590600052602060002090601f01602090048101928215609e579182015b82811115609d5782518260005055916020019190600101906081565b5b50905060c5919060a9565b8082111560c1576000818150600090555060010160a9565b5090565b50505b506101dc806100d86000396000f30060606040526000357c01000000000000000000000000000000000000000000000000000000009004806341c0e1b514610044578063cfae32171461005157610042565b005b61004f6004506100ca565b005b61005c60045061015e565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156100bc5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561015b57600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b5b565b60206040519081016040528060008152602001506001600050805480601f016020809104026020016040519081016040528092919081815260200182805480156101cd57820191906000526020600020905b8154815290600101906020018083116101b057829003601f168201915b505050505090506101d9565b9056&quot;,
+    info: {
+      abiDefinition: [{...}, {...}, {...}],
+      compilerVersion: &quot;0.1.1&quot;,
+      developerDoc: {
+        methods: {}
+      },
+      language: &quot;Solidity&quot;,
+      languageVersion: &quot;0&quot;,
+      source: &quot;contract mortal { address owner; function mortal() { owner = msg.sender; } function kill() { if (msg.sender == owner) suicide(owner); } } contract greeter is mortal { string greeting; function greeter(string _greeting) public { greeting = _greeting; } function greet() constant returns (string) { return greeting; } }&quot;,
+      userDoc: {
+        methods: {}
+      }
+    }
+  },
+  mortal: {
+    code: &quot;0x60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b60d58061003f6000396000f30060606040526000357c01000000000000000000000000000000000000000000000000000000009004806341c0e1b5146037576035565b005b60406004506042565b005b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141560d257600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b5b56&quot;,
+    info: {
+      abiDefinition: [{...}, {...}],
+      compilerVersion: &quot;0.1.1&quot;,
+      developerDoc: {
+        methods: {}
+      },
+      language: &quot;Solidity&quot;,
+      languageVersion: &quot;0&quot;,
+      source: &quot;contract mortal { address owner; function mortal() { owner = msg.sender; } function kill() { if (msg.sender == owner) suicide(owner); } } contract greeter is mortal { string greeting; function greeter(string _greeting) public { greeting = _greeting; } function greet() constant returns (string) { return greeting; } }&quot;,
+      userDoc: {
+        methods: {}
+      }
+    }
+  }
+}
+</pre>
+
+<p>Pozor, nejedná se o instanci objektu, jen o zkompilovaný kód!</p>
+
+
+<h3>Nahrání do sítě</h3>
+
+<p>Instanci vytvoříme nahráním <tt>greeter</tt>u do sítě:</p>
+
+<pre class="brush: js">var _greeting = &quot;Linuxákům zdar!&quot;
+var greeterContract = web3.eth.contract(greeterCompiled.greeter.info.abiDefinition);
+
+var greeter = greeterContract.new(_greeting,{from:web3.eth.accounts[0], data: greeterCompiled.greeter.code, gas: 1000000}, function(e, contract){
+    if(!e) {
+
+      if(!contract.address) {
+        console.log(&quot;Contract transaction send: TransactionHash: &quot; + contract.transactionHash + &quot; waiting to be mined...&quot;);
+
+      } else {
+        console.log(&quot;Contract mined! Address: &quot; + contract.address);
+        console.log(contract);
+      }
+
+    }
+})</pre>
+
+<p><tt>geth</tt> nás samozřejmě opět vyzve k zadání hesla (při nahrání kontraktu musíme poslat i gas který bude spalovat):</p>
+
+<pre class="brush: js">Please unlock account 797e99024a03481ad2a00ffe9c98fe145c817969.
+Passphrase: 
+Account is now unlocked for this session.
+Contract transaction send: TransactionHash: 0x91d6caefcadf4b071b6f0e6f6811182e053a8cbdcd830bd833e0e1aa4d2d2662 waiting to be mined...
+undefined</pre>
+
+<p>Na etherchainu se opět můžeme podívat, jak transakce vypadá: <a href="https://etherchain.org/tx/0x91d6caefcadf4b071b6f0e6f6811182e053a8cbdcd830bd833e0e1aa4d2d2662">https://etherchain.org/tx/0x91d6caefcadf4b071b6f0e6f6811182e053a8cbdcd830bd833e0e1aa4d2d2662</a>. Všimněte si, že <i>payload</i> odpovídá sekci <tt>code:</tt> ze struktury získané kompilátorem.</p>
+
+
+<p>Po chvíli se v konzoli objeví:</p>
+
+<pre class="brush: js">&gt; Contract mined! Address: 0x4113caa93a1b90a0659314052305fbe94d2b3d8b
+[object Object]</pre>
+
+<h3>Volání kontraktu</h3>
+<p>Na lokálním stroji to máme jednoduché, stačí prostě zavolat objekt greeteru, který vznikl po nahrání do sítě:</p>
+
+<pre class="brush: js">&gt; greeter
+{
+  address: &quot;0x4113caa93a1b90a0659314052305fbe94d2b3d8b&quot;,
+  transactionHash: &quot;0x91d6caefcadf4b071b6f0e6f6811182e053a8cbdcd830bd833e0e1aa4d2d2662&quot;,
+  allEvents: function(),
+  greet: function(),
+  kill: function()
+}
+</pre>
+<p>Povšimněte si klíče <tt>address:</tt>, který objeví poslední hlášce o kontraktu z předchozí kapitoly. Nyní již tedy k volání konkrétní metody:</p>
+
+<pre class="brush: js">&gt; greeter.greet()
+&quot;Linuxákům zdar!&quot;</pre>
+
+<p>Jednoduché, že? Jak na to ale z jiného počítače? K tomu budeme potřebovat definici ABI a již zmiňovanou adresu:</p>
+
+<pre class="brush: js">&gt; greeterCompiled.greeter.info.abiDefinition;
+[{
+    constant: false,
+    inputs: [],
+    name: &quot;kill&quot;,
+    outputs: [],
+    type: &quot;function&quot;
+  }, {
+    constant: true,
+    inputs: [],
+    name: &quot;greet&quot;,
+    outputs: [{
+        name: &quot;&quot;,
+        type: &quot;string&quot;
+      }],
+    type: &quot;function&quot;
+  }, {
+    inputs: [{
+        name: &quot;_greeting&quot;,
+        type: &quot;string&quot;
+      }],
+    type: &quot;constructor&quot;
+  }]
+&gt; greeter.address;
+&quot;0x4113caa93a1b90a0659314052305fbe94d2b3d8b&quot;</pre>
+
+<p>Na druhém počítači pak stačí zavolat metodu <tt>eth.contract(ABI).at(Address);</tt></p>
+
+<pre class="brush: js">bystrousak:~,0$ geth console 2&gt;geth.log 
+instance: Geth/v1.0.1/linux/go1.4.2
+ datadir: /home/bystrousak/.ethereum
+coinbase: 0x685628357ea28e77263ea037e2fad6d34e59ab10
+at block: 90392 (Sat, 15 Aug 2015 13:45:33 CEST)
+modules: admin:1.0 db:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 shh:1.0 txpool:1.0 web3:1.0
+&gt; var greeter_remote = eth.contract([{constant:false,inputs:[],name:'kill',outputs:[],type:'function'},{constant:true,inputs:[],name:'greet',outputs:[{name:'',type:'string'}],type:'function'},{inputs:[{name:'_greeting',type:'string'}],type:'constructor'}]).at('0x4113caa93a1b90a0659314052305fbe94d2b3d8b');</pre>
+
+<p>čímž vznikne objekt, který můžeme volat stejně jako v předchozím příkladě:</p>
+
+<pre class="brush: js">&gt; greeter_remote.greet()
+&quot;Linuxákům zdar!&quot;</pre>
+<p>Zajímavá je rychlost vykonání, která je prakticky okamžitá.</p>
+
+
+<h3>Zabití kontraktu</h3>
+<p>Pokud se vám <i>kontrakt</i> přestane líbit, máte vždy možnost ho zabít. Učinit tak lze zasláním <tt>kill</tt> zprávy (menší transakční cena):</p>
+
+<pre class="brush: js">greeter.kill.sendTransaction({from:eth.accounts[0]})</pre>
+<p>Pokud si ještě vzpomínáte na kód objektu <tt>mortal</tt>, je vám asi jasné, jak to funguje:</p>
+
+<pre class="brush: js">contract mortal {
+    address owner;
+
+    function mortal() { owner = msg.sender; }
+
+    function kill() { if (msg.sender == owner) suicide(owner); }
+}</pre>
+
+<p><i>Kontrakt</i> prvně ověří, že jste skutečně jeho tvůrce a pak spáchá sebevraždu, přičemž vám odešle veškerou zbylou hotovost, kterou má na účtě.</p>
+
+
+<p>Osobně jsem <i>kontrakt</i> zatím nezabil, aby jste si mohli vyzkoušet mu zaslat zprávu. Vhodné ovšem je <i>kontrakty</i> po sobě čistit, jakmile s nimi přestanete experimentovat, aby síť nebyla zbytečně zahlcená trivialitami.</p>
+
+
+<p>Autoři do budoucna uvažují, že kontrakty budou muset platit pronájem i za existenci z bloku do bloku, aby se předešlo přeplnění. Zatím je to však poměrně zbytečné, uvážíme-li velikost běžného kontraktu (&lt;1kB) a že stejně už při vytvoření musí platit za místo, které v síti zabírá. Když k tomu připočítáme, kolik výkonu se zbytečně pálí v <i>Proof of Work</i> algoritmu, podle mého názoru zatím není třeba se moc znervózňovat nesmrtelnými kontrakty.</p>
+
+
+<h1>Zajímavé projekty</h1>
+<p>Teď už víte, co je Ethereum, co jsou to <i>chytré kontrakty</i>, jak se dají použít a programovat. Jak plyne z mé zkušenosti, i když to někomu detailně vysvětlím, neznamená to, že skutečně <i>pochopí</i> celý potenciál, který to nabízí. Pojďme se tedy nyní podívat na několik zajímavých projektů, které nějakým způsobem používají Ethereum.</p>
+
+
+<h2>ADEPT od IBM/Samsungu</h2>
+<p>Zatímco většina se soustředí převážně na <i>kontrakty</i>, v IBM si řekli, jak moc je asi tak Ethereum použitelné jako decentralizovaná platforma pro Internet of Things. Ukázalo se, že docela hodně, díky nízkým datovým tokům, které umožňuje mít velmi tenké klienty. Provozovatel tím získává decentralizovanou komunikační platformu, po které si spolu můžou povídat nejrůznější senzory.</p>
+
+
+<p>• <a href="https://www.theprotocol.tv/adept-demo-ibm-samsung/">https://www.theprotocol.tv/adept-demo-ibm-samsung/</a><br />
+• <a href="https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/">https://rywalk.wordpress.com/2015/01/27/ethereum-ibm-adept-and-the-internet-of-things-iot/</a><br />
+• <a href="http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/">http://dailyfintech.com/2014/09/22/the-crazy-brilliant-ibm-adept-fork-of-ethereum/</a></p>
+
+
+<h2>Augur</h2>
+<p>Augur je decentralizovaná burza crowdsourcovaných analýz, odhadů a predikcí. Něco jako když se dělají ankety, akorát bez společnosti, co by ty ankety dělala a mohla falšovat.</p>
+
+
+<p>• <a href="http://www.augur.net/">http://www.augur.net/</a></p>
+
+
+<h2>BoardRoom</h2>
+<p>BoardRoom vypadá jako podnikový systém, přes který je možné provádět veškeré činnosti nutné k řízení a organizaci firmy. Zahrnuje různé pluginy pro zasedání, hlasování, komise, šifrovanou komunikaci a tak podobně.</p>
+
+
+<p>• <a href="http://boardroom.to/">http://boardroom.to/</a></p>
+
+
+<h2>airlock</h2>
+<p>Airlock představuje správu klíčů a přístupů k zámkům. Zámky mohou být otevřené pro všechny, pro držitele klíčů, časově, či pouze pro jedno použití.</p>
+
+
+<p>• <a href="http://airlock.me/">http://airlock.me/</a></p>
+
+
+<h2>slock.it</h2>
+<p>Sdílení přístupů k čemukoliv zamykatelnému, od praček po domy. Pokud to dokážete zamknout, oni se postarají o pronájem.</p>
+
+
+<p>• <a href="http://slock.it/">http://slock.it/</a></p>
+
+
+<h2>Maker</h2>
+<p>DAO starající se o půjčky. K čemu banky, když můžete svěřit své finance nemyslícím korporacím? :)</p>
+
+
+<p>• <a href="http://makerdao.com/">http://makerdao.com/</a></p>
+
+
+<h2>WeiFund</h2>
+<p>Decentralizovaný crowdsourcing. Představte si něco jako kickstarter, akorát bez lidí a bez cenzury. Uživatelé hlasují penězi, pokud projekty nevyjdou, jsou jim vráceny.</p>
+
+
+<p>• <a href="http://weifund.io/">http://weifund.io/</a></p>
+
+
+<h2>Váš projekt</h2>
+<p>Ethereum není jen výpočetní síť, je to také komunikační platforma, databáze a měna. Všechno důležité integrované do jednoho systému.</p>
+
+
+<p>Na tomhle místě se příště může nacházet i váš projekt. Víte co je to Ethereum, víte jak ho použít, tak na co čekáte? Ti kdo přijdou první s originálními myšlenkami, v nově vznikajícím světě chytrých kontraktů, mají ty největší šance zbohatnout a přetvořit svět.</p>
+
+
+<h1>Cena a dohady</h1>
+<p>Ethereum je momentálně číslo čtyři na <a href="http://coinmarketcap.com/">http://coinmarketcap.com/</a>, s finančními toky v řádu pěti milionů dolarů za den. To není špatné, uvážíme-li že existuje teprve něco přes dva týdny. Během tohoto týdne jsem viděl, jak se z jednoho dolaru zvedlo na 2.22, načež zase pokleslo na 1.58.</p>
+
+
+<p>Jak je vidět, jedná se o ideální měnu pro spekulace. Vzhledem k tomu, že se momentálně nachází ve veřejné betaverzi a nejsou k dispozici žádné nástroje, dá se očekávat, že až opadne počáteční hype, cena ještě klesne a bude docházet k velkým fluktuacím. </p>
+
+
+<p>Pokud věříte technologii Etherea a nezpanikaříte, až uvidíte jak kolísá, doporučuji nakoupit a trochu si přivydělat prodejem ve správnou chvíli.</p>
+
+
+<p>Osobně už mám nějaké ty <i>ethery</i> nakoupené, teď ještě počkám až klesne cena zpět k / pod jeden dolar a nakoupím ještě za takových 5 tisíc kč. Až přijde na řadu Homestead verze s grafickými nástroji, dá se očekávat, že cena zase raketově poletí nahoru, jak se do hry budou snažit dostat uživatelé, kteří Ethereum dosud ignorovali.</p>
+
+
+<h1>Informační zdroje</h1>
+<p>Pokud chcete být naprosto na špičce všech událostí kolem Etherea, doporučuji jednoznačně reddit kanál <a href="https://www.reddit.com/r/ethereum">/r/ethereum</a> (<a href="https://www.reddit.com/r/ethereum/.rss">RSS</a>). Zde se objevují veškeré novinky, články, návody a drby, které si jen můžete přát. Nevýhodou je trochu větší datový tok, který činní momentálně zhruba 150 nových témat denně.</p>
+
+
+<p>Kdyby se vám nechtělo číst tak silné datové toky, je zde fórum: <a href="https://forum.ethereum.org/">https://forum.ethereum.org/</a> a naprostou nutností je pak oficiální blog, kde se objevují všechna důležitá oznámení: <a href="https://blog.ethereum.org/">https://blog.ethereum.org/</a> (<a href="https://blog.ethereum.org/feed/">RSS</a>).</p>
+
+
+<p>Pro ty kdo chtějí více uživatelských a praktických informací zde mám dvě vznikající e-knihy, jenž vás obeznámí z koncepty, ale i s konkrétními programy a jazyky, které je možné použít k psaní kontraktů:</p>
+
+
+<ul>
+    <li><a href="http://ethereum.gitbooks.io/frontier-guide/content/">http://ethereum.gitbooks.io</a></li>
+    <li><a href="http://ethereumbuilders.gitbooks.io/guide/content/en/index.html">http://ethereumbuilders.gitbooks.io</a></li>
+</ul>
+
+
+<p>Prakticky zaměřeným uživatelům se určitě bude líbit přehled všech transakcí, s možností zkoumat kdo má co na účtě a co kde běží za kontrakty:</p>
+
+
+<ul>
+    <li><a href="https://stats.ethdev.com/">https://stats.ethdev.com/</a></li>
+</ul>
+
+
+<p>Vizuálně zaměřeným pak zase statistiky sítě a přehledy právě vytěžených bloků:</p>
+
+
+<ul>
+    <li><a href="https://etherchain.org">https://etherchain.org</a></li>
+</ul>
+
+
+<p>
+<br />
+<a href="/images/screenshots/4/0/214304-ethereum-prakticky-8275814383656431979.png"><img src="/images/screenshots/4/0/214304-ethereum-prakticky-7809196511925573214.png" /></a><br />
+</p>
+
+
+<h1>Poznámky</h1>
+<p>[1] Viz:</p>
+
+
+<blockquote>Many of the planned Frontier gotchas (which included a chain reset at Homestead, limiting mining rewards to 10%, and centralized checkpointing) were deemed unnecessary.</blockquote>
+
+
+<p>— <a href="https://blog.ethereum.org/2015/07/22/frontier-is-coming-what-to-expect-and-how-to-prepare/">Frontier is coming – what to expect, and how to prepare</a></p>
+
+
+<p>[2] <a href="https://www.reddit.com/r/ethereum/comments/3d53f9/stephan_tuals_explanation_of_the_mining_rewards/ct1z7qg">https://www.reddit.com/r/ethereum/comments/3d53f9/stephan_tuals_explanation_of_the_mining_rewards/ct1z7qg</a>. Ursium je jeden z core developerů.</p>
+
+
+<h1>Shameless self-bump</h1>
+<p>Tento článek mě podle mého <a href="https://github.com/Bystroushaak/Timetracker">timetrackeru</a> stál přibližně deset hodin čistého času. Nejenom to; jedná se dokonce o již druhý článek na téma Ethereum, který mě stál desítky hodin času strávených výzkumy a psaním. Aby toho nebylo málo, sdělil jsem vám v ucelené a čitelné formě spoustu <i>knowhow</i>, které jinak stojí desítky a stovky hodin získávání, čtení, studování a zkoušení. V případě prvního článku dokonce s ročním předstihem. Nyní jste na podobné úrovni jako já - můžete Ethereum začít používat, těžit, nakupovat, prodávat, spekulovat a programovat.</p>
+
+
+<p>Proč to dělám?</p>
+
+
+<p>Přemýšlel jsem nad tím a odpověď je <i>„protože můžu“</i>. Nenašel jsem žádný důvod a tak to dělám bezdůvodně.</p>
+
+
+<p>Pokud si to můžete dovolit a chcete, vpravo nahoře jsou adresy mnou přijímaných kryptoměn, kam mi můžete poslat nějaké drobné, či na ně nastavit miner a věnovat mi trochu vašeho výpočetního výkonu.</p>
+
+<p>Nepotřebuji to fyzicky; momentálně jsem zabezpečený, ale potěší mě to psychicky. Ukazuje mi to, že máte o mé články zájem a že se líbily. V neposlední řadě mi to také dává prostředky, které investuji do dalších nových kryptoměn, projektů a různých sofistikovaných kryptoanarchistických technologií, o které se pak zajímám a o kterých píšu články. Výhodné je to tedy oboustranně.</p>
+
+
+<!--
+    Written in fucking CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
