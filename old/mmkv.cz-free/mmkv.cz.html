@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>mmkv.cz-free</title>
+    <meta name="generator" content="CherryTree">
+  </head>
+  <body>
+    <p>Pokud někdy zavítáte do Karlových Varů, pravděpodobně zjistíte, že <a href="http://vary.idnes.cz/v-karlovych-varech-budou-mit-vsichni-lide-wi-fi-zdarma-pf0-/Vary-zpravy.aspx?c=A101013_143145_vary-zpravy_sou">město platí</a> vlastní wifi síť, do které se může kdokoliv zdarma připojit. Z nepochopitelného důvodu je však doba připojení omezena na 30m, po jejímž uplynutí vám síť utne všechny probíhající spojení a musíte se opět přihlásit pomocí naprosto trapného webloginu. Štvalo mě to, tak jsem vytvořil krátký program v D, který to dělá za vás.</p>
+
+<!-- break -->
+
+    <h2>Jak to funguje</h2>
+    <p>Stará Role, kde se teď pohybuji je docela dobře pokryta. Projevuje se to AccessPointy s názvem <strong>mmkv.cz-X-free</strong>, kde X je číslo.</p>
+
+    <p>Jakmile se na AP připojíte, všechny vaše HTTP požadavky jsou znásilněny a přesměrovány na stránku, kde se musíte pro pokračování zalogovat. To probíhá tak, že myší přejíždíte nad prázdnými čtverečky tak dlouho, dokud netrefíte ten s logem města, které je i v záhlaví. Jakmile se vám to povede, jste přesměrováni skoro tam kam jste chtěli, s tím že někdy jsou zahozeny všechny GET požadavky (stává se mi to když jdu na google z firefoxího vyhledávání, hodí mě to na mainpage místo výsledků).</p>
+
+    <p>[mmkv_login.png]</p>
+
+    <p>Jak už je napsáno na přihlašovací stránce, můžete využívat porty 80 a 443. Firewall není moc chytrý, takže sleduje skutečně jen čísla portů, pokud si přez to natáhnete TOR, nebo SSH, je mu to jedno.</p>
+
+    <p>Připojení můžete využívat po 30m, poté je utnuto ze strany routeru naprosto nemilosrdně. Dá se to obejít, pokud se odhlásíte a přihlásíte sami, potom se spojení nemusí přerušit, ale ne vždy to stihnete.</p>
+
+    <p>Pokud se manuálně odlogujete na adrese <code>http://ip_routeru/logout</code>, vyskočí na vás takováto tabulka:</p>
+
+    <p>[mmkv_login_status.png]</p>
+
+    <p>Jakmile se zalogujete pomocí tlačítka pod tabulkou (opět přes výběr loga), jste přesměrováni na <code>http://ip_routeru/status</code>, kde se vám zobrazí toto:</p>
+
+    <p>[mmkv_logout_status.png]</p>
+
+    <p>Povšimněte si username <strong>full</strong>, ještě se o něm zmíním.</p>
+
+    <h2>"Login"</h2>
+    <p>Login, pokud tomu tedy tak lze říkat, je fakt nepochopitelná kravina. Po kliknutí na tlačítko s logem města se aktivuje následující funkce v javascriptu:</p>
+
+<pre>function doLogin() {
+	document.sendin.username.value = document.login.username.value;
+	document.sendin.password.value = hexMD5('\130' + document.login.password.value + '\135\137\034\202\372\303\227\333\044\341\132\370\132\326\042\116');
+	document.sendin.submit();
+	return false;
+}</pre>
+
+    <p>Položky <code>document.login.username.value</code> a <code>document.login.password.value</code> jsou přitom po načtení stránky dalším JavaScriptem předvyplněny na slavný string "<strong>full</strong>". Salt ve funkci <code>hexMD5</code> v podobě oktetů je vkládán náhodně (pokaždé jinak), nebo na základě nějakého klíče, který jsem nepochopil.</p>
+
+    <p>Form <code>sendin</code> má tento tvar:</p>
+
+<pre>&lt;form name="sendin" action="http://ip_routeru/login" method="post"&gt;
+	&lt;input type="hidden" name="username" /&gt;
+	&lt;input type="hidden" name="password" /&gt;
+	&lt;input type="hidden" name="dst" value="http://presmerovavany_link.tld/params" /&gt;
+	&lt;input type="hidden" name="popup" value="true" /&gt;
+&lt;/form&gt;</pre>
+
+    <h2>Demence</h2>
+    <p>Teď k pravému důvodu, proč tohle všechno píšu. Analýzou návrhu, jsem odhalil, že systém vytvořili schopní technici, kteří však ve svém kruhu mají nějakého dementa (možná šéfa). Celý výše uvedený systém totiž působí dementně a nepochopitelně. To neříkám proto, abych si zanadával, ale proto že to skutečně je nepochopitelně zkryplený systém.</p>
+
+    <p>Proč jsou povoleny jen porty 80 a 443? To nikdy neslyšeli o lidech kteří by chtěli používat ICQ, Jabber, SSH či EMAIL? Mě to takový problém nedělá, dokážu se tunelovat dle chuti, ale co ostatní?</p>
+
+    <p>Proč je proboha maximální doba připojení 30m? To má být nějaká ochrana proti nadměrnému stahování? Slyšeli už někdy o "wget -c"? Proč potom není omezené maximální množství dat, které člověk může přenést?</p>
+
+    <p>Proč ten naprosto směšný, nesmyslný a dementní login? Každý kdo dokáže pochopit jak funguje mi jistě dá za pravdu, že je tam úplně k ničemu. Ten login neslouží k tomu k čemu login běžně slouží, tedy k identifikaci uživatele. Jméno i heslo jsou vždy "<strong>full</strong>", uživatel to dokonce nemá ani možnost jednoduše změnit. Kdyby ten login byl mechanická věc, jednalo by se o jasné kurvítko a zesložiťovátko, takhle je to jen nepochopitelná blbost.</p>
+
+    <p>Proč vůbec nějaký login? To si vážně myslí že někoho baví se logovat? Jaký to má smysl? Jediné co mě napadá je buzerace. Prostě chtěli aby si lidé byli vědomi, komu vděčí za ten požitek internetu zdarma. Taky se vám to zdá dětinské?</p>
+
+    <h2>Je to smrtelné pane doktore?</h2>
+    <p>Mám pro vás dobrou zprávu, na tenhle druh demence existuje lék.</p>
+
+    <p>Napsal jsem program v D (mohl jsem to napsat i v pythonu, ale v rámci propagace D..) který vás po spuštění automaticky zaloguje a co víc, dokud běží, tak vás každých 10m (zkoušel jsem 25, ale to se neosvědčilo) automaticky odloguje a zase zaloguje, aby nedošlo k přerušení spojení.</p>
+
+    <p>Nefunguje to 100%, protože některá spojení spadnou, jiná běží. U webu to poznáte na downloadu, který se přeruší (resp. je prohlášen za hotový), SSH a TOR to vydejchají bez potíží.</p>
+
+    <p>• 	[statický zip] či <a href="https://github.com/Bystroushaak/kv_login">github</a>, na kterém budou případné updaty, současná verze je psaná horkou jehlou..</p>
+
+    <h2>Tipy &amp; triky</h2>
+    <p>Pokud chcete používat TOR jako proxy pro SSH, přidejte do <code>~/.ssh/config</code> následující řádek:</p>
+
+    <p>
+      <code>ProxyCommand /bin/nc -x localhost:9050 %h %p</code>
+    </p>
+
+    <p>Je to docela vtipné a jednoduché, dlouho jsem hledal a googli, zkoušel všelijaké <a href="http://en.wikipedia.org/wiki/Corkscrew_%28program%29">opičiny</a> a nakonec to umí samotný netcat..</p>
+
+    <p>Pro případy stahování z internetu jsem dal dohromady tyto dva scripty:</p>
+
+    <p><strong>doitfaggot</strong>:
+<pre>#!/bin/sh
+while ! $*; do 
+	:;
+#	sleep 5;
+done
+</pre></p>
+
+    <p><strong>downer.sh</strong>:
+<pre>#! /usr/bin/env bash
+while [ 1 ]; do doitfaggot wget --no-check-certificate -c $1; done</pre></p>
+
+    <p>Stahování provádějte přes <code>downer.sh</code>, protože <code>wget</code> při padlém spojení hlásí že soubor je již stažený, což není. Downer se narozdíl od doitfaggot zacyklí, dokud ho manuálně nevypnete.</p>
+
+    <p>Doitfaggot je velice užitečný na spoustu věcí. Funguje tak, že vezme zadané parametry a spouští je do té doby, dokud daný program nevrátí 0.</p>
+
+    <p>V knihovně například zavedli že lze stáhnout jen ~2MB, načež rychlost stahování spadne na 10kB/s z původních 500kB/s. Obejít to můžete pomocí '<code>./doitfaggot timeout 5s wget -c http://link</code>'. Zakomentovaný sleep se někdy hodí, jindy zas ne..</p>
+
+  </body>
+</html>
+

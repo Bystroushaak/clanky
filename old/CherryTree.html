@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>CherryTree</title>
+    <meta name="generator" content="CherryTree">
+  </head>
+  <body>
+    <p><a href="http://www.giuspen.com/cherrytree/">CherryTree</a> je program spadající do kategorie <a href="http://en.wikipedia.org/wiki/Personal_wiki">osobních wiki</a>. Jeho autoři ho popisují jako <i>"Program k hierarchickému vedení poznámek, s vlastnostmi, jaké má formátovaný text (RTF), a zvýrazňování skladby"</i>. Já o něm tvrdím, že je to skvělá věc na psaní blogů a konečné řešení otázky poznámek.</p>
+
+    <!-- break -->
+
+    <p>Po spuštění na vás vybafne okno, do jehož pravé části můžete psát. Na levé straně můžete vytvářet Nody - jedná se o dokumenty, které mohou mít děti (subNody), tak jak je to vidět na obrázku:</p>
+
+    <p>- obrazek cherrytree -</p>
+
+    <p>Jednotlivé Nody jsou uloženy v XML souboru s příponou <strong>.ctd</strong>, přičemž samozřejmě můžete mít víc souborů pro různé příležitosti - já tak mám například jeden soubor na psaní blogů a poznámek a druhý na různé kousky zdrojových kódů a další pak v jednotlivých větších projektech na poznámky a TODO.</p>
+
+    <p>Text můžete různě ostylovat, bohužel však není použito HTML, ale nějaký vlastní formát a k dispozici tak jsou jen dvě úrovně nadpisů, což je hlavně u psaní delších článků docela nemilé. Jinak jsou však možnosti úprav textu dostačující, na úrovni webových WYSIWYG editorů.</p>
+
+    <p>Rozvržení nástrojového toolbaru je podle mého názoru vyhovující a na rozdíl od jiných podobných programů ho skutečně používám, i když bych mohl použít klávesovou zkratku.</p>
+
+    <h1>Nevýhody</h1>
+    <h2>Podpora pouze dvou úrovní nadpisů</h2>
+    <p>Na toto omezení narážím pořád, dokonce i ve chvíli kdy tohle píšu. Autoři zřejmě nepočítali s tím že CherryTree bude někdo využívat pro psaní článků na web a tak vám dvě úrovně nadpisů musí stačit.</p>
+
+    <h2>Stylování označeného textu</h2>
+    <p>Zapomeňte na to že zmáčknete tlačítko pro tučný text a píšete tučně. V CherryTree musíte text prvně napsat, označit a pak z něj udělat tučný.</p>
+
+    <h2>Hrozivý HTML výstup</h2>
+    <p>Když to popíšu ryze subjektivně, dá se to shrnout do: Uaaarrrghhhhuááááá. Sviněěěěěě. Sviněěě.</p>
+
+    <p>Nechápu co je za módu cpát do všeho vlastní stylošpínu. Zkuste si z libovolné aplikace, která nemá v oficiálním názvu <i>HTML editor</i>, dostat <strong>čistý</strong> HTML výstup. OpenOffice, GoogleOffice, různé exporty ze všech možných aplikací cpou do všeho svoje vlastní hovna. Co si k sakru autoři myslí? To vážně počítají s tím, že někdo bude publikovat text tak jak ho vyplivl jejich export? Nikdo koho znám nepoužívá stránky bez nějakého druhu redakčního systému a hádejte co? Ty vás pošlou s <strong>&lt;span style="ultramegashinyfuckingshit"&gt;</strong> namísto <strong>&lt;b&gt;</strong> tak leda do prdele. Je vážně tak těžké použít jednoduché HTML tagy a změnit jejich chování pomocí stylu, namísto opakovaného použití kopy spanů se style atributem?</p>
+
+    <p>TODO: Až se stanu Imperátorem planety Země, hned potom co nechám useknout pravou ruku všem kdo nepoužili UTF, nařídím obalit dehtem a vyválet v peří každého, kdo do svého programu nepřidá možnost čistého HTML exportu.</p>
+
+    <p>Když necháte vyexportovat nějakou poznámku, nestihnete se divit nad nelogičnostmi, kterých se autoři dopustili. Zapomeňte na odstavce, zapomeňte na čisté HTML. Veškerý text dostanete slitý na jednom řádku, to aby se vám dobře četl. Nadpisy z toho málem vyšly moc čistě (ne jako &lt;b/strong&gt;, který je definovaný jako &lt;span style="font-weight:bolder;"&gt;), tak jim autor pro jistotu přidal prázdný atribut style, to aby byl kód kratší a více přehlednější. Velmi vtipně jsou také řešené seznamy, kam se místo HTML tagu &lt;ul&gt;&lt;li&gt;polozka&lt;/li&gt;&lt;/ul&gt; vloží jen UTF znak černé tečky (•), popřípadě natvrdo číslo u číslovaných.</p>
+
+    <h1>Výhody</h1>
+    <p>Ok, možná jsem se v předchozím výpisu nechal trochu unést a vypadá to, že CherryTree se nedá používat. Neberte to tak vážně, z větší části je to jen kritika plesnivých exportů. CherryTree má několik důležitých výhod, které nevýhody silně převyšují:</p>
+
+    <h2>Start programu</h2>
+    <p>Ačkoliv je program napsaný v pythonu, startuje překvapivě rychle. Na mém ne zrovna nejnovějším stroji to trvá subjektivně asi tři sekundy.</p>
+
+    <h2>Jednoduchost</h2>
+    <p>Zkusil jsem už několik <a href="http://en.wikipedia.org/wiki/Personal_wiki">osobních wiki</a> - <a href="http://wixi.sourceforge.net/">Wixi</a>, <a href="http://zim-wiki.org/">Zim</a>, <a href="http://stickwiki.sourceforge.net/">WOAS</a>, dokonce jsem jeden čas psal vlastní (python backend, html/ajax frontend), ale CherryTree na mě působí ze všech nejlépe. Dělá přesně to co dělat má, nenutí uživateli markup a nevymýšlí opičiny v podobě různých speciálních stránek.</p>
+
+    <p>Další plus je jednoduchá navigace, kterou například Wixi rozhodně postrádá.</p>
+
+    <h2>Textový formát dat</h2>
+    <p>Data jsou uložena v <strong>.xml</strong>, takže se můžete podívat co všechno se ukládá, navíc můžete mít skvělý pocit z toho že se jedná o otevřený formát, který můžete různě zpracovávat a provádět zálohy tiskárnou :)</p>
+
+    <h2>GPL Licence</h2>
+    <h2>Multiplatformnost</h2>
+    <p><a href="http://www.giuspen.com/cherrytree/#downl">K dispozici</a> jsou zdrojáky, balíčky pro většinu linuxových distribucí, binárky windows a balíček pro MAC OS X.</p>
+
+    <h1>Patch HTML exportu</h1>
+    <p>Protože jsem byl HTML exportem skutečně zděšen a navíc jsem tou dobou přepsal svůj <a href="https://github.com/Bystroushaak/DHTMLParser/tree/python">DHTMLParser</a> do pythonu, napsal jsem krátký kludge, který fixne HTML export do něčeho čistějšího a použitelnějšího.</p>
+
+    <p>Script není žádný zázrak - vyplivl jsem ho ten den co jsem začal používat CherryTree, zhnusen tím pošahaným exportem, takže různé návrhy na vylepšení jsou rozhodně vítány a pokud někdy překonám lenost, podstatně ho doplním.</p>
+
+    <p>Vymyslel jsem tam algoritmus který rozdělí text do odstavců, ale není to žádná sláva - pracuje tak že hledá vertikální mezery mezi textem a když je najde, udělá z toho odstavec. Na běžné texty, jako je třeba tento blog to stačí, ale pokud tam vložíte CodeBox, asi vás nehezky překvapí co to s ním udělá.</p>
+
+    <p>Patch můžete stáhnout na konci blogpostu.</p>
+
+    <h1>Závěr</h1>
+    <p>CherryTree je dobrý program pro psaní poznámek a článků. Je to něco jako opak kindle - s tímto programem mě baví psát, tak jako mnohé s kindlem baví číst.</p>
+
+    <p>Poslední čtvrt rok co ho používám vzrostl počet blogpostů které jsem napsal dost signifikantně, protože jsem konečně našel ten správný program který mě nerozptyluje při psaní a navíc se z něj dá dostat jednoduché HTML. Při záblesku myšlenky, či pocitu inspirace prostě jen otevřu CherryTree (vzpomeňte na ty 3 sekundy, důležitý to jev), dvěma kliknutími vytvořím novou Nodu a začnu dumpovat obsah mozku do textu. To je dost rozdíl oproti HTML editoru <a href="http://www.abclinuxu.cz/software/programovani/ide/quanta-plus">Quanta Plus</a>, který jsem používal předtím, už jen proto že startoval snad 20s a intuitivnost byla taky někde úplně jinde.</p>
+
+    <p>V součanosti mám rozepsaných a připravených asi 10 článků/blogpostů určených pro abclinuxu (a asi 10 dalších jinam), které postupně dodělávám a uvolňuji. Mohl bych je všechny publikovat najednou, ale nerad bych způsobil Jílkovské zahlcení a tak si je nechávám na chvíle kdy se to hodí :)</p>
+
+    <p>PS: Tento text byl stejně jako řada mých předchozích blogpostů zhruba od září napsán v CherryTree.</p>
+  </body>
+</html>
+

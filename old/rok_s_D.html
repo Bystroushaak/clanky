@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Rok s D</title>
+    <meta name="generator" content="CherryTree">
+  </head>
+  <body>
+    <p>Upozornění: Blogpost je o subjektivních pocitech a zážitcích.<br>
+
+    Je to již cca rok, co jsem se začal zajímat o programovací jazyk D. Co se od té doby v mém názoru na D změnilo?</p>
+
+    <!-- break -->
+
+    <p>Programovat v D jsem skutečně začal až s novým rokem. Do té doby jsem soustředil hlavně na teorii (ehm, příležitostně četl knihu, občal napsal nějaký test k odhalení vlastností které mi nebyly jasné). Od nového roku jsem napsal v D několik projektů o velikosti okolo přibližně tisíc řádek. Na nich jsem poznal některé (zdaleka ne všechny) klady a zápory D.</p>
+
+    <h2>HTTP client</h2>
+    <p>Všechno to začalo, když jsem potřeboval napsat program který pracuje s webem a zjistil jsem, že D v tomto ohledu bylo žalostně nevybavené. Nějakou dobu jsem googlil a hledal, ale jediné co se mi podařilo najít bylo tango, což je neoficiální stdlib, která navíc funguje pouze na D1 (stará, i když stabilní verze, aktuální je D2, která se ale stále vyvíjí). Jelikož jsem D1 používat nechtěl, začal jsem pracovat na vlastním HTTP clientovi. Původně to měla být jen jednoduchá třída na pár řádek co stáhne stránku a šmytec, ale s čtením anglické wiki a studováním RFC se to nějak rozrostlo, až z toho vznikla knihovna trochu podobná urllib v pythonu (funkčností, ne API).</p>
+
+    <p>I když mě psaní použitelné verze trvalo něco okolo měsíce a zabralo mi to spoustu času, zjistil jsem, že mě to skutečně baví. D se čím dál víc ukazoval jako jazyk, po kterém jsem vždy toužil. Tohle možná může znít docela propagandisticky, ale je to pravda. D mi prostě padlo do oka. V C, C++, C#, Javě, JavaScriptu, PHP, Pascalu a dokonce i v pythonu jsem se nikdy necítil tak doma. Pravděpodobně za to můžou mé předchozí zkušenosti s ostatními jazyky, protože v D je téměř všechno jak očekávám. To znamená, že se to ani nemusím učit, nebo přeučovat, prostě po dané featuře sáhnu a ona tam je. To jsem u žádného předchozího jazyka nikdy nezažil. Na tom že si D vybralo to nejlepší ze svých předchůdců něco bude.</p>
+
+    <p>Abych se vrátil k vyprávění; když jsem HTTP clienta dopsal, řekl jsem si, že by se mohl hodit i někomu jinému a tak jsem ho hodil na sourceforge. Tam ležel asi měsíc, dokud jsem ho najednou nepotřeboval opět použít. Zjistil jsem, že obsahuje spoustu bugů a začal ho přepisovat a opravovat. Postupně jsem přišel na to, že sourceforge není to pravé pro mě a přešel jsem na github, kde ho můžete najít dodnes: <a href="https://github.com/Bystroushaak/DHTTPClient">DHTTPClient</a>.</p>
+
+    <p>Krátce poté co jsem ho vyladil byly do phobosu (oficiální D stdlib - API) paradoxně přidány bindingy na libcurl, která svým C API ale docela saje. S DHTTPClientem je práce o hodně pohodlnější, i když uznávám že také primitivnější a jsou věci které s ním jednoduše neuděláte.</p>
+
+    <h2>HTML parser</h2>
+    <p>Když už jsem měl HTTP clienta, začal jsem hledat nějaký HTML parser. V pythonu jsem celá léta používal <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a>, pro jeho schopnost selektivního vytahování jednotlivých tagů a nod, které potřebuji. Na rozdíl od ostatních, pro mne podivných a nepochopitelných přístupů je práce s BeautifulSoup dost intutivní. Chcete všechny odkazy na stránce? Proč ne?</p>
+
+    <pre>from BeautifulSoup import BeautifulSoup as BS
+soup = BS(data)
+soup("a") # vrátí pole odkazů</pre>
+
+    <p>Podobně si můžete vytáhnout cokoliv, popřípadě znovu hledat v již vytažených elementech. Ostatní moduly pro práci s HTML/XML jsem moc nezkoumal, jen jsem párkrát zahlédl jejich použití, ve kterém programátoři modelují dokument pomocí for smyček jenž procházejí nody a moc jsem to nezkoumal, ani nepochopil (pravděpodobně se to hodí pro použití v serializaci známých dat, ale kdo ví..).</p>
+
+    <p>Co se týče mého programování v D, zjistil jsem že existuje oficiální modul <a href="http://www.d-programming-language.org/phobos/std_xml.html">std.xml</a>, který je pro parsování jako dělaný. Když jsem si pročítal example na odkazované stránce, totálně a absolutně jsem ho nepochopil (dodnes nechápu) a vylomil si na něm mozkové závity.</p>
+
+    <p>"Challenge accepted," táhlo mi hlavou a tak jsem začal psát vlastní HTML parser. Začal jsem rozřezáním textu na pole kde jsou jednotlivé řetězce buď tagy, nebo text. Vyřešil jsem to tak neintuitivním způsobem, že jsem se v něm ztratil a musel si udělat <a href="http://kitakitsune.org/images/field_parser.png">schéma</a>. Poté jsem přidal reuspořádání tagů kvůli vnořeným komentářům, napsal třídu pro uchovávání elementů, gettery, settery, funci jenž zkoumá jestli se jedná o nepárové tagy, zkrášlovací funkci a další nezbytné věci.</p>
+
+    <p>Opět musím podotknout, že mi to přišlo spíš jako zábava, než práce a výsledek si můžete prohlídnout zde: <a href="https://github.com/Bystroushaak/DHTMLParser">DHTMLParser</a>. Po troše používání mě nakrkla superpomalá BeautifulSoup (na mém homeserveru ze starého notebooku trvá parsování i 10s) a tak jsem přepsal DHTMLParser do pythonu (jde to prakticky 1:1 jak z, tak do).</p>
+
+    <p>Co mě nedávno skutečně potěšilo je, že mi napsal nějaký ital s tím že ho používá ve svém projektu (kontrola aktualizace webových reklam pro síť hotelů).</p>
+
+    <h2>Méně &gt; více?</h2>
+    <p>Trochu paradoxní je, že díky tomu že D zatím není moc používaný a neexistuje pro něj tedy tolik knihoven jsem překonal lenost a naprogramoval užitečné moduly, na nichž jsem se toho i dost naučil. Nikdy předtím v životě jsem nesedl k RFC a nezačal něco (třeba <a href="https://github.com/Bystroushaak/DSNTPClient">SNTP client</a>) jen tak implementovat - proč taky, vždyť by to byla zbytečná práce, ne?</p>
+
+    <p>Dnes už vím, že nebyla. Čtením člověk věci skutečně nepochopí, chce si to i dané technologie zkusit. Díky tomu si je zapamatuje a už je nezapomene, navíc musí řešit problémy a to ho posouvá stále dopředu.</p>
+
+    <p>Díky těmto zkušenostem vím, že pro mě není problém většina věcí které se mi dříve zdály jako vyšší level. Chce se to prostě do daného problému zakousnout, chvíli se mu věnovat, začít psát kód a dříve nebo později z toho vyleze funkční řešení (takhle jsem třeba psal binding k libpolarssl, konkrétně RSA funkcím, takže teď už jen stěží zapomenu jak RSA funguje).</p>
+
+    <h2>Vývoj D</h2>
+    <p>Abych se vrátil od sebestředných řečí zpět k D - co na něm mě těší a zároveň dost ostatních lidí odrazuje je to, že vývoj se stále ještě neustálil a navíc probíhá na úrovni komunity.</p>
+
+    <p>S každým vydáním kompilátoru se trochu mění API (oklepávají se nelogičnosti, probíhají přesuny a přidávání nových věcí). Jednotlivé novinky jsou diskutovány v mail listech, takže lidé mají možnost se k nim vyjádřit, popřípadě poslat svůj patch (o tohle panictví jsem ještě nepřišel), protože celý phobos je hostován na githubu.</p>
+
+    <p>To je tak ohromný rozdíl oproti všemu kromě pythonu, že nemám slov. Vím že takhle probíhá vývoj spousty opensource projektů, ale ještě nikdy v životě jsem tomu nebyl přítomný, nevnímal dění kolem sebe a netěšil se na každý <a href="http://www.digitalmars.com/d/2.0/changelog.html">changelog</a> (čtete je vůbec u něčeho?), kde si budu moct počíst o nových featurách, které mě vždy potěší.</p>
+
+    <p>Když to porovnám s takovým C++, vlastně ani nevím, jak bych se na nějaké vývojové feedy napojil. Možná je to jen blbá představa, ale jeho vývoj si představuju jako srocení ISO nazzi s vysokými klobouky a monokly v oku, jenž 10 let diskutují co za vlastnosti by šlo přidat a hlavně neporušit zpětnou kompatibilitu.</p>
+
+    <h2>Co mi vadí</h2>
+    <p>Na samotném jazyku prakticky nic (kromě podivnosti s $, které je v rozsahu pole občas .length a jindy .length - 1, podle toho jestli se uvede jako array[0 .. $] (pro výběr celého pole, nesmyslný příklad), nebo array[$-1] (pro výběr posledního prvku, kde samotné $ vyhodí vyjímku překročení rozsahu pole)).</p>
+
+    <p>Dál mi trochu vadí phobos API, na kterém je ještě zapotřebí zapracovat hlavně co se týče internetových protokolů.</p>
+
+    <p>Vadí mi kompilátory - dmd je na linuxu docela fajn, ale na windows generuje OMF formát objektových souborů a to se <a href="http://kitakitsune.org/D/howtos:c_knihovny#windows">pěkně na hovno</a> linkuje s COFF, které generují prakticky všechny ostatní kompilátory.</p>
+
+    <p>gdc je sice hezké na papíře, ale vývojove zaostalé (tak o 2 - 4 vydání za dmd) a přijde mi, že se o něj nikdo moc nestará. V ubuntu a dalších moderních distrech je navíc v repozitářích jen gdc1 a dostat tam gdc2 chce <a href="https://launchpad.net/~d-developers">trochu snahy</a>.</p>
+
+    <p>Vadí mi velikost binárky - 800kB je hnus (po stripnutí řetězců a packu s upx cca 150, ale i tak). Když si pomocí 'nm' nechám vyjet použité funkce, vyskočí na mě ~4000 řádků i u hello world. WTF?</p>
+
+    <p>Vadí mi minimální podpora armu a dalších netradičních platofem (mips). Je to možné a určitě proveditelné, ale chce to tak týden crosskompilace gdc, a to bych se asi radši oběsil na půdě. Balíčky se prostě nekonají.</p>
+
+    <p>Vadí mi, že D v Čechách skoro nikdo nepoužívá. Po nějaké době se dle <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">tiobe indexu</a> zase dostalo do první dvacítky, ale narazit na Čecha dělajícího v D je prakticky nemožné.</p>
+
+    <p>Vadí mi, že D nezaštiťuje nějaká větší firma, která by nalila prachy do vývoje některých pokulhávajících věcí. Kdyby se za něj postavil někdo významnější kdo by ho skutečně používal, bylo by to super a jazyku by to imho dost pomohlo.</p>
+
+    <p>Vadí mi, že podpora ve všech IDE mocně saje. Zkoušel jsem <a href="http://code.google.com/a/eclipselabs.org/p/ddt/">Mmrnmhrm/DDT</a> (jméno k nezaplacení) i <a href="http://dsource.org/projects/descent/wiki/Installing">Descent</a> a všechny jsou na úrovni barvení zdrojového kódu a slepého (mnohdy dost kontraproduktivního) doplňování názvů metod a proměnných. Code::Blocks, Anjuta, Monodevelop a dvacet dalších linux IDE na které si vzpomenete umí prakticky jen barvit syntaxi, takže nakonec radši používám kate, která doplňuje všechny slova v dokumentu, nebo častěji geany, která doplňuje sice taky slepě a často blbě, ale zato je to alespoň rychlý a malý editor.</p>
+
+    <p>Abych to tedy shrnul - jazyk sám o sobě je v pohodě, podpora toolů (kompilátory, editory atp..) už moc ne.</p>
+
+    <h2>Závěr</h2>
+    <p>Můj rok s D byl docela fajn. Ani jednou jsem se na něj nenaštval, nikdy mi nepřišel dementní. Naprogramoval jsem v něm několik knihoven, naučil se s ním používat git a github. Až na pár detailů mi v ničem nevadí a tak budu pokračovat ve své snaze z něj udělat primární programovací jazyk.</p>
+
+    <p>A co vy? Máte s D nějaké zkušenosti? Podělte se prosím v diskuzi :)</p>
+  </body>
+</html>
+

@@ -1,0 +1,59 @@
+<HTML>
+<head>
+    <title>Gmail na vlastní doméně</title>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=utf-8">
+</head>
+<body>
+<h1>Gmail na vlastní doméně</h1>
+<h2>Kecy</h2>
+<p>Nedávno mi došlo, že už mně nebaví neustále měnit adresu vždy když se změní politika free shellu, na kterém jsou hostovány moje stránky. Čirou náhodou jsem měl v té době narozeniny a tak jsem se rozhodl koupit si doménu. Tak se taky stalo. Za menší pomoci jsem nastavil DNS A záznam na 1011.cz, joenash pak nastavil Apache a vuala.. všechno fungovalo k mé plné spokojenosti.</p>
+<p>Na jistou dobu mi to stačilo, ale pak jsem se potřeboval zaregistrovat někam kde byl zapotřebí email z vlastní domény. OK, řekl jsem si. Zeptám se joenashe, jestli už na 1011.cz neběží mailserver, že bych zajistil přesměrování na 1011.cz. Padla řeč a já jsem se dozvěděl že na 1011.cz zatím mailserver neběží, ale že c-x to řeší. Nic proti c-x, ale jak ho znám, mohlo by se to i protáhnout. Vzpoměl jsem si, že quick před několika měsíci nasazoval gmail na vlastní doméně, tak jsem se rozhodl, že bych to mohl zkusit taky.<br></p>
+
+<h2>Google apps</h2>
+<p>Na adrese <a href= "http://www.google.com/a/help/intl/cs/admins/editions.html">http://www.google.com/a/help/intl/cs/admins/editions.html</a> je potřeba se zaregistrovat do Google Apps. Já jsem zvolil verzi Standard, která je zdarma. Po registraci je zapotřebí ověřit vlastnictví domény. To se dá provést těmito způsoby:</p>
+<ul>
+    <li>Vytvořením html souboru s kódem v kořeni webu</li>
+    <li>Nastavením CNAME záznamu v dns</li>
+</ul>
+
+<p>Je na Vás, jaký způsob si zvolíte. Já jsem si vybral první možnost, která mi přišla jednodužší - spočívá ve vytvoření souboru "googlehostedservice.html" s obsahem "google2bcf2eba0a4c7fbf" v rootu webu (v mém případě tedy http://kitakitsune.org/googlehostedservice.html). Dále stačí jen kliknout na button Ověřit.</p>
+
+<h2>Email</h2>
+<p>Pro přesměrování emailu je zapotřebí vykonat pokyny které se zobrazí po kliknutí na <b>Ovládací panel</b> => sekce <b>Nastavení služby</b> => <b>Email</b> => odkaz <b>Aktivovat email</b>. Musíte nastavit MX záznamy v DNS s určitými prioritami. Jelikož mám hosting u <a href= "http://forpsi.cz">forpsi.cz</a>, vypadalo nastavování MX záznamů poněkud jinak než je uvedeno v dokumentu.</p>
+
+<h3>Nastavení podle google:</3>
+<div align= "center">
+<table class="mx"><tbody><tr><th>Adresa serveru systému Mail Exchange</th>
+<th>Priorita</th></tr>
+<tr><td>ASPMX.L.GOOGLE.COM.</td>
+<td>10</td></tr> <tr><td>ALT1.ASPMX.L.GOOGLE.COM.</td>
+<td>20</td></tr> <tr><td>ALT2.ASPMX.L.GOOGLE.COM.</td>
+<td>20</td></tr> <tr><td>ASPMX2.GOOGLEMAIL.COM.</td>
+<td>30</td></tr> <tr><td>ASPMX3.GOOGLEMAIL.COM.</td>
+<td>30</td></tr> <tr><td>ASPMX4.GOOGLEMAIL.COM.</td>
+<td>30</td></tr> <tr><td>ASPMX5.GOOGLEMAIL.COM.</td>
+<td>30</td></tr></tbody></table>
+</div>
+
+<h3>Nastavení podle forpsi:</h3>
+
+<div align= "center">
+<a href="http://www.imagehosting.com/"><img src="http://img135.imageshack.us/img135/600/nastavenidnsgmail.png" border="1" alt="Image Hosting"></a></div>
+
+<br>
+<br>
+<p>Ačkoliv je v návodu vysloveně uvedeno, že záznamy máme přidávat s tečkou, forpsi něco podobného neumožňuje, tak jsem je přidal bez tečky. Nastavení priorit zajišťuje číslo před adresou. </p>
+<p>Poté co provedete změny v DNS záznamech, stačí kliknout na button "Tyto kroky byly provedeny" a počkat, než google ověří správnost vašich MX záznamů. To je vše.</p>
+
+<hr>
+<div class="licence">
+Autor: <b><u>Bystroushaak</u></b> (<b>bystrousak</b>(a)<b>kitakitsune</b>(.)<b>org</b>, <a href="http://kitakitsune.org">http://kitakitsune.org</a>)<br>
+
+Verze textu: <b>v1.0 (23.04.09)</b><br>
+Licence: <b>This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported Licence (<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cz/">http://creativecommons.org/licenses/by-nc-sa/3.0/cz/</a>)</b> (dílo může být NEKOMERČNĚ šířeno a upravováno, ale pouze se zachováním jména původního autora a stejné licence)
+</div>
+
+
+</body>
+</HTML>
