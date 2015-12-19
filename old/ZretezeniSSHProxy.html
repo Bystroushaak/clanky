@@ -1,0 +1,51 @@
+<HTML>
+<head>
+    <title>Zřetězení SSH proxy</title>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=utf-8">
+</head>
+<body>
+<h1>Zřetězení SSH proxy</h1>
+<h2>SSH proxy</h2>
+<p>Představte si, že jste připojeni k nezašifrovanému (popř. využíváte WEP) <abbr title="AccessPoint">AP</abbr> a nestojíte o to aby každý mohl sniffovat vše co jde přez vaší wifi kartu. V takovém případě máte možnost připojit se do šifrovaného <abbr title="Virtual Private Network">VPN</abbr>, nebo použít <abbr title="Secure SHell">SSH</abbr> proxy. Jak už je z nadpisu patrné, budu se zde věnovat druhé alternativě.</p>
+<p>Pokud zatím nemáte shell s přístupem přez SSH, tak je načase si nějaký obstarat. Jestli patříte mezi šťastlivce kteří ho mají, stačí Vám tento příkaz:</p>
+
+<div align= "center">
+<code>ssh -D 2222 <strong>user@shell.tld</strong></code>
+</div>
+
+<p>Tím na localhostu (port 2222) vytvoříte šifrovaný tunel vedoucí k <strong>user@shell.tld</strong>. Nyní už stačí pouze nastavit aplikace aby ho využívali - jako typ proxy zadejte <strong><acronym>SOCKS</acronym> 4</strong>, IP adresu nastavte na localhost (<strong>172.0.0.1</strong>) a za port dosaďte <strong>2222</strong>.</p>
+<h2>Zřetězení</h2>
+<p>Dejme tomu, že jste opravdu paranoidní (rádi hrajete hry sami se sebou) a nechcete <abbr title="Illuminati, CIA, FBI, Ještírky, etc..">JE</abbr> nechat aby Vás mohli jednoduše dostat. V takovém případě Vám jistě jedna proxy stačit nebude.</p>
+<p>Předpokládejme, že máte k dispozici dva SSH účty. Jeden na adrese <strong>pvni@jedna.net</strong> a druhy <strong>druhy@dva.net</strong>. Dále přepokládejme, že chcete aby spojení vypadalo nějak takhle:</p>
+
+<div align= "center">
+<code>Vy <=> <strong>jedna.net</strong> <=> <strong>dva.net</strong> <=> ONI</code>
+</div>
+
+<p>Spojení na <strong>jedna.net</strong> umíme vytvořit pomocí parametru <code>-D</code>, jak se ale můžem dostat na <strong>dva.net</strong>? Nebudu vás dále napínat, stačí do konzole zadat toto:</p>
+
+<!-- Sorry za logicky nespravne pouziti <abbr>, ale nic lepsiho me nenapdlo :/ !-->
+
+<div align= "center">
+<code>ssh -L <abbr title="Lokální port.">55555</abbr>:<abbr title="Adresa na kterou bude ukazovat tunel.">dva.net</abbr>:<abbr title="Port vzdálené adresy.">22</abbr> <abbr title="Adresa přez kterou potečou data k cíli.">prvni@jedna.net</abbr></code>
+</div>
+
+<p>a do druhé konzole (taky můžete přesunout první SSH spojení na pozadí..) toto:</p>
+
+<div align= "center"><code>ssh -D <abbr title="Port na kterem se otevře spojení - tento port nastavíme do aplikací které chceme použít (např. firefox).">2222</abbr> -p <abbr title="Port na kterém už existuje tunel.">55555</abbr> <abbr title="Jméno uživatele na druhy.net.">druhy</abbr>@localhost</code>
+</div>
+
+<p>První příkaz vytvoří SSH spojení na <strong>prvni@jedna.net</strong>, přičemž na <strong>localhost:55555</strong> se otevře tunel, který vede k <strong>dva.net</strong>. Cokoliv do tohoto tunelu pošlete nakonec vyleze na <strong>dva.net:22</strong>. Ve druhém příkazu je vytvořeno SOCKS spojení vedoucí SSH tunelem na <strong>prvni.net</strong>, odkud je přeposíláno na <strong>druhy.net:22</strong>. Nastavení aplikací bude stejné, jako když jsme používali pouze jeden server.</p>
+<p>Teď když víme jak na to, není problém (doufám :) vytvořit zřetězení třeba přez 10 serverů. Stačí pouze pospojovat n serverů pomocí n příkazů <code>ssh -L ...</code> a na závěrečný se připojit s parametrem <code>ssh -D PORT user@localhost</code>.</p>
+<h2>Závěr</h2>
+<p>Závěr se mi už nechtělo vymýšlet (přestože mi přijde že by tu měl být), takže si ho každý bude muset udělat sám ;).</p>
+<p>Have fun!</p>
+
+<hr />
+<div class="licence">
+Autor: <b><u>Bystroushaak</u></b> (<b>bystrousak</b>(a)<b>kitakitsune</b>(.)<b>org</b>, <a href="http://kitakitsune.org">http://kitakitsune.org</a>)<br>
+Verze textu: <b>v1.0 (01.05.09)</b><br>
+Licence: <b>This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported Licence (<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cz/">http://creativecommons.org/licenses/by-nc-sa/3.0/cz/</a>)</b> (dílo může být NEKOMERČNĚ šířeno a upravováno, ale pouze se zachováním jména původního autora a stejné licence)
+</div>
+</body>

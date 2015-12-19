@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Mint na šifrovaném disku</title>
+    <meta name="generator" content="CherryTree">
+  </head>
+  <body>
+<p>Po pár letech spokojeného používání ubuntu 10.10 jsem se konečně rozhoupal a upgradoval na novější verzi. Nevybral jsem si však nové Ubuntu (hnus fialový), ale něco perspektivnějšího - Linux Mint 12. Když už jsem byl u toho, řekl jsem si že po těch letech upgradování provedu čistou instalaci a přenesu jen důležité konfigurační soubory v ~. Bohužel, Mint nemá alternativní instalační disk a tak jsem ho musel nainstalovat na šifrovaný disk ručně, což je docela práce.</p>
+
+<!--break-->
+
+    <p>Pro jistotu jsem si vyrobil binární kopii mého HDD a zazálohoval jí na externí disk, takže jsem se nebál pořádně si zaexperimentovat.</p>
+
+    <p>Na internetu se povaluje několik návodů a jeden nefunkční script, jenž by vám měl ulehčit instalaci Mintu na zašifrovaný disk. Bohužel, ani podle jednoho z nich se mi nepodařilo systém na šifrovaný disk dostat - jednomu chybělo to, druhému zase ono..</p>
+
+    <p>Nakonec jsem si vzpomněl, že jsem dřív podle jednoho návodu nainstaloval Ubuntu netbook remix na můj netbook, takže jsem se ho pokusil najít, jenže ouha. Návod už na staré adrese nesídlí. Vyhrabal jsem ho tedy z <a href="http://web.archive.org/web/20100107020922/http://jager.no/news/ubuntu-netbook-remix-with-encrypted-root">webarchive</a> a začal podle něj postupovat.</p>
+
+    <p>Dobrá zpráva je, že to funguje. Špatná, že k tomu potřebujete v průběhu instalace internet, což může být v některých případech poněkud nevhodné.</p>
+
+    <p>Každopádně, zde je velice volný a lehce doplněný překlad:</p>
+
+    <h1>Instalace</h1>
+    <h2>Krok 0: Bootování, vytvoření oddílů</h2>
+    <p>Jakmile CD nabootuje, otevřete si konzoli a použijte utilitu '<code>cfdisk</code>' k rozdělení disku. Teoreticky by šlo použít i <code>gparted</code>, ale netuším jak v něm nastavit typ oddílu na LLVM.</p>
+
+    <pre><code>sudo cfdisk /dev/sda</code></pre>
+    <p>Za '<code>/dev/sda</code>' dosaďte samozřejmně váš disk. Jakmile <code>cfdisk</code> naběhně, vytvořte na něm následující dva oddíly:</p>
+
+    <ul>
+<li>boot oddíl o velikosti cca 500MB, kterému nastavíte bootovací příznak a typ <code>83</code> (Linux)</li>
+<li>oddíl zabírající zbytek disku (nebo podle chuti, co vše chcete mít šifrované) s typem <code>8e</code> (Linux LVM)</li>
+</ul>
+
+    <h2>Krok 1: Vytvoření šifrovaného zařízení v /dev</h2>
+    <p><h3>Krok 1.1: Příprava</h3>
+Osobně jsem instaloval z instalačního DVD, které je z nějakého důvodu jen o 300MB větší než instalační CD. Díky tomu na něm chybí několik balíčků, které budete muset nainstalovat:</p>
+
+    <pre><code>sudo -i
+aptitude install lvm2 cryptsetup</code></pre>
+    <p>Dále je dobré zavést pár modulů do jádra. Je možné že některé jsou již zavedené, ale zjišťování je namáhavější než to prostě zkusit:</p>
+
+    <pre><code>modprobe aes-i586
+modprobe dm-crypt
+modprobe dm-mod</code></pre>
+
+<h3>Krok 1.2: Formátování oddílu</h3>
+Následující příkaz naformátuje druhý oddíl HDD na šifrovaného oddílu. Použita je <code>aes-xts-plain</code>, jako v současnosti nejsilnější šifra. Můžete samozřejmě použít i ostatní druhy, <code>cryptsetup</code> jich nabízí docela dost, nezapomeňte však nahrát patřičné moduly v <strong>kroku 5</strong>.
+    <pre><code>cryptsetup luksFormat -s 256 -c aes-xts-plain /dev/sda2</code></pre>
+    <p>Program se vás bude ptát na potvrzení, zda chcete všechno smazat - nezapomeňte napsat <strong>VELKÝMI PÍSMENY</strong>: '<code>YES</code>'. Pokud to napíšete malými, nic se nestane a nemá smysl pokračovat, protože další krok vás dál nepustí.</p>
+
+    <p><h3>Krok 1.3: Otevření šifrovaného oddílu</h3>
+Otevřeme oddíl pod jménem <code>sda2_crypt</code>:</p>
+
+    <pre><code>cryptsetup luksOpen /dev/sda2 sda2_crypt</code></pre>
+    <h2>Krok 2: Vytvoření LVM</h2>
+    <p>Vytvoříme root oddíl a <code>swap</code> (nezapomeňte upravit podle velikosti vaší RAM - obecně se doporučuje cca 1.3 násobek):</p>
+
+    <pre><code>pvcreate /dev/mapper/sda2_crypt
+vgcreate vg /dev/mapper/sda2_crypt
+lvcreate -L 1024M -n swap vg
+lvcreate -l 100%FREE -n root vg</code></pre>
+    <h2>Krok 3: Formátování /boot a /</h2>
+    <p>Používám <code>ext4</code> pro <code>/</code> a <code>ext2</code> pro <code>/boot</code>:</p>
+
+    <pre><code>mkfs.ext4 /dev/mapper/vg-root
+mkfs.ext2 /dev/sda1
+mkswap /dev/mapper/vg-swap</code></pre>
+    <h2>Krok 4: Instalace</h2>
+    <p>Nyní spusťte instalaci Mintu pomocí ikony na ploše. Postupujte normálně, dokud se vás instalátor nezeptá, jak chcete rozdělit disk. Zvolte vlastní rozdělení, kde se vám zobrazí tabulka ukazující jednotlivé oddíly na disku. Vyberte <code>/dev/sda1</code> pro <code>/boot</code> (klikněte na něj, dejte změnit, zaškrtněte že chcete <code>ext2</code> a přípojný bod <code>/boot</code>). Podobně vyberte i partišnu pro <code>/</code> - pozor, rozhodně to nebude <code>/dev/sda2</code>, ale něco jako <code>/dev/mapper/vg-root</code>. Poznáte jí podle toho, že už na ní je <code>ext4</code>, takže dejte opět změnit, vyberte <code>ext4</code> a přípojná bod <code>/</code>, odškrtněte formátovací checkbox, pokud je zaškrtlý.</p>
+
+    <p>Nyní nechte systém nainstalovat, <strong>na konci instalace však nezapomeňte zvolit, že chcete pokračovat v prohlížení live!</strong></p>
+
+    <h2>Krok 5: Chroot</h2>
+    <p>Přepněte se zpět do terminálu - pokud jste ho již zavřeli, otevřete ho a zadejte opět <code>'sudo -i'</code>. Nyní provedete chroot do nainstalovaného systému, protože je nutné nastavit ještě několik věcí:</p>
+
+    <pre><code>mkdir /target
+mount /dev/mapper/vg-root /target
+mount /dev/sda1 /target/boot
+mount -t proc proc /target/proc
+mount -t sysfs sysfs /target/sys
+chroot /target</code></pre>
+
+    <p>Jakmile jste vevnitř, upravte soubor '<code>/etc/initramfs-tools/modules</code>' přidáním následujících řádek, aby měl initrd k dispozici patřičné moduly pro připojení šifrovaného oddílu:</p>
+
+    <pre><code>aes-i586
+xts
+dm-crypt
+dm-mod
+sha256</code></pre>
+    <p>Nyní přidejte následující řádky do '<code>/etc/crypttab</code>' (možná ho budete muset vytvořit):</p>
+
+    <pre><code>sda2_crypt /dev/sda2 none luks</code></pre>
+
+    <p>Dalším krokem je upravení '<code>/etc/fstab</code>'. Dost možná že tento krok budete moct vynechat, protože instalátor tam již zapsal správné informace. Potřebujete změnit řádky začínající na '<code>UUID=x</code>' tak aby ukazovaly na oddíly uvnitř šifrovaného LVM:</p>
+
+    <pre><code>UUID=x / ext4 etc...</code></pre>
+    <p>změňte na:</p>
+
+    <pre><code>/dev/mapper/vg-root / ext4 etc..</code></pre>
+    <p>a to samé samozřejmě i pro <code>swap</code>.</p>
+
+    <p>Nyní potřebujete nainstalovat pár balíčků, které jsme instalovali i v live verzi:</p>
+
+    <pre><code>apt-get install lvm2 cryptsetup</code></pre>
+    <p>Pokud narazíte na chyby připojení k internetu uvnitř chrootu, neklesejte na mysli. Jelikož jste již oba dva balíčky instalovali na live distribuci, najdete je v aptcache. Otevřete si v live nový terminál a zkopírujte balíček začínající na '<code>lvm2</code>' a balíček začínající na '<code>cryptsetup</code>' z '<code>/var/cache/apt/archives/</code>' do '<code>/target</code>'.</p>
+
+    <p>Balíčky pak nainstalujte pomocí 'dpkg -i <code>jméno_balíčku.deb</code>'. Jako bonus pak ještě doporučuji nechat proběhnout '<code>update-grub</code>' a '<code>update-initramfs</code>'.</p>
+
+    <p>Poté můžete rebootovat a s trochou štěstí vám systém naběhne.</p>
+
+    <h1>Dojmy z Mintu 12</h1>
+
+    <p>Mint se mi celkově docela líbí. Jako jediná distribuce z těch co jsem kdy vyzkoušel nemá po instalaci naprosto pošahaně nastavený nautilus, takže se dá skoro hned používat.</p>
+
+    <p>Gnome shell verze je pro mě osobně docela nepoužitelná, i když věřím že na mobilu, nebo netbooku by mi to mohlo vyhovovat.</p>
+
+    <p>V současnosti používám Mate (Gnome2 fork), které jsem bez problémů nakonfiguroval tak, jak jsem byl zvyklý už od dob Ubuntu 10.4.</p>
+
+    <p>Po dni běhu jsem narazil na několik menších problémů, které však nejsou moc vážné:</p>
+
+    <ul>
+<li>Pokud stisknete klávesu screenshotu, zavolá se <code>mate-screenshot</code>. Bohužel však není nainstalovaný (:D), takže buď vyrobte symlink na <code>gnome-screenshot</code>, nebo ho nainstalujte - je v balíku '<code>mate-utils</code>'.</li>
+<li>I když to co vidíte funguje jako <code>nautilus</code> a vypádá jako <code>nautilus</code>, není to <code>nautilus</code>. Jmenuje se to '<code>caja</code>' (božšký cája zas míří mezi nás..). To má za následek, že aplikace které otevírají <code>nautilus</code> (<code>truecrypt</code> třeba) otevřou <code>nautilus</code>, nikoliv <code>caju</code> a tak se nelekněte že na vás vyskočilo cizojazyčné okno s jiným nastavením chování.</li>
+</ul>
+
+    <h1>Závěr</h1>
+    <p>Jakmile dojde k vychytání několika chybek, bude kombinace Mint/Mate zase jednou distribuce, kterou bych mohl doporučit i lidem, kteří nejsou na linux zvyklý.</p>
+  </body>
+</html>
+
