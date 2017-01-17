@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Morphic halo</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<p>﻿Nedávno zde proběhla diskuze o desktopu, kde byl <a href="/blog/xkucf03/2017/1/moderni-desktopove-prostredi-pro-pracovni-stanici/diskuse#33">nakousnut</a>i Smalltalk a jeho GUI, kde jsem zmíňil <i>„morphic halo“</i> jako prvek, který smalltalkovským GUI umožňuje reflexi. V diskuzi jsem byl požádán o další informace, proto vám dnes přináším článek na téma reflexe grafického rozhraní nejen ve Smalltalku.</p>
+
+
+<!-- break -->
+
+
+<h2>Reflexe</h2>
+
+<p><blockquote>In computer science, reflection is the ability of a computer program to examine, introspect, and modify its own structure and behavior at runtime.</blockquote>
+-- <a href="https://en.wikipedia.org/wiki/Reflection_(computer_programming)">Reflection (computer programming)</a>. <i>Wikipedia</i> [online]. [cit. 2017-01-12].</p>
+
+
+<p>Volně přeloženo:</p>
+
+<blockquote>Reflexe je v teoretické informace schopnost počítačového programu za běhu procházet, zkoumat, a modifikovat svou vlastní strukturu a chování.</blockquote>
+
+<p>V případě Objektově Orientovaného Programování (OOP) to typicky znamená, že je možné zjišťovat informace o objektech, například jméno třidy, ze které jsou instancovány, či kontrolovat přítomnost atributů, nebo metod. Existují ale také programovací jazyky, které takto mohou modifikovat cokoliv pomocí vyhodnocování datových struktur. K typickým zástupcům těchto jazylů patří například Lisp.</p>
+
+<p>V případě grafického rozhraní je reflexí chápána možnost modifikace „oken“ a jejich chování, ale také možnost modifikace samotných programů, které „okna“ generují.</p>
+
+
+<h2>Reflexe grafického rozhraní v X Window / Gnome</h2>
+
+<p>Budu předpokládat, že všichni znáte a používáte grafické uživatelské rozhraní v nějaké jeho formě. Já osobně používám Linux Mint s grafickým prostředím Mate, což je fork Gnome 2. Toto prostředí je ve svých principech podobné všem ostatním linuxovým grafickým rozhraním s okny - myší a klávesnicí můžete pohybovat s okny na jedné, či více plochách. Okna můžete zavírat, minimalizovat, maximalizovat a tak podobně.</p>
+
+<p>Grafické rozhraní v typických linuxových desktop managerech funguje všechno podobně. Program pomocí bindingů (napojení) na knihovny grafického serveru (xlib) generuje po svém spuštění nějaké „okno“. Grafický server reaguje na informace, které jsou mu bindingy předávány a uživatelské zprávy posílá zpět programu, který na ně může, ale nemusí nějak reagovat.</p>
+
+<p>
+<br />
+<img src="big_pics/fig.1.03.gif" /><br />
+<sub><em>(Princip fungování X Window System. Zdroj: <a href="http://menehune.opt.wfu.edu/Kokua/Irix_6.5.21_doc_cd/usr/share/Insight/library/SGI_bookshelves/SGI_Developer/books/XLib_PG/sgi_html/ch01.html">Volume One: Xlib Programming Manual</a>.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/unix-file-system-architecture-i13.gif" /><br />
+<sub><em>(Detailnější schéma principu fungování X Window Systému. Zdroj: <a href="https://goo.gl/images/RDfjkC">google dotaz</a> v obrázcích na „<a href="https://www.google.com/search?q=x+window+system+architecture&amp;safe=off&amp;client=ubuntu&amp;hs=tDk&amp;source=lnms&amp;tbm=isch&amp;sa=X">x window system architecture</a>“)</em></sub>
+<br />
+<br />
+</p>
+
+<p>Co se týče běžného uživatele, pro něj většinou žádná reflexe kromě té, kterou mu nabízí samotný program, přítomná není. Uživatel může myší či klávesovými zkratkami okno zmenšovat, zvětšovat, různě přesouvat a případně zavřít. Pokud mu to neumožní program, tak například nemůže změnit titulek běžící aplikace, či přidávat a ubírat položky v menu. Většina programů podobné chování uživatelům nenabízí, i když jsem již potkal takové, které tuto funkcionalitu umožňovaly.</p>
+
+<p>Pokročilý uživatel má možnost používat nástroje, které jsou typicky s X Window systémem distribuovány. Jedná se například o program <a href="http://linuxcommand.org/man_pages/xev1.html"><tt>xev</tt></a>, který uživateli umožňuje testovat klávesnici a myš.</p>
+
+<p>
+<br />
+<img src="big_pics/21_xev.png" /><br />
+<sub><em>(Výstup z programu xev spolu s grafickým oknem. V konzoli je možné vidět ID okna aplikace, názvy eventů a kódy stisknutých kláves.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>Dále pak třeba program <a href="http://www.xfree86.org/4.2.1/xwininfo.1.html"><tt>xwininfo</tt></a>, který umožňuje zobrazit informace pro okno, na které kliknete:</p>
+
+<p>
+<br />
+<img src="big_pics/22_xwininfo.png" />
+<br />
+<br />
+</p>
+
+<p>Tyto informace je pak možné používat s programy jako třeba <a href="http://tripie.sweb.cz/utils/wmctrl/">wmctrl</a>, či <a href="https://help.ubuntu.com/community/Devilspie">devilspie</a>, které na základě nich umožňují okna přesouvat a obecně ovládat například z nějakého scriptu, či programu, který si pokročilý uživatel napíše. Do velké míry se však stále jedná pouze o jiný přístup ke klasickému ovládání, počítače, protože informace získané reflexí oken není možné využít například k přidání nového prvku do menu programu.</p>
+
+<p>Pokud by uživatel něco takového chtěl udělat, nezbývalo by mu nic jiného, než získat přístup ke zdrojovým kódům aplikace, upravit je, zkompilovat a program znovu spustit s upravenými změnami. Obecně lze tedy říct, že ačkoliv klasický přístup k ovládání počítače reflexi nabízí, je velmi malá a špatně použitelná.</p>
+
+
+<h2>Reflexe v prostředí Endless OS</h2>
+
+<p>Před několika týdny se zde mihla <a href="/zpravicky/nove-pocitace-od-endless-mission-mini-a-mission-one">zprávička</a> zmiňující <a href="https://endlessos.com/">Endless OS</a>, která mě na první pohled zaujala velmi netradičním přístupem k reflexi grafického rozhraní. Součástí zprávičky je <a href="https://twitter.com/jonobacon/status/817059475437879305">video</a> (<a href="https://www.youtube.com/watch?v=4I6mXn5mbW8">youtube záloha</a>), kde je prezentována schopnost „otočit“ aplikaci a ihned začít upravovat zdrojové kódy:</p>
+
+<p>
+<br />
+<img src="big_pics/23_endlessos.gif" />
+<br />
+<br />
+</p>
+
+<p>Pod videem se nachází diskuze:</p>
+
+<p><blockquote>&lt;Havoc Pennington&gt; does it live-update the front of the window with your changes?<br />
+&lt;Jono Bacon&gt; I don't think it does right now, but I believe that is the plan. This is an early cut of the feature. <br />
+&lt;jrb&gt; definitely the plan and it does, though it's fragile.</blockquote></p>
+
+<p>Volně přeloženo:</p>
+
+<p><blockquote>&lt;Havoc Pennington&gt; dochází se změnami k úpravám přední strany okna?<br />
+&lt;Jono Bacon&gt; Nemyslím, že teď ano, ale věřím, že takový je plán. Jedná se o první verzi téhle funkcionality.<br />
+&lt;jrb&gt; Rozhodně je to v plánu a funguje to tak, i když je to křehké.</blockquote></p>
+
+<p>V podstatě se jedná o podobnou reflexi, jako v případě klasického desktopu, ale zajímavě zautomatizovanou tak, že kroky [editace - kompilace - běh aplikace] jsou notně usnadněny a zjednodušeny.</p>
+
+<p>Osobně musím říct, že na mě toto demo velmi zapůsobilo. Rozhodně se jedná o krok zajímavým směrem a budu sledovat, jak moc se ujme. Endless OS jsem si stáhl a chtěl vyzkoušet možnosti úpravy aplikací, v současném release zatím ale tato funkcionalita naneštěstí není přibalená.</p>
+
+<p>Doufám, že se nebude jednat jen o věc pro vývojáře a dokáži si představit systém, kde by uvedená funkcionalita byla v každé části grafického rozhraní a každé aplikaci. Zatím však bohužel nic takového neexistuje.</p>
+
+
+<h2>Reflexe grafického rozhraní ve Smalltalku</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Smalltalk">Smalltalk</a> je programovací jazyk, který vznikl v roce 1972 a tehdy také fungoval jako „operační systém“ pro počítače Xerox Alto.</p>
+
+<p>
+<br />
+<a href="big_pics/24_alto_swat.jpg"><img src="thumbs/24_alto_swat_thumb.jpg" /></a><br />
+<sub><em>(Zrekonstruovaný počítač Xerox Alto. Zdroj: <a href="http://www.righto.com/2016/10/restoring-ycs-xerox-alto-day-9-tracing.html">http://www.righto.com/2016/10/restoring-ycs-xerox-alto-day-9-tracing.html</a>)</em></sub>
+<br />
+<br />
+</p>
+
+<p>Smalltalk se celý točí kolem konceptu image - virtuálního počítače, ve kterém běží jak grafické rozhraní, tak i celý jazyk a aplikace. Virtuální počítač je možné pauzovat, ukládat a znovu spouštět tam, kde jste přestali.</p>
+
+<p>Abych se vrátil k původnímu tématu reflexe grafického rozhraní ve Smalltalku - celý koncept je postavený kolem ovládacího prvku nazvaného „morphic halo“. Dovolím si ukázku s kódem;</p>
+
+
+<h3>Morphic halo</h3>
+
+<p>Začnu tím tím, že si vytvořím widget modrého čverečku, jako ukázkový <i>morph</i> (prvek grafického rozhraní <a href="http://wiki.squeak.org/squeak/morphic"><i>Morphic</i></a>), takové malé hello world. To udělám tak, že do <i>Playgroundu</i> (ekvivalent konzole) napíši <tt>aMorph := Morph new openInWorld</tt>.</p>
+
+<p>
+<br />
+<img src="big_pics/01_pharo.png" />
+<br />
+<br />
+</p>
+
+<p>Pak text vyberu, kliknu na „Do it“ a tím kód vykonám - berte to podobně, jako kdybych ho napsal do terminálu;</p>
+
+<p>
+<br />
+<img src="big_pics/02_pharo_do_it.png" />
+<br />
+<br />
+</p>
+
+<p>Tím vznikne proměnná <tt>aMorph</tt>, ve které je uložena reference na objekt, který se zároveň zobrazí na obrazovce.</p>
+
+<p>
+<br />
+<img src="big_pics/04_morph_moved.png" />
+<br />
+<br />
+</p>
+
+<p>„Morphic halo“ je dialog, který se objeví okolo prvku na obrazovce na po použití speciální klávesovo-myšové zkratky <small>ALT+SHIFT+Kolečko</small>:</p>
+
+<p>
+<br />
+<img src="big_pics/00_morphic_halo.png" />
+<br />
+<br />
+</p>
+
+<p>V tomhle případě je tím prvkem který chci prozkoumat modrý čtvereček (ukázkový demo <i>morph</i>), okolo kterého se objevila spousta <i>ťuplíků</i>, na které se dá kliknout. K čemu jednotlivé <i>ťuplíky</i> slouží? Pokud nad nimi podržíte myš, zobrazí se krátká nápověda. Zde je přehled všech nápověd:</p>
+
+<p>
+<br />
+<img src="big_pics/06_morphic_halo_detail.png" />
+<br />
+<br />
+</p>
+
+<p><i>Ťuplíky</i> jsou vytvářeny dynamicky a u různých <i>morphů</i> (prvků grafického rozhraní) se zobrazují různé. Zde například chybí <i>ťuplík</i> pro rotaci <i>morphu</i>.</p>
+
+
+<h3>Objekty</h3>
+
+<p>Trochu odbočím; považuji za důležité vysvětlit, že jakýkoliv viditelný i neviditelný prvek ve Smalltalku je objekt. Modrý čtvereček na obrazovce je objekt. Tlačítka morphic halo jsou objekty. Co mají objekty společného? Reagují na zprávy. Zprávy fungují podobně, jako volání metod v jiných programovacích jazycích.</p>
+
+<p>Morphic halo nedělá nic jiného, než že vám zpřístupňuje interface pro posílání zpráv objektu, který je na pozadí grafického rozhraní. Pokud s objektem pohnete pomocí <i>morphic halo</i>, nebo třeba změníte barvu či velikost, <i>morphic halo</i> posílá (někdy zprostředkovaně přes zbytek morphic frameworku) objektu zprávy, aby se změnil a ten se na základě toho změní.</p>
+
+<p>Zajímavý je v tomhle ohledu ťuplík „Debug“, který vám umožňí otevřít si <i>Inspector</i>. <i>Inspector</i> je grafický pohled na interní stav objektu. Jakékoliv změny provedené v objektu se propisují do <i>Inspectoru</i> a naopak.</p>
+
+<p>
+<br />
+<img src="big_pics/07_morphic_halo_inspector.png" />
+<br />
+<br />
+</p>
+
+<p>V <i>Inspectoru</i> můžete vidět jednotlivé properties objektu, jako třeba <tt>color</tt> (objekt <tt>Color blue</tt> - objekt vrácený jako odpověď na zprávu <tt>blue</tt> poslanou objektu <tt>Color</tt>), nebo <tt>bounds</tt> (rozměry čverce).</p>
+
+<p>V dolní části inspectoru pak máte textovou plochu, která funguje podobně jako <i>playground</i>, tedy jako jakýsi shell. Cokoliv co sem napíšete se vykonává v kontextu objektu. Například můžete poslat zprávu <tt>self color</tt> a dostanete zpět objekt modré barvy. Stejně tak mužete například přiřadit jinou barvu, čímž změníte objekt na pozadí, což změní i reprezentaci na obrazovce a čtverec třeba zčervená.</p>
+
+<p>V <i>Inspectoru</i> je také možné zobrazit si poděděné metody objektu a spoustu dalších vecí:</p>
+
+<p>
+<br />
+<img src="big_pics/08_morphic_halo_inspector_2.png" />
+<br />
+<br />
+</p>
+
+<p>Jakýkoliv prvek grafického rozhraní může být takto zkoumán a upravován. Následující sekvence obrázků to ilustruje:</p>
+
+<p>
+<br />
+<img src="big_pics/09_morphic_halo_on_title.png" /><br />
+<sub><em>(Zde v okně označím pomocí <i>morphic halo</i> titulek.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/10_morphic_halo_on_title_2.png" /><br />
+<sub><em>(Titulek přenesu vedle.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/10_morphic_halo_on_title_3.png" /><br />
+<sub><em>(A pak ho zrotuji o 45° pomocí „morphic halo“ prvku vlevo dole.)</em></sub>
+<br />
+<br />
+</p>
+
+<p><i>Morphic halo</i> je podle mého názoru geniální koncept, který vám umožňuje měnit prvky grafického rozhraní, zkoumat je a hrát si s ními. Pokud vám něco nevyhovuje, prostě to vezmete a změníte dle vlastního uvážení. Díky tomu, že Smalltalk je postavený okolo konceptu <i>image</i> dává celý koncept smysl. Prostě si paměťovou mapu uložíte a příště začínáte tam, kde jste naposledy skončili, tedy i s upraveným grafickým rozhraním.</p>
+
+<p>Přesto zde stále existují nevýhody tohoto konceptu a způsobu úprav grafického rozhraní, ke kterým se za chvíli vrátím.</p>
+
+
+<h2>Reflexe grafického rozhraní v Selfu</h2>
+
+<p>John Malloney, autor grafického toolkitu <i>Morphic</i> ho původně vytvořil pro programovací jazyk <a href="http://www.selflanguage.org">Self</a>. Troufám si tvrdit, že v Selfu dává <i>Morphic</i> o hodně větší smysl, než ve Smalltalku. Proč? Protože Self je <i>prototype-based</i> (čti: na prototypech založený). Co to znamená?</p>
+
+<p>V Selfu neexistují třídy. To má jeden ne zcela zřejmý vedlejší efekt; není v něm přítomný implicitní konstrukční a dekonstrukční mechanismus. Celý systém s tím počítá a je postavený kolem této myšlenky.</p>
+
+<p>Je mi jasné, že všem nebude jasné co to znamená, proto to ještě rozvedu:</p>
+
+<p><i>Class-based</i> (čti: <i>na třídách založené</i>) jazyky, jako třeba Smalltalk, nebo Java, C++, či C# fungují na principu vytvoření popisu objektu, který chcete dostat. Tomu popisu se říká <i>třída</i>. Z tohoto popisu poté nějakým více, či méně přímým mechanismem vytváříte <i>instanci</i>, tedy samotný objekt, se kterým poté můžete pracovat. Při vytvoření instance objektu je zavolán <i>konstruktor</i> - speciální metoda, která nastaví nějaké hodnoty a například inicializuje reprezentaci objektu v grafickém rozhraní. Při rušení objektu je zavolán <i>destruktor</i>, který provede uklizení po objektu.</p>
+
+
+<p>
+<br />
+<img src="big_pics/25_class_vs_instance.jpg" /><br />
+<sub><em>(Rozdíl mezi třídou a instancí. Zdroj: <a href="http://www.java67.com/2014/11/difference-between-instance-and-object-in-java.html">Difference between instance and Object in Java</a>.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>Self patří k jazykům, které jsou <i>objektově orientované</i>, oproti spoustě ostatních jde však do extrému - výslovně zde není nic jiného, než objekty. Nejsou zde ani třídy, tedy popisy toho, jaký chcete vyrobit objekt. Když chcete vytvořit nový objekt, vezmete nějaký již existující (například prázdný objekt), ten <i>zkopírujete</i> a pak do něj přidáte, změníte, nebo uberete co v něm chcete mít. Místo dědičnosti je zde delegace, ať již přímá, nebo nepřímá, kde říkáte „když se v objektu něco nenachází, má se to hledat tady a tady“.</p>
+
+<p>Programy v Selfu je možné psát, nebo <i>skládat</i>. To funguje tak, že vezmete nějaký objekt, přidáváte do něj jiné objekty a některé ubíráte a sem tam přidáte trochu kódu a jinde změníte vlastnosti, ať již kódem, nebo pomocí nástrojů grafického rozhraní.</p>
+
+<p>Stejným způsobem můžete vzít samotné prvky grafického rozhraní, třeba tlačítko, pak ho zkopírovat, změnit jeho popisek a akci po kliknutí a pak ho přidat k dalším prvkům. Když jste s výsledkem spokojeni, celý si ho uložíte do vašeho původního objektu, který tvoří celou aplikaci.</p>
+
+<p>Po celou dobu nemusíte (ale můžete) vytvářet <i>popis</i> toho co chcete dělat, můžete to přímo dělat na objektech v paměti pomocí reflexe. Pak tyto objekty učiníte několika kliknutími součástí vaší aplikace, kterou můžete dále distribuovat a serializovat do zdrojového kódu. O to se stará <i>Transporter</i>.</p>
+
+<p>Důvod, proč jsem psal, že <i>Morphic</i> dává větší smysl v Selfu, než ve Smalltalku je nyní doufám jasný. Přestože v Smalltalku můžete vyvolat na libovolné komponentě <i>Morphic halo</i> a tuto komponentu živě zkoumat a upravovat, není zde přítomný princip, jak upravenou komponentu učinit součást vaší aplikace. I když vezmu titulek playgroundu a otočím ho o 180°, příště až otevřu playground, titulek bude opět stejný, jako byl na začátku. Kdybych ho chtěl změnit, musel bych změnit popis objektu - zdrojový kód ve třídě a otočit ho o 180° tam, i když jsem ho změnil přímo na své obrazovce.</p>
+
+<p>V Selfu bych mohl změnit přímo graficky pouze prototyp titulku a tím změnit i všechny příště vytvářené <i>kopie</i> stromu objektů, ze kterých je titulek složený.</p>
+
+<p>Samozřejmě, že pokud by byla v Selfu použita například metoda, která titulek vytváří zdrojovým kódem z popisu, tak by byla situace stejná jako ve Smalltalku, principielně je ale možné pracovat čistě způsobem úprav přímo konkrétních objektů.</p>
+
+<p>Autoři jazyka vás přímo podporují v myšlence, aby jste aplikace a grafické rozhraní tvořili tak, že rozeberete kopii nějakého objektu, který se vám líbí a ze kterého budete vycházet. K tomu slouží i <tt>Factory window</tt>, které automaticky zkopíruje každý element, který z něj „chytnete“ myší. Ten poté můžete přenést na volnou plochu a začít z něj skládat aplikaci.</p>
+
+
+<h3>Core sampler</h3>
+<p>Autoři jazyka použili v Selfu poněkud jiný přístup, než je Smalltalkovské <i>Morphic halo</i>. Vytvořili takzvaný <i>Core sampler</i>:</p>
+
+<p>
+<br />
+<img src="big_pics/11_core_sampler.png" />
+<br />
+<br />
+</p>
+
+<p>To je aplikace (ehm, objekt), který vám ukazuje z čeho jsou složené objekty na které namíříte křížek v zaměřovači.</p>
+
+<p>
+<br />
+<img src="big_pics/12_core_sampler_in_core_sampler.png" /><br />
+<sub><em>(Core sampler v Core sampleru. Vidíme, že se skládá z <tt>coreSamplerMorph</tt>.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/13_core_sampler_in_core_sampler_in_core_sampler.png" /><br />
+<sub><em>(Core sampler v Core sampleru v Core sampleru. Vidíme, že zatímco první C.S. se skládá jen z <tt>coreSamplerMorphu</tt>, na vrcholu druhého je <tt>labelMorph</tt> sedící na <tt>proxyMorph</tt> a tvořící nápis „coreSamplerMorph“.)</em></sub>
+<br />
+<br />
+</p>
+
+<p><i>Core sampler</i> vám umožňuje s morphy pracovat - díky němu můžete upravovat cokoliv na obrazovce, i když je to jinak nedotkutelné. Také můžete  zobrazit <i>Outliner</i> pro daný objekt. <i>Outliner</i> plní podobnou funkci jako <i>Inspector</i> v Selfu - v podstatě se jedná o tabulkový pohled na stav objektu, zároveň je to ale také hlavní způsob, jak objekty vytvářet a upravovat, což Smalltalkovský <i>Inspector</i> není (ten slouží k průzkumu objektů, ne k psaní popisů objektů - tříd). Díky outlineru získáváte přístup přímo k objektu, který <i>tvoří</i> samotnou aplikaci, k jeho zdrojovému kódu a properties.</p>
+
+<p>
+<br />
+<img src="big_pics/14_core_sampler_menu.png" /><br />
+<sub><em>(Menu pro otevření outlineru.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/15_core_sampler_outliner.png" /><br />
+<sub><em>(Outliner zobrazující různé <i>sloty</i>, z nihž některé obsahují odkazy na další objekty, jiné metody [slot <tt>prototype</tt>].)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/16_core_sampler_outliner_change_of_property.png" /><br />
+<sub><em>(Ukázka změny property <tt>myLabel</tt> grafickým přetažením reference na outliner objektu stringu <tt>'something else'</tt>.)</em></sub>
+<br />
+<br />
+</p>
+
+<p>
+<br />
+<img src="big_pics/17_core_sampler_shell_change_of_property.png" /><br />
+<sub><em>(Ukázka změny property <tt>myLabel</tt> posláním zprávy <tt>myLabel: 'different thing'</tt> objektu, který je reprezentován Outlinerem.)</em></sub>
+<br />
+<br />
+</p>
+
+
+<h3>Ukázka konstrukce aplikace</h3>
+
+<p>Jak jsem psal, aplikace v Selfu je možné skládat. Jak to vypadá ukazuje následující sekvenve obrázků:</p>
+
+<p>
+<br />
+<img src="big_pics/self_konstrukce.png" />
+<br />
+<br />
+</p>
+
+<p>Pro praktickou aplikaci by samozřejmě bylo nutné přidat ještě další prvky, jako tlačítka, různé gridy a zarovnání, aby aplikace tvořila skutečně okno. V principu je ale možné postupovat stejným principem. Jako zdroj všemožných widgetů slouží „Factory window“ - okno s ukázkami všemožných widgetů, které z něj můžeme přetahovat na plochu:</p>
+
+<p>Jakmile by bylo vše hotovo, bylo by třeba ještě o-anotovat všechny objekty a přiřadit je do společného modulu. Pak by již bylo možné je například uložit na disk a verzovat pomocí gitu, či je distribuovat dalším uživatelům Selfu.</p>
+
+
+<h3>Kritika</h3>
+
+<p>Přestože Self nabízí velmi zajímavé možnosti vytváření grafického rozhraní, je nutné také zmíňit negativní části.</p>
+
+<p>Specificky jde o jistou nepřehlednost co do anotace objektů, kdy je někdy možné některé objekty špatně oanotovat, což může mít za následek export pouze části aplikace.</p>
+
+<p>Dále jsou občas problémy s mixováním procedurálního a prototypového stylu programování, kdy může být složité zjistit, kde se vlastně daný <i>morph</i> bere a jestli náhodou není generován procedurálně nějakou metodou, namísto aby byl uložen jeho prototyp v nějaké property. Pokud dochází ke kopírování <i>morphu</i> před jeho zobrazením, může být nesnadné zjistit, z čeho je morph vlastně kopírován.</p>
+
+<p>Tyto problémy je obecně možné řešit lepšími nástroji, nutné je ovšem dodat, že vzhledem k minimální komunitě okolo Selfu (za poslední rok se konference účastnilo cca 10 uživatelů celosvětově) momentálně žádné takové nástroje nevznikají. I přes tyto nevýhody je však programování v Selfu zajímavé, když už pro nic jiného, tak pro svou odlišnost od zbytku světa.</p>
+
+
+<h2>Závěr</h2>
+
+<p>V blogu jsem prezentoval několik různých druhů a způsobů reflexe grafického uživatelského rozhraní, ani zdaleka se však nejedná o všechny.</p>
+
+<p>Jestliže vás zaujal Self, časem se pravděpodobně dočkáte seriálu, nebo si můžete přečíst <a href="http://kitakitsune.org/self/handbook/">oficiální příručku</a>. V případě, že vás zaujal Smalltalk, můžu doporučit <a href="http://pharo.org">http://pharo.org</a>, resp. knihu <a href="http://files.pharo.org/books/">Pharo by example</a>, či starší <a href="https://www.youtube.com/playlist?list=PLqbtQ7OkSta2LcMyGRbZoDS1IDW_59HT4">tutorial Squeaku na youtube</a>.</p>
+
+<p>Pokud znáte nějaký jiný způsob reflexe grafického rozhraní, či pokud máte nějaké dotazy, nebo připomínky, nezapomeňte se ozvat v diskuzi.</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>
