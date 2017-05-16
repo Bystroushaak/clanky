@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Na čem dělám</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
+</head>
+
+<body>
+
+
+<p>Původně to měla být <a href="/blog/bystroushaak/2017/5/diskuzni-mikroblog-na-cem-zajimavem-delate">odpověď do diskuze</a>, ale krapet mi to přerostlo.</p>
+
+
+<!-- break -->
+
+
+<p>Na čem dělám, hm, hm. Trochu problematicky definované, protože toho mám rozpracovaného spoustu, ale jsou to věci, kterým se věnuji jen třeba jednou za pár měsíců na půl hodiny, když se mi chce. Takže vezmu asi jen ty aktivnější věci.</p>
+
+
+<h2>Píšu knihu</h2>
+<p>To už jsem zmiňoval v blogu. Nechci se tu věnovat tématu a rozpitvávat to, spíš to vezmu prakticko-technicky: </p>
+
+
+<p>Píšu jí v <a href="https://en.wikipedia.org/wiki/Sigil_%28application%29">Sigilu</a>, což je OpenSource editor .epub souborů. ePuby mám rád, protože jsem s nimi už pracoval (doslova jsem byl za ně placený), taky protože jsem četl jejich specifikaci a protože jsou jednoduché (je to jen přejmenovaný .zip s trochou metadat a HTML texty).</p>
+
+
+<p>Sigil mě štve, protože je v mnoha různých ohledech retardovaný. Wysiwyg část je napůl nepoužitelná, občas zkurví underlying HTML kód a občas prostě jen nefunguje. K tomu je to celé rozbité co do klávesových zkratek, takže některé nejdou přemapovat a navíc to umí editovat jen .epub, nikoliv složku, což se pekelně blbě verzuje v GITu. Zkoušel jsem používat nějaké ty virtuální filesystémy, které umí mountnout .zip, ale celé to skončilo katastrofou (korupce archivu) a nefungovalo to, když jsem ten .zip měnil. Zakládal jsem na githubu issue, ale byl jsem poslán do hajzlu.</p>
+
+
+<p>Sigil mě ale sere i z hlediska naprosté absence jakékoliv automatizace a scriptovatelnosti. Jediné co umí je vkládat snippety s pár nahrazením skupin, ale celkově je to bída. Například poznámky pod čarou se musí dělat prostě natvrdo (prostě jí ručně napsat na konec kapitoly, vložit odkaz který na ní skočí a pak odkaz, který skočí zpět a celé si to ostylovat přes CSS), což je problém, když přidáte poznámku mezi dvě další, tak její číslo se samozřejmě nepřepočítá. Prostě sračka.</p>
+
+
+<p>Dělal jsem extenzivní průzkum existujících ePub editorů, ale všechno je to buď ještě větší sračka, nebo placené a nedostupné pod linuxem. Mohl bych si placený software dovolit, ale nechce se mi něco kupovat a pak se srát s Wine a zkoušet to editovat.</p>
+
+
+<p>Na psaní blogů běžně používám CherryTree, jenže problém je, že ta interně používá richtext sračky, a celé je to divně propletené a zmatené. Psal jsem z toho konvertor, ale funguje jen tak z 80% a u knihy si to fakt nelajznu, nehledě na to, že občas to HTML fakt chci editovat.</p>
+
+
+<p>Řešení je jen pár: používat Sigil a trpět, zkusit ukrást (a pak samozřejmě koupit, pokud pojede na linuxu a nebude sračka) nějaký profi editor, nebo si naprogramovat vlastní.</p>
+
+
+<p>Co se postupu týče, zatím to má asi 200kB komprimovaného textu.</p>
+
+
+<p>Problém mám taky s obrázky chtěl bych tam mít ilustrace, protože jinak je to prostě jen hrozivý blob textu. Různé schématické obrázky někde mezi komixem a UML. Vím co tam chci a umím to nakreslit, ale ..</p>
+
+
+<p>Minulý rok jsem si koupil kreslící tablet, ale ukázalo se, že můj mozek to prostě nechápe. Celý život strávený na relativních polohovacích zařízeních a nejdnou se to chová absolutně. Software na kreslení na linuxu taky stál za totální prdel, tak jsem ten tablet prodal na aukru.</p>
+
+
+<p>Teď hodně uvažuji, že si koupím iPad pro na kreslení. Koukal jsem na youtube a ten software je sice placený, ale o celé světelné roky jinde, než cokoliv co se dá sehnat na linux. Je to neporovnatelné co do ergonomie, doslova to nemá ani žádný protiklad v podobě software na linuxu.</p>
+
+
+<p>Hrál jsem si taky s vektorizací ručně kreslených obrázků v inkscape, ale bylo s tím příšerné práce (ta vektorizace, ne kreslení perem) a výsledek nic moc. Upravovat myší vektory prostě není úplně ono. Takže asi iPad, až dostanu zase náladu.</p>
+
+
+<h2>Dopisuji rozepsané věci</h2>
+<p>Mám tu ke dvoum desitkám rozepsaných článků, blogů a povídek. Já jsem hodně intuitivní typ autora, potřebuji mít chuť a náladu a pak to jde samo, jinak se do toho musím hrozně nutit. Povídky jsou v tomhle nejhorší, protože občas prostě začnu, napíšu pár kilobajtů textu a pak mi trvá roky, než budu mít zase tu správnou náladu. Ale postupně to roste.</p>
+
+
+<p>Dal jsem si předsevzetí, že minimálně ty povídky chci do konce roku dopsat. Není jich zas tak moc, tři co mám hodně rozepsané a další tři, kde mám jen základní nápad. Ty tři chci určitě dotáhnout a publikovat.</p>
+
+
+<p>Co se blogů a článků týče, tak se to snažím poslední dobou nějak zredukovat, jde to o hodně líp než povídky, takže se to tu bude postupně objevovat. Pár z nich je skoro připravených, jen to bude chtít doladit posledních 20%.</p>
+
+
+<h2>Čtu knihy</h2>
+<p>Potřeboval bych nesmrtelnost, nebo rapidní download informací do mozku*. Lidský život je hrozně krátký a mojí rychlostí čtu jen mizerných 50 knih ročně a to ještě jen když je dobrý rok. To je příšerně depresivní. Jen můj TODOstack, kde mám věci které mě právě teď zajímají a někde jsem je stáhl, či koupil budu číst tak příštích 6-10 let.</p>
+
+
+<p>*Poslední dobou jsem si hrál s speed reading aplikacema. Takové ty věci, kam hodíte text a ono vám to pak bliká slovo za slovem před očima rychlostí 500 slov (nebo kolik zvládnete) za minutu. Samozřejmě takhle nejdou číst všechny knihy, ale některé ano. Taky to používám jako <a href="https://chrome.google.com/webstore/detail/spreed-speed-read-the-web/ipikiaejjblmdopojhpejjmbedhlibno">doplněk do Chromia</a>. Na iOSu jsem si musel koupit aplikaci Velocireader, protože všechny ostatní stály za hovno. Tím myslím i všechny ostatní placené, vyhodil jsem za to pár desítek euro, ale pak jsem si od Apple nechal peníze vrátit, protože to prostě nešlo používat. Některé aplikace padaly, jiné prostě jen byly jen fakt špatně udělané.</p>
+
+
+<p>Začal jsem se teď věnovat víc fyzickým knihám. Mám celou jednu poličku věnovanou rozečteným a čekajícím knihám a rád bych se jich co nejvíc zbavil. Tak teď čtu několik knih najednou, podle chuti. Koupil jsem si křeslo, každý den si do něj sednu a snažím se si vyhradit čas jen na čtení. </p>
+
+
+<p>Mám rozečteno a fyzicky roloženo kolem křesla:</p>
+
+
+<ul>
+    <li><a href="http://www.databazeknih.cz/knihy/uhelny-kamen-evropske-vzdelanosti-a-moci-65778">Úhelný kámen evropské vzdělanosti a moci</a>, což je skvělá knížka o dějinách matematiky v Evropě.</li>
+    <li><a href="http://www.academia.cz/narativ-jako-virtualni-realita.html">Narativ jako virtuální realita</a>, což mě trochu znudilo, tak jsem tomu dal nižší prioritu.</li>
+    <li><a href="https://cs.wikipedia.org/wiki/Martin_Eden">Martin eden</a> - moc hezky psané, řekl jsem si, že přečtu všechno o autodidaktismu a tohle je fajn. Od Londona jsem toho četl víc, když jsem byl teenager a teď si v téhle knize hrozně moc užívám jeho styl vyprávění.</li>
+    <li><a href="http://www.databazeknih.cz/knihy/kniha-o-cislech-tajemstvi-cisel-a-jejich-vliv-na-nas-svet-193187">Kniha o číslech</a> populárně naučná kniha o dějinách matematiky. V levných knihách byla za asi 60kč, tak jsem neodolal a rozhodně nelituji.</li>
+    <li><a href="http://www.lulu.com/shop/andres-valloud/a-mentoring-course-on-smalltalk/paperback/product-3788890.html">A Mentoring Course on Smalltalk</a>. Trochu mi to připomíná Čistý kód, ale je to věnované Smalltalku a tak nějak moudřejší.</li>
+</ul>
+
+
+<p>Mezi nimi náhodně přepínám podle toho na co mám ten který den chuť, asi jako tlusťoch, který se v noci vloupe do obchodu se sladkostma, vysype si je kolem sebe na podlahu a pak leží a žere vždycky trochu z téhle hromádky a trochu z téhle..</p>
+
+
+<p>No a až to dočtu, tak na mě čeká na na poličce:</p>
+
+<p>
+<br>
+<a href="todo.jpg"><img src="todo_thumb.jpg"></a><br>
+<br>
+<br>
+</p>
+
+<ul>
+    <li><a href="https://en.wikipedia.org/wiki/I_Am_a_Strange_Loop">I Am a Strange Loop</a></li>
+    <li><a href="https://cs.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach">Gödel, Escher, Bach</a> - kdysi jsem to začal číst, ale nedočetl. Snad se k tomu dostanu během příštího půl roku, už se na to skoro cítím.</li>
+    <li><a href="https://www.amazon.com/G%C3%B6dels-Proof-Ernest-Nagel/dp/0814758371">Gödel's Proof</a> - doporučoval kamarád, je to docela krátké.</li>
+    <li><a href="http://www.goodreads.com/book/show/23012473-one-rainy-day-in-may">The Familiar</a> - tohle se musí vidět, fyzicky. Šel jsem náhodou před rokem do luxoru a říkal jsem si - ach, jsem znuděný, chtěl bych fakt něco jiného, netradičního a podivného. A do oka mi padlo tohle. Každá stránka téhle knihy je jinak vysázená. Jsou tam stránky jako déšť, stránky jako exploze krve, stránky, které bych si nevymyslel. Mám tuhle knihu rád, protože je tak hrozně jiná, až je krásná.</li>
+</ul>
+
+
+<p>
+<br>
+<img src="background_thumb.jpg">
+<img src="koule_thumb.jpg">
+<br>
+<img src="exploze_thumb.jpg">
+<img src="kulicky_thumb.jpg">
+<br>
+<br>
+</p>
+
+
+
+
+<p>V ebook readeru a ipadu toho mám narváno tolik, že kdyby to byly fyzické knihy, tak ohýbají prostor kolem sebe. Občas je v noci slyším, jak skučí, šeptají a volají na mě..</p>
+
+
+<p>Za poslední měsíc jsem dočetl <a href="https://www.root.cz/clanky/tvorba-open-source-softwaru-jak-uspesne-ridit-projekt-soutez/">Tvorba open source softwaru</a>, <a href="http://knihy.cpress.cz/cisty-kod.html">Čistý kód</a> a pár dalších nevýznamných knih.</p>
+
+
+<p>Přečetl jsem už skoro všechno od <a href="https://cs.wikipedia.org/wiki/Neal_Asher">Neala Ashera</a>, zbývá mi jen pár kratších novel. <a href="http://www.goodreads.com/book/show/10648878-the-departure">Departure</a> (a celá ta trilogie) bylo příšerně depresivní, ale dobré a nápadité. Dystopie, takové úrovně, že tam bagry shrabují mrtvoly devíti miliard lidí do moře. <a href="http://www.goodreads.com/book/show/31213232-infinity-engine">Infinity engine</a> má skvělou pointu.</p>
+
+
+<h2>Čumím na hýbající se obrázky</h2>
+<p>Teď skončila druhá série <a href="http://www.csfd.cz/film/404475-billions/komentare/">Billions</a>. Taylor je zajímavá postava. Vyšla první epizoda třetí série <a href="http://www.csfd.cz/film/360534-rick-and-morty/komentare/">Ricka &amp; Mortyho</a> a je naprosto grandiózně geniální. Vychází <a href="http://www.csfd.cz/film/267155-archer/komentare/">Archer</a>, <a href="http://www.csfd.cz/film/344888-silicon-valley/komentare/">Silicon Valley</a> a <a href="http://www.csfd.cz/film/371663-genius/komentare/">Genius</a>. <a href="http://www.csfd.cz/film/327673-orange-is-the-new-black/komentare/">Orange is the New Black</a> mi uniklo, že vyšla čtvrtá série a teď někdo leaknul pátou, tak mám o zábavu postaráno.</p>
+
+
+<p>Z toho co vyšlo na mě zapůsobila <a href="http://www.csfd.cz/film/407858-the-expanse/komentare/">Expanse</a> a <a href="http://www.csfd.cz/film/231162-jonathan-strange-mr-norrell/prehled/">Jonathan Strange &amp; Mr. Norrell</a>. <a href="http://www.csfd.cz/film/386360-taboo/komentare/">Taboo</a> bylo nanejvýš excelentní.</p>
+
+
+<p>Z anime koukám na vycházející druhou sérii <a href="http://www.csfd.cz/film/337874-singeki-no-kjodzin/komentare/">Attack on titan</a> a je to fenomenálně epicky dobrý. Zatímco první série nebyla špatná, tak tohle je nejlepší akce, kterou jsem kdy kde viděl. Ty epizody druhé série nemají hluchou ani minutu.</p>
+
+
+<p>Stáhnul jsem si <a href="http://www.csfd.cz/film/325388-sinsekai-jori/komentare/">Shinsekai Yori</a>, ale ještě jsem se k tomu nedostal, kromě první epizody. Vypadá to zajímavě. Viděl jsem zatím asi půlku <a href="http://www.csfd.cz/film/361006-zankjo-no-terror/komentare/">Zankyou no Terror</a>, ale nejsem z toho moc unešený. Rozkoukal jsem pár epizod <a href="http://www.csfd.cz/film/223320-musisi/komentare/">Mushishi</a>, ale je to spíš takové pomalé a melancholické. Jednou za pár týdnů si vždycky pustím epizodu a mám dost. Viděl jsem první epizodu <a href="http://www.csfd.cz/film/338504-boku-dake-ga-inai-maci/komentare/">Boku dake ga inai mači</a> a vcelku příjemně to na mě zapůsobilo. <a href="http://www.csfd.cz/film/223149-gensiken/komentare/">Genshikenu</a> jsem shlédl asi 4 díly a je to fajn. <a href="http://www.csfd.cz/film/215433-kino-no-tabi-the-beautiful-world/komentare/">Kino no Tabi</a> mám rozkoukané celé roky a čas od času si dám jednu epizodu. Je to alegorické filosofické anime a člověk se nad tím musí zamyslet. Taky jsem viděl tři epizody <a href="http://www.csfd.cz/film/443037-planetarian-chiisana-hoshi-no-yume/komentare/">Planetarian</a>.</p>
+
+
+<p>Z filmů nějak nevím, co bych doporučil GITS reimplementace byla docela sračka, zcela dle očekávání. <a href="http://www.csfd.cz/film/153528-kridla-honneamise/komentare/">Royal Space Force: The Wings of Honnêamise</a> na mě fakt zapůsobilo propracovaným alternativním světem, který je podobný, ale v tisíci detailech jiný. Líbil se mi <a href="http://www.csfd.cz/film/395620-zuctovani/komentare/">Accountant</a>, kvůli hlavní postavě autisty. Konečně někdo, kdo se nechová nesmyslně. <a href="http://www.csfd.cz/film/154411-rozvedeny-se-zavazky/komentare/">Louie</a> byl super, dal jsem to celé asi za dva týdny a když jsem skončil, připadal jsem si, že jsem přišel o kamaráda. Tyhle tři scény mluví za vše: <a href="https://www.youtube.com/watch?v=lTe6wtU-g_8">Louie CK witnesses a homeless guy being switched</a> a <a href="https://www.youtube.com/watch?v=muvloX0fk8c">Louie, Subway Busker &amp; the Homeless Man</a> a <a href="https://www.youtube.com/watch?v=A5Mpn4zYlAA">louie subway scene</a>. Je to primárně vtipné, ale taky o životě tím způsobem, jakým o něm vypráví málokdo. Určitě doporučuji. <a href="http://www.csfd.cz/film/409314-mlady-papez/komentare/">The Young Pope</a> mě taky zaujal.</p>
+
+
+<p>Sjíždím Jarmushe. <a href="http://www.csfd.cz/film/4747-noc-na-zemi/komentare/">Noc na Zemi</a> bylo skvělé a <a href="http://www.csfd.cz/film/239444-hranice-ovladani/komentare/">Hranice ovládání</a> zajímavé. <a href="http://www.csfd.cz/film/4742-mrtvy-muz/komentare/">Mrtvého muže</a> jsem viděl už dávno. <a href="http://www.csfd.cz/film/4744-ghost-dog-cesta-samuraje/komentare/">Ghost doga</a> taky a pořád si na něj čas od času vzpomenu. Nedávno se mi o něm zdálo, tak jsem si do čtečky potáhl <a href="https://cs.wikipedia.org/wiki/Hagakure">Hagakure</a>.</p>
+
+
+<h2>Opravuju Self</h2>
+<p>Snažím se přidat <a href="https://github.com/russellallen/self/issues/113">podporu unicode</a>, alespoň pro xlib vstup a výstup. Vstup už jsem <a href="https://github.com/russellallen/self/pull/120">udělal</a>, výstup více/méně vytrasoval, ale ještě to nerozchodil. Původně se mi do toho fakt nechtělo, ale nikdo jiný to prostě neudělá. Tak jsem si trochu připomenul C++, nastudoval xlib a aspoň se něco naučil.</p>
+
+
+<p>
+<br>
+<a href="self.png"><img src="self_thumb.png"></a><br>
+<br>
+<br>
+</p>
+
+
+<p>K tomu jsem rozdělal několik modulů a rád bych časem implementoval i package manager, protože je prostě potřeba.</p>
+
+
+<p>O Selfu mám taky rozepsaný článek (možná spíš sérii), kde je hotová první část z asi tří až pěti.</p>
+
+
+<h2>Přemýšlím</h2>
+<p>Přemýšlím nad meta-knihovnou, která by byla distribuovaná mezi všemi jejími členy. Když dočtu knihu, kterou nijak moc netoužím vlastnit, tak do ní napišu že je svobodná a nechám jí někde v kavárně, nebo v knihobudce. Přemýšlím nad systémem, že bych je někde centrálně evidoval a s kamarády si je pak různě vyměňoval. Chtělo by to do nich dát nějaký štítek s identifikací, ať člověk, který knihu najde jí může zaevidovat že jí má a případně půjčit zase někomu, kdo vyjádří zájem.</p>
+
+
+<p>Doma se mi už kupí celá hromada knížek, které tu mít nechci. Původně jsem měl v plánu je dát brmlabu, ale je jich tolik a jsou těžké, že jsem byl zatím líný je tam nosit a nemám auto. Teď přemýšlím, jestli z nich neudělat základ sdílené meta-knihovny.</p>
+
+
+<p>
+<br>
+<a href="prebytek.jpg"><img src="prebytek_thumb.jpg"></a><br>
+<br>
+<br>
+</p>
+
+
+<p>Přemýšlím taky nad čímsi jako wiki, co by sloužilo pro výměnu informací mezi lidmi a teamy, akorát by to nebylo na centrálním místě, ale vyměňovalo by si to články a jejich patche v síti kontaktů, trochu podobně jako usenet, akorát míněno primárně pro tvorbu článků a tvorbu knowledge base. Vymýšlím to čistě proto, že bych něco podobného asi potřeboval.</p>
+
+
+<h2>Pracuju</h2>
+<p>V práci používám jako notebook x220 a nemůžu si to vynachválit. Ten hardware je fyzicky naprosto super co se týče vzhledu, velikosti a klávesnice. Obrazovka by potřebovala vylepšit (ta moje verze není IPS) a paměť (mám tam 8G) a procesor taky, ale to zas tak moc nebolí při každodenní práci, když mám v práci k dispozici virtuální server, kam můžu offloadovat věci jako testovací databáze a tak.</p>
+
+
+<p>Pracuji jako python programátor a za editor používám Sublime, takže to nežere zas tak moc prostředků a nemám takové potřeby, jako lidi co mají nenažrané IDE.</p>
+
+
+<p>Dělám 4 dny v týdnu, pátý den mám volný. Snažím se ho věnovat psaní a programování vlastních věcí, v čemž mě momentálně hodně brzdí rozbitý stav Selfu, ale dělám na tom. Zatím mám novou práci jen měsíc a půl, tak je brzo na vyhodnocení, jak moc je ten den volna použitelný a jestli ho neproflákám, nebo to nebude chtít třeba dva dny volna.</p>
+
+
+<h2>Žiju</h2>
+<p>Snažím se vybalancovat osobní život. Trochu měním oblečení. Chci zkusit posilovnu, nejmladší brácha tam chodil a fakt se to na něm hodně opticky projevilo. Jen mám cringe z toho tam prostě přijít, když o tom nic nevím.</p>
+
+
+<p>S přítelkyní to různě skřípe. Naučil jsem se to moc neřešit, ženský jsou prostě ženský a je třeba to akceptovat, ne s tím bojovat. Nejvíc mě na ženských pořád mate, jak když si stěžují, tak <i>většinou</i> nechtějí, aby to člověk řešil. Chtějí si prostě jen stěžovat a když to začnete řešit, tak jim to vadí. Ale pak si občas stěžují a <i>hrozně</i> je nasere, když to neřešíte. Na to abych to uměl rozpoznat zatím pořád ještě nemám dost dobrý mentální model a začínám pochybovat, že kdy budu. Takže k tomu přistupuji flegmaticky.</p>
+
+
+<p>Už asi 8 měsíců mám padawanku. Prostě mi jednoho dne napsala nějaká holka, jestli bych jí nechtěl učit. Napsal jsem kdysi motivační článek kam jsem dal email a lidi pořád i po letech píšou. Samozřejmě, že jsem odpověděl, že ne, stejně jako všem před tím. Její email a snaha se někam posunout mě ale zaujala a zdála se mi upřímná, tak jsem jí alespoň nabídl, že můžeme vést konverzace a vyměňovat informace, že jí můžu dohazovat zajímavé knihy a tak podobně. Tak jsme si psali, každý měsíc třeba jeden dva emaily.</p>
+
+
+<p>Na začátku tohohle měsíce napsala, že se jde zabít. Nesouviselo to se mnou, prostě mladá holka, anorexie, problémy doma, ve škole, puberta, emocionální nestabilita. Zkoušel jsem jí to po emailu do čtyř do rána rozmluvit, ale nevyšlo to. Nechtěla se hádat, prostě mi to oznamovala. Poté co bylo vyhlášeno pátrání jí našli hasiči termovizí, naštěstí živou a teď je někde v blázinci, nepustí jí k počítači a mobil má jen na hodinu denně. #life</p>
+
+
+<p>Lidi kolem mě jsou křehké konstrukty, každý druhý má nějaký problém a různě se rozpadá a já se je snažím opravovat. Někdy to jde, jindy ne. Když chci a mám sílu, tak je většinou dokážu spravit. Stojí mě to soustředění a koncentrovanou snahu, ale jde to. Problém je, že jakmile od nich odvrátím pozornost, tak se zas rozpadnou. Jednou jsem to zkoušel opravovat na hlubších úrovních, ale vyděsilo mě to, dal jsem si zpátečku přestal.</p>
+
+
+<p>Přemýšlím, že bych jel zase do Chorvatska na dovolenou. Byl jsem tam před pár lety s kamarádem a jeho rodinou a bylo to bezchybné. Skoro týdny jsem nezapnul počítač a vůbec mi to nechybělo. Asi bych vybral ostrov Murter, kde jsme byli u známých poslední den a bylo to tam skvělé, lepší než Vrbice a míň komerční.</p>
+
+
+<p>Já vím, je to takové klišé, Čech v Chorvatsku, navíc jsou i hezčí země a dovolená je trapná a plýtvání peněz, ale .. ale. Občas se zamyslím a vidím moře, s modrou oblohou, jak se na něm líně valí vlny. Slyším řev cikád mezi olivníky, u kterého jsem si myslel, že nebudu moct spát a usnul jsem okamžitě, vzpomínám na tu vyprahlou kamenitou krajinu, která je krásná.</p>
+
+
+<p>
+<br>
+<a href="http://www.dubrovnik.tv/images/zaton%20neue%20bilder/vPlaza%20Vrbica.jpg"><img src="vrbica.jpg"></a><br>
+<br>
+<br>
+</p>
+
+
+<p>No a to je asi všechno, co stojí za zmíňku. Podělte se taky, buď formou samostatného blogu, nebo pod <a href="/blog/bystroushaak/2017/5/diskuzni-mikroblog-na-cem-zajimavem-delate">diskuzním mikroblogem</a>, ať se to dá všechno najít.</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>
