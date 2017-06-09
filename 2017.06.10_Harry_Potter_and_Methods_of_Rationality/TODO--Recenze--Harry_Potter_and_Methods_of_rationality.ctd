@@ -1,0 +1,412 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="0" foreground="" is_bold="False" name="Harry Potter and Methods of rationality" prog_lang="custom-colors" readonly="False" tags="" ts_creation="1495913314.95" ts_lastsave="1497049677.86" unique_id="452"><rich_text style="italic">Harry Potter and Methods of rationality</rich_text><rich_text>, zkráceně známá jako „</rich_text><rich_text link="webs http://www.hpmor.com/" style="italic">hpmor</rich_text><rich_text>“, je kniha Eliezera Yudkowskyho, pojednávájící o tom co by se stalo, kdyby Harry Potter neměl za nevlastního otce neschopného kreténa </rich_text><rich_text style="italic">Vernona Dursleye</rich_text><rich_text>, ale oxfordského profesora </rich_text><rich_text style="italic">Michaela Verres-Evanse</rich_text><rich_text>. V tomhle světě si Harry odmalička rád četl a už od útlého věku, kdy projevoval geniální nadání, chtěl být vědcem. Když potom přišel dopis z Bradavic, rozhodl se, že prozkoumá magii, pro větší slávu vědy.
+
+V textu jsem se snažil vyhnout spoilerům, jako u každé recenze to však ani v této úplně nejde. Pokud narazíte na něco, co se zdá jako spoiler, vězte, že jsem zcela záměrně vybral jen něco nepodstatného pro příběh, co je zmíněno třeba jen pár větami a nemělo by vám to zkazit překvapení. Samozřejmě pokud si to chcete fakt užít, tak nečtěte ukázky.
+
+</rich_text><rich_text scale="h2">Racionalita</rich_text><rich_text>
+Ač je to trochu zvláštní pojetí, tak jak už název napovídá, kniha je oslavou </rich_text><rich_text style="italic">racionality</rich_text><rich_text>. Autor vede po dlouhá léta blog Less wrong</rich_text><rich_text>, kde se věnuje různým (kognitivním) chybám, které lidé dělají, když přemýšlejí, ale také tomu jak se naučit je nedělat. Sám </rich_text><rich_text link="webs http://lesswrong.com/lw/gn/the_martial_art_of_rationality/">tvrdí</rich_text><rich_text>, že </rich_text><rich_text style="italic">racionalita</rich_text><rich_text> je něco jako „bojové umění pro mysl“.
+
+Jak píše ve své knize </rich_text><rich_text link="webs https://intelligence.org/rationality-ai-zombies/">Rationality - From AI to Zombies</rich_text><rich_text>, </rich_text><rich_text style="italic">racionalitou</rich_text><rich_text> myslí:
+
+1. Epistemickou racionalitu - systematické vylepšování a zpřesňování vašich přesvědčení.
+2. Instrumentální racionalitu - systematické dosahování hodnot.
+
+Termíny pak vysvětluje (velmi volně přeloženo) následovně:
+
+</rich_text><rich_text justification="center">Když otevřete oči a podíváte se na místnost kolem vás, uvidíte váš notebook ve vztahu k vašemu stolu, a taky uvidíte poličku na knihy ve vztahu ke zdi. Pokud se vám něco stane s očima, nebo mozkem, vaše mentální modely můžou tvrdit, že polička na knihy se nachází na místě, kde žádná není, takže když k ní půjdete pro knihu skončíte zklamáni.
+
+Takový je pocit nesprávného přesvědčení, mapu světa, která neodpovídá území. Epistemická racionalita je o vytváření přesných map. Vztah mezi přesvědčením a realitou se obecně nazývá „pravda“.
+
+Instrumentální racionalita je na druhou stranu o </rich_text><rich_text justification="center" style="italic">kormidlování</rich_text><rich_text justification="center"> reality - směřování budoucnosti tím směrem, kam chcete aby se vydala. Jedná se o umění výběru akcí, které vedou k výsledkům, jenž ve svých prioritách hodnotíte výše. Občas to nazývám „vyhráváním“.
+
+Racionalita je tedy o formování pravdivých přesvědčení a dělání vítězných rozhodnutí.</rich_text><rich_text>
+
+-- YUDKOWSKY, Eliezer. </rich_text><rich_text style="italic">Rationality: From AI to Zombies</rich_text><rich_text>. Machine Intelligence Research Institute, 2015, s. 7-8. ISBN 978-1-939311-14-6.
+
+</rich_text><rich_text scale="h2">Racionální fikce</rich_text><rich_text>
+</rich_text><rich_text link="webs http://rationalfiction.io/story/rational-fiction">Racionální fikce</rich_text><rich_text> </rich_text><rich_text scale="sup">(</rich_text><rich_text link="webs https://web.archive.org/web/20170202044437/http://rationalfiction.io/story/rational-fiction" scale="sup">webarchive</rich_text><rich_text scale="sup">)</rich_text><rich_text> je úplně nová kategorie fikce, kterou vytvořili lidé zformuvšivší se (podle google to není slovo, ale já ho prostě chtěl použít) kolem Eliezera Yudkowskyho a </rich_text><rich_text style="italic">hpmoru</rich_text><rich_text> poté, co začali vytvářet vlastní příběhy a psát vlastní knihy s podobnou tématikou a způsobem vyprávění. O kvalitě díla asi nejlíp vypovídá, že </rich_text><rich_text style="italic">Harry Potter a Metody racionality</rich_text><rich_text> se tak stal fanfikcí, na kterou lidé píší fanfikci.
+
+Mezi některé z charakteristik racionální fikce patří:
+
+• </rich_text><rich_text weight="heavy">Svět s příčetnými a konzistentními pravidly</rich_text><rich_text>. I magie se musí chovat konzistentně, mít své výhody a nevýhody.
+• </rich_text><rich_text weight="heavy">Realistické motivace</rich_text><rich_text>. Postavy musí být lidé chovající se jako lidé. Příběh není poháněný dopředu bez komunikace postav a idiotským chováním, nic se nestane jen proto, že to „příběh vyžaduje“. Pro všechno musí být přijatelný důvod.
+• </rich_text><rich_text weight="heavy">Inteligence</rich_text><rich_text>. Postavy se musí chovat a přemýšlet inteligentně a být v tom dobré. Hrdinové myslí čistě a jasně způsobem, který může čtenář sledovat, což je v protikladu třeba k detektivkám, kde detektiv na konci něco prostě intuitivně odvodí z nějakého nesmyslného detailu, který viděl na začátku knihy.
+• </rich_text><rich_text weight="heavy">Výuka racionality</rich_text><rich_text>. Cílem je naučit vás používat racionální způsob myšlení, ne se tvářit chytře za účelem ohromení čtenáře.
+• </rich_text><rich_text weight="heavy">„Vyřešitelná“ zápletka</rich_text><rich_text>, na kterou můžete přijít sami. Svět je konzistentní, postavy se chovají jako lidé. Nikdo není zlý prostě jen protože by se mu chtělo. I Voldemort má své důvody.
+• </rich_text><rich_text weight="heavy">Dekonstrukce světa</rich_text><rich_text>. Postavy nedosahují úspěchu násilím, ale pochopením světa ve kterém se nacházejí. Často přitom poukazují na nesmyslnosti, nekonzistence a chyby v původním příběhu.
+
+Ta dekonstrukce je co dodává příběhu na vtipnosti. Když jde například Harry Potter poprvé do magické banky u Gringottů, jakmile se dozví o podivném kurzu zlata, stříbra a mědi k sobě (1 zlatý galeon = 17 stříbrných srpců, 1 srpec = 29 měděných svrčků), okamžitě si uvědomí, že by mohl provést arbitráž a během pár měsíců položit celou magickou ekonomiku.
+
+Racionální fikcí je do určité míry možné nazvat třeba detektivky, typicky Sherlocka Holmese. Rozdíl spočívá v inteligenci příběhu, která je u Sherlocka dosahována externím popisem jeho génia a hlavně komplikovaností a nejasností příběhu a zápletky. Cílem racionální fikce není na vás zapůsobit, svět by jste tedy viděli očima Sherlocka, včetně způsobu, jakým přemýšlí. Není to pro vás externě geniální postava pronášející geniální hlášky, ale pochopitelný člověk, který dospěje k závěru aplikací </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Bayesovsk%C3%A1_statistika">bayesovské statistiky</rich_text><rich_text> a vědeckou metodou testování hypotéz.
+
+Ještě jinak:
+
+Rozdíl mezi běžnou fikcí a racionální fikcí je asi jako rozdíl mezi příběhem, kde sledujete protřelého karbaníka očima jiné postavy, či očima postavy, která o sobě sice mluví v první osobě, ale pouze pozorujete, jak vyhrává v kartách. Ostatním postavám řekne, že na karty má odjakživa štěstí a směrem ke čtenáři si pomyslí, že umí počítat karty. Napsat něco podobného je záležitostí zábavného popisu děje.
+
+Racionální fikce klade na autora úplně jiné požadavky - musí být skutečně dobrým hráčem pokru, protože vám ukáže mysl a postupy karbaníka. Uvidíte v jeho hlavě jak počítá karty, jaké používá triky a heuristiky, možná si dokonce zavzpomíná, jak se je učil, aby to naučil i vás. Prvotním cílem autora není ohromit vás, ale ukázat vám, jak vyhrávat v kartách. Napsat takový popis je na úplně jiné úrovni složitosti, protože to musí být </rich_text><rich_text style="italic">skutečně</rich_text><rich_text> inteligentní, a zároveň navíc ještě zábavně popsané.
+
+A ještě jednou a naposledy jinak:
+
+Mám rád brakové sci-fi, jako třeba Kulhánka, nebo Kopřivu. Jejich hrdinové jsou často velmi násilní a dostávají se do situací, které se zdají bezvýchodné, ale nakonec své problémy nějak vyřeší a zabíjí všechny své protivníky.
+
+Racionální fikce je něco podobného, jen místo násilí si dosaďte skutečnou a neomezenou inteligenci, kterou využívají tam, kde postavy z brakové sci-fi používají násilí. Dobře to ilustruje </rich_text><rich_text style="italic">racionální Harry</rich_text><rich_text>, který se ptá Brumbála, proč vlastně bojoval Voldemortem a neposlal všem Smrtijedům sovu s odjištěným útočným granátem, nebo je skrytě neotrávil neviditelnou špetkou </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Polonium">polonia</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h2">Harry Potter a Metody racionality</rich_text><rich_text>
+Celou knihu, která má přes 1600 stránek (640 000 slov), jsem doslova zhltl. Mám rád původního Harryho Pottera, protože jsem ho četl přesně ve chvíli, když jsem byl cílové publikum. Ve dvanácti jsem ho dostal k vánocům a od té doby jsem na něm vyrůstal a užil si všechny jeho příběhy, většinu dokonce několikrát. Musím uznat, že autorka umí skvěle psát a má zajímavou představivost. Nedávno jsem jen tak z nostalgie vzal do ruky v knihkupectví první díl a trvalo mi 10 stránek, než jsem se dokázal odtrhnout. Tak dobře napsané to je.
+
+Problém originálního Harryho Pottera však spočívá v jeho největší výhodě; ve své podstatě je to sice dobře odvyprávěná, ale přesto stále jen pohádka pro děti. Dospělí si jí sice můžou užít, ale jen jako dobře odvyprávěný příběh, asi jako si užijete film, nebo kafe s marshmallow. Není to něco, co by jste mohli následovat, je to příběh čtený pro potěšení.
+
+</rich_text><rich_text style="italic">Metody racionality</rich_text><rich_text> jsou o celé světelné roky jinde. Nikoliv jen formátem, ale i otázkami, které pokládá a naprosto nečernobílými postavami. Harry zde není dětský hrdina, ale předčasně vyspělý člověk neomezený konvenčním myšlením, s potenciálem stát se příštím temným lordem a ovládnout svět. Krátce potom, co se dozví jaké panují poměry a bordel v magické Británii se rozhodně ovládnout svět a stát se bohem. A to všechno v prvních pár kapitolách.
+
+Racionální Harry je následováníhodný a naprostou většinu času jsem se s ním, na rozdíl od originálu, dokázal ztotožnit. Tam kde je původní Harry odvážný a správňácký, se smyslem pro spravedlnost je tenhle Harry inteligentní a vzdělaný, řešící filosofické otázky a následující cíle, které bych následoval taky.
+
+Rozdíl mezi originální postavou dobře ilustruje část, kde </rich_text><rich_text style="italic">racionální Harry</rich_text><rich_text> uargumentuje před odjezdem do Bradavic profesorku Mcgonagallovou, aby mu dovolila koupit si magický kufr, ve kterém se nachází malý pokoj. Ten potom několik dní plní vědeckými knihami. Když pak přijede do Bradavic, nesnaží se působit na svoje spolužáky svou odvahou a tím že je chlapec který přežil. Ne. Místo toho jim do ruky vrazí Feynmanovo lekce z fyziky a ukáže jim, jak </rich_text><rich_text style="italic">mudlové</rich_text><rich_text> dokázali přistát na měsíci, zatímco magická Británie se stále nachází v morálním středověku, kdy je považováno za normální, že ze zločinců vysají duši mozkomorové v Azkabanu.
+
+</rich_text><rich_text style="italic">Racionální Harry</rich_text><rich_text> není jen inteligentní, je také hluboce humánní, přestože to většina okolních postav totálně nedokáže pochopit. Zatímco lidé kolem něj mají strach, aby se nestal temným lordem, jemu samotnému jde o to, jak zlepšit postavení všech na celé planetě, vyléčit rakovinu a využít magii ke kolonizaci hvězd.
+
+Kniha se mi velmi líbila způsobem vyprávění, ale především humorem. Vůbec si nevzpomínám, kdy naposledy jsem se takhle zasmál u knihy, že jsem fakt musel doslova ležet a smát se, protože jsem nebyl ničeho jiného schopný. Knihu jsem četl i v metru a navzdory přítomnosti ostatních lidí jsem naprosto nedokázal odolat a smál se na celé kolo jako idiot. Tak dobré to bylo.
+
+</rich_text><rich_text scale="h2">Originál, překlad</rich_text><rich_text>
+Originál se dá volně stáhnout na </rich_text><rich_text link="webs http://www.hpmor.com/">http://www.hpmor.com</rich_text><rich_text>: 
+
+• </rich_text><rich_text link="webs http://ikeran.org/rationality.epub">http://ikeran.org/rationality.epub</rich_text><rich_text>
+• </rich_text><rich_text link="webs http://ikeran.org/rationality.mobi">http://ikeran.org/rationality.mobi</rich_text><rich_text>
+• </rich_text><rich_text link="webs https://cdn.rawgit.com/rjl20/hpmor/0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf">https://cdn.rawgit.com/rjl20/hpmor/0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf</rich_text><rich_text>
+
+Český překlad je možné oficiálně stáhnout na stránkách </rich_text><rich_text link="webs http://archetypal.cz">archetypal.cz</rich_text><rich_text>:
+
+• </rich_text><rich_text link="webs https://archetypal.cz/2016/harry-potter-a-metody-racionality/">https://archetypal.cz/2016/harry-potter-a-metody-racionality/</rich_text><rich_text> (v pravém menu)
+
+Osobně mám k překladu mnoho výhrad, přestože jsem ho použil v ukázkách. Jedná se hlavně o různé kostrbatě přeložené souvětí, nebo slovíčka, která prostě nemají stejný význam, jako třeba přeložení „SNAKES ARE SENTIENT?“ jako „HADI JSOU ROZUMNÉ BYTOSTI?“, kde slovíčko „sentient“ má znamenat „vnímající“, „cítící“, nebo „myslící“ („Sentience</rich_text><rich_text> is the ability to perceive subjectively“), obecně to co odděluje lidi od zvířat. Ještě bych toleroval „rozumní“, ale „bytosti“ si tam překladatel prostě vyčaroval.
+
+Podobných problémů se v překladu nachází plno, včetně často dost šroubovaných výrazů, které neodpovídají hovorové mluvě, která ale v originále hovorová má být. Například „This is a test, and you have failed it.“ přeložený jako  &quot;Toto je test a vy jste v něm neuspěla.&quot;, kde ale hovorově víc sedí „Tohle je test ..“, protože slovo „toto“ se reálně hovorově skoro nikdy nepoužívá. Ale možná si jen vymýšlím.
+
+Co je však větší problém je nekompletnost překladu. Momentálně končí třetí podknihou u kapitoly 63, což je přibližně polovina knihy. Pokud se tedy pustíte do přeložené verze, budete muset buď dlouho čekat, nebo se stejně pustit do originálu. Doporučuji tedy rovnou originál.
+
+</rich_text><rich_text scale="h2">Ukázka</rich_text><rich_text>
+&quot;Kam teď?&quot;
+
+McGonagallová ukázala na obchod, který vypadal, jako by byl postaven z masa místo z cihel a pokryt chlupy místo barvou. &quot;V Bradavicích jsou povolená menší domácí zvířata - můžete mít například sovu k posílání dopisů-&quot;
+
+&quot;Nedá se zaplatit svrček nebo tak něco a pronajmout si sovu, když budu potřebovat poslat dopis?&quot;
+
+&quot;Ano,&quot; řekla McGonagallová.
+
+&quot;Pak tedy důrazné ne.&quot;
+
+McGonagallová přikývla, jako by si odškrtávala bod. &quot;Můžu se zeptat, proč ne?&quot;
+
+&quot;Jednou jsem dostal na opatrování kamínek*. Umřel.&quot;
+
+&quot;Myslíte si, že byste se nezvládl postarat o zvíře?&quot;
+
+&quot;Zvládl bych to,&quot; řekl Harry, &quot;ale celý den bych se nervoval, jestli jsem si vzpomněl ho nakrmit, nebo jestli pomalu hladoví ve své kleci a uvažuje, kde jen může být jeho pán a proč tu není žádné jídlo.&quot;
+
+&quot;Ta ubohá sova,&quot; řekla McGonagallová měkkým hlasem. &quot;Takhle opuštěná. Přemítám, co by tak udělala.&quot;
+
+&quot;No, brzy by byla opravdu hladová a začala by zkoušet vyškrábat si cestu z klece nebo z krabice nebo z čeho, a pravděpodobně by se jí to moc nedařilo-&quot; Harry se rázem odmlčel.
+
+McGonagallová pokračovala stále tím jemným hlasem. &quot;A co by se jí stalo potom?&quot;
+
+&quot;Omluvte mě,&quot; řekl Harry, vzal McGonagallovou za ruku a, jemně ale pevně, ji navedl do další postranní uličky; po cestě odrazili tolik gratulantů, že se z toho začínala stávat zaběhnutá rutina. &quot;Prosím, zakouzlete tu Quietus věcičku.&quot;
+
+&quot;Quietus.&quot;
+
+Harrymu se třásl hlas. &quot;Ta sova nepředstavuje mě, moji rodiče mě nikdy nezamykali ve skříni a nenechávali mě hladovět, nemám žádnou obavu z opuštění a nelíbí se mi směřování vašich myšlenek, profesorko McGonagallová!&quot;
+
+Čarodějka na něj vážně shlédla. &quot;A jaké myšlenky by to měly být, pane Pottere?&quot;
+
+&quot;Myslíte si, že jsem byl,&quot; Harry měl problém to vyslovit, &quot;že jsem byl zneužíván?&quot;
+
+&quot;Byl jste?&quot;
+
+&quot;Ne!&quot; zakřičel Harry. &quot;Ne, nikdy jsem nebyl zneužíván! Myslíte si, že jsem hloupý? Vím, co je to zneužívání dětí, vím o nevhodných dotecích a o tom všem a kdyby se něco takového stalo, zavolal bych policii! A nahlásil bych to řediteli školy! A vyhledal bych si vládní úřady v telefonním seznamu! A řekl bych to babičce a dědovi a paní Figgové! Ale moji rodiče by nikdy nic takové neudělali, naprosto absolutně vůbec nikdy! Jak se odvažujete si něco takového myslet!&quot;
+
+McGonagallová z něj nespustila zrak. &quot;Je mou povinností jakožto zástupkyně ředitele vyšetřovat možné známky zneužívání u dětí v mé péči.&quot;
+
+Harryho vztek se začínal vymykat kontrole a měnil se v čistou černou zběsilost. &quot;Neopovažujte se utrousit slovo o těchto, těchto pomluvách někomu jinému! Nikomu, slyšíte mě, McGonagallová? Takové obvinění může zruinovat lidi a zničit rodiny, i když jsou rodiče naprosto nevinní! Četl jsem o tom v novinách!&quot; Harryho hlas začal přecházet do pištivého jekotu. &quot;Systém pak neví, jak se zastavit, nevěří rodičům ani dětem, když říkají, že se nic nestalo! Neopovažujte se ohrozit mou rodinu něčím takovým! Nenechám vás zničit můj domov!&quot;
+
+&quot;Harry,&quot; řekla McGonagallová jemně a natáhla k němu ruku-
+
+Harry prudce ustoupil a jeho ruka vystřelila nahoru, aby tu její odrazila.
+
+McGonagallová ztuhla, potom ruku stáhla zpátky a o krok ustoupila. &quot;Harry, je to v pořádku,&quot; řekla. &quot;Věřím ti.&quot;
+
+&quot;Vážně,&quot; zasyčel Harry. Vztek mu stále proudil v žilách. &quot;Nebo se jen chcete dostat pryč, abyste mohla vyplnit papíry?&quot;
+
+&quot;Harry, viděla jsem tvůj domov. Viděla jsem tvé rodiče. Milují tě. Ty miluješ je. Věřím ti, když říkáš, že tě tví rodiče nezneužívají. Ale musela jsem se zeptat, protože tu je něco velmi zvláštního.&quot;
+
+Harry na ni chladně zíral. &quot;Jako co?&quot;
+
+&quot;Harry, za svůj čas v Bradavicích jsem viděla hodně zneužívaných dětí, zlomilo by ti srdce, kdybys věděl kolik. A když jsi šťastný, nechováš se jako jedno z těch dětí, vůbec ne. Usmíváš se na cizí, objímáš lidi, položila jsem ti ruku na rameno a ty jsi neucukl. Ale občas, jen občas, řekneš nebo uděláš něco, co vypadá velmi jako... jako chování někoho, kdo strávil svých prvních jedenáct let zamčený ve sklepě. Ne u té milující rodiny, kterou jsem viděla.&quot; McGonagallová naklonila hlavu, do jejího výrazu se znovu začínala vkrádat nejistota.
+
+Harry to přijal, zamyslel se nad tím. Temný hněv začínal opadávat, jak mu svítalo, že je mu s respektem nasloucháno a jeho rodina není v nebezpečí.
+
+&quot;A jak si svá pozorování vysvětlujete vy, profesorko McGonagallová?&quot;
+
+&quot;Nevím,&quot; řekla. &quot;Ale je možné, že se vám stalo něco, na co si nevzpomínáte.&quot;
+
+V Harrym se opět vzepjal hněv. To znělo příliš jako to, co četl v novinových příbězích o zničených rodinách. &quot;Potlačená paměť je žvást pseudovědy! Lidé nepotlačují traumatické vzpomínky, pamatují si je až příliš dobře po zbytek svých životů!&quot;
+
+&quot;Ne, pane Pottere. Existuje kouzlo, zvané Zapomeňte.&quot;
+
+Harry ztuhl na místě. &quot;Kouzlo, které maže vzpomínky?&quot;
+
+McGonagallová přikývla. &quot;Ale ne všechny následky dané zkušenosti, jestli chápete, jak to myslím, pane Pottere.&quot;
+
+Harrymu přeběhl mráz po zádech. Tahle hypotéza... nemohla být snadno zamítnuta. &quot;Ale mí rodiče nic takového nedokážou!&quot;
+
+&quot;Ne,&quot; řekla McGonagallová. &quot;Bylo by k tomu potřeba někoho z kouzelnického světa. Není... není ale žádný způsob, jak se o tom ujistit.&quot;
+
+Harryho racionalistické schopnosti se začínaly vzpamatovávat. &quot;Profesorko McGonagallová, jak jistá jste si svým pozorováním a jaká alternativní vysvětlení by se tu ještě mohla nabízet?&quot;
+
+McGonagallová otevřela dlaně, jako by chtěla zdůraznit, že jsou prázdné. &quot;Jistá? Nejsem si jistá ničím, pane Pottere. Za celý svůj život jsem nepotkala nikoho vám podobného. Někdy mi nepřipadáte jako jedenáctiletý. Občas ani ne tak docela lidský.&quot;
+
+Harryho obočí začala stoupat k nebi-
+
+&quot;Omlouvám se!&quot; řekla McGonagallová rychle. &quot;Velmi se omlouvám, pane Pottere. Snažila jsem se něco vystihnout a obávám se, že to vyznělo trochu jinak, než jsem měla na mysli-&quot;
+
+&quot;Naopak, profesorko McGonagallová,&quot; řekl Harry a pomalu se usmál. &quot;Přijmu to jako skvělý kompliment. Ale vadilo by vám, kdybych vám nabídl jiné vysvětlení?&quot;
+
+&quot;Prosím, do toho.&quot;
+
+&quot;U dětí se nepředpokládá, že budou výrazněji inteligentnější než jejich rodiče,&quot; řekl Harry. &quot;Nebo o mnoho příčetnější, možná - můj otec by mě pravděpodobně dokázal přechytračit, kdyby, chápejte, kdyby se doopravdy snažil, místo toho, aby využíval své dospělé inteligence k nacházení nových důvodů, proč nezměnit názor-&quot; Harry se zarazil. &quot;Jsem příliš chytrý, profesorko. S normálními dětmi si nemám co říct. Dospělí mě nerespektují natolik, aby se mnou skutečně mluvili. A upřímně, i kdyby to dělali, nezněli by tak chytře jako Richard Feynman, takže si místo toho raději přečtu něco, co Richard Feynman napsal. Jsem izolovaný, profesorko McGonagallová. Byl jsem izolovaný celý svůj život. Možná to má podobné efekty, jako být zamčený ve sklepě. A jsem příliš inteligentní, než abych vzhlížel ke svým rodičům způsobem, jaký se u dětí očekává. Moji rodiče mě milují, ale necítí se povinni zodpovídat se rozumu a někdy mi připadá, jako by tu oni byli ty děti - děti, které neposlouchají a mají absolutní moc nad celým mým životem. Snažím se nebýt kvůli tomu moc zahořklý, ale také se snažím být sám k sobě upřímný, takže ano, jsem zahořklý. A taky mám problém s ovládáním vzteku, ale na tom pracuju. To je všechno.&quot;
+
+&quot;To je všechno?&quot;
+
+Harry pevně přikývl. &quot;To je všechno. Určitě, profesorko McGonagallová, i v kouzelnické Anglii, normální vysvětlení vždy stojí za uvážení?&quot;
+
+*Pozn. překl.: Tohle skutečně existuje, hele: </rich_text><rich_text link="webs http://theyalwayscomeback.blogspot.com/2008/01/pet-rock.html" underline="single">http://theyalwayscomeback.blogspot.com/2008/01/pet-rock.html</rich_text><rich_text>
+
+Velká móda v sedmdesátých letech (generace Harryho rodičů). Svůj kamínek můžete naučit spoustu triků, například 'sedni', 'mrtvý', můžete mu dát jméno, vodit ho na procházky, slavit jeho narozeniny... a umučit hlady, máte-li Harryho talent.
+
+</rich_text><rich_text scale="h2">Druhá ukázka</rich_text><rich_text>
+Harry stočil hůlku v pravé ruce a řekl &quot;</rich_text><rich_text style="italic">Ma-ha-su!&quot;
+
+Následovalo další vysoko posazené &quot;bing&quot; od vznášející se modré koule, kterou profesor Quirrell Harrymu určil za jeho terč. Tento konkrétní zvuk označoval perfektní zásah, který Harry zaznamenal u devíti z deseti posledních pokusů.
+
+Profesor Quirrell někde vyhrabal kletbu, která byla extrémně lehká na výslovnost, měla směšně lehký pohyb hůlkou </rich_text><rich_text style="italic">a</rich_text><rich_text> měla tendenci strefit cokoli, na co jste se zrovna dívali. Profesor Quirrell pohrdavě prohlásil, že opravdová bojová magie je mnohem obtížnější. Že tahle kletba by byla ve skutečném boji k ničemu. Že to byl stěží ovladatelný výboj magie, jehož jedinou obtíží bylo zaměření, a že by při zásahu na chvilku způsobil bolest úměrnou tvrdé ráně do nosu. Že jediným účelem toho testu bylo zjistit, kdo se učí rychle, protože profesor Quirrell si byl jistý, že nikdo z nich se s touto nebo podobnou kletbou ještě nesetkal.
+
+Harryho nic z toho nezajímalo.
+
+&quot;Ma-ha-su!&quot;
+
+</rich_text><rich_text style="italic">Červený výboj energie</rich_text><rich_text> vystřelil z jeho hůlky a strefil terč, a modrá sféra znovu vydala to bing, které znamenalo, že jeho kouzlo </rich_text><rich_text style="italic">skutečně fungovalo</rich_text><rich_text>. Přál si, aby terče uskakovaly, jako ty malé koule, které Ben Kenobi používal pro trénování Luka, ale profesor Quirrell z nějakého důvodu místo toho seřadil všechny studenty a terče do úhledných řad, což zajišťovalo, že nestrefí jeden druhého.
+
+Poprvé od chvíle, kdy Harry dorazil do Bradavic, se cítil jako opravdový kouzelník.
+
+Takže Harry sklonil hůlku, skočil doprava, pozvedl ji, stočil a zařval &quot;</rich_text><rich_text style="italic">Ma-ha-su!&quot;
+
+Následovalo méně vysoké &quot;dong&quot;, které znamenalo, že se mu to téměř povedlo.
+
+Harry strčil hůlku do kapsy, skočil zpátky doleva, vytáhl ji a vypálil další paprsek energie.
+
+Vysoko posazené bing, které vyvolal, mohlo být tím nejuspokojivějším zvukem, který ve svém životě slyšel. Harrymu se chtělo z plných plic vítězoslavně zařvat. </rich_text><rich_text style="italic">OVLÁDÁM MAGII! BOJTE SE MĚ, FYZICKÉ ZÁKONY, JDU SI VÁS OHNOUT PŘES KOLENO!</rich_text><rich_text>
+
+&quot;</rich_text><rich_text style="italic">Ma-ha-su!&quot; Harryho hlas byl docela hlasitý, ale stěží slyšitelný přes stálý sbor podobných výkřiků přicházejících z celé plošiny.
+
+&quot;Dost,&quot; řekl zesílený hlas profesora Quirrella. (Nezněl hlasitě. Zněl jako normální hlas přicházející zpoza vašeho levého ramene, bez ohledu na to, kde jste se vzhledem k profesorovi nacházeli.) &quot;Vidím, že všem z vás se to už alespoň jednou podařilo.&quot; Všechny terčové koule se zbarvily červeně a odpluly směrem ke stropu.
+
+Profesor Quirrell stál na zvýšeném pódiu ve středu plošiny, jednou rukou se zlehka opíral o katedru.
+
+&quot;Říkal jsem vám,&quot; řekl profesor Quirrell, &quot;že si zahrajeme hru zvanou </rich_text><rich_text style="italic">Kdo je nejnebezpečnější student ve třídě</rich_text><rich_text>. V této třídě je jedna osoba, která ovládla jednoduchou sumerskou údernou kletbu rychleji, než kdokoli jiný-&quot;
+
+Ále, bla bla bla.
+
+&quot;- a pak se vydala pomoci sedmi dalším studentům. Za což ve vašem ročníku získává prvních sedm Quirrell bodů. Hermiono Grangerová, pojďte prosím dopředu. Je čas na další kolo hry.&quot;
+
+Hermiona Grangerová začala kráčet vpřed, na tváři smíšený výraz triumfu a obav. Havraspárští se na ní dívali s hrdostí, Zmijozelové se zlostí a Harry s upřímným podrážděním. Tentokrát si vedl dobře. Pravděpodobně byl i v lepší polovině, teď když všichni pracovali s předem neznámým kouzlem a Harry dočetl celou </rich_text><rich_text style="italic">Magickou teorii</rich_text><rich_text> od Adalberta Wafflinga. A stejně </rich_text><rich_text style="italic">si Hermiona vedla lépe.</rich_text><rich_text>
+
+V koutku Harryho mysli dlel strach, že Hermiona je jednoduše chytřejší než on.
+
+Ale pro teď se rozhodl upnout své naděje na to, že a) Hermiona přečetla mnohem víc než běžné učebnice a b) Adalbert Waffling byl netalentovaný opruz, který napsal </rich_text><rich_text style="italic">Magickou teorii</rich_text><rich_text>, jen aby se podbízel školní radě, která neměla vysoké mínění o jedenáctiletých.
+
+Hermiona došla k ústřednímu pódiu a vkročila na něj.
+
+&quot;Hermiona Grangerová zvládla naprosto neznámé kouzlo během dvou minut - skoro o celou minutu dříve, než další student v pořadí.&quot; Profesor Quirrell se na místě pomalu otočil, aby pohlédl na všechny studenty, kteří je pozorovali. &quot;Mohla by inteligence udělat ze slečny Grangerové nejnebezpečnější studentku ve třídě? Hm? Co myslíte?&quot;
+
+Nezdálo se, že by si v tuto chvíli kdokoli myslel cokoli. Ani Harry si nebyl jistý, co říct.
+
+&quot;Nuže, proč to nezjistit?&quot; řekl profesor Quirrell. Otočil se k Hermioně a pokynul směrem ke zbytku třídy. &quot;Vyberte si jakéhokoli studenta a sešlete na něj jednoduchou údernou kletbu.&quot;
+
+Hermiona ztuhla na místě.
+
+&quot;No tak,&quot; řekl profesor Quirrell hladce. &quot;Seslala jste toto kouzlo perfektně více než padesátkrát. Není to ani trvale škodlivé, ani nijak zvlášť bolestivé. Bolí to jen jako tvrdší facka a trvá to pár vteřin.&quot; Hlas profesora Quirrella ztvrdl. &quot;Tohle je přímý rozkaz od vašeho profesora, slečno Grangerová. Zvolte si cíl a sešlete jednoduchou údernou kletbu.&quot;
+
+Hermionina tvář se zkroutila hrůzou a hůlka se jí třásla v ruce. Harryho prsty plny sympatie svíraly jeho vlastní hůlku. I přesto, že chápal, o co se profesor Quirrell snaží. I přesto, že chápal, co chce sdělit.
+
+&quot;Pokud nezvednete hůlku a nevypálíte, slečno Grangerová, ztratíte Quirrell bod.&quot;
+
+Harry zíral na Hermionu, přál si, aby pohlédla jeho směrem. Pravou rukou si jemně poklepával na hruď. </rich_text><rich_text style="italic">Vyber si mě, já se nebojím...</rich_text><rich_text>
+Hermionina hůlka s sebou v její ruce škubla; pak se její tvář uvolnila a ona sklonila hůlku k boku.
+
+&quot;Ne,&quot; řekla Hermiona Grangerová.
+
+Její hlas byl klidný, a přestože nebyl hlasitý, v tom tichu ho slyšeli všichni.
+
+&quot;Pak vám musím odebrat jeden bod,&quot; řekl profesor Quirrell. &quot;Toto je test a vy jste v něm neuspěla.&quot;
+
+Zasáhlo ji to, to Harry viděl. Ale ramena udržela vzpřímená.
+
+Hlas profesora Quirrella byl chápavý a zdálo se, že plní celou místnost. &quot;Znalost věcí občas nestačí, slečno Grangerová. Pokud nedokážete udělit či přijmout násilí o intenzitě nakopnutého palce, pak se nedokážete bránit a mou třídou obrany neprojdete. Prosím, vraťte se ke svým spolužákům.&quot;
+
+Hermiona odešla zpátky k havraspárskému chumlu. Její tvář vypadala mírumilovně a Harrymu se, z nějakého podivného důvodu chtělo začít tleskat. I přesto, že profesor Quirrell měl </rich_text><rich_text style="italic">pravdu</rich_text><rich_text>.
+
+&quot;Takže,&quot; řekl profesor Quirrell. &quot;Zjistili jsme, že Hermiona Grangerová není nejnebezpečnějším studentem ve třídě. Kdo si myslíte, že by tu mohl být skutečně nejnebezpečnější? - vyjma mě, samozřejmě.&quot;
+
+Harryho oči se bezděky obrátily k zmijozelskému kontingentu.
+
+&quot;Draco ze vznešeného a starobylého rodu Malfoyů,&quot; řekl profesor Quirrell. &quot;Zdá se, že se poměrně hodně vašich spolužáků dívá vaším směrem. Prosím, předstupte blíže.&quot;
+
+Draco to udělal a nesl se s jistou pýchou. Vstoupil na pódium a s úsměvem se podíval na profesora Quirrella.
+&quot;Pane Malfoyi,&quot; řekl profesor Quirrell. &quot;Palte.&quot;
+
+Harry by se to pokusil zastavit, kdyby měl čas, ale Draco se v jediném hladkém pohybu otočil k havraspárské skupince, zvedl Hůlku, řekl &quot;</rich_text><rich_text style="italic">Mahasu!&quot; jako by to byla jedna slabika a Hermiona řekla &quot;Au!&quot; a to bylo všechno.
+
+&quot;Dobrá rána,&quot; řekl profesor Quirrell. &quot;Dva Quirrell body pro vás. Ale řekněte mi, proč jste si zvolil slečnu Grangerovou?&quot;
+Chvilka ticha.
+
+Konečně Draco řekl: &quot;Protože nejvíc vyčnívala.&quot;
+
+Profesorovy rty se zkroutily do tenkého úsměvu. &quot;A to je pravý důvod, proč je Draco Malfoy nebezpečný. Pokud by si vybral kohokoli jiného, oné osobě by se s vysokou pravděpodobností nelíbilo, že byla vybrána, a pan Malfoy by si s vysokou pravděpodobností udělal nepřítele. A zatímco by pan Malfoy pro svůj výběr mohl poskytnout i jiné vysvětlení, nejen, že by mu to nic nepřineslo, ale jen by si část z vás znepřátelil, zatímco ostatní stojí na jeho straně, ať už něco řekne, nebo ne. Zkrátka, pan Malfoy je nebezpečný, protože ví, koho má udeřit a koho ne, jak vytvářet spojence a jak se vyhýbat tvoření nepřátel. Další dva Quirrell body pro vás, pane Malfoyi. A vzhledem k tomu, že jste předvedl příkladnou ctnost Zmijozelu, myslím si, že i Salazarova kolej si zaslouží bod. Můžete se vrátit ke svým přátelům.&quot;
+
+Draco se zlehka uklonil a vrátil se ke zmijozelské skupině. Z toho směru se také začalo ozývat nějaké tleskání, ale profesor Quirrell udělal úsečné gesto a znovu nastalo ticho.
+
+&quot;Zdálo by se, že naše hra je u konce,&quot; řekl profesor Quirrell. &quot;Ale přesto je v této třídě jeden student, který je ještě nebezpečnější než dědic Malfoyů.&quot;
+
+A teď se z nějakého důvodu nechutná spousta lidí koukala na...
+
+&quot;Harry Potter. Prosím předstupte.&quot;
+
+To nevěstilo nic dobrého.
+
+Harry neochotně postoupil k místu, kde profesor Quirrell stál na vyvýšeném pódiu a jednou rukou se stále opíral o katedru.
+Zdálo se, že nervozita z toho, že je postaven do středu pozornosti, zostřuje Harryho myšlení. Blížil se ke stupínku a jeho mozek přebíral možnosti - o čem by si tak profesor Quirrell mohl myslet, že by to mohlo ukázat jeho nebezpečnost? Požádá ho, aby seslal kouzlo? Aby porazil Pána zla?
+
+Aby předvedl svou údajnou imunitu proti smrtící kletbě? Profesor Quirrell byl určitě příliš chytrý, než aby zkoušel něco </rich_text><rich_text style="italic">takového</rich_text><rich_text>...
+Harry se zastavil pořádný kus před pódiem a profesor Quirrell ho nevyzval, aby popošel blíž.
+
+&quot;Ironie je v tom,&quot; řekl profesor Quirrell , &quot;že jste se všichni podívali na správnou osobu, ale z naprosto špatných důvodů. Myslíte si,&quot; profesorovy rty se zkroutily, &quot;že když Harry Potter porazil Pána zla, musí být velmi nebezpečný. Bah. Byl mu jeden rok. Ať už Pána zla zabil jakýkoli rozmar osudu, s bojovými schopnostmi pana Pottera to nemělo nic společného. Ale poté, co jsem slyšel zvěsti, že jeden Havraspár vzdoroval pěti starším Zmijozelům, jsem vyzpovídal několik svědků a došel jsem k závěru, že Harry Potter bude mým nejnebezpečnějším studentem.&quot;
+
+Harrymu se do těla vlila dávka adrenalinu. Nevěděl, k jakému závěru profesor Quirrell došel, ale nemohlo to být nic dobrého.
+&quot;Ehm, pane profesore-&quot; začal Harry.
+
+Profesor Quirrell vypadal pobaveně. &quot;Vy si myslíte, že jsem přišel se špatnou odpovědí, že, pane Pottere? Naučíte se mít o mně </rich_text><rich_text style="italic">lepší</rich_text><rich_text> mínění.&quot; Profesor Quirrell se narovnal. &quot;Pane Pottere, všechny věci mají svá nezvyklá využití. Jmenujte mi deset nezvyklých využití, kterými by se objekty v této místnosti daly použít k souboji!&quot;
+
+Na chvíli Harry oněměl prostým šokem, že ho někdo pochopil.
+
+A potom se z něj začaly hrnout nápady.
+
+&quot;Jsou tu lavice dost těžké na to, aby zabily, pokud by byly spuštěny z velké výšky. Jsou tu židle s kovovými nohami, kterými by se s dostatečnou silou dal někdo probodnout. Vzduch v této učebně může být smrtící, pokud zmizí, vzhledem k tomu, že lidé umírají ve vakuu, a stejně tak může sloužit jako nositel jedovatých plynů.&quot;
+
+Harry se musel zarazit, aby se nadechl a do té pauzy profesor Quirrell řekl:
+
+&quot;To jsou tři. Potřebujete deset. Zbytek spolužáků si myslí, že už jste použil celý obsah třídy.&quot;
+
+&quot;</rich_text><rich_text style="italic">Ha! Podlaha může být odstraněna, aby byla vytvořena jáma plná bodáků, strop může být na někoho stržen, zdi mohou sloužit jako materiál k přeměnění libovolného počtu smrtících věcí - nožů, řekněme.&quot;
+
+&quot;To je šest. Ale určitě jste teď už u dna?&quot;
+
+&quot;Ještě jsem ani nezačal! Jen se podívejte na všechny ty lidi! Použít Nebelvíra k útoku na nepřítele je </rich_text><rich_text style="italic">běžné</rich_text><rich_text> použití, samozřejmě-&quot;
+
+&quot;To bych vám nedovolil započítat.&quot;
+
+&quot; - ale jejich krví můžete někoho utopit. Havraspáři jsou známí pro své mozky, ale jejich vnitřní orgány mohou být prodány na černém trhu a peníze použity na najmutí assassina. Zmijozelové nejsou jako nájemní vrazi zas tak užiteční, ale mohou být vrženi s dostatečnou silou a rozdrtit nepřítele. A Mrzimorové, krom toho, že jsou tvrdí pracanti, také mají kosti, které mohou být vyjmuty, naostřeny a použity jako zbraně.&quot;
+
+Teď už zbytek třídy zíral na Harryho v hrůze. Dokonce i Zmijozelové vypadali šokovaně.
+
+&quot;To je deset, i když jsem velkorysý, že vám počítám ten havraspárský. Teď, extra bod navíc za každé použití předmětu v místnosti, které jste ještě nejmenoval.&quot; Profesor Quirrell Harryho obdařil přátelským úsměvem. &quot;Zbytek třídy si myslí, že teď jste v koncích, protože už jste vyjmenoval všechno, až na terče, a o těch nemáte představu, jak by mohly být použity.&quot;
+
+&quot;Bah! Jmenoval jsem všechny lidi, ale ne svůj hábit, který může být použit k udušení nepřítele, pokud se mu dostatečně mnohokrát omotá kolem hlavy, nebo hábit Hermiony Grangerové, který může být roztrhán na pruhy, svázán do provazu a použit jako oprátka, nebo hábit Draca Malfoye, který může být použit k zapálení ohně-&quot;
+
+&quot;Tři body,&quot; řekl profesor Quirrell, &quot;a žádné další oblečení.&quot;
+
+&quot;Moje hůlka může být vražena do nepřítelova mozku skrz oční důlek&quot; a někdo vydal zhrozený, dusivý zvuk.
+
+&quot;Čtyři body, žádné další hůlky.&quot;
+
+&quot;Moje hodinky by mohly někoho udusit, kdyby mu byly nacpány do krku-&quot;
+
+&quot;Pět bodů a dost.&quot;
+
+&quot;Hmf,&quot; řekl Harry. &quot;Deset Quirrell bodů za jeden školní bod, správně? Měl jste mě nechat pokračovat, dokud bych nevyhrál školní pohár, ještě jsem ani nezačal s nezvyklým využitím všeho, co mám v kapsách.&quot; Nebo v samotném svrččím váčku, a to nemohl mluvit o obraceči času, nebo o neviditelném plášti, ale muselo tu být </rich_text><rich_text style="italic">něco</rich_text><rich_text>, co by mohl říct o těch červených sférách...
+
+&quot;</rich_text><rich_text style="italic">Dost</rich_text><rich_text>, pane Pottere. Dobrá, rozumí všichni, co dělá pana Pottera nejnebezpečnějším studentem ve třídě?&quot;
+
+Následovalo tiché souhlasné mumlání.
+
+&quot;Řekněte to nahlas, prosím. Terry Boote, co dělá vašeho kolegu nebezpečným?&quot;
+
+&quot;Ehm... um... je kreativní?&quot;
+
+&quot;</rich_text><rich_text style="italic">Špatně!&quot; zařval profesor Quirrell a zvuk jeho pěsti dopadající na katedru byl zesílen, takže každého přiměl sebou škubnout. &quot;Všechny nápady pana Pottera byly horší než neužitečné!&quot;
+
+Harry se překvapeně zarazil.
+
+&quot;Odstranit podlahu k vytvoření bodákové jámy? Směšné! Při boji nemáte tolik času na přípravu, a pokud byste ho měli, byly by tu stovky lepších způsobů k jeho využití. Přeměnit materiál ze zdí? Pan Potter nedokáže přeměňovat! Pan Potter měl přesně jeden nápad, který by mohl použít okamžitě, hned teď, bez zdlouhavé přípravy nebo spolupracujícího nepřítele nebo magie, kterou neovládá. Tím nápadem bylo vrazit hůlku do nepřítelova očního důlku. A i tak je mnohem pravděpodobnější, že by hůlku zlomil, než zabil svého soka. Stručně řečeno, pane Pottere, obávám se, že vaše návrhy byly jeden jako druhý úděsné.&quot;
+
+&quot;Cože?&quot; řekl Harry rozhořčeně. &quot;Požádal jste mě o nezvyklé nápady, ne o praktické! Myslel jsem nekonvenčně! Jak byste </rich_text><rich_text style="italic">vy</rich_text><rich_text> použil něco z téhle místnosti, abyste někoho zabil?&quot;
+
+Výraz profesora Quirrella byl nesouhlasný, ale kolem očí měl pobavené vrásky. &quot;Pane Pottere, nikdy jsem neřekl, že máte </rich_text><rich_text style="italic">zabít</rich_text><rich_text>. Existuje čas a místo, kdy je vhodnější zajmout nepřítele živého, a bradavická učebna obvykle bývá jedním z těchto míst. Ale abych odpověděl na vaši otázku - praštil bych ho do krku hranou židle.&quot;
+
+Od Zmijozelů se ozval nějaký ten smích, ale smáli se s Harrym, ne Harrymu.
+
+Všichni ostatní vypadali spíš zděšeně.
+
+&quot;Ale pan Potter teď ukázal, proč je nejnebezpečnějším studentem ve třídě. Požádal jsem o nezvyklé využití předmětů v této třídě k souboji. Pan Potter mohl navrhnout použití lavice k zablokování kletby, nebo použití židle k podražení nohou, nebo omotání látky kolem ruky k vytvoření improvizovaného štítu. Místo toho každé využití, které pan Potter jmenoval, bylo ofenzivní namísto defenzivní, a buď smrtící, nebo potenciálně smrtící.&quot;
+
+Cože? Počkat, to nemohla být pravda... Harryho se zmocnila náhlá závrať, když se snažil vzpomenout, co přesně navrhl, určitě tam musel být i jiný příklad...
+
+&quot;A to,&quot; řekl profesor Quirrell, &quot;je důvodem, proč nápady pana Pottera byly tak podivné a neužitečné - protože musel sáhnout hluboko do nepraktičnosti, aby udržel svůj standard </rich_text><rich_text style="italic">zabití nepřítele</rich_text><rich_text>. Každý nápad, který ho nesplňuje, pro něj nebyl hoden zvážení. To dokazuje vlastnost, kterou bychom mohli nazvat </rich_text><rich_text style="italic">úmyslem zabít</rich_text><rich_text>. Já ho mám. Harry Potter ho má, a to je důvodem, proč přiměl couvnout pět starších Zmijozelů. Draco Malfoy ho nemá, ještě ne. Panem Malfoyem by stěží otřásla řeč o běžné vraždě, ale i on byl šokován - ano, byl jste, pane Malfoyi, pozoroval jsem vaši tvář - když pan Potter popisoval, jak by použil těla svých spolužáků jako syrového materiálu. Ve vašich myslích jsou cenzoři, kteří vás přimějí se od takových myšlenek odvracet. Pan Potter myslí </rich_text><rich_text style="italic">čistě</rich_text><rich_text> jen na zabití nepřítele a za tím účelem se chopí jakýchkoliv prostředků; neodvrátí se od nich, jeho cenzoři nefungují. I přesto, že je jeho mladistvý talent tak netrénovaný a nepraktický, že je neužitečný, jeho </rich_text><rich_text style="italic">úmysl zabít</rich_text><rich_text> dělá Harryho Pottera Nejnebezpečnějším studentem ve třídě</rich_text><rich_text>. Poslední bod pro něj - ne, udělejme z toho bod pro Havraspár - za tuto nepostradatelnou vlastnost pravého bojového mága.&quot;
+
+Harryho ústa byla doširoka otevřená v bezhlasném šoku, zběsile pátral po něčem, co by na to mohl odpovědět. </rich_text><rich_text style="italic">Takový já přeci vůbec nejsem!</rich_text><rich_text>
+
+Ale viděl, že ostatní studenti tomu začínají věřit. Harryho mozek přebíral všechna možná popření, ale nemohl najít nic, co by obstálo proti autoritativnímu hlasu profesora Quirrella. Nejlepší, s čím dokázal přijít, bylo &quot;Nejsem psychopat, jsem jen velmi kreativní&quot; a to také znělo zlověstně. Potřeboval říct něco nečekaného, něco, co by přimělo lidi zarazit se a změnit názor-
+
+&quot;A teď,&quot; řekl profesor Quirrell. &quot;Pane Pottere. Palte.&quot;
+
+Nic se nestalo, samozřejmě.
+
+&quot;No, dobrá,&quot; řekl profesor Quirrell. Povzdechl si. &quot;Předpokládám, že všichni musíme někde začít. Pane Pottere, vyberete si, kterého studenta chcete, a sešlete na něj jednoduchou údernou kletbu. A vy tak</rich_text><rich_text style="italic">učiníte</rich_text><rich_text> dřív, než dnes rozpustím třídu. Pokud ne, začnu odebírat školní body, dokud to neuděláte.&quot;
+
+Harry opatrně zvednul hůlku. To udělat musel, nebo by profesor Quirrell začal odebírat body ihned.
+
+Pomalu, jako na otáčejícím se rožni, se Harry otočil ke Zmijozelům.
+
+A Harryho oči se střetly s Dracovými.
+
+Draco nevypadal ani v nejmenším vystrašeně. Nedával mu žádné viditelné znamení souhlasu, jako Harry ukazoval Hermioně, ale to se od něj taky stěží dalo očekávat. Ostatní Zmijozelové by to považovali za zvláštní.
+
+&quot;K čemu to váhání?&quot; řekl profesor Quirrell. &quot;Určitě je tu jen jedna očividná volba.&quot;
+
+&quot;Ano,&quot; řekl Harry. &quot;Jen jedna </rich_text><rich_text style="italic">očividná</rich_text><rich_text> volba.&quot;
+
+Harry stočil hůlku a řekl &quot;</rich_text><rich_text style="italic">Ma-ha-su!&quot;
+
+Ve třídě nastalo naprosté ticho.
+
+Harry třásl levou rukou a snažil se zbavit zbylého bodání.
+
+Následovalo další ticho.
+
+Konečně si profesor Quirrell povzdechl. &quot;Ano, ano, velmi důvtipné, ale byla tu jistá lekce a vy jste ji odrazil. Jeden bod z Havraspáru za předvádění vlastní chytrosti na úkor dosažení skutečného cíle. Hodina je u konce.&quot;
+
+A než kdokoli jiný stačil promluvit, Harry zazpíval:
+
+&quot;Jenom žertuju! HAVRASPÁR!&quot;
+
+Zavládlo krátké ticho, zvuk myslících lidí, a pak začalo mumlání, které rychle zesílilo na hluk hovorů.
+
+Harry se otočil k profesoru Quirrellovi, oni dva si potřebovali promluvit -
+
+Quirrell poklesl v ramenou a plahočil se zpátky ke své židli.
+
+Ne. Nepřípustné. </rich_text><rich_text style="italic">Opravdu </rich_text><rich_text>si potřebovali promluvit. K čertu s tou hrou na zombie, profesor Quirrell by se pravděpodobně probudil, kdyby jím Harry párkrát zatřásl. Harry zamířil dopředu -
+
+</rich_text><rich_text style="italic">NE
+NESMÍŠ
+ŠPATNÝ NÁPAD</rich_text><rich_text>
+
+Harry zavrávoral a se závratí se zastavil.
+
+A pak jej obklopil houf Havraspárů a diskuze začaly.
+</rich_text></node></cherrytree>
