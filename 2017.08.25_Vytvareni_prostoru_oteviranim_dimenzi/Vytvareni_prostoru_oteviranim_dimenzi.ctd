@@ -1,0 +1,189 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="0" foreground="" is_bold="False" name="YourWorldOfText" prog_lang="custom-colors" readonly="False" tags="" ts_creation="0.0" ts_lastsave="1503619837.24" unique_id="454"><rich_text>„Na co myslíš?“ Záblesk myšlenky je přetržen. Věc, která trvala pár vteřin se roztáhla do prostoru, kde zabírala rozsáhlé stromy, po jejihž větvích proběhla má mysl. S vyřčením otázky se roztříštila. Na co myslím? Čas posbírat střípky větviček, které ještě před chvílí byly tak krásně zářivě jasné. Ve stručnosti; </rich_text><rich_text style="italic">poslední dobou mě fascinuje koncept vytváření prostorů z ničeho otevíráním dalších dimenzí.</rich_text><rich_text>
+
+„Dej člověku hru a zabavíš ho na odpoledne. Dej mu prostor a zabavíš ho, dokud v něm nevytvoří svět.“
+
+</rich_text><rich_text scale="h1">YourWorldOfText</rich_text><rich_text>
+YourWorldOfText je stránka nabízející (virtálně) nekonečný prostor k editaci. Prostě jí otevřete a jste na souřadnicích 0, 0, kde můžete editovat libovolné pole v gridu prostým psaním, podobně jako v textovém editoru. Kromě speciálních polí jsou všechna pole přepisovatelná a můžete do nich psát co chcete. To samé ale můžou i všichni ostatní, kteří vidí „živě“ co děláte. Stejně tak vy vidíte jejich probíhající editace.
+
+-- obrázek YWOT --
+
+Z technického hlediska je celý projekt docela jednoduchý. Jedná se o webserver, který poskytuje jednoduchou stránku zobrazující grid, dál je tam trocha javascriptu, která přes WebRTC přenáší vaše změny na server a změny ostatních uživatelů k vám. Zajímavější je databáze, která si inteligentně ukládá, co kdo kde změnil a neomezuje prostor. Ten je v rámci konkrétní stránky virtuálně nekonečný, takže můžete scrollovat do libovolné strany libovolně dlouho a editovat tam co chcete, aniž by velikost databáze rostla kvadraticky.
+
+Z psychologického hlediska je to zajímavé víc, než jak to na první pohled vypadá. Probouzí to ve mě tisíce otázek a myšlenek a spoustu různých pocitů.
+
+</rich_text><rich_text scale="h2">Anarchie textového světa</rich_text><rich_text>
+Začněme očividným: </rich_text><rich_text weight="heavy">anarchie</rich_text><rich_text>.
+
+</rich_text><rich_text justification="center">„﻿Člověk je nejméně on sám, když hovoří o sobě. Dej mu masku, a poví pravdu.“</rich_text><rich_text>
+
+Nekonečná editovací plocha, kam může psát kdokoliv cokoliv, bez omezení přepisu. Můžete se zapojit do konverzací, napsat své názory. Můžete začít emulovat klasické chaty a bavit se s ostatními. Můžete spamovat adresami na porno servery, vytvářet ASCII arty, přepisovat knihy, vytvářet vlastní příběhy. Možností je nepřeberné množství.
+
+Můžete taky přepisovat texty ostatních lidí. Nic vám v tom nebrání, nikdo nevidí, že to děláte vy. Jednotlivé kurzory jsou plně anonymní. Nebudu vám lhát, sám jsem mazal věci ostatních, ať už protože mi aktivně vadily, nebo protože jsem potřeboval prostor pro seberealizaci. Někdy jsem jen změnil jedno slovo v textu někoho jiného a udělal ho vtipnějším.
+
+Proč? Prostě protože jsem mohl. Nejsou tu žádná pravidla a dělají to všichni. Ostatně, proč ne.
+
+</rich_text><rich_text scale="h2">Požáry a psychopati</rich_text><rich_text>
+Podobně jako v reálném světě, i tady se vyskytují požáry a psychopati. Nezřídka platí, že požáry jsou založené právě psychopaty.
+
+Někteří uživatelé prostě chtějí vidět svět hořet tak silně, že věnují hodiny času psaní scriptu, který pak přepisuje velké plochy nesmyslnými znaky. Někdo jiný se zas při psaní </rich_text><rich_text style="italic">paste scriptu</rich_text><rich_text> upíše a omylem „zapálí“ (smaže), rozsáhlé území.
+
+Jiní prostě jen aktivně ničí dílo ostatních. Viděl jsem pěkné ASCII arty, které byly před mýma očima přemazané lidmi, jenž místo nich vložili něco jako neustále opakované „FUCK“. Nepomohlo se s nimi prát a smazaný obrázek začít znovu obnovovat, potěšení z destrukce a z „výhry“ v souboji pro ně bylo příliš velké.
+
+</rich_text><rich_text scale="h2">Sebeorganizace memy</rich_text><rich_text>
+Jestliže je tak jednoduché ničit, jak je vůbec možné, že něco zbyde? Přemýšlel jsem nad tím, a jediná odpověď, která mě napadla je sebeorganizace memy.
+
+Některé memy se prostě neustále opakují. Můžete se vsadit, že někde na ploše bude hlava dogeho, pokemon, vlajky, hakenkrajc, </rich_text><rich_text link="webs http://knowyourmeme.com/memes/dick-butt">dickbutt</rich_text><rich_text>, domeček, penis, nebo vagina. Když ho někdo smaže, znovu tam „přirozeně“ vznikne. Nikoliv proto, že by ho původní autor šel obnovit, ale proto že ostatní ho budou podvědomě postrádat. Je to podobné jako s kresbou vagíny na špinavých pánských záchodech. Lidi prostě mají pocit, že by tam měla být a pokud nebude, dřív nebo později jí někdo přikreslí. Zcela nezávisle, jen protože může. Stejně jako se objeví piškvorky, sprostá básnička („č</rich_text><rich_text style="italic">lověče vzpomni se, že nejsi tele, dej díru na díru a neser vedle</rich_text><rich_text>“) a další podobné nesmysly.
+
+Říkám si, jestli kreativita tvořící složitější útvary nemá svůj základ v memech a lidských potřebách, jen je rozrostlejší díky tomu, že se na ní podílí více uživatelů a nejde tedy tak jednoduše vysledovat důvody.
+
+Je docela zajímavé, co tohle vypovídá o lidském kolektivním nevědomí, ve kterém jsou tyhle civilizační memy uloženy a ze kterého přetékají do různých volných ploch, kde se můžou lidi nezávisle vyřádit. Je zajímavé, co to vypovídá o volných plochách, kde se nic takového neobjeví.
+
+</rich_text><rich_text scale="h2">Řád z chaosu</rich_text><rich_text>
+Co mě nepřestává fascinovat je povstání řádu z totálního a naprostého anarchistického chaosu. Ta chvíle, kdy se stovky a tisíce individuálně jednajících lidí, kteří do té doby v podstatě aktivně škodí a blbnou, rozhodnou následovat nějakou myšlenku, konstruktivně se přidat a pak jí bránit.
+
+</rich_text><rich_text style="italic">Sky city</rich_text><rich_text> je město, které se nachází na souřadnicích Y: 1000. Tedy o 1000 scrollů obrazovky nahoru. Pokud začnete scrollovat z úvodní obrazovky, po několika planinách náhodně kvasícího chaosu narazíte na cestu, která vede nahoru a na první zmínky o </rich_text><rich_text style="italic">Sky city</rich_text><rich_text>.
+
+Přestože </rich_text><rich_text style="italic">Sky city</rich_text><rich_text> mnohokrát lehlo popelem, vždycky je znova obnoveno, protože žije v kolektivní mysli všech těch, kdo k němu dorazili. Sám jsem tam přidal svůj domeček. Podobných míst je na hlavní obrazovce víc. Kdo hledá, může tam najít celé malé světy se svými vlastními pravidly. Světy, které můžou a čas od času také jsou zničeny, ale vždycky znova povstanou, protože je pro nás, jako lidi důležité, aby tam byly.
+
+</rich_text><rich_text scale="h3">Reddit /r/place</rich_text><rich_text>
+</rich_text><rich_text link="webs https://www.reddit.com/r/place/">/r/place</rich_text><rich_text> je něco, co bude historie ještě dlouho pamatovat. O co šlo nejlépe shrnuje článek </rich_text><rich_text link="webs http://sudoscript.com/reddit-place/">When Pixels Collide</rich_text><rich_text>, který popisuje jak uživatelé, z nichž každý mohl přidat do obrázku jen jeden pixel jednou za pět minut zpočátku bojovali proti sobě, nakonec se však sami, decentralizovaně zorganizovali do různých skupin. Ty po mnoha soubojích vytvořily něco, co se nebojím nazvat uměleckým dílem:
+
+-- </rich_text><rich_text link="webs https://i.imgur.com/ajWiAYi.png">https://i.imgur.com/ajWiAYi.png</rich_text><rich_text> --
+
+Tenhle princip mě nutí se zamýšlet nad naším „reálným“ světem a realitou, v níž žijeme. Nad nekonečným střídáním chaosu a řádu. Nad válkami a rekonstrukcemi celé společnosti.
+
+</rich_text><rich_text scale="h1">Bitcoin</rich_text><rich_text>
+Dlouhou dobu mi nedá spát myšlenka Bitcoinu a jeho tvůrce, který prostě přišel, hodil do světa svoje myšlenky a kód a vyrobil tím v něm díru o velikosti miliard dolarů.
+
+Každý z nás má v torně příslovečnou </rich_text><rich_text link="webs https://www.databazeknih.cz/knihy/achaja-achaja-11494">maršálskou hůl</rich_text><rich_text>. Kdokoliv z nás může vytvořit prostory z ničeho, ve kterých ostatní vytvoří světy, protože jim to bude užitečné. Přitom to skoro nikdo nedělá.
+
+Proč? Proč spousta lidí dokáže a aktivně vytváří světy v prázdných prostorech, ale skoro nikdo nevytváří prostory samotné?
+
+Vznik Bitcoinu nevytvořil jen elektronickou měnu, vytvořil celou kulturu a ekonomii na něj napojenou, která se postupně čím dál víc přelévá do reálného světa. Věděli jste, že Alza akceptuje Bitcoiny a přímo v její pobočce v Holešovicích je </rich_text><rich_text link="webs http:///blog/bystroushaak/2015/8/nakup-bitcoinu">bitcoinomat</rich_text><rich_text>?
+
+</rich_text><rich_text link="webs http://img.e15.cz/img/11/normal690/3441153_alza-bitcoin-v3.jpg?v=3">http://img.e15.cz/img/11/normal690/3441153_alza-bitcoin-v3.jpg?v=3</rich_text><rich_text>
+
+Toho bych se teda fakt nenadál. Jsou lidi, co vytvořili burzy, lidé, jenž naprogramovali pooly a eshopy a pokladny a mobilní aplikace. Bitcoinové kavárny, bitcoinové směnárny, bitcoinové obchody. To všechno derivát axiomu vhozeného do světa neznámým člověkem. Semínko krystalu, z kterého rostou navazující služby do tvaru daného původním vynálezcem. Miliony lidských životů ohnuty ze svých trajektorií gravitační vlnou způsobenou růstem krystalu. To vše díky jednomu člověku a jedné hmotné softwarové myšlence vhozené do internetu.
+
+Představte si ten skrytý potenciál ve věcech, které můžou nenápadně klíčit z malých semínek kolem vás, jen je zatím většina lidí nevidí, protože ještě nevyklíčily dost na to, aby jejich gravitace ohýbala naše trajektorie.
+
+</rich_text><rich_text scale="h1">Secondlife</rich_text><rich_text>
+Když jsem poprvé narazil na </rich_text><rich_text link="webs http://secondlife.com/">Secondlife</rich_text><rich_text>, byl jsem ještě student střední školy (2007? tak nějak) a ani zdaleka jsem neměl dostatečně výkonný počítač a internetové spojení, abych se do ní mohl podívat. Poněkud netradičně jsem byl tedy nucený vydat se úplně jiným směrem - studiem vln, které Secondlife vyvolal v hladině internetu.
+
+Během přibližně roku jsem přečetl všechno možné, co se kde dalo najít. Četl jsem o ekonomii, četl jsem zážitky, návody na 3D editor, stránky na scriptování. Dokonce jsem se spolužákem vytvořil český web, který se scriptování věnoval a kde jsme dělali překlady jednotlivých částí API.
+
+Když jsem si později koupil lepší počítač a mohl se tak konečně poprvé do Secondlife podívat, neměla mě už moc čím překvapit. Co mě však překvapovalo byli lidé, kteří jí „obývali“.
+
+Jedna z věcí, která mi na Secondlife vadila byla nulová korelace s fungováním reálného světa. Všechno co tam vidíte jsou 3D modely vytvořené stejně jako v počítačových hrách v 3D editoru, nikoliv skládáním kostek tak jako třeba v pozdějším Minecraftu. 
+
+Celá Secondlife je jako nekonečně tenká kulisa z barevného obalu natažená podél myšlenek na věci. Co například skoro vůbec nefunguje je pohyb v prostoru, kde je jednodušší prostě lítat, či se teleportovat, než chodit, protože chození je otravné a pomalé. 
+
+Jakékoliv fyzické interakce s čímkoliv, co kde vidíte musí být dány tvůrcem věci. Pokud autor nepomyslel na přidání kontextového menu, kterým můžete věc ovládat, tak prostě nemůžete. Například zeď je vždycky nezničitelnou tenkou plochou, do které můžete libovolně mlátit krumpáčem a nikdy se skrz ní neprokopete. Ohniště má nascriptovanou možnost zapálit oheň, ale samotný oheň ve hře neexistuje - jedná se jen o vlastnost objektu ohniště, který nad sebou hýbe průhlednými kulisami vytvářejícími iluzi ohně. Nic nemůže shořet, maso nemůžete opéct. Je to jen 3D objekt bez vztahu k okolnímu světu.
+
+Secondlife se ani nesnažila o vytvoření emergentních vlastností systému, kde by se z několika základních axiomů a pravd (</rich_text><rich_text style="italic">svět se skládá z kostek, kostky se dají přemísťovat, funguje na ně pár zákonů fyziky a kombinací se z nich stávají předměty</rich_text><rich_text>) vynořily naprosto netušené možnosti systému. Místo toho buď tvůrce objektu ohniště počítal s tím, že si nad ním budete chtít ohřát špekáček a tak přidal do menu vlastnost „ohřát špekáček“, nebo si ho prostě ohřát nemůžete.
+
+Proto mě velmi překvapovalo, že prakticky každý, kdo se do Secondlife dostal, a měl dost peněz na to aby si koupil pozemek, začal stavět barák. Chápejte, barák ve světě, kde nejlepší způsob pohybu je létání, nedává moc smysl. Jen vám překáží stěny a strop. V Secondlife navíc nikdy moc dobře nevypadal „pohled z vlastních očí“. Ne že by nešel, ale prostor působil divně a nepřirozeně. Úplně to poslední, čím jste chtěli trávit čas, je otevírání dveří, nebo ukládáním věcí do skříně, když máte nekonečný inventář a skříň je jen inventář omezený na určité místo na mapě. Přesto to stovky tisíc lidí takhle dělají.
+
+Bylo pro mě zajímavé a poučné sledovat, jak většina lidí nemůže odložit mentální modely přinesené z reálného světa, i když měli před sebou programovatelný svět, kde očividně některé věci moc nefungovaly, nebo byly dokonce bolestivě neohrabané. Chápal bych, kdyby byli do nového světa sami přeneseni, ale v Secondlife jste nemohli detailně ovládat vaše ruce a nohy. Vše co jste mohli dělat bylo mačkat tlačítka s nascriptovanými pohyby a vyvolávat kontextové akce myší. Do takového světa nemá smysl portovat věci z fyzického světa. Přesto se toho dokázal vzdát jen málokdo.
+
+</rich_text><rich_text scale="h2">Minecraft</rich_text><rich_text>
+O to víc mě pak nadchl Minecraft, nebo spíš jeho geniální jednoduchost. Podobně jako u Secondlife se jedná o 3D hru, kterou spolu může sdílet více hráčů. Narozdíl od Secondlife ale v Minecraftu alespoň z počátku nebyla žádná možnost programovat, nebo vytvářet 3D modely. Všechno co chcete si musíte vyrobit z kostek nacházejících se v herním světě.
+
+Chcete dům z kamene? Tak musíte vytěžit krumpáčem kostky kamene, dát si je do inventáře a pak je naskládat do tvaru domu. Domy zde navíc dávají smysl, protože po světě chodí bubáci a zvířata a občas prší, takže se chcete schovat spolu s vašimi cennostmi.
+
+Tahle hra, kde můžete postavit z pár axiomů celé nikým nepředpokládané světy učarovala celé generaci. V roce 2012 jsem jí doporučil kolegovi z práce. Dnes, o pět let později, stále ještě provozuje vlastní server a s pár dalšími kamarády v něm tráví desítky hodin týdně stavbou všeho možného.
+
+Už když jsem na Minecraft poprvé narazil, tak to bylo v souvislosti s tím, že virtuální plocha všech světů v něm přesáhla plochu reálné zeměkoule. Existují lidé, kteří každoročně tráví v Minecraftu celé měsíce čistého času a lidé, kteří se živí a kteří zbohatli jen tím, že na Youtube točili videa, jak hrají.
+
+Minecraft ukazuje, že když dáte lidem prostor, zaplaví ho kreativitou, někteří mu dokonce propadnou natolik, že se tomu budou věnovat na úkor vlastního života. Musíte však umožnit vynoření vlastností systému z axiomů, nikoliv se snažit předpovědět úplně všechno, co s tím prostorem kdy kdo bude chtít dělat.
+
+</rich_text><rich_text scale="h1">Ethereum</rich_text><rich_text>
+Podobným případem jako Bitcoin je i Ethereum, další kryptoměna, o které jsem tu </rich_text><rich_text link="webs http:///blog/bystroushaak/2014/9/ethereum">už</rich_text><rich_text> </rich_text><rich_text link="webs http:///blog/bystroushaak/2015/8/ethereum-prakticky">psal</rich_text><rich_text>. Od prvního dne, kdy jsem viděl </rich_text><rich_text link="webs https://github.com/ethereum/yellowpaper">Yellowpaper</rich_text><rich_text>, celé měsíce před tím, než prakticky vznikla použitelná testovací implementace mi bylo jasné, že to bude bomba. Důvodem mého nadšení bylo, že tak jako Minecraft přidává oproti Secondlife celou další dimenzi neomezených možností, tak Ethereum přináší neomezené možnosti scriptování nad blockchainem. Máte možnost </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Chytr%C3%BD_kontrakt">scriptovat</rich_text><rich_text> měnu, programovat transakce a ukládat do nich logiku.
+
+Na rozdíl od Bitcoinu, Ethereum se stále rozpíná a většina lidí ještě ani nestihla vymyslet k čemu ho použít. Ethereum je prostor v prostoru, měna, která se dá programovat. Rozpínající se krystal rostoucí z jádra myšlenky kontraktů, kolem kterého krouží celé planety aplikací, nesené na bedrech gravitace centrální hvězdy zářícího </rich_text><rich_text weight="heavy">Ξ</rich_text><rich_text>. A každý si může přidat vlastní planetu.
+
+Dneska, necelý rok a půl po uvedení je z Etherea druhá nejdražší kryptoměna s kapitalizací poloviny Bitcoinu</rich_text><rich_text strikethrough="true"> (26 miliard dolarů, Bitcoin má 46)</rich_text><rich_text>:
+
+</rich_text><rich_text scale="h1">Nad-dimenze</rich_text><rich_text>
+Podíváme-li se na na vzor, vidíme že se neustále opakuje;
+
+• Jsou webové stránky. Vzniknou blogy a rozjede se blogování na miliardu způsobů a je to takový boom, že blog má v té době </rich_text><rich_text style="italic">každý</rich_text><rich_text>.
+• Jsou blogy a weby. Vznikne diskuze, která vytváří uživatelský prostor, nezřídka delší než články pod kterými se vedou a kde komentuje </rich_text><rich_text style="italic">každý</rich_text><rich_text>.
+• Jsou diskuzní fóra. Vznikne reddit, což jsou fóra, kde může kdokoliv vytvářet nejen diskuzi, ale i kategorii (další dimenze).
+• Jsou uživatelské blogovací platformy. Vzniknou sociální sítě, což jsou v podstatě jen víc rozdrobené blogy plně spravované a vytvářené uživateli. Účet tam mají i lidé, kteří v době blogů ani nevěděli jak zapnout počítač.
+
+Vznikne něco zajímavého, některými lidmi označovaného jako revoluční Věc. Spousta lidí to používá. Někdo si uvědomí omezení Věci a rozšíří jí o další dimenzi, kterou můžou </rich_text><rich_text style="italic">tvořit</rich_text><rich_text> uživatelé, ideálně axiomaticky, takže neomezeně. Vznikne exploze vytvářející gigantické prostory, které jsou postupně zaplněňovány uživateli.
+
+Říkám si, kde jsou tak asi ještě příhodné příležitosti k otevření nových dimenzí, které explodují uživatelskou aktivitou. Snažím se dívat kolem sebe, abych je viděl se otevírat a mohl se přidat.
+
+</rich_text><rich_text scale="h2">Aplikace vs API vs nekonečné API</rich_text><rich_text>
+Občas se zamýšlím nad rozdíly mezi aplikacemi, API a programovacími jazyky. Nad tím, jestli vůbec musí existovat rozdíly, jestli jsme jen nespadli do pasti historického vývoje. Všechno je to jenom různě rozvinutý uživatelský interface, různě zazoomovaný pohled na tu samou fraktální věc, ve které se na všech úrovních zrcadlí kontrola </rich_text><rich_text style="italic">uživatelem</rich_text><rich_text>.
+
+Kdysi dávno jsem začal psát API, do kterého jsem přidal možnost uložit JSON hodnotu. Pak jsem přidal API volání, které tu hodnotu umělo načíst a předat a taky na základě ní udělat </rich_text><rich_text style="italic">IF</rich_text><rich_text> podmínku. Než jsem se nadál, měl jsem v REST API implementováno sedm axiomů lispu. Vzniklo API, které umožňilo definovat a rozšiřovat samo sebe.
+
+-- </rich_text><rich_text link="webs http://www.michaelnielsen.org/ddi/wp-content/uploads/2012/04/Lisp_Maxwells_Equations.png">http://www.michaelnielsen.org/ddi/wp-content/uploads/2012/04/Lisp_Maxwells_Equations.png</rich_text><rich_text> --
+
+Kde končí programovací jazyk a začíná aplikační rozhraní? Proč by mezi tím měly být rozdíly? Proč by aplikace měly být odděleny od programovacích jazyků? Proč musí tlačítko na obrazovce zastiňovat funkci programovacího jazyka a volání API, které se provede pod tím?
+
+Co se stane, pokud aplikujeme předchozího přincipu </rich_text><rich_text style="italic">přidání dimenze</rich_text><rich_text> na koncept aplikace. Představte si grafickou aplikaci - jak dodáte uživatelskou dimenzi? Typickým příkladem je umožnit jí scriptovat, ale to je odtržené od uživatelského zážitku. Minecraft nezískal své uživatele tím že by jim umožnil scriptovat, ale tím že umožnil stavět světy, zevnitř. Proč nejdou aplikace rozebírat a napojovat zevnitř tak, jak to </rich_text><rich_text link="webs http:///blog/bystroushaak/2017/1/reflexe-grafickych-rozhrani">uměl</rich_text><rich_text> třeba Self už před třiceti lety?
+
+</rich_text><rich_text scale="h3">Meta-médium</rich_text><rich_text>
+Zamýšlím se nad meta-médiem, které by umožňovalo uživatelům dimenze nejen přidávat, ale i odštěpit z původního produktu.
+
+Představte si, že vytvoříte model počítače v Minecraftu. Jak ho přenesete ven a uděláte z něj aplikaci? Co když nascriptujete nějakou aplikaci makry a uživatelskými scripty - proč nejde vzít jen ta oscriptovaná část a oddělit z původní části? Určitě to není nemožné, jak dokazuje třeba paper </rich_text><rich_text link="webs http://bibliography.selflanguage.org/gold.html">Sifting Out the Gold: Delivering Compact Applications From an Exploratory Object-Oriented Environment</rich_text><rich_text>.
+
+Říkám si, proč probíhá tak málo na poli uživatelské rozšiřitelnosti softwaru a jak vrátit moc zpět do rukou uživatelů, aniž bych jí vzal programátorům.
+
+</rich_text><rich_text scale="h2">Hardware</rich_text><rich_text>
+Podívejte se na hardware všude kolem vás. Váš mobil, televize, monitor, hodinky, settopbox, rádio, chytrá lampička, klimatizace, semafory, senzory teploty, bezdrátové sítě, byty, auta. Čím dál víc věcí má v sobě počítače, často schopné komunikace. </rich_text><rich_text link="webs http:///blog/bystroushaak/2016/12/budoucnost">Predikce navíc ukazují</rich_text><rich_text>, že tenhle trend se bude jen prohlubovat. V budoucnosti bude mít v sobě nějakou formu počítače a schopnost komunikovat všechno, co má smysl kontrolovat, a spousta věcí, u kterých to žádný smysl nedává.
+
+Budoucnost bude taky hodně o </rich_text><rich_text link="webs https://krabice.wordpress.com/2017/04/28/dohledovy-kapitalismus-cast-1-panoptikon-transparentni-totalita-jaka-tu-jeste-nebyla/">konfliktu</rich_text><rich_text> majitelů hardware s výrobci, kteří se čím dál víc dostávají do pozice, kde mají možnost </rich_text><rich_text style="italic">majitelům</rich_text><rich_text> degradovaným na </rich_text><rich_text style="italic">uživatele</rich_text><rich_text> aktivně škodit ve jménu většího profitu. Podle mě je zde velký prostor pro hnutí, které by si dalo za cíl vyrábět, či tlačit na výrobce aby vyráběli hardware, nad kterým má </rich_text><rich_text style="italic">majitel</rich_text><rich_text> absolutní kontrolu.
+
+Jedny z mých prvních blogů zde na abclinuxu byly o </rich_text><rich_text link="webs http:///blog/bystroushaak/2011/2/squidge">hackování domácího routeru</rich_text><rich_text> tak, aby na něm fungoval linux. Dodneška moc nechápu, proč jsem vlastně musel router hackovat a pájet na něj konektory. Proč jsem jako jeho majitel prostě nemohl nahrát alternativní verzi operačního systému.
+
+Současný svět hardware je roztříštěný a zlomený. Každý si dělá co chce a jak chce zcela bez ohledu na lidi, kteří si zařízení koupí. Naopak, čím méně uživateli umožní se v něm hrabat, tím lépe. Ani po skoro desetiletí, co jsem si hrál s </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Osmibitov%C3%A9_po%C4%8D%C3%ADta%C4%8De_Atari">Atari 800XE</rich_text><rich_text> mě nepřestává fascinovat tehdejší otevřenost. Čím jsem však starší, tím víc mi dochází, že k ní došlo vlastně omylem a v dnešní době je to mimo svět open source něco naprosto nepředstavitelného.
+
+</rich_text><rich_text scale="h3">Alternativní představa</rich_text><rich_text>
+Vraťme se však zpět k původnímu tématu článku - vytváření uživatelsky zaplnitelných dimenzí a prostorů. Jak by mohla vypadat dimenze prostoru přidaného k hardware? Jedním slovem; </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Reflexe_%28programov%C3%A1n%C3%AD%29">reflexe</rich_text><rich_text>.
+
+Přenesme se nyní do hypotetické budoucnosti, či možná alternativní reality, ve které se vývoj neodehrál zcela bezmyšlenkovitě a kde z nějakého důvodu korporace nemají hlavní zájem na to udělat z uživatele tupého konzumenta svých výrobků.
+
+Představte si hardware, který vám přes (bez)drátový interface zpřístupní informace o sobě samotném. Váš rádio budík vám zpřístupní objekt displeje, repráků, tlačítek i radiového tuneru. Pokud chcete, tak můžete vzít stream z rádia a přenášet ho přímo do počítače přes protokol jako je bluetooth, nebo naopak, z počítače zobrazovat informace na displeji, či přehrávat streamovat hudbu z PC pomocí reproduktoru radiobudíku. To vše jednoduchým a standardizovaným protokolem. Samotný </rich_text><rich_text style="italic">program</rich_text><rich_text> budíku, ale i celé jeho schéma, je přístupný přes (zabezpečený) protokol, takže klidně můžete tlačítka úplně přemapovat, nebo přidat podporu časových pásem.
+
+Tohle možná zní, jako že váš radio budík by musel být „chytrý“, s počítačem uvnitř. Jenže váš radio budík už v sobě počítač má, pravděpodobně nějakou 8051, nebo třeba nějaký </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Z80">Zilog</rich_text><rich_text>. Rozdíl není v tom, co by musel mít za další hardware, rozdíl je v tom, že výrobce nikdy nepočítal s tím, že by budík mohl mít rozšiřitelnou dimenzi a uživatel by ho mohl chtít používat nestandardně.
+
+Ale dobře, budík zní nepravděpodobně. Podívejme se třeba na vaší čtečku elektronických knih. Přes interní protokol můžete nejenom nahrávat, ale také přímo upravovat software, který na ní běží. Pokud chcete, můžete jí použít jako další displej k počítači, nebo využít její dotykovou plochu jako myš, kterou budete ovládat osobní počítač, nebo přes ní třeba zapnete rádio na tom budíku. Některé dnešní čtečky sice podporují spouštění aplikací, jenže samotný jejich koncept je omezený na „to co běží na popředí“ a nahrané aplikace není možné upravovat.
+
+Pojďme dál - stejně tak můžete vzít i vaší televizi, což je dneska ve skutečnosti počítač, settopbox a přerostlý monitor a přistupovat k nim takhle vzdáleně a třeba na ní posílat obrázky, bez toho aniž by jste museli řešit syntetizaci obrazu do antenního kabelu. Můžete vzít čidlo teploty, které máte venku za oknem a číst z něho hodnoty přes protokol reflexe a zobrazovat si je v grafu.
+
+Hardware kolem vás není uzavřená jednoúčelová věc, ale otevřená spolupracující platforma vykonávající vaší vůli tak jak uznáte za vhodné. Můžete ho scriptovat, můžete ho opravovat a můžete ho propojovat, vše přes jednotné a hlavně jednoduché (</rich_text><rich_text link="webs http://petr-kubac.blog.cz/1602/dreveny-jazyk/komentare/1#118225343">žádné posrané USB</rich_text><rich_text>) komunikační protokoly. To vše bez nutnosti flashovat do něj linux pokoutně připájeným konektorem.
+
+Podíváte se na váhu, což je starší zařízení, které má jen drátový protokol v podobě malého standardizovaného konektoru. Přes něj si přečtete schéma zapojení váhy, když vás napadne - co takhle zkusit „blikat“ sběrnicemi a vysílat hodnotu váhy do okolí </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/Tempest_%28codename%29">TEMPEST</rich_text><rich_text>-</rich_text><rich_text link="webs http://www.erikyyy.de/tempest/">like</rich_text><rich_text> způsobem. Během pár hodin napíšete script, který implementuje základní, jednoduchou verzi všemi používaného komunikačního protokolu a necháte ho zachytávat radiobudíkem, který hodnotu doručí do počítače. Díky využití axiomů (</rich_text><rich_text style="italic">otevřený a jednoduchý protokol, reflexivní hardware, přístupné schéma</rich_text><rich_text>) jste udělali z hloupého zařízení chytrou váhu a tak jednotlivé hodnoty váhy můžete ukládat a zanášet do grafů, jako u přístrojů z kategorie stojící mnoho tisíc.
+
+Obecně, lidé v tomhle alternativním světě kombinují zařízení a hardware způsobem, který si původně nikdo neuměl představit. Věci kolem nich pro něj nejsou jednoučelová zařízení, ale nástroje, ze kterých je možné si postavit co zrovna potřebují, podobně jako si </rich_text><rich_text link="webs https://www.nytimes.com/2016/12/01/magazine/letter-of-recommendation-primitive-technology.html">the Man</rich_text><rich_text> z </rich_text><rich_text link="webs https://www.youtube.com/channel/UCAL3JXZSzSm8AlZyD3nQdBA">PrimitiveTechnology</rich_text><rich_text> bere z přírody kolem sebe suroviny a staví z nich zrovna potřebné nástroje.
+
+</rich_text><rich_text scale="h3">Monetizace</rich_text><rich_text>
+Pojďme ale o kus dál. Jelikož si hardware umí povídat přes univerzální protokol s ostatními věcmi, nahrajete do něj jako vlastník mající k němu přístupové kódy monetizační protokol. Ten například z vašeho teplotního čidla sbírá každých deset minut hodnotu a přes ethereum jí zpřístupňuje ostatním spolu s GEO tagem. Pokud si jí chce někdo přečíst, musí za to zaplatit miniaturní částku v etherech, například deset haléřů. Tím se to celé vyplatí vám, ale i ostatním, protože vy máte ethery a oni skoro zadarmo data.
+
+Stejným způsobem je ve světě kolem vás připojené všechno. Stojíte na semaforu a spěcháte? Co takhle místo jezdění na červenou připlatit třeba dvacet korun za to, aby se přepl? Script v semaforu to zváží a pokud z ostatních směrů nenabízí nikdo víc, tak vám umožní průjezd i mimo nastavené intervaly.
+
+Princip monetizace vám umožňuje přistoupit k omezeným částem API libovolného zařízení kolem vás, a zároveň motivuje vlastníky zařízení, kteří k němu mají stoprocentní přístup, aby vám ho zpřístupnili. Svět kolem vás se stává vaším rozšířením, protože můžete v omezené míře používat cokoliv elektronicky ovládatelného kolem vás, co majitelé zpřístupnili a otagovali, nebo je dostupné přes lokální bezdrátovou síť.
+
+Síť je všudypřítomná. Přijdete k zašifrované wifi, která je dneska všude a váš mobil si vyjedná přístup, tím že mu nabídne cenu ekvivalentní 1kč za přenesený gigabajt. Okolní zařízení se na wifi taky připojují, poplatek jim hradí příjmy z jejich použití ostatními lidmi.
+
+Zní to zajímavě, že? Hlavně pokud jste technicky zkušenější uživatel. Pokud ne, tak si použití pravděpodobně nedovedete úplně představit, věřte mi ale, že by jste ho taky našli, jen by vám prvně někdo musel udělat „aplikaci“.
+
+</rich_text><rich_text scale="h1">Závěr, aneb čistá, nepopsaná stránka (v paměti počítače)</rich_text><rich_text>
+Shrňme si ještě v krátkosti, o čem vlastně tenhle blog byl a o čem bych vás rád nechal přemýšlet:
+
+• Lidé zaplňují prostory na které narazí.
+• Někteří lidé prostory nezaplňují, ale rovnou vytvářejí, jenže je jich málo.
+• Prostory se dají vytvořit „z ničeho“. Z kódu, z nápadu, z myšlenky, kterou zaujmete ostatní.
+• Vytváření prostorů se dá dělat přidáváním dalších dimenzí k existujícím věcem a to může udělat každý.
+• Prostory jsou lepší a používanější, pokud rostou z axiomů, místo aby se tvůrce snažil myslet na všechny použití.
+
+Otevřete si textový editor, nebo vytáhněte prázdnou stránku papíru. Podívejte se na prázdnotu jeho prostoru, přímo do očí nekonečnému počtu konfigurací .. a zkuste pomocí něho stvořit prostor, ve kterém by ostatní mohli vypěstovat svět. K čemu přidáte dimenze? Dokážete otevřít prostor tam kde žádný nebyl?
+
+Možné je cokoliv, co chcete. Ve skutečnosti nás omezuje jen fyzická podstata reality, ve které se nacházíme. Jediné, co náš i počítačový svět reguluje je množství času a námahy, které nás editace stojí. Všechno co se děje stojí jen na jediné myšlence;
+
+Fakt to tak chceme? Jak moc?</rich_text></node></cherrytree>
