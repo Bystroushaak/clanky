@@ -1,8 +1,8 @@
-<p>Göedelovy věty o neúplnosti patří k věcem, které podobně jako <i>Turingův stroj</i>, nebo <i>Lambda calculus</i> prostupují celým světem počítačů a narazíte na ně dřív nebo později všude. Písmeno ‚G‘ v GEBu je věnované právě Göedelovi, proto jsem byl už delší dobu zvědavý, na to co vlastně objevil, a o tom právě pojednává kniha <a href="https://www.goodreads.com/book/show/695429.G_del_s_Proof">Gödel's Proof</a>.</p>
+<p>Gödelovy věty o neúplnosti patří k věcem, které podobně jako <i>Turingův stroj</i>, nebo <i>Lambda calculus</i> prostupují celým světem počítačů a narazíte na ně dřív nebo později všude. Písmeno ‚G‘ v GEBu je věnované právě Gödelovi, proto jsem byl už delší dobu zvědavý, na to co vlastně objevil, a o tom právě pojednává kniha <a href="https://www.goodreads.com/book/show/695429.G_del_s_Proof">Gödel's Proof</a>.</p>
 
 <!--break-->
 
-<p>Göedel v podstatě ukázal, jak je možné i v omezeném setu axiomů a zdánlivě bezkonfliktním systému vytvořit paradoxy referencováním sebe sama. Kniha se věnuje tomu, jak k tomu došel. Nejde do úplných detailů (ty jsou v samotném důkazu), spíš se snaží čtenáři vysvětlit jednotlivé kroky, postupně v jednotlivých kapitolách za sebou.</p>
+<p>Gödel v podstatě ukázal, jak je možné i v omezeném setu axiomů a zdánlivě bezkonfliktním systému vytvořit paradoxy referencováním sebe sama. Kniha se věnuje tomu, jak k tomu došel. Nejde do úplných detailů (ty jsou v samotném důkazu), spíš se snaží čtenáři vysvětlit jednotlivé kroky, postupně v jednotlivých kapitolách za sebou.</p>
 
 
 <p>Kroky důkazu (a tedy i obsah knihy) postupují ve zkratce asi nějak takto:</p>
@@ -11,7 +11,7 @@
 <h2>Zkoncentrovaný obsah</h2>
 <p><img class="floatleft" src="/images/screenshots/7/8/227187-knizni-recenze-goedel-s-proof-7320970310650597002.jpg"></p>
 
-<p>Göedel vyšel z axiomatického systému definovaného v knize <a href="https://cs.wikipedia.org/wiki/Principia_Mathematica">Principia mathematica</a> od Whiteheada a Russela, která se snažila nadefinovat a odvodit celou matematiku pomocí logických axiomů.</p>
+<p>Gödel vyšel z axiomatického systému definovaného v knize <a href="https://cs.wikipedia.org/wiki/Principia_Mathematica">Principia mathematica</a> od Whiteheada a Russela, která se snažila nadefinovat a odvodit celou matematiku pomocí logických axiomů.</p>
 
 
 <p>V tomto systému vymyslel způsob, jak překládat jednotlivé přípustné symboly axiomů na jejich jednoznačné číselné vyjádření (pomocí násobení prvočísel s exponentem kódujícím daný axiom). Tím je možné převést daný výraz v axiomatickém systému, například „0=0“ na axiomy 2, 6, 2 („2“ kóduje číslo 0, 6 kóduje symbol „=“), které pak převedeme na číslo zmíněným násobením:</p>
@@ -23,7 +23,7 @@
 <p>Což se rovná číslu <tt>72900</tt>. Z tohoto čísla je pak možné metodou faktorizace prvočísel zpětně jednoznačně dostat původní písemný výraz.</p>
 
 
-<p>Göedel poté dokázal, že takhle je možné vyjádřit nejenom teorémy, ale i jejich důkazy. Kódování do čísel bylo důležité, aby se vyhnul chybám, které dělají lidé předpokládáním nějakého chování. Toho dosáhl tím, že se vyjadřoval o „bezvýznamných symbolech“ a umožnil čistě „mechanické“ kontrolování a odvozování podle pravidel axiomatického systému.</p>
+<p>Gödel poté dokázal, že takhle je možné vyjádřit nejenom teorémy, ale i jejich důkazy. Kódování do čísel bylo důležité, aby se vyhnul chybám, které dělají lidé předpokládáním nějakého chování. Toho dosáhl tím, že se vyjadřoval o „bezvýznamných symbolech“ a umožnil čistě „mechanické“ kontrolování a odvozování podle pravidel axiomatického systému.</p>
 
 
 <p>Poté sestrojil výraz, který dokazuje pravdivost čísla enkódujícího teorém G, který má stejné vyjádření, jako svůj vlastní důkaz. Konkrétně:</p>
@@ -41,13 +41,13 @@
 <p>„Tento teorém, i jeho negace není platným teorémem.“</p>
 
 
-<p>Göedel tím dokázal, že axiomatické systémy nemůžou být použity k „vytěžení“ celé matematiky iterací přes platné axiomatické výrazy, protože axiomatické systémy obsahují jednak paradoxy, které jsou nerozhodnutelné, ale také jakési ostrovy platných vět, ke kterým se není možné dostat odvozováním z axiomatických systémů.</p>
+<p>Gödel tím dokázal, že axiomatické systémy nemůžou být použity k „vytěžení“ celé matematiky iterací přes platné axiomatické výrazy, protože axiomatické systémy obsahují jednak paradoxy, které jsou nerozhodnutelné, ale také jakési ostrovy platných vět, ke kterým se není možné dostat odvozováním z axiomatických systémů.</p>
 
 
 <p>V knize je to samozřejmě popsané celé podstatně detailněji, a čitelněji. Určitě jí můžu jen doporučit. Četla se mi docela dobře i jako laikovi a je poměrně tenká.</p>
 
 
-<p>Göedelův důkaz má poměrně velké důsledky také pro sféru <i>computer science</i>, neboť ukazuje, že statická analýza je ze své podstaty nekompletní. To má své důsledky například při dynamické transformaci programů v lispovském stylu, ale také třeba pro analýzu virů, nebo dokázování korektnosti programu.</p>
+<p>Gödelův důkaz má poměrně velké důsledky také pro sféru <i>computer science</i>, neboť ukazuje, že statická analýza je ze své podstaty nekompletní. To má své důsledky například při dynamické transformaci programů v lispovském stylu, ale také třeba pro analýzu virů, nebo dokázování korektnosti programu.</p>
 
 
 <h2>Ukázka</h2>
