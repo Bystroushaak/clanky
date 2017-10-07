@@ -1,0 +1,50 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="7" foreground="" is_bold="False" name="Zrcadla - proč používat osobní wiki" prog_lang="custom-colors" readonly="False" tags="" ts_creation="0.0" ts_lastsave="1507347454.15" unique_id="73"><rich_text>Je o mě známo, že už víc jak desetiletí velmi masivně používám osobní wiki. To je program, do kterého je možné formátovaným způsobem psát texty a tyto texty poté různě propojovat. Trochu se to podobá třeba wikipedii, je to ale celé určené k vašemu osobnímu použití. Docela mě překvapuje, že jsem v tomhle jeden z mála, a spousta z lidí, co jí u mě vidí, reaguje překvapením. Napadlo mě tedy, že bych mohl pro inspiraci napsat k čemu a proč osobní wiki využívám, neboť jednotlivé wiki jsou většinou zdokumentované docela dobře. Přijde mi ale, že chybí popis motivace jenž k tomu lidi vede.
+
+</rich_text><rich_text scale="h2">Klasické použití</rich_text><rich_text>
+Samozřejmě, že všichni si asi umíte představit, že wiki používám k psaní blogů a článků a zamyšlení a všeho možného textově orientovaného, co poté publikuji. Vskutku je to tak, všechny své články a blogy jsem napsal právě v ní.
+
+</rich_text><rich_text link="webs http://www.abclinuxu.cz/images/screenshots/9/2/227229-na-cem-delam-2017-9-5616135056792622141.png">http://www.abclinuxu.cz/images/screenshots/9/2/227229-na-cem-delam-2017-9-5616135056792622141.png</rich_text><rich_text>
+
+Někteří si asi umí představit, že wiki používám k sledování průběhu různých projektů a píšu si do ní „todo listy“. Opět správně. I k tomu wiki používám.
+
+-- obrázek wa --
+
+Další, použití, které pro osobní wiki mám je osobní nestrukturovaná databáze. Kromě všemožných nápadů si tam zapisuji také, ale nejenom:
+
+Věci jako telefonní čísla. Seznam balíků k nainstalování po instalaci. Adresy všeho možného, od ip adres serverů, přes URL až po fyzické adresy míst. Názvy knih, které chci přečíst, i těch, které právě čtu (spolu s pozicí v knize). Kusy zdrojových kódů, datumy kdy jsem naposledy byl v posilovně a jak dlouho a kolik jsem vážil. Kdy a kolik jsem uplaval bazénů. Kdy jsem si koupil doutník a jaký to byl druh a jak mi chutnal. Čísla účtů. Emaily. Odkazy na zajímavé diskuze. Odkazy na stránky, které chci dlouhodobě sledovat. Profily zajímavých lidí. Jména a druhy lodí, které bych si koupil, kdybych měl zbytečných pět milionů. Věci, které mám rád, i věci, které nenávidím. Čaje, které jsem vyzkoušel, kde jsem je koupil a jak mi chutnaly. Vína co jsem pil. Veřejné klíče všemožných kryptografií, od bitcoinu přes ssh až po gpg. Tohle všechno a ještě stokrát víc.
+
+Něco mě napadne? Například vysvětlení jak používám wiki? Šup s tím do wiki. Vedu nějaký zajímavý rozhovor na IRC, který bych si rád pamatoval? Šup s ním do wiki. Nad vším se dá samozřejmě vyhledávat, když pominu, že je to tématicky kategorizované.
+
+Moje hlavní osobní wiki má necelých 600 datových nod. To jsou jakési „stránky“ věnované nějaké informaci. Některé můžou mít pět řádek, další sto kilobajtů. A to je jenom jedna z tří wiki, které používám každý druhý den a není v tom započítaná wiki „sklad“, kam přesouvám věci, které jsem se rozhodl nadále ignorovat, aby mi tu nestrašily a nezabíraly místo. Zbylé dvě wiki jsou „práce“ (vždy pro konkrétní firmu jeden wiki soubor) a „Self“ (pro mé bádání na poli tohohle programovacího prostředí).
+
+Jinými slovy; osobní wiki tak jak jí používám udržuje většinu kontextu mého mozku. Hlavní lidská paměť je sice super rychlá a super asociativní, ale neustále zapomíná naprostou většinu toho, co mě </rich_text><rich_text style="italic">napadne</rich_text><rich_text>. Nemám špatnou paměť a běžně si dobře pamatuji události. Tohle je ale něco jiného. Je to paměť na </rich_text><rich_text style="italic">nápady</rich_text><rich_text> a databáze na konkrétní tvrdá data. Když mě něco napadne, nějaký záblesk myšlenky, zachytím ho do wiki. A pak se na něj podívám a nabaluji na něj další myšlenky a časem z toho vznikne projekt, nebo článek, nebo něco jiného.
+
+Osobní wiki má oproti paměti výhodu, že věci můžu zapomínat a vypouštět. Kdykoliv stačí jen otevřít soubor CherryTree, mechanicky přes něj listovat a okamžitě si je připomenu, dokonce můžu i pokračovat kde jsem dřív skončil, nebo to celé vyexportovat a poslat někomu jinému.
+
+Tohle všechno jsou ale naprosto očividné, samozřejmé a poměrně nudné věci, které dělá tak nějak každý, kdo osobní wiki nějakou dobu používá. Někdo víc, někdo míň, ale dospějí k tomu všichni. Ta pravá magie spočívá v Zrcadlech.
+
+</rich_text><rich_text scale="h2">Zrcadla</rich_text><rich_text>
+Mám jeden problém - jsem neviditelný. Když se na sebe podívám, tak se nevidím a když se na mě dívají ostatní, tak mě vidí jen když se hýbu, nebo mluvím a i tehdy většina vnímá všechno jen nepřímo, skrz fyzické akce. Celé lidstvo má tenhle tenhle problém.
+
+Všichni jsme vysoce výkonné adaptabilní neuronové sítě, které běží na nejdokonalejším hardware v celém známém vesmíru; lidském mozku. Ten je obalený spoustou masa, kostí, šlach a vody, jenž tvoří zbytek našich těl.
+
+Moje mysl jasně září, její záře je však tlumená vězením z masa a kostí. Moje tělo vypadá jako těla všech ostatních a všichni ostatní se dívají především na něj. Nevidí mě, vidí můj nosič.
+
+Poslední dobou jsem s tím různě experimentoval. Vím, že to není nic překvapivého, ale stejně je oči-otevírající, když si vyzkoušíte, jak moc ovlivňuje lidi kolem vás vaše oblečení, vousy a vlasy. Stačí si vzít místo bundy kabát a na poště s vámi jednají úplně jinak, protože nevidí vás - vidí vaše tělo a odznaky postavení.
+
+Jak se tedy podívat sám na sebe? Kde vzít zrcadlo, které by vám ukázalo vaše vědomí?
+
+Jak asi už správně hádáte, tím zrcadlem jsou vlastní poznámky.
+
+Mysl je jako oko částečného slepce, který vidí jen malou tečku a když si chce udělat představu o světě, musí tím okem hodně hýbat. Stejně tak běžně vidíte jen pár svých aktuálních myšlenek a představ. Osobní wiki vám je umožňuje všechny udržet, takže si můžete prohlédnout sebe sama. Je to místo, kde lapáte své pocity a nápady a pohledy na svět a díváte se skrz ně kousek po kousku sami na sebe. Stále se sice neuvidíte najednou, vždycky jen svůj střípek, ale když těch střípků naskládáte na jednom místě hromadu, jednoho dne si k nim sednete a rychle si je všechny prohlédnete, uvidíte v odrazu všech těch střípků vlastní obraz.
+
+To vám umožní se měnit. Pokud se vám nelíbí, co vidíte, můžete se zkusit přeformovat. Můžete si zkusit vytyčit jiné cíle, jiné priority a jiné motivace. Můžete zkusit překročit vlastní stín a stát se něčím víc, než čím jste.
+
+</rich_text><rich_text scale="h2">Co pro mě osobní wiki znamená</rich_text><rich_text>
+Momentálně je pro mě wiki naprosto nepostradatelná věc, která přerostla pouhý nástroj na psaní poznámek, a stala se rozšířením mé mysli. Už to pro mě není nástroj, je to filosofie. Stal se z toho způsob jakým pracuji, jak přemýšlím, jak své myšlenky udržuji, formuluji, konkretizuji a kondenzuji v písmena a projekty, které pak nabízím ostatním. Stala se z toho součást mého myšlenkového procesu, mě sama.
+
+Protože jí tak aktivně používám, již několik let provádím výzkum jak jí nahradit. Samotný formát osobní wiki má totiž svá omezení. Mou snahou je získat nekonečně programovatelné strukturované meta-médium, do kterého bych mohl své myšlenky a data ukládat jinak a lépe. Pokud nechápete, pusťte si Engelbartovo </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/The_Mother_of_All_Demos">Mother of All Demos</rich_text><rich_text>. Ale o tom třeba někdy příště.
+
+Dnes vám víc než doporučuji zkusit si stáhnout nějaký software tohohle typu, ať již </rich_text><rich_text link="webs http://www.giuspen.com/cherrytree/">CherryTree</rich_text><rich_text>, </rich_text><rich_text link="webs https://www.onenote.com/">OneNote</rich_text><rich_text>, nebo něco jiného. Zkuste ho chvíli aktivně používat. S překvapením možná zjistíte, že nechápete, jak jste bez toho mohli žít.
+
+Edit: Pár hodin před tím, než jsem se rozhodl tenhle blog publikovat mi kamarád poslal odkaz na článek </rich_text><rich_text link="webs https://medium.com/practicecomesfirst/dr-jordan-b-petersons-10-step-guide-to-clearer-thinking-through-essay-writing-1ab79a94937">Dr. Jordan B. Peterson’s 10 Step Guide to Clearer Thinking Through Essay Writing</rich_text><rich_text> </rich_text><rich_text scale="sup">(</rich_text><rich_text link="webs http://web.archive.org/web/20171007010436/https://medium.com/practicecomesfirst/dr-jordan-b-petersons-10-step-guide-to-clearer-thinking-through-essay-writing-1ab79a94937" scale="sup">archiv</rich_text><rich_text scale="sup">)</rich_text><rich_text>, který se do velké míry dotýká toho, o čem tady mluvím.</rich_text></node></cherrytree>
