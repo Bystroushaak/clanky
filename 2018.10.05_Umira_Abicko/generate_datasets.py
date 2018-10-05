@@ -38,6 +38,9 @@ class BlogAnalyzer(object):
         self.number_of_unregistered_people_in_years = defaultdict(int)
         self.number_of_unregistered_people_in_months = defaultdict(int)
 
+        self.read_counter_in_years = defaultdict(int)
+        self.read_counter_in_months = defaultdict(int)
+
     def timestamp_to_yyyy(self, timestamp):
         return datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y')
 
@@ -56,6 +59,9 @@ class BlogAnalyzer(object):
 
         self.number_of_comments_in_years[blog_yyyy] += len(blog.comments)
         self.number_of_comments_in_months[blog_yyyy_mm] += len(blog.comments)
+
+        self.read_counter_in_years[blog_yyyy] += blog.readed or 0
+        self.read_counter_in_months[blog_yyyy_mm] += blog.readed or 0
 
         for comment in blog.comments:
             comment_yyyy = self.timestamp_to_yyyy(blog.created_ts)
@@ -122,80 +128,89 @@ class BlogAnalyzer(object):
         }
 
         datasets = {
-            "length_of_blogs_in_years": self.length_of_blogs_in_years,
-            "length_of_blogs_in_months": self.length_of_blogs_in_months,
-            "number_of_blogs_in_years": self.number_of_blogs_in_years,
-            "number_of_blogs_in_months": self.number_of_blogs_in_months,
-            "number_of_comments_in_years": self.number_of_comments_in_years,
-            "number_of_comments_in_months": self.number_of_comments_in_months,
-            "number_of_registered_people_in_years": self.number_of_registered_people_in_years,
-            "number_of_registered_people_in_months": self.number_of_registered_people_in_months,
-            "number_of_unregistered_people_in_years": self.number_of_unregistered_people_in_years,
-            "number_of_unregistered_people_in_months": self.number_of_unregistered_people_in_months,
-        }
-
-        dataset_descriptions = {
             "length_of_blogs_in_years": {
+                "dataset": self.length_of_blogs_in_years,
                 "description": "Délka blogů v průběhu let (po letech)",
                 "x": "Roky",
                 "y": "Délka blogů"
             },
             "length_of_blogs_in_months": {
+                "dataset": self.length_of_blogs_in_months,
                 "description": "Délka blogů v průběhu let (po měsících)",
                 "x": "Měsíce",
                 "y": "Délka blogů"
             },
             "number_of_blogs_in_years": {
+                "dataset": self.number_of_blogs_in_years,
                 "description": "Počty blogů (po letech)",
                 "x": "Roky",
                 "y": "Počet blogů"
             },
             "number_of_blogs_in_months": {
+                "dataset": self.number_of_blogs_in_months,
                 "description": "Počty blogů (po měsících)",
                 "x": "Měsíce",
                 "y": "Počet blogů"
             },
             "number_of_comments_in_years": {
+                "dataset": self.number_of_comments_in_years,
                 "description": "Počty komentářů (po letech)",
                 "x": "Roky",
                 "y": "Počet komentářů"
             },
             "number_of_comments_in_months": {
+                "dataset": self.number_of_comments_in_months,
                 "description": "Počty komentářů (po měsících)",
                 "x": "Měsíce",
                 "y": "Počet komentářů"
             },
             "number_of_registered_people_in_years": {
+                "dataset": self.number_of_registered_people_in_years,
                 "description": "Aktivní registrovaní komentátoři (po letech)",
                 "x": "Roky",
                 "y": "Počet komentátorů"
             },
             "number_of_registered_people_in_months": {
+                "dataset": self.number_of_registered_people_in_months,
                 "description": "Aktivní registrovaní komentátoři (po měsících)",
                 "x": "Měsíce",
                 "y": "Počet komentátorů"
             },
             "number_of_unregistered_people_in_years": {
+                "dataset": self.number_of_unregistered_people_in_years,
                 "description": "Aktivní NEregistrovaní komentátoři (po letech)",
                 "x": "Roky",
                 "y": "Počet komentátorů"
             },
             "number_of_unregistered_people_in_months": {
+                "dataset": self.number_of_unregistered_people_in_months,
                 "description": "Aktivní NEregistrovaní komentátoři (po měsících)",
                 "x": "Měsíce",
                 "y": "Počet komentátorů"
+            },
+            "read_counter_in_years": {
+                "dataset": self.read_counter_in_years,
+                "description": "Celkové počty přečtení (po rocích)",
+                "x": "Roky",
+                "y": "Počty přečtení blogů"
+            },
+            "read_counter_in_months": {
+                "dataset": self.read_counter_in_months,
+                "description": "Celkové počty přečtení (po měsících)",
+                "x": "Měsíce",
+                "y": "Počty přečtení blogů"
             }
         }
 
-        for dataset_name, dataset in datasets.iteritems():
+        for dataset_name, data in datasets.iteritems():
             self.dump_counter_into_csv(
-                dataset,
+                data["dataset"],
                 os.path.join(out_dir, dataset_name + ".csv")
             )
             self.counter_into_png(
                 dataset_name,
-                dataset,
-                dataset_descriptions[dataset_name],
+                data["dataset"],
+                data,
                 os.path.join(out_dir, dataset_name + ".png")
             )
 
