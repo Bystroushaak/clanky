@@ -1,0 +1,51 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="0" foreground="" is_bold="False" name="Archivace blogů" prog_lang="custom-colors" readonly="False" tags="" ts_creation="1519208364.08" ts_lastsave="1538940315.42" unique_id="522"><rich_text>Nedávno zde bylo opět </rich_text><rich_text link="webs http:///blog/Max_Devaine/2018/2/abclinuxu-vyjadreni-k-utokum/diskuse#180">nakousnuto</rich_text><rich_text> téma zálohování obsahu blogů na abclinuxu. Protože už jsem na to kdysi psal script, rozhodl jsem se to trochu učesat a podělit se o mé řešení, aby si každý mohl vytvořit vlastní kopii i s komentáři, čistě pro vlastní potřebu, či případ nějaké neblahé katastrofy.
+
+&lt;!-- break --&gt;
+
+</rich_text><rich_text scale="h2">Technikality</rich_text><rich_text>
+Script je založen na </rich_text><rich_text link="webs https://github.com/Bystroushaak/abclinuxuapi">abclinuxuapi</rich_text><rich_text>, knihovně, kterou jsem napsal pro externí scrappování zdejšího portálu. Tato knihovna vám umožňuje pracovat v mnoha zdejšími funkcemi poměrně primitivním, ale hlavně </rich_text><rich_text style="italic">strukturovaným</rich_text><rich_text> způsobem.
+
+Data jsou ukládána jako serializované objekty s backendem v sqlite databázi, pomocí knihovny </rich_text><rich_text link="webs https://github.com/RaRe-Technologies/sqlitedict">sqlitedict</rich_text><rich_text>. To má své nevýhody - nejde s nimi pracovat bez pythonu a formát není úplně nejefektivnější na ukládání a indexování.
+
+Má to také své výhody:
+
+Je to primitivní z hlediska programátora. Prostě dáte objekt do </rich_text><rich_text style="italic">dictionary</rich_text><rich_text>, commitnete a on už tam zůstane. A když s tím chcete pracovat, tak s tím pracujete, jako kdyby data byla celou dobu pořád v paměti. Nemusíte řešit nějaké normalizace a denormalizace, skládání tabulek a další nepodstatné pitomosti. Prostě sáhnete po objektu blogu a iterujete přes jeho komentáře.
+
+Chcete vidět všechny komentáře, kde někdo někdy zmínil vaše jméno? Žádný otravný databázový COBOL. Prostě projděte přes všechny komentáře a podívejte se do obsahu textů. Jednodušší už to být nemůže. Efektivnější jo, ale to nebylo účelem.
+
+Pro ty komu tenhle přístup nevyhovuje je zde možnost si dataset zkonvertovat do sqlite pomocí scriptu </rich_text><rich_text family="monospace">convert_blogtree_to_clean_sqlite.py</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h2">Instalace</rich_text><rich_text>
+Celé je to napsané nad pythonem dva. Repozitář si prostě naklonujte gitem, nainstalujte závislosti přes 
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+a můžete vesele stahovat.
+
+</rich_text><rich_text scale="h2">Repozitář</rich_text><rich_text>
+
+• </rich_text><rich_text link="webs https://github.com/Bystroushaak/Abclinuxu_analysis">https://github.com/Bystroushaak/Abclinuxu_analysis</rich_text><rich_text>
+
+</rich_text><rich_text scale="h2">Ukázka použití</rich_text><rich_text>
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Doba běhu je na mé lince něco kolem hodiny.
+
+</rich_text><rich_text scale="h2">Filosofický přesah</rich_text><rich_text>
+Moje první programátorská práce byla pro Národní knihovnu, sekci digitalizace. Mimo jiné jsem úzce spolupracoval s lidmi z </rich_text><rich_text link="webs https://www.webarchiv.cz/en/">českého webarchivu</rich_text><rich_text> (zdravím Rudu, Jardu a Zuzku). Ti se zabývají uchováváním různých digitálních dat pro budoucí generace. Díky nim jsem získal povědomí, že uchovávat data do budoucnosti může být záslužná činnost.
+
+Internet je místo, které se neustále mění. Osobně považuji abclinuxu za svého druhu poklad, u kterého by mi bylo vážně líto, kdyby zmizelo. Původně jsem se stahováním začal, když jsem prováděl analýzu, zda je neregistrovaný uživatel </rich_text><rich_text family="monospace">Kvakor</rich_text><rich_text> pseudonym pro člověka jinak známého jako </rich_text><rich_text link="webs http://eldar.cz/mozek/shaddack.html">Shaddack</rich_text><rich_text> (pravděpodobně jo, linkuje 29 jeho jeho článků na wikipedii). V průběhu jsem si ovšem povšiml titulků různých blogů a začal číst.
+
+Pohled do historie, který se mi takhle naskytl byl fascinující, tak jsem se časem rozhodl sklízet abclinuxu pravidelně, abych ho uchoval pro další generace, kdyby ho náhodou jednoho dne někdo smazal. To dělám už několik let. A protože jediná možnost, jak zajistit skutečnou nesmrtelnost je decentralizace, máte dneska možnost si udělat vlastní sklizeň.</rich_text><codebox char_offset="1666" frame_height="40" frame_width="1015" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">python2 -m pip install --user -r requirements.txt</codebox><codebox char_offset="1777" frame_height="265" frame_width="1075" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">./download_blogtree.py -a -f -u /home/bystrousak/Plocha/tests/blogtree.sqlite
+Estimating number of blogs.................
+1 / ~20300 Abíčko neumírá, jen žije jinak.
+2 / ~20300 Nový hw - bugy 3
+3 / ~20300 Netrapte se
+4 / ~20300 Umírá abíčko? (odpověď v textu)
+5 / ~20300 Záhadné správanie v Bashi
+6 / ~20300 Tablet  iGET Smart G81 Black koupit bo ee?
+
+...
+
+</codebox></node></cherrytree>

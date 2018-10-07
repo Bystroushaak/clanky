@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Archivace blogů</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
+</head>
+
+<body>
+
+
+<p>Nedávno zde bylo opět <a href="/blog/Max_Devaine/2018/2/abclinuxu-vyjadreni-k-utokum/diskuse#180">nakousnuto</a> téma zálohování obsahu blogů na abclinuxu. Protože už jsem na to kdysi psal script, rozhodl jsem se to trochu učesat a podělit se o mé řešení, aby si každý mohl vytvořit vlastní kopii i s komentáři, čistě pro vlastní potřebu, či případ nějaké neblahé katastrofy.</p>
+
+
+<!-- break -->
+
+
+<h2>Technikality</h2>
+<p>Script je založen na <a href="https://github.com/Bystroushaak/abclinuxuapi">abclinuxuapi</a>, knihovně, kterou jsem napsal pro externí scrappování zdejšího portálu. Tato knihovna vám umožňuje pracovat v mnoha zdejšími funkcemi poměrně primitivním, ale hlavně <i>strukturovaným</i> způsobem.</p>
+
+
+<p>Data jsou ukládána jako serializované objekty s backendem v sqlite databázi, pomocí knihovny <a href="https://github.com/RaRe-Technologies/sqlitedict">sqlitedict</a>. To má své nevýhody - nejde s nimi pracovat bez pythonu a formát není úplně nejefektivnější na ukládání a indexování.</p>
+
+
+<p>Má to také své výhody:</p>
+
+
+<p>Je to primitivní z hlediska programátora. Prostě dáte objekt do <i>dictionary</i>, commitnete a on už tam zůstane. A když s tím chcete pracovat, tak s tím pracujete, jako kdyby data byla celou dobu pořád v paměti. Nemusíte řešit nějaké normalizace a denormalizace, skládání tabulek a další nepodstatné pitomosti. Prostě sáhnete po objektu blogu a iterujete přes jeho komentáře.</p>
+
+
+<p>Chcete vidět všechny komentáře, kde někdo někdy zmínil vaše jméno? Žádný otravný databázový COBOL. Prostě projděte přes všechny komentáře a podívejte se do obsahu textů. Jednodušší už to být nemůže. Efektivnější jo, ale to nebylo účelem.</p>
+
+
+<p>Pro ty komu tenhle přístup nevyhovuje je zde možnost si dataset zkonvertovat do sqlite pomocí scriptu <tt>convert_blogtree_to_clean_sqlite.py</tt>.</p>
+
+
+<h2>Instalace</h2>
+<p>Celé je to napsané nad pythonem dva. Repozitář si prostě naklonujte gitem, nainstalujte závislosti přes </p>
+
+<pre>python2 -m pip install --user -r requirements.txt</pre>
+
+<p>a můžete vesele stahovat.</p>
+
+
+<h2>Repozitář</h2>
+<ul>
+    <li><a href="https://github.com/Bystroushaak/Abclinuxu_analysis">https://github.com/Bystroushaak/Abclinuxu_analysis</a></li>
+</ul>
+
+
+<h2>Ukázka použití</h2>
+
+<pre>./download_blogtree.py -a -f -u /home/bystrousak/Plocha/tests/blogtree.sqlite
+Estimating number of blogs.................
+1 / ~20300 Abíčko neumírá, jen žije jinak.
+2 / ~20300 Nový hw - bugy 3
+3 / ~20300 Netrapte se
+4 / ~20300 Umírá abíčko? (odpověď v textu)
+5 / ~20300 Záhadné správanie v Bashi
+6 / ~20300 Tablet  iGET Smart G81 Black koupit bo ee?
+
+...
+
+</pre>
+
+<p>Doba běhu je na mé lince něco kolem hodiny.</p>
+
+
+<h2>Filosofický přesah</h2>
+<p>Moje první programátorská práce byla pro Národní knihovnu, sekci digitalizace. Mimo jiné jsem úzce spolupracoval s lidmi z <a href="https://www.webarchiv.cz/en/">českého webarchivu</a> (zdravím Rudu, Jardu a Zuzku). Ti se zabývají uchováváním různých digitálních dat pro budoucí generace. Díky nim jsem získal povědomí, že uchovávat data do budoucnosti může být záslužná činnost.</p>
+
+
+<p>Internet je místo, které se neustále mění. Osobně považuji abclinuxu za svého druhu poklad, u kterého by mi bylo vážně líto, kdyby zmizelo. Původně jsem se stahováním začal, když jsem prováděl analýzu, zda je neregistrovaný uživatel <tt>Kvakor</tt> pseudonym pro člověka jinak známého jako <a href="http://eldar.cz/mozek/shaddack.html">Shaddack</a> (pravděpodobně jo, linkuje 29 jeho jeho článků na wikipedii). V průběhu jsem si ovšem povšiml titulků různých blogů a začal číst.</p>
+
+
+<p>Pohled do historie, který se mi takhle naskytl byl fascinující, tak jsem se časem rozhodl sklízet abclinuxu pravidelně, abych ho uchoval pro další generace, kdyby ho náhodou jednoho dne někdo smazal. To dělám už několik let. A protože jediná možnost, jak zajistit skutečnou nesmrtelnost je decentralizace, máte dneska možnost si udělat vlastní sklizeň.</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>
