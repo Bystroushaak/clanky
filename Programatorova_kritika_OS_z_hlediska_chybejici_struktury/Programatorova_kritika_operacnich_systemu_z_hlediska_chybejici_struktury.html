@@ -166,7 +166,7 @@
 <p><a href="150401-erma-mark1-file-system.png"><img src="150401-erma-mark1-file-system_thumb.png" /></a></p>
 
 
-<p>Původní filesystémy byly metafora. Metafora pro ukládání souborů do složek, tak jako se strkají papíry do šanonů a šuplíků. Kromě mnoha technických omezení, daných stavem tehdejší výpočetní techniky, trpěly a trpí i omezením z podstaty této metafory. Přemýšlím, jestli by jsme si místo otázky <i>„jak trochu vylepšit padesát let starou metaforu“</i> neměli klást spíš otázku <i>„je to vážně ta správná metafora pro ukládání dat?“</i></p>
+<p>Původní filesystémy byly metafora. Metafora pro ukládání souborů do složek, tak jako se strkají papíry do šanonů a šuplíků. Kromě mnoha technických omezení, daných stavem tehdejší výpočetní techniky, trpěly a trpí i omezením z podstaty této metafory. Přemýšlím, jestli by jsme si místo otázky <i>„jak trochu vylepšit padesát let starou metaforu“</i> (třeba pomocí tagů) neměli klást spíš otázku <i>„je to vážně ta správná metafora pro ukládání dat?“</i></p>
 
 
 <h2>Programy</h2>
@@ -230,7 +230,7 @@
 <p>V minulém desetiletí bylo možné vidět masivní nárůst používání formátů jako XML, JSON a YAML. Určitě lepší než drátem do oka, ale to stále není to o čem tu mluvím. Nejde mi o konkrétní formát, jde mi o strukturu samotnou. Proč nemít strukturovaně všechna data? </p>
 
 
-<p>Nemluvím tady o parsování XML parserem, mluvím tu o přímém načtení do paměti, ve stylu <a href="https://msgpack.org/">message packu</a>, <a href="https://github.com/real-logic/simple-binary-encoding">SBE</a>, nebo <a href="https://google.github.io/flatbuffers/">FlatBuffers</a>. Bez toho aniž by bylo třeba vyhodnocovat text a řešit escape sekvence a formát unicode. O tom že na strukturovaná data o <i>Frantovi Putšálkovi</i> v kolekci lidí  přistoupím pomocí <tt>people[0].name</tt>, místo toho abych v jednom formátu dělal <tt>doc.getElementByTagName(&quot;person&quot;)[0].name.value</tt> a v druhém <tt>doc[&quot;people&quot;][0][&quot;name&quot;]</tt>. O tom že si můžu k atributu přečíst nápovědu pouhým <tt>help(people)</tt>, místo abych hledal dokumentaci.</p>
+<p>Nemluvím tady o parsování XML parserem, mluvím tu o přímém načtení do paměti, ve stylu <a href="https://msgpack.org/">message packu</a>, <a href="https://github.com/real-logic/simple-binary-encoding">SBE</a>, nebo <a href="https://google.github.io/flatbuffers/">FlatBuffers</a>, či <a href="https://capnproto.org/">Cap'n Proto</a>. Bez toho aniž by bylo třeba vyhodnocovat text a řešit escape sekvence a formát unicode. O tom že na strukturovaná data o <i>Frantovi Putšálkovi</i> v kolekci lidí  přistoupím pomocí <tt>people[0].name</tt>, místo toho abych v jednom formátu dělal <tt>doc.getElementByTagName(&quot;person&quot;)[0].name.value</tt> a v druhém <tt>doc[&quot;people&quot;][0][&quot;name&quot;]</tt>. O tom že si můžu k atributu přečíst nápovědu pouhým <tt>help(people)</tt>, místo abych hledal dokumentaci.</p>
 
 
 <p>Mluvím tu o tom že se neparsuji s WAVem, ale prostě iteruji přes jednotlivé <i>chunky</i>, které tam jsou. O tom že data popisují sebe sama přímo svou strukturou, ne externím popisem. Mluvím o přímé serializaci objektů, o jednotném systému podporovaném všemi jazyky, i když nemají objekty.</p>
@@ -473,6 +473,28 @@ stdout, stderr = sp.communicate()</pre>
 </ul>
 
 
+<h1>Dodatek: Filosofický přesah</h1>
+<p>Po dopsání tohoto textu jsem si uvědomil filosofický princip, který jsem podle mého názoru nejspíš dostatečně nezdůraznil;</p>
+
+<p>Nejde mi jen o strukturu na všech úrovních operačního systému, jde mi také o myšlenku <em>„samonosné komunikace“</em>.</p>
+
+<h3>Externě popsaná komunikace / struktura</h3>
+<p>Velká část vší existující komunikace a struktury před příchodem XML byla popsána zvenčí. Někde je RFC, podle kterého programátor píšící klienta implementuje parser. Je tam popis BNF, popis protokolu, jak vypadá dotaz a odpověď.</p>
+
+<p>Pokud se někdo podívá na data, naprosto nemá tušení jak s nimi pracovat. Je to prostě proud bajtů, v lepším případě nějaký textový protokol serializující strukturovaná key-value data nejspíš nějakým podivným a od všech ostatních textových protokolů úplně rozdílným způsobem. SMTP je úplně jiné od HTTP, které je úplně jiné od HTML, které se naprosto liší od IRC.</p>
+
+<p>Programátor tedy vstupní data promění na nějaké struktury, nebo snad objekty, poté nad nimi provede nějakou operaci, například zkontroluje, že odesilatel příchozí zprávy má tu a tu přezdívku a na základě toho mu přiřadí práva na psaní do „kanálu“ interaktivního chatu. Odpověď klientovi pošle zpět v podobě nějakého řetězce, často složeného skládáním stringů. Jaký je správný kód odpovědi, jak jsou složeny stringy a jaký bude další postup je popsáno v RFC, tedy externí dokumentaci v angličtině. Když to složí blbě, tak klient zkolabuje, nebo odpoví chybovou zprávou.</p>
+
+<h3>Vložená struktura</h3>
+
+<p>Existuje ještě druhá možnost - data jako taková mají svou strukturu uloženou obecně používaným způsobem serializace dat. Představte si XML, či JSON, ale o stupeň dál.</p>
+
+<h3>XML</h3>
+<p>Jedním ze slibů XML bylo sjednocení formátu dat, což se podle mého názoru částečně povedlo. Co se nepovedlo skoro vůbec je „samonostnost“ formátu, ze kterého je jasně patrné jaká může obsahovat data a co jsou přípustné hodnoty, včetně nápovědy a popisu.</p>
+
+<p>Mé osobní přesvědčení je, že XML selhalo protože popisovalo data a stromové struktury značkovacím jazykem.</p>
+
+
 <font color="red"><pre>
 Vysvětlit vlastní představu FS jako konceptu DB, respektive požadavků na takovou DB. Jmenovitě:
 
@@ -484,7 +506,7 @@ Vysvětlit vlastní představu FS jako konceptu DB, respektive požadavků na ta
     - umožnění paralelních přístupů
     - <a href="http://www.pixelbeat.org/programming/stdio_buffering/">http://www.pixelbeat.org/programming/stdio_buffering/</a>
     - <a href="http://www.abclinuxu.cz/blog/bystroushaak/2017/7/jak-se-stat-programatorem#493">http://www.abclinuxu.cz/blog/bystroushaak/2017/7/jak-se-stat-programatorem#493</a>
-
+    - pěknej citát: <a href="https://www.reddit.com/r/programming/comments/9l74s4/the_xerox_alto_smalltalk_and_rewriting_a_running/e76lbdl/">https://www.reddit.com/r/programming/comments/9l74s4/the_xerox_alto_smalltalk_and_rewriting_a_running/e76lbdl/</a>
     - příklad naprosto dementní konfigurace přes argumenty; docker a třeba -v parametry
 
 
