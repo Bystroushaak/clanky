@@ -1,0 +1,286 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="0" foreground="" is_bold="False" name="Programátorova kritika operačních systémů z hlediska chybějící struktury" prog_lang="custom-colors" readonly="False" tags="" ts_creation="0.0" ts_lastsave="1524402168.81" unique_id="191"><rich_text>Před nějakou dobou jsem četl vážně dobré </rich_text><rich_text link="webs https://www.cl.cam.ac.uk/~srk31/research/papers/kell13operating.pdf">zamyšlení</rich_text><rich_text>, zdali je vlastně zapotřebí operační systém, či ne. Sám na tohle téma provádím něco jako </rich_text><rich_text style="italic">„výzkum“</rich_text><rich_text> už přibližně dva roky. Rozhodl jsem se tedy, že bych mohl sepsat nosné myšlenky spolu s odkazy na některé relevantní zdroje informací.
+
+</rich_text><rich_text scale="h2">Buďte varováni</rich_text><rich_text>
+Pozor, tento zápisek obsahuje množství textu. Pokud vás text uráží, zvažte, zda se vůbec chcete pustit do diskuze.
+
+</rich_text><rich_text family="monospace" scale="h3">&lt;možné přeskočit&gt;</rich_text><rich_text>
+Předně bych rád deklaroval, že tu mluvím sám o sobě. Když budu psát, že </rich_text><rich_text style="italic">„je něco zapotřebí“</rich_text><rich_text>, </rich_text><rich_text style="italic">„možné“</rich_text><rich_text>, nebo </rich_text><rich_text style="italic">„schůdné“</rich_text><rich_text>, myslím tím </rich_text><rich_text style="italic">„zapotřebí pro mě“</rich_text><rich_text>, </rich_text><rich_text style="italic">„možné pro mě“</rich_text><rich_text>, nebo </rich_text><rich_text style="italic">„schůdné pro mě“</rich_text><rich_text>.
+
+Zažil jsem až příliš diskuzí na internetu, které byly způsobeny čtením mezi řádky a vztahováním čtenářovo názorů a předsudků na osobu autora. Vím, že tohle upozornění pravděpodobně nepomůže, ale zkuste se nad prezentovanými myšlenkami zamyslet s otevřenou myslí.
+
+Pokud vám některé moje nápady přijdou kontroverzní, nesmyslné, či pokud budete mít dokonce pocit, že Vás pobuřují svou donebevolající blbostí - uklidněte se. Vzpomeňte si na výše uvedenou deklaraci. Uvědomte si, že vůbec nemluvím o vás, nemám potřebu a chuť vám něco vnucovat, měnit vám workflow, nebo pomlouvat Váš systém. Berte to jako mojí podivnost, jako možný směr, který to chce vyzkoušet a nevztahujte to o čem tu mluvím na sebe.
+
+Jestliže v článku i poté uvidíte nedostatky a napadne Vás něco konstruktivního k věci, napište to do diskuze. Zkusme to tu pro jednou udržet v konstruktivní rovině.
+
+</rich_text><rich_text scale="h3">Poznámka k časovému rozpětí diskuze</rich_text><rich_text>
+Neušlo mé pozornosti, že diskuze pod většinou článků na abclinuxu trvá maximálně několik týdnů, v řídkých případech jednotky měsíců.
+
+Jsem si vědom, že abclinuxu zobrazuje u starších článků upozornění na dlouhou dobu od vydání článku a nepovažuji to za správný nápad. Pokud máte co konstruktivního říct a přečtete si tenhle článek třeba desetiletí po jeho vydání, já jako autor stále stojím o váš názor.
+
+Pokud ho nechcete, či nemůžete vložit do diskuze, pošlete mi ho emailem na </rich_text><rich_text family="monospace">bystrousak[]kitakitsune.org</rich_text><rich_text>, s nějakým smysluplným předmětem. Možná Vás to překvapí, ale napsal jsem docela hodně článků s podobným upozorněním a dodneška diskutuji s lidmi co je četli, i když je to třeba 7 let od vydání. O váš názor stojím.
+
+Osobně ovšem preferuji diskuzi zde pod článkem, neboť z ní mohou těžit i ostatní. Taky to trochu zabraňuje neustálému opakování otázek.
+</rich_text><rich_text family="monospace" scale="h3">&lt;/možné přeskočit&gt;</rich_text><rich_text>
+
+</rich_text><rich_text scale="h2">Proč?</rich_text><rich_text>
+V posledních letech jsem pracoval pro několik firem vytvářejících software. V některých případech jsem se zapojil do již existujících teamů, v ostatních jsem začínal spolu s několika dalšími programátory „na zelené louce“. Často jsem se přímo podílel na návrhu architektury, pokud jsem jí rovnou nevymýšlel sám.
+
+Pracuji jako </rich_text><rich_text style="italic">„backendový programátor“</rich_text><rich_text>. Mým popisem práce je typicky vytvářet systémy, které načítají, zpracovávají a ukládají různá data, parsují všemožné formáty, volají různé programy, či interagují s ostatními systémy a zařízeními.
+
+V </rich_text><rich_text style="italic">Národní knihovně</rich_text><rich_text> jsem v tříčlenném týmu dělal na systému pro ukládání elektronických publikací. Vytvořil jsem tam prakticky veškerý backendový kód, od ukládání dat, po komunikaci s ostatními systémy, mezi které patří například Aleph, Kramerius, nebo LTP (dlouhodobý archiv digitálních dat). Pro ukládání byl použit linuxový filesystém ext4 na CentOSu a objektová databáze </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/Zope_Object_Database">ZODB</rich_text><rich_text> vynucená </rich_text><rich_text link="webs https://plone.org">Plonem</rich_text><rich_text>, ve kterém byla frontendová část. Pro komunikaci pak všechno možné, od volání API přes </rich_text><rich_text link="webs https://www.zdrojak.cz/clanky/rest-architektura-pro-webove-api/">REST</rich_text><rich_text>, nahrávání XML souborů na FTP, balení věcí do ZIPu az po kopírování na sambu. Interní komponenty mezi sebou používaly </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/RabbitMQ">RabbitMQ</rich_text><rich_text>.
+
+V jisté nejmenované společnosti jsem pracoval na systému k ochraně proti DDoS útokům. Kvůli NDA nemůžu rozebírat podrobnosti nad rámec popisu tehdejších pracovních inzerátů. Ty ukazují, že byl také použit linux, python, SQL i NoSQL databáze, spousta různých existujících opensource programů a na komunikaci RabbitMQ. Na velké části z toho jsem dělal přímo já.
+
+Pro </rich_text><rich_text style="italic">Nubium development</rich_text><rich_text>, vytvářející asi nejznámější český filehostingový web </rich_text><rich_text style="italic">ulož.to</rich_text><rich_text>, jsem dělal na backendu. Zrefaktoroval jsem a částečně navrhl kusy software, které se starají o ukládání a redistribuci souborů napříč různými servery, ale i o zpracování uživatelských dat. Například ikonky, které se zobrazují u náhledů archivů a videí, jsou moje práce, kromě spousty dalších věcí, které nikde neuvidíte.
+
+Pro pár dalších firem jsem dělal různé weby a RESTové služby. Momentálně dělám na systému pro rozpoznání a automatické vyhodnocování záběrů z kamer v různých tunelech.
+
+Všude kde jsem dělal se používal linux, databáze, a většinou i nějaká forma </rich_text><rich_text style="italic">message queue</rich_text><rich_text> předávající strukturovaná data. Někdy šlo o SQL tabulky, jindy o JSON poslaný přes RabbitMQ.
+
+V každé z jmenovaných firem jsem viděl ten samý vzor - nezávisle na sobě vytvořený, přibližně podobný kus software, který přirozeně vyplynul z několika požadavků:
+
+• Spolehlivé ukládání velkého počtu malých souborů (miliony souborů, s průměrně megabajty až gigabajty na soubor), či menšího počtu velkých souborů (terabajty / soubor).
+• Načítání a zápis konfigurace ve strukturovaném formátu (INI, JSON, XML, YAML, ..).
+• Strukturovaná komunikace mezi vlastními, ale i cizími programy.
+• Distribuovaná architektura zahrnující vícero fyzických strojů a umožňující snadné škálování.
+
+Pokud programujete, pravděpodobně víte, kam tím mířím. Jestliže spousta programátorů vytváří nad danou knihovnou stále stejný vzor, nejedná se o chybu programátorů, ale o špatně navrženou knihovnu.
+
+Postupně, jak jsem nad tím tak přemýšlel, jsem dospěl k názoru, že je špatně samotná </rich_text><rich_text style="italic">architektura</rich_text><rich_text> operačního systému.To co po něm chceme a co od něj očekáváme již v dnešní době moc neodpovídá požadavkům, především z hlediska „</rich_text><rich_text style="italic">programátorského uživatelského interface</rich_text><rich_text>“, tedy toho, s čím jako programátor pracuji.
+
+</rich_text><rich_text scale="h2">Operační systém</rich_text><rich_text>
+Když jsem byl mladší, měl jsem poměrně jasnou představu o tom, co je to operační systém: </rich_text><rich_text style="italic">Windows přece</rich_text><rich_text>. To je ta věc, co mají všichni na počítači, vlevo dole to má tlačítko start, a když nenaběhne a zobrazí se jen černá obrazovka, je zapotřebí napsat </rich_text><rich_text family="monospace">win</rich_text><rich_text>.
+
+Na střední škole mě naučili definici, podle které je operační systém </rich_text><rich_text style="italic">„programové vybavení počítače zpřístupňující vstupně-výstupní zařízení“</rich_text><rich_text>.
+
+Později jsem zjistil, že operačních systémů existuje hodně a v podstatě všechny dělají to samé; vytvářejí ± jednotnou abstrakci nad hardwarem počítače, umožňují pouštět různé programy, nabízí více, či méně propracovaný filesystém, spravují paměť, řeší multitasking a uživatelská práva.
+
+V dnešní době je operační systém pro většinu lidí </rich_text><rich_text style="italic">to</rich_text><rich_text>, čím pouští své prohlížeče, ve kterých koukají na </rich_text><rich_text style="italic">youtuby</rich_text><rich_text> a na </rich_text><rich_text style="italic">facebooky</rich_text><rich_text> a taky skrz </rich_text><rich_text style="italic">to</rich_text><rich_text> posílají emaily. Občas </rich_text><rich_text style="italic">to</rich_text><rich_text> umí pouštět hry a pracovat se vším možným, od CD-ROMky po klávesnici.
+
+Pro pokročilé uživatele je to pak určitá forma databáze a API, která umožňuje spouštět jejich programy a nabízí standardizovaný přístup ke konkrétním činnostem (výpis znaku, uložení souboru, navázání spojení po internetu, ..).
+
+Většinou máme tendenci vnímat operační systém jako něco neměnného, co si vybereme z pár nabídek, které jsou diktovány svatou trojicí (Windows, Mac, Linux), okolo které se zmateně krčí několik prakticky nepoužívaných (0.03% celkem) alternativ (*BSD, Plan9, BeOS, ..).
+
+Z nějakého důvodu jsou všechny skutečně používané systémy až na výjimky hodně podobné. Rád bych se zamyslel, jestli je to skutečně žádaná vlastnost, nebo náhodný historický vývoj.
+
+</rich_text><rich_text scale="h2">Krátká historie operačních systémů</rich_text><rich_text>
+První počítače neměly operační systém a byly uživatelsky velmi nepříjemné. Daly se programovat pouze přímou změnou hardwarového propojení.
+
+Pak přišly děrnoštítkové a děrnopáskové stroje. Na nich operátor </rich_text><rich_text link="webs https://youtu.be/XV-7J5y1TQc?t=242">nacvakal</rich_text><rich_text> sérií přepínačů přímo do paměti binárně „zavaděč“, jenž mu umožnil načíst děrné štítky, či děrný pásek. Ten obsahoval sekvence instrukcí a data.
+
+Systém pracoval v takzvaných dávkách. Programátor dodal médium s dávkou dat, operátor je načetl do počítače a spustil. Po dokončení běhu vrátil programátorovi výsledky, či chybovou hlášku, pokud došlo k chybě.
+
+Jelikož se jednalo o hodně manuální činnosti, časem vznikly knihovny pomocných funkcí a různé užitečné nástroje. Například zavaděč, který se zavede automaticky po startu počítače a umožní načtení programátorova programu pouhým stisknutím patřičného tlačítka. Nebo subrutina, která při pádu programu vypíše obsah paměti. Těmto programům se říkalo </rich_text><rich_text style="italic">monitory</rich_text><rich_text>.
+
+Protože tehdejší počítače byly velmi, velmi drahé, vznikl tlak na jejich použití vícero uživateli zároveň. S tím přišly první operační systémy, které sloučily funkcionalitu </rich_text><rich_text style="italic">monitoru</rich_text><rich_text>, přidaly podporu běhu vícero programů zároveň a také nabídly správu a paralelní přístup vícero uživatelů.
+
+Stále komplikovanější hardware a komplexita jeho přímého ovládání způsobila narůstající tlak na univerzálnost kódu mezi různými stroji a jejich verzemi. Operační systémy začaly nabízet podporu typicky používaných zařízení. Nadále již nebylo třeba zadávat adresu paměti na disku, stačilo uložit data do pojmenovaného umístění, a později i do složek. Vznikly první souborové systémy. S podporou vícero uživatelů zároveň vyvstala také snaha oddělit jejich programy, aby si navzájem nemohly přepisovat a číst data. Také vznikly plánovače a virtuální paměť a multitasking.
+
+Operační systémy se staly vrstvou, která stojí mezi uživatelem, jenž nadále nemusí být programátorem, a poskytuje mu standardní způsoby uložení dat, výpisu znaku na obrazovku, práci s klávesnicí, tisku na tiskárnu a spuštění jeho dávky / programu.
+
+Později k tomu přibylo ještě grafické rozhraní a síťování. Osobní počítače nabídly plejádu zařízení, z nichž všechny musel operační systém umět používat a podporovat. Až na pár výjimek, kterým se budu věnovat dále, šlo o iterativní vývoj, který nepřinesl nic zásadně revolučního. Všechno se zlepšovalo, zefektivňovalo, ale samotné paradigma se moc nezměnilo.
+
+</rich_text><rich_text scale="h1">Kritika operačního systému</rich_text><rich_text>
+</rich_text><rich_text strikethrough="true">Mezi subsystémy, které naprosto </rich_text><rich_text strikethrough="true" weight="heavy">nemůžu</rich_text><rich_text strikethrough="true"> kritizovat je hardwarová podpora. Dnešním operačním systémům se daří podporovat skoro vše, co podporovat jde. Mám jisté výhrady ke způsobu podpory (nebyl by třeba dobrý nápad to standardizovat a psát ovladače v něčem portabilním napříč systémy?), těm se zde ale nebudu věnovat. Dále nemám žádných námitek proti systémům správy paměti a plánování procesů. Naopak. Připíjím na zdraví tvůrců, skvělá práce!</rich_text><rich_text> </rich_text><rich_text foreground="#ffff00000000">Vyhodit?</rich_text><rich_text>
+
+Nemám nejmenší problém s operačním systémem jako s hardwarovou abstrakcí. Naopak mám problém s konceptem OS jako uživatelského rozhraní. Tím nemyslím grafiku, ale zbytek všeho s čím interagujete, a co má nějaký tvar;
+
+</rich_text><rich_text scale="h2">Koncept souborového systému</rich_text><rich_text>
+Schválně se zkuste zamyslet, co to vlastně je. Vyjde vám, že je to omezená hierarchická </rich_text><rich_text style="italic">key-value</rich_text><rich_text> databáze.
+
+Omezená, protože omezuje nejen velikost a subset klíče, který je v lepším případě v UTF, ale i samotnou uloženou </rich_text><rich_text style="italic">hodnotu</rich_text><rich_text>, a to jen na proud bajtů. To se zdá rozumné, ale jen do doby než si uvědomíte, že je to struktura, která vám nedovolí ukládat struktury. Počet inodů (větví struktury) je navíc omezen na číslo, které se v horších případech pohybuje v řádu desítek až stovek tisíc maximálně však pár milionů.
+
+Ve dvou z mých předchozích zaměsntáních jsme museli obcházet omezený počet inodů na složku retardací jako </rich_text><rich_text link="webs http://balanceddiscstorage.readthedocs.io">BalancedDiscStorage</rich_text><rich_text>, či ukládáním souborů do tří podsložek složených z prvních tří písmen MD5 hashe souboru.
+
+K tomu tu pro většinu operací chybí atomicita a transakce nejsou zpravidla podporovány vůbec. Paralelní zápisy a čtení fungují na různých systémech různě a ve skutečnosti v reálném životě není garantované naprosto nic. Schválně si to srovnejte s libovolnou databází.
+
+Filesystém je specifická databáze, u které každý, kdo se jí pokusí použít pro cokoliv seriózně složitého dřív nebo později tvrdě narazí. Ať už je to programátor, který si řekne, že si ty data prostě a jednoduše bude ukládat do souborů, nebo uživatel, který se v bordelu na filesystému nemůže vyznat a musí používat různé divné vyhledávání a indexování. Výkřikem techniky je, když dokáže poznat, že má poškozená data a dopočítat je zpětně ze samo-opravných kódů.
+
+Samozřejmě chápu, že pointou je něco jiného. Řeší se tu sektory na disku a žurnálování, a plotny a oddíly a RAIDy a celé je to super pokrok oproti původním primitivním systémům ukládání dat. ALE. Není to náhodou pokrok špatným směrem?
+
+-- </rich_text><rich_text link="webs https://www.krollontrack.co.uk/blog/wp-content/uploads/sites/3/150401-erma-mark1-file-system.png">https://www.krollontrack.co.uk/blog/wp-content/uploads/sites/3/150401-erma-mark1-file-system.png</rich_text><rich_text> --
+
+Původní filesystémy byly do jisté míry metafora. Trpěly mnoha omezeními, danými tehdejším stavem výpočetní techniky. Přemýšlím, jestli by jsme si místo otázky </rich_text><rich_text style="italic">„jak zlepšit 50 let starou metaforu“</rich_text><rich_text> neměli klást spíš otázku </rich_text><rich_text style="italic">„je to vážně ta správná metafora pro ukládání dat?“</rich_text><rich_text>
+
+</rich_text><rich_text scale="h2">Programy</rich_text><rich_text>
+Čistě fyzicky, programy jako takové nejsou nic jiného, než jen sekvence uložených bajtů. V podstatě ani pro operační systém nemůžou být nic jiného, neboť souborová databáze operačního systému s ničím jiným pracovat neumí.
+
+Programy se prvně napíšou ve zdrojovém kódu příslušného jazyka, který se potom zkompiluje a slinkuje do jednoho bloku. Ten je následně vyděrován na děrné štítky (binární data) a zastrčen do patřičné krabice (souboru) ve správné sekci kartotéky (filesystému).
+
+Když chce uživatel program pustit, napíše jeho jméno na příkazovém řádku, nebo někde klepne na ikonu. Poskládané děrné štítky jsou následně vyndány z kartotéky a nacpány do paměti, která se pro program tváří, jako kdyby byl v celém operačním systému sám. Kód je poté prováděn od počátečních děrných štítků k těm koncovým, s tím že program může podmíněně přeskočit na konkrétní děrný štítek v krabici, která ho tvoří.
+
+Programy taky můžou číst parametry příkazového řádku, používat sdílené knihovny, volat API operačního systému, pracovat s filesystémem, posílat (číselné) signály různým jiným programům, reagovat na ně, vracet návratové hodnoty, nebo otevírat sockety.
+
+Co je na tom špatně?
+
+Nechci říct, že je koncept špatný jako takový. ALE. Opět je to stejná stará metafora, iterativním vývojem posunutá o pár kroků dál. Všechno mi přijde hrozně </rich_text><rich_text style="italic">nízkoúrovňové</rich_text><rich_text>. Celý ten systém se za posledních 40 let změnil jen minimálně a nemůžu se zbavit myšlenky, že než že by jsme dorazili k naprosté dokonalosti, spíš jsme někde uvázli v zákrutě lokálního maxima.
+
+</rich_text><rich_text link="webs https://en.wikipedia.org/wiki/Lisp_machine">Lispovské stroje</rich_text><rich_text>, </rich_text><rich_text link="webs http://toastytech.com/guis/alto3.html">Smalltalkovské</rich_text><rich_text> a </rich_text><rich_text link="webs http://www.selflanguage.org/">Selfové prostředí</rich_text><rich_text> mě naučily, že se to dá dělat i jinak. Že programy nutně nemusí být kolekce bajtů, ale můžou to být malé samostatné objekty, které jsou (metaforou posílání zpráv) zavolatelné z ostatních částí systému, a které se dynamicky kompilují podle potřeby.
+
+Znáte takovou tu </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Filosofie_Unixu">unixovou filosofii</rich_text><rich_text>, že je dobré používat malé programy, které dělají jednu věc, na tu se zaměřují a dělají jí dobře? Proč tu myšlenku nedotáhnout do konce a neudělat malé programy z každé funkce a metody vašeho programu? Ta by naoplátku mohla komunikovat s metodami a funkcemi ostatních programů.
+
+Ve Smalltalku to tak funguje, dokonce není problém to verzovat, specifikovat závislosti, mít nad tím package manager, ošetření chyb, nápovědu a kdo ví co dalšího. Vážně by to nešlo dělat s programy obecně?
+
+</rich_text><rich_text scale="h2">Soubory, čili uložená data</rich_text><rich_text>
+A jsme zase u těch binárních dat. Na první pohled geniální myšlenka, protože nic nemůže být víc univerzální. Na další pohled už tak ne.
+
+V čem je problém?
+
+Prakticky všechna data mají svou strukturu. Kdykoliv, kdy programátoři v programovacím jazyku pracují s daty, a nejedná se jen o jejich přesunutí, tak se jim snaží dát strukturu. Namapují je na různé </rich_text><rich_text family="monospace">struct</rich_text><rich_text> konstrukty. Vytvoří z nich strom objektů. I u </rich_text><rich_text style="italic">streamovaných</rich_text><rich_text> věcí, jako je třeba záznam zvuku ve formátu </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/WAV">WAV</rich_text><rich_text>, se iteruje skrz jednotlivé </rich_text><rich_text style="italic">chunky</rich_text><rich_text>.
+
+Proč tedy proboha každý program vezme data, dá jim strukturu, něco nad ní udělá a tu strukturu zahodí a zkolabuje zpět na nestrukturovaná, </rich_text><rich_text style="italic">surová</rich_text><rich_text> binární data?
+
+Současná počítačová kultura je posedlá parsery a externími popisy dat, jenž by však mohly nést strukturu samy o sobě. Každý den jsou nesmírná kvanta výpočetních cyklů zcela nesmyslně plýtvána na konverzi </rich_text><rich_text style="italic">surových</rich_text><rich_text> bajtů na struktury a zase zpět. A každý program to dělá jinak, dokonce i v různých verzích. Nemalá část mé práce jako programátora je jen o parsování a převodech dat, jenž kdyby měla strukturu, tak by byla upravitelná jednoduchou transformací. Tady vem kus stromu a přesuň ho sem. K téhle části grafu přidej tohle, jinde něco uber.
+
+Nejde jen o nesmyslnost toho všeho. Jde o to, že zároveň s tím je to i horší. Horší pro uživatele, a horší pro programátory. Data se kterými pracujete by mohla být sebe-popisná, ale nejsou. Jednotlivé položky by mohly obsahovat datové typy, ale i dokumentaci. A nemají. Proč? Protože je v módě mít zvlášť hromadu binárních dat, a zvlášť jejich externí popis. Ale proč? Vážně to tak chceme, vážně to má nějaké výhody?
+
+V minulém desetiletí bylo možné vidět masivní nárůst používání formátů jako XML, JSON a YAML. Určitě lepší než drátem do oka, ale to stále není to o čem tu mluvím. Nejde mi o konkrétní formát, jde mi o strukturu samotnou. Proč nemít strukturovaně všechna data? 
+
+Nemluvím tady o parsování XML parserem, mluvím tu o přímém načtení do paměti, ve stylu </rich_text><rich_text link="webs https://msgpack.org/">message packu</rich_text><rich_text>, </rich_text><rich_text link="webs https://github.com/real-logic/simple-binary-encoding">SBE</rich_text><rich_text>, nebo </rich_text><rich_text link="webs https://google.github.io/flatbuffers/">FlatBuffers</rich_text><rich_text>. Bez toho aniž by bylo třeba vyhodnocovat text a řešit escape sekvence a formát unicode. O tom že na strukturovaná data o </rich_text><rich_text style="italic">Frantovi Putšálkovi</rich_text><rich_text> v kolekci lidí  přistoupím pomocí </rich_text><rich_text family="monospace">people[0].name</rich_text><rich_text>, místo toho abych v jednom formátu dělal </rich_text><rich_text family="monospace">doc.getElementByTagName(&quot;person&quot;)[0].name.value</rich_text><rich_text> a v druhém </rich_text><rich_text family="monospace">doc[&quot;people&quot;][0][&quot;name&quot;]</rich_text><rich_text>. O tom že si můžu k atributu přečíst nápovědu pouhým </rich_text><rich_text family="monospace">help(people)</rich_text><rich_text>, místo abych hledal dokumentaci.
+
+Mluvím tu o tom že se neparsuji s WAVem, ale prostě iteruji přes jednotlivé </rich_text><rich_text style="italic">chunky</rich_text><rich_text>, které tam jsou. O tom že data popisují sebe sama přímo svou strukturou, ne externím popisem. Mluvím o přímé serializaci objektů, o jednotném systému podporovaném všemi jazyky, i když nemají objekty.
+
+Vážně by to bylo tak nemožné? Proč?
+
+</rich_text><rich_text scale="h2">Strukturovaná komunikace</rich_text><rich_text>
+Všímáte si toho vzoru v mé kritice, hněvu a vášni? Je jím téma </rich_text><rich_text style="italic">neuvědomělé struktury</rich_text><rich_text>.
+
+Filesystémy si neuvědomují, že jsou databáze. Že jejich struktura jsou obyčejná hierarchická </rich_text><rich_text style="italic">key-value</rich_text><rich_text> data. Programy si neuvědomují, že nejsou binární bloby, ale klubko propojených funkcí a struktur a objektů, které mají potřebu komunikovat se sebou, ale i s okolním světem. Data si neuvědomují, že nejsou mrtvé série surových bajtů, ale že mají strukturu, i když v současnosti jen externě popsanou, a externě zpracovávanou v různých programech.
+
+Co dalšího má strukturu, o čem jsem zatím nepsal? Samozřejmě komunikace. S operačním systémem. S programy. Mezi programy.
+
+</rich_text><rich_text scale="h3">/sys</rich_text><rich_text>
+</rich_text><rich_text link="webs https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs">Plan9</rich_text><rich_text> byl úžasným krokem tímhle směrem. Poté co jsem ho prozkoumal jsem však dospěl k názoru, že tvůrci sice měli obecné povědomí o tom co dělají, ale nedošlo jim to v celé úplnosti. Možná částečně proto, že byli stále hodně ovlivněni unixem a komunikací v proudech bajtů.
+
+Na Plan9 je úžasné, jak můžete interagovat se systémem pomocí zápisu a čtení z různých speciálních souborů. Fantastické! Revoluční! Tak úžasné, že to linux převzal například v podobě </rich_text><rich_text family="monospace">/sys</rich_text><rich_text> subsystému a </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Filesystem_in_Userspace">FUSE</rich_text><rich_text>.
+
+Víte co tomu chybí? Reflexe a struktura. Pokud si nepřečtete manuál, tak naprosto netušíte co kam zapsat.
+
+Zde je kód pro blikání diodou na raspberry pi:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Jak jsou řešeny chyby? Co když do </rich_text><rich_text family="monospace">/sys/class/gpio/export/gpio27/value</rich_text><rich_text> zapíšu string „vánočka“? Dostanu zpět error kód z echa? Nebo se v nějakém jiném souboru něco objeví? Jak jsou zvládány paralelní zápisy? A co čtení, kde je popsáno co můžu dostat za hodnoty, když do </rich_text><rich_text family="monospace">/sys/class/gpio/export/gpio27/direction</rich_text><rich_text> zapíšu </rich_text><rich_text family="monospace">„in“</rich_text><rich_text> místo </rich_text><rich_text family="monospace">„out“</rich_text><rich_text>?
+
+Prostě jak si to který modul udělá, tak to bude. Datové typy se neřeší. Pojďme postavit komunikaci se systémem na databázi, která si neuvědomuje že je databáze!
+
+Tohle je asi největší neuvědomělá snaha o zavedení čehosi jako objektů, jakou jsem kdy viděl. Ta struktura jsou objekty. Jen ten rozdíl mezi </rich_text><rich_text family="monospace">sys.class.gpio.diode</rich_text><rich_text> a složkou na podobném umístění je že složka je nepopsaná </rich_text><rich_text style="italic">key-value</rich_text><rich_text> položka, podobně jako JSON, která nemá jasně dané properties, formát dat, nápovědu, nebo třeba formát a způsob vyvolávání výjimek.
+
+</rich_text><rich_text scale="h3">Sockety</rich_text><rich_text>
+Já chápu, proč vznikly. Vážně. Ve své době to bylo naprosto racionální a nebylo nic lepšího. Ale proč proboha používat nestrukturovaný formát přenosu binárních dat i dneska, když veškerá komunikace je strukturovaná, což platí i pro zdánlivé proudy bajtů, jako streamované audio.
+
+Vemte si, jak to vypadá, když píšete IRC bota. Navážete spojení. Super. Samozřejmě použijete </rich_text><rich_text family="monospace">select</rich_text><rich_text>, aby jste nevytěžovali procesor. Data čtete v blocích, například 4096 bajtů. V paměti je převádíte na stringy a hledáte v nich nové „</rich_text><rich_text family="monospace">\r\n“</rich_text><rich_text>. Musíte bufferovat a zpracovávat řádky vždy až když dorazí celé. Pak parsujete textovou strukturu a skládáte z ní zprávy o jednom řádku. A různé zprávy mají různé formáty a je třeba je parsovat různě. Hrozná zábava s reimplementací </rich_text><rich_text link="webs https://tools.ietf.org/html/rfc1459">specifikace</rich_text><rich_text> po milionté jinak. Přitom zprávy by mohly mít strukturu samy o sobě, stejnou jako zbytek všeho ostatního.
+
+Nebo třeba HTTP. To přece přenáší strukturovaná HTML data, ne? Máte jasně daný jazyk a jeho popis a způsob parsování. Super! Co víc si přát. Myslíte ale, že HTTP používá na úrovni přenosového protokolu jako datový formát (HT/X)ML? Ani náhodou, samozřejmě, že si specifikuje vlastní protokol, který </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Hypertext_Transfer_Protocol">vypadá</rich_text><rich_text> úplně jinak (</rich_text><rich_text style="italic">key-value</rich_text><rich_text> data hlaviček a pak způsob posílání </rich_text><rich_text style="italic">chunků</rich_text><rich_text> dat).
+
+Email? Ani mě nenechte začít na téma zkaženosti emailu, jeho protokolu a formátu, kde se nejasně definovaná struktura v asi pěti standardech mísí mezi sebou a každý výrobce si to implementuje po svém. Pokud jste někdy zkoušeli zpracovávat emailové hlavičky z nějaké konference, tak určitě víte. Pokud ne, zkuste si to. Garantuji, že vám to změní pohled na svět.
+
+A tak je to se vším. Skoro nikdy nepotřebujete proud bajtů, ale posílat zprávy, které jsou prakticky vždy hierarchie </rich_text><rich_text style="italic">key-val</rich_text><rich_text> dat, nebo pole. Proč tedy skoro 50 let po vynálezu socketu stále přenášíme data ve streamech a neustále si vymýšlíme vlastní textové protokoly? Není čas na něco lepšího?
+
+Vytvoříme strukturu tady, pak jí serializujeme na surové bajty, nacpeme do socketu a pošleme systému, který musí provést deserializaci a rekonstrukci na základě externího popisu dat, který je s trochou štěstí podobný tomu našemu. Proč? Proč neposílat rovnou struktury?
+
+</rich_text><rich_text scale="h3">Parametry příkazové řádky</rich_text><rich_text>
+Máte program na disku, který něco dělá. Když vynechám kliknutí a následné „ruční“ zadání dat, tak argumenty příkazové řádky jsou jeden z nejčastějších způsobů, jak programu říct, co po něm chcete. A každý druhý program si je parsuje vlastním způsobem.
+
+Reálně neexistuje žádný standard formátu argumentů na příkazové řádce. Některé programy používají </rich_text><rich_text family="monospace">--param</rich_text><rich_text>. Jiné </rich_text><rich_text family="monospace">-param</rich_text><rich_text>. Další jen </rich_text><rich_text family="monospace">param</rich_text><rich_text>. Někdy se seznamy oddělují mezerami, jindy čárkami. Už jsem dokonce zažil i JSON parametry mixované s těmi normálními.
+
+Pokud program voláte z nějakého příkazového řádku, tak se vám do toho navíc mixuje jeho scriptovací jazyk a jeho způsob definice stringů, proměnných a bůh ví čeho dalšího (z hlavy mě napadají escape sekvence, jména funkcí, eval sekvence, wildcards znaky, </rich_text><rich_text family="monospace">--</rich_text><rich_text> pro ukončení wildcardů a tak podobně). Celé je to jeden velký, gigantický bordel, který si každý patlá a parsuje, jak se mu zrovna chce.
+
+A co volání ostatních programů z </rich_text><rich_text style="italic">jiných programů</rich_text><rich_text>? Ani nechci vzpomínat, kolikrát jsem viděl, či psal kód ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Pokud jsou argumenty složitější, stane se z toho rychle onanie skládání stringů, kde si navíc nemůžete být jisti bezpečností, nemáte garanci podporované znakové sady, musíte sanitizovat uživatelský vstup a volané podprogramy navíc stále můžou vykazovat chování, které je všechno, jen ne triviální. Například vám </rich_text><rich_text link="webs https://thraxil.org/users/anders/posts/2008/03/13/Subprocess-Hanging-PIPE-is-your-enemy/">zatuhne buffer</rich_text><rich_text> při větším výstupu. Nebo program reaguje jinak v neinteraktivním režimu, než v interaktivním a není žádný způsob, jak ho přesvědčit o opaku. Případná vám cpe escape sekvence a </rich_text><rich_text family="monospace">tty</rich_text><rich_text> formátování, kam by jste nechtěli. A jak asi přenesete strukturovaná data tam a zpět?
+
+Přitom parametry příkazové řádky jsou většinou nějakým seznamem, nebo slovníkem s vnořenými strukturami. Chce to jednotný a na zápis jednoduchý jazyk. Něco lehčího na zápis, než JSON, ale zároveň víc expresivního.
+
+Úplně pak vynechávám, že nutnost parametrů příkazové řádky se úplně vytratí, když můžete posílat programu strukturované zprávy podobně jako volat funkci v programovacím jazyku. Vždyť nejde o nic jiného, než o zavolání patřičné funkce / metody s konkrétními parametry, tak proč to dělat takhle divně a nepřímo?
+
+</rich_text><rich_text scale="h3">Env proměnné</rich_text><rich_text>
+</rich_text><rich_text style="italic">Env</rich_text><rich_text> proměnné jsou slovník. Doslova se tak mapují a chovají. Jenže díky </rich_text><rich_text style="italic">chybějící struktuře</rich_text><rich_text> jsou jen jednorozměrným slovníkem s klíči a hodnotami v podobě stringů. V D by se zapsaly jako </rich_text><rich_text family="monospace">string[string] env;</rich_text><rich_text>. To často nestačí, protože potřebujete přenést vnořené struktury.
+
+Má duše křičí, terorizována hláškami jako „</rich_text><rich_text style="italic">potřebuješ předat složitější data do </rich_text><rich_text family="monospace" style="italic">env</rich_text><rich_text style="italic"> proměnné? tak tam zapiš JSON, nebo odkaz na soubor!</rich_text><rich_text>“ Proč proboha jako civilizace nezvládneme jednotný způsob předávání a ukládání dat, že musíme míchat syntaxi </rich_text><rich_text family="monospace">env</rich_text><rich_text> proměnných v bashi s JSONem?
+
+</rich_text><rich_text scale="h3">Konfigurační soubory</rich_text><rich_text>
+Ať už si to uvědomujete, nebo ne, prakticky každý netriviální program ve vašem počítači potřebuje nějakou konfiguraci. Tu si zpravidla bere z konfiguračního souboru. Víte, kde je ten soubor umístěný? V Linuxu bývá standardem je umisťovat do </rich_text><rich_text family="monospace">/etc</rich_text><rich_text>, ale klidně můžou být taky ve vašem </rich_text><rich_text family="monospace">$HOME</rich_text><rich_text>, nebo v </rich_text><rich_text family="monospace">$HOME/.config</rich_text><rich_text>, nebo v libovolné podsložce (třeba </rich_text><rich_text family="monospace">$HOME/.thunderbird/</rich_text><rich_text>).
+
+A co formát? Hádáte správně. Může být libovolný; </rich_text><rich_text scale="sub" style="italic">(pseudo)</rich_text><rich_text>INI, XML, JSON, YAML. Nebo Lua. Nebo taky hybrid vlastního programovacího jazyka. Co koho zrovna napadne, to se používá.
+
+Existuje vtip, že komplexita každého konfiguračního souborů roste s časem do míry, kdy v něm někdo vytvoří špatně implementovanou půlku lispu. Mým oblíbeným příkladem je </rich_text><rich_text link="webs https://www.ansible.com/">Ansible</rich_text><rich_text> a jeho nedotažená, nekompletní parodie na </rich_text><rich_text link="webs http://docs.ansible.com/ansible/latest/playbooks_conditionals.html">programovací jazyk postavený nad YAMLem</rich_text><rich_text>. 
+
+Chápu, kde se to bere. Taky jsem touhle cestou šel. Proč to ale nemůže být standardizované a stejné napříč celým systémem? Ideálně ten samý datový formát napříč vším. Proč nemůžou být konfigurací samotné objekty na patřičném umístění?
+
+</rich_text><rich_text scale="h3">Obecný princip</rich_text><rich_text>
+Co takhle vzít všude tam, kde se dneska používá nějaký podivný stringový formát, ať už je to předávání parametrů programům, nebo komunikace mezi nimi, a nahradit to nějakým úsporným, jednoduše zapisovatelným jazykem pro definici struktur? Jazykem, který by byl zároveň popisným formátem, jenž by chápal datové typy jako </rich_text><rich_text family="monospace">dict</rich_text><rich_text>, </rich_text><rich_text family="monospace">list</rich_text><rich_text>, </rich_text><rich_text family="monospace">int</rich_text><rich_text> a </rich_text><rich_text family="monospace">string</rich_text><rich_text> a delegaci (dědičnost). Tak aby pro člověka i program odpadla většina parsování a dohad nad strukturou, a druhý jmenovaný je dostal už rovnou ve svém nativním formátu.
+
+Tolik tedy ke kritice. Pojďme se podívat na nápady, jak se posunout někam dál.
+
+</rich_text><rich_text scale="h2">Ohledně objektů</rich_text><rich_text>
+Když mluvím o objektech, nemám na mysli co znáte z programovacích jazyků jako třeba C++, nebo Java. Spousta lidí na to má poslední dobou alergii.
+
+Myslím tím obecný koncept grupování funkcí s daty, nad kterými operují. K tomu není třeba </rich_text><rich_text style="italic">class based přístup</rich_text><rich_text> (= nemusíte psát třídy). Není k tomu třeba ani dědičnost, i když nějaká forma delegace se hodí.
+
+GPIO posložka filesystému </rich_text><rich_text family="monospace">/sys</rich_text><rich_text> obsahující kontrolní soubor, jenž udává směr zápisu dat na LED diodu, a datový soubor, kterým data můžete zapsat či číst, je objekt. Má metodu (ovládací soubor) i data, nad kterými se operuje. Samozřejmě, že ideálně by bylo možné podobný objekt i kopírovat a instancovat standardním způsobem, předávat ho dalším objektům a metodám a provádět jeho introspekci. Ale i tak je to primitivní objektový systém, kde objektem je složka, daty jsou soubory, a metodami kontrolní soubory a operace nad nimi.
+
+Samotné objekty jsou na nejnižší úrovni </rich_text><rich_text style="italic">key-value</rich_text><rich_text> data. Klíč způsobí provedení kódu v případě že jde o jméno metody, nebo vrácení dat, v případě že jsou v něm uloženy data. Rozdíl mezi objekty a </rich_text><rich_text style="italic">key-value</rich_text><rich_text> záznamem v databázi je poměrně minimální, a spočívá především v možnosti uložit kód, a také v delegaci, kde když se nenajde daný klíč v potomkovi, tak se přesune hledání do konkrétního rodiče.
+
+Pokud tedy mluvím o objektech, mám na mysli obecné </rich_text><rich_text style="italic">key-value</rich_text><rich_text> struktury, které umožňují delegaci, referencování těchto struktur, reflexi a ideálně i nějakou formu homoikonicity.
+
+Záměrně nemám na mysli konkrétní jazyk, ale zcela a vůbec nemám na mysli imperativní objektově orientované, na strukturách založené jazyky, jako jsou C++, C#, Java a podobné.
+
+</rich_text><rich_text scale="h1">Idea</rich_text><rich_text>
+Nebudu popisovat nějaký konkrétní systém. Sice jsem na tohle téma provedl pár experimentů, ale v zásadě nemám konkrétní data a zkušenosti. Shrnu pouze to co jsem napsal předtím. Tím by postupným zhušťováním a krystalizací již jednou rozebraných myšlenek mohlo vzniknout cosi jako dostatečně komprimovaný popis požadavků, aby to bylo možno brát jako </rich_text><rich_text style="italic">nekonkrétní</rich_text><rich_text> definici </rich_text><rich_text style="italic">konkrétního</rich_text><rich_text> produktu.
+
+</rich_text><rich_text scale="h3">Databáze místo filesystému</rich_text><rich_text>
+Přemýšlel jsem nad tím, a nevyhnutelným krokem je podle mého názoru zahodit filesystém a nahradit ho databází. Když mluvím o databázi, nemám tím na mysli SQL databázi, ani </rich_text><rich_text style="italic">key-value</rich_text><rich_text> „no-SQL“ databáze. Mluvím tu o strukturovaném systému uchovávání dat na záznamových médiích, který podporuje datové typy, atomicitu, indexování, transakce, žurnály a ukládání libovolně strukturovaných dat, včetně velkých bloků čistě binárních dat.
+
+Něco kam můžete prostě hodit nějakou strukturu a ono se to postará o její uložení </rich_text><rich_text weight="heavy">bez zbytečné serializace a deserializace</rich_text><rich_text>. Já vím, že na konci jsou to vždycky jen bajty, ale právě proto nevidím moc důvodů, proč dělat signifikantní rozdíl mezi tím co je v paměti a co je na disku.
+
+Nechci aby to vypadalo, jako že mám něco proti tradičním souborovým systémům. Jsem jejich uživatelem stejně jako všichni ostatní, ale myslím, si, že bez tohohle se není možné posunout někam signifikantně jinam. Když nejste schopni vynutit strukturu na úrovni uložených dat, bez neustálého převádění sem a tam, z formátu do formátu a reprezentací v paměti, je to jako stavět barák v bažině, na základech, které se neustále hýbou.
+
+</rich_text><rich_text scale="h3">Programy jako kolekce adresovatelných bloků kódu v databázi</rich_text><rich_text>
+Jakmile máte filesystém, který vám umožňuje nativně uchovávat strukturované informace, nedává smysl mít programy jako jednu velkou sérii bajtů, která se uzavírá před světem. Naopak dává smysl z toho postavit něco podobného architektuře </rich_text><rich_text style="italic">microservices</rich_text><rich_text>.
+
+Pokud se nad tím zamyslíte dostatečně abstraktně, program je objekt. Je to kolekce dat, nad kterými operují v něm obsažené funkce. Celé je to zapouzdřené a komunikuje to jen pomocí nějakých standardních způsobů (stdin/out/err, socket, signály, env, error kódy, zápisy do souborů..). Když máte filesystém umožňující tyhle objekty uchovávat nativně, nevidím důvod, proč potom nezpřístupnit jednotlivé </rich_text><rich_text style="italic">metody</rich_text><rich_text> tohoto objektu i z venčí.
+
+Jakmile je zveřejníte, nepotřebujete komunikovat starými streamovými způsoby (socket, soubor, ..), stačí vám prostě vracet strukturovaná data.
+
+Kód se může stále kompilovat, stále je možné používat různé programovací jazyky. Liší se to však výsledkem, jenž z toho vypadne. Místo binárního blobu, posílaného přímo do procesoru, jenž je izolován od ostatních procesů a zbytku systému, máte v podstatě definici API a reakcí na ně. Něco jako sdílenou knihovnu, až na to že tohle je nativní prvek systému a jeho finální podoba.
+
+</rich_text><rich_text scale="h3">Smrt konfiguračních formátů a parsování textu</rich_text><rich_text>
+Konfigurační soubory a různé jejich formáty existují, protože filesystém neumí uložit strukturu. Kdyby to uměl, můžete prostě uložit daný slovník s danými klíči a hodnotami, a příště po nich sáhnout. Nemusíte zapisovat </rich_text><rich_text family="monospace">RUN=1</rich_text><rich_text> do sekce </rich_text><rich_text family="monospace">[configuration]</rich_text><rich_text> a pak to parsovat a serializovat a deserializovat. Můžete prostě uložit samotný fakt </rich_text><rich_text family="monospace">&quot;RUN&quot;: True</rich_text><rich_text> na umístění </rich_text><rich_text family="monospace">configuration</rich_text><rich_text> přímo na disku. 
+
+Nepotřebujete řešit, jestli je to JSON, nebo CSV, protože v tom pro vás není rozdíl z hlediska formátu, ale jen struktury dat (JSON typicky </rich_text><rich_text style="italic">dict</rich_text><rich_text>, CSV pole polí).
+
+Parametry příkazové řádky, env proměnné, ale i všechno ostatní píšete jako datové typy zachovávající si strukturu. Programem nejsou parsovány jako text, o to se stará už odesilatel ve chvíli kdy to uživatel dopíše. Datový formát je jednoduchý na textový zápis. Když posílá data program programu, nikde mezi nimi se neserializuje do textu, zprávy se neposílají jako stream bajtů, ale jako zprávy (ve stylu </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/ZeroMQ">zeromq</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h2">Komplexní redukce</rich_text><rich_text>
+Předchozí popis je pořád moc dlouhý, pojďme ho proto ještě trochu víc zredukovat, tak jak se redukují třeba matematické výrazy do jednoho vzorce:
+
+Místo filesystému strukturovaná hierarchická databáze zachovávající datové typy. V ní jak programy, uložené jako kolekce navzájem se volajících, ale i z venku zavolatelných funkcí, tak konfigurační soubory a uživatelská data. To vše formou přístupných a adresovatelných struktur. Na zápis a čtení jednoduchý, </rich_text><rich_text weight="heavy">lehký</rich_text><rich_text> textový formát, používaný všude kde je strukturovaný uživatelský vstup. Programy které ke komunikaci nepoužívají textové protokoly, ale předávají si přímo struktury.
+
+Dost bylo iterativního vylepšování padesát let starých myšlenek. Myslím, že je čas na něco nového.
+
+</rich_text><rich_text scale="h2">Inspirace a kontext</rich_text><rich_text>
+Pokud si myslíte, že jsou to všechno naivní blbosti, zkuste si přečíst něco na téma Genery:
+
+• </rich_text><rich_text link="webs http://bitsavers.trailing-edge.com/pdf/symbolics/software/genera_8/Genera_Concepts.pdf">http://bitsavers.trailing-edge.com/pdf/symbolics/software/genera_8/Genera_Concepts.pdf</rich_text><rich_text>
+
+Před desítkami let tu byl grafický systém, který splňoval velkou část toho, o čem jsem tu dnes psal, systém tak dobrý, že dodneška má kolem sebe skupiny nadšenců, kteří ho emulují.
+
+Dále pak na podobná témata:
+
+• </rich_text><rich_text link="webs https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux">https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux</rich_text><rich_text>
+• </rich_text><rich_text link="webs https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/">https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/</rich_text><rich_text>
+• </rich_text><rich_text link="webs https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/">https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/</rich_text><rich_text>
+</rich_text><codebox char_offset="19130" frame_height="85" frame_width="700" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">echo 27 &gt; /sys/class/gpio/export
+echo out &gt; /sys/class/gpio/export/gpio27/direction
+echo 1 &gt; /sys/class/gpio/export/gpio27/value</codebox><codebox char_offset="23223" frame_height="190" frame_width="700" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">import subprocess
+
+sp = subprocess.Popen(
+  ['7z', 'a', 'Test.7z', 'Test', '-mx9'],
+  stderr=subprocess.STDOUT,
+  stdout=subprocess.PIPE
+)
+
+</codebox></node></cherrytree>
