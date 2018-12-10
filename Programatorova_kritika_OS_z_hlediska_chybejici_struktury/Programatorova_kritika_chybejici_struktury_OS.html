@@ -1,13 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Programátorova kritika chybějící struktury OS</title>
-</head>
-<body>
 <p>Před nějakou dobou se mi dostalo do rukou <a href="https://www.cl.cam.ac.uk/~srk31/research/papers/kell13operating.pdf">zamyšlení</a>, zdali je vlastně zapotřebí operační systém, či ne. Sám na toto téma provádím jakýsi <em>„průzkum“</em> už přibližně dva roky. Rozhodl jsem se tedy, že bych mohl sepsat nosné myšlenky spolu s odkazy na některé relevantní zdroje informací.</p>
 
-<!-- break -->
+<!--break-->
 
 <h2>Buďte varováni</h2>
 <p>Pozor, tento zápisek obsahuje množství textu. Pokud vás text uráží, zvažte, zda se vůbec chcete pustit do diskuze.</p>
@@ -65,7 +58,7 @@
 <p>Omezená, protože omezuje nejen velikost a subset klíče, který je v lepším případě v UTF, ale i samotnou uloženou <em>hodnotu</em> na proud bajtů. To se zdá rozumné jen do chvíle, kdy si uvědomíte, že je to stromová databáze, která vám nedovoluje přímo ukládat strukturovaná data. Počet inodů (větví struktury) je navíc omezen na číslo, jenž se v horších případech pohybuje v řádu desítek až stovek tisíc, maximálně však pár milionů prvků v jednom <em>adresáři</em>.</p>
 
 <p>
-<img src="fs_metaphor-562eecf3-44ae-41a7-98da-f5f26336d292.png" />
+<img src="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-240498285122293278.png" />
 </p>
 
 <p>Ve dvou z mých předchozích zaměstnáních jsme museli obcházet omezený počet inodů na složku retardací jako <a href="http://balanceddiscstorage.readthedocs.io/">BalancedDiscStorage</a>, či ukládáním souborů do tří podsložek složených z prvních tří písmen MD5 hashe souboru.</p>
@@ -73,7 +66,7 @@
 <p>Filesystém je specificky omezená databáze. Každý koho znám, kdo se kdy pokusil filesystém použít pro cokoliv netriviálního, dřív nebo později tvrdě narazil. Ať už je to programátor, který si řekne, že si ty data prostě a jednoduše bude ukládat do souborů, nebo uživatel, který se v bordelu na filesystému nemůže vyznat a musí používat různé divné vyhledávání a indexování. Výkřikem techniky je, když dokáže poznat, že má poškozená data a dopočítat je zpětně ze samo-opravných kódů, pokud máte disky v RAIDu.</p>
 <p>Samozřejmě chápu, že pointou je něco jiného. Řeší se tu sektory na disku a žurnálování, plotny a oddíly a RAIDy a celé je to super pokrok oproti původním primitivním systémům ukládání dat. <em>Ale</em> — není to náhodou pokrok špatným směrem?</p>
 
-<p><a href="150401-erma-mark1-file-system.png"><img src="150401-erma-mark1-file-system_thumb.png" /></a></p>
+<p><a href="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-4249957640068903106.png"><img src="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-6222531799800717144.png" /></a></p>
 
 <p>Původní filesystémy byly metafora. Metafora pro ukládání souborů do složek, tak jako se strkají papíry do šanonů a šuplíků. Kromě mnoha technických omezení, daných stavem tehdejší výpočetní techniky, trpěly a trpí i omezením z podstaty této metafory. Přemýšlím, jestli by jsme si místo otázky <em>„jak trochu vylepšit padesát let starou metaforu“</em> (třeba pomocí tagů) neměli klást spíš otázku <em>„je to vážně ta správná metafora pro ukládání dat?“</em></p>
 
@@ -83,7 +76,7 @@
 <p>Programy se prvně napíšou ve zdrojovém kódu příslušného jazyka, který se potom zkompiluje a slinkuje do jednoho bloku. Ten je následně vyděrován na děrné štítky (binární data) a zastrčen do patřičné krabice (souboru) ve správné sekci kartotéky (filesystému).</p>
 <p>Když chce uživatel program pustit, napíše jeho jméno na příkazovém řádku, nebo někde klepne na ikonu. Poskládané děrné štítky jsou následně vyndány z kartotéky a nacpány do paměti, která se pro program tváří, jako kdyby byl v celém operačním systému sám. Kód je poté prováděn od počátečních děrných štítků k těm koncovým, s tím že program může podmíněně přeskočit na konkrétní děrný štítek v krabici, která ho tvoří.</p>
 
-<p><a href="pe_structure.jpg"><img src="pe_structure_thumb.jpg" /></a></p>
+<p><a href="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-1821015073253221605.jpg"><img src="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-1626081136743182505.jpg" /></a></p>
 
 <p>Programy taky můžou číst parametry příkazového řádku, používat sdílené knihovny, volat API operačního systému, pracovat s filesystémem, posílat (číselné) signály různým jiným programům, reagovat na ně, vracet návratové hodnoty, nebo otevírat sockety.</p>
 <p>Co je na tom špatně?</p>
@@ -104,7 +97,7 @@
 <p>V čem je problém?</p>
 <p>Prakticky všechna data mají svou strukturu. Kdykoliv, kdy programátoři v programovacím jazyku pracují s daty, a nejedná se jen o jejich přesunutí, tak se jim snaží dát strukturu. Namapují je na různé <code>struct</code> konstrukty. Vytvoří z nich strom objektů. I u <em>streamovaných</em> věcí, jako je třeba záznam zvuku ve formátu <a href="https://cs.wikipedia.org/wiki/WAV">WAV</a>, se iteruje skrz jednotlivé <em>chunky</em>.</p>
 <p>
-  <a href="wav101.png"><img src="wav101_thumb.png" /></a><br />
+  <a href="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-683462629660825601.png"><img src="/images/screenshots/8/3/235738-programatorova-kritika-chybejici-struktury-os-5224742993370176022.png" /></a><br />
   <em><sub>(Struktura WAV souboru. Zdroj: <a href="https://github.com/corkami/pics/">https://github.com/corkami/pics/</a>.)</sub></em>
 </p>
 
@@ -130,7 +123,7 @@
 <p>Víte co tomu chybí? Reflexe a struktura. Pokud si nepřečtete manuál, tak naprosto netušíte co kam zapsat.</p>
 
 <p>Zde je kód pro blikání diodou na raspberry pi:</p>
-<pre>echo 27 &gt; /sys/class/gpio/export
+<pre class="brush: bash">echo 27 &gt; /sys/class/gpio/export
 echo out &gt; /sys/class/gpio/export/gpio27/direction
 echo 1 &gt; /sys/class/gpio/export/gpio27/value</pre>
 
@@ -154,7 +147,7 @@ echo 1 &gt; /sys/class/gpio/export/gpio27/value</pre>
 <p>Reálně neexistuje žádný standard formátu argumentů na příkazové řádce. Některé programy používají <code>--param</code>. Jiné <code>-param</code>. Další jen <code>param</code>. Někdy se seznamy oddělují mezerami, jindy čárkami. Už jsem dokonce zažil i JSON parametry mixované s těmi normálními.</p>
 <p>Pokud program voláte z nějakého příkazového řádku, tak se vám do toho navíc mixuje jeho scriptovací jazyk a jeho způsob definice stringů, proměnných a bůh ví čeho dalšího (z hlavy mě napadají escape sekvence, jména funkcí, eval sekvence, wildcards znaky, <code>--</code> pro ukončení wildcardů a tak podobně). Celé je to jeden velký, gigantický bordel, který si každý patlá a parsuje, jak se mu zrovna chce.</p>
 <p>A co volání ostatních programů z <em>jiných programů</em>? Ani nechci vzpomínat, kolikrát jsem viděl, či psal kód ve stylu:</p>
-<pre>import subprocess
+<pre class="brush: py">import subprocess
 
 sp = subprocess.Popen(
   [&#39;7z&#39;, &#39;a&#39;, &#39;Test.7z&#39;, &#39;Test&#39;, &#39;-mx9&#39;],
@@ -376,7 +369,7 @@ labels:
 <p>Zjistíte, že před desítkami let existoval grafický systém splňující velkou část všeho, o čem jsem psal. Systém tak dobrý, že dodnes kolem sebe spojuje skupiny nadšenců.</p>
 <p>Dále pak na podobná témata:</p>
 <ul>
-  <li><a href="https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux">https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux</a></li>
+  <li><a href="/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux">https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux</a></li>
   <li><a href="https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/">https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/</a></li>
   <li><a href="https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/">https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/</a></li>
   <li><a href="https://shalabh.com/programmable-systems/systems-not-programs.html">https://shalabh.com/programmable-systems/systems-not-programs.html</a></li>
@@ -384,5 +377,3 @@ labels:
   <li><a href="http://www.pixelbeat.org/programming/stdio_buffering/">http://www.pixelbeat.org/programming/stdio_buffering/</a></li>
   <li><a href="http://okmij.org/ftp/papers/DreamOSPaper.html">http://okmij.org/ftp/papers/DreamOSPaper.html</a></li>
 </ul>
-</body>
-</html>
