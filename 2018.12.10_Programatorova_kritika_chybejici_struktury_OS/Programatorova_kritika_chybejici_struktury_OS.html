@@ -302,10 +302,15 @@ labels:
 <p>Celé je to poměrně jednoduše čitelná YAML key-value struktura. Samozřejmě, SAMOZŘEJMĚ že nemohlo zůstat jen u tohohle a tak někoho napadlo přidat podmínky a cykly. Samozřejmě jako YAML:</p>
 <ul>
 <li><a href="https://docs.ansible.com/ansible/2.5/user_guide/playbooks_conditionals.html">https://docs.ansible.com/ansible/2.5/user_guide/playbooks_conditionals.html</a></li>
-<li><p><a href="https://docs.ansible.com/ansible/2.5/user_guide/playbooks_blocks.html">https://docs.ansible.com/ansible/2.5/user_guide/playbooks_blocks.html</a></p>
-<p>tasks: - command: echo {{ item }} loop: [ 0, 2, 4, 6, 8, 10 ] when: item &gt; 5</p></li>
+<li><a href="https://docs.ansible.com/ansible/2.5/user_guide/playbooks_blocks.html">https://docs.ansible.com/ansible/2.5/user_guide/playbooks_blocks.html</a></li>
 </ul>
 <p>Samozřejmě, že tím vznikl programovací jazyk bez jakékoliv konzistence, vnitřní logiky a smyslu. Jazyk který byl nucený jít dál a dál a nadefinovat si bloky a výjimky a ošetřování chyb a funkce a to celé postavené nad YAMLem. To celé bez debuggeru, IDE, toolingu, smysluplnných <em>stacktrace</em> a s naprostou ignorací šedesáti let vývoje uživatelského rozhraní programovacích jazyků.</p>
+
+<pre>tasks:
+    - command: echo {{ item }}
+      loop: [ 0, 2, 4, 6, 8, 10 ]
+      when: item > 5</pre>
+
 <p>Ten tenký vysoký zvuk znějící jako pištění na vysoké frekvenci, jenž můžete slyšet v dokonalém tichu třeba chvíli před spaním jsou andělé řvoucí frustrací. Je to řev mojí duše nad vší lidskou demencí, která se vrší a vrší nad sebe.</p>
 <p>Nemůžeme se prostě domluvit nad něčím co by pro jednou dávalo smysl?</p>
 
@@ -369,7 +374,8 @@ labels:
 <p>Zjistíte, že před desítkami let existoval grafický systém splňující velkou část všeho, o čem jsem psal. Systém tak dobrý, že dodnes kolem sebe spojuje skupiny nadšenců.</p>
 <p>Dále pak na podobná témata:</p>
 <ul>
-  <li><a href="/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux">https://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux</a></li>
+  <li><a href="/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux">http://www.abclinuxu.cz/blog/bystroushaak/2011/2/proc-pouzivam-unix-linux</a></li>
+<li><a href="/blog/bystroushaak/2017/7/jak-se-stat-programatorem#493">http://www.abclinuxu.cz/blog/bystroushaak/2017/7/jak-se-stat-programatorem#493</a></li>
   <li><a href="https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/">https://tekkie.wordpress.com/2007/07/19/squeak-is-like-an-operating-system/</a></li>
   <li><a href="https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/">https://www.reddit.com/r/programming/comments/54z7hd/the_operating_system_should_there_be_one/</a></li>
   <li><a href="https://shalabh.com/programmable-systems/systems-not-programs.html">https://shalabh.com/programmable-systems/systems-not-programs.html</a></li>
