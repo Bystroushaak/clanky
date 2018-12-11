@@ -203,7 +203,7 @@ stdout, stderr = sp.communicate()</pre>
 <p><a href="https://en.wikipedia.org/wiki/Docker_(software)">Docker</a> je virtualizační nástroj umožňující vám sestavovat, spravovat a spouštět kontejnery virtuálních počítačů, ve kterých je specifické programové vybavení.</p>
 <p>Osobně mám Docker docela rád a občas ho používám k sestavování balíčků pro cílové distribuce (například <code>.deb</code> pro Debian a <code>.rpm</code> pro RHEL).</p>
 <p>Parametrů Dockeru je nepřeberně: <a href="https://docs.docker.com/engine/reference/run/">https://docs.docker.com/engine/reference/run/</a>. Mojí oblíbenou částí jsou volumes, tedy složky, jenž jsou mountovány dovnitř kontejneru z vnějšího hosta.</p>
-<p>Syntaxe je přibližně <code>-v local_path:/docs:rw</code>. Jako dobrá ukázka mi to přijde, protože se do jednoho parametru cpou tři různé hodnoty: cesta v počítači na kterém příkaz pouštíte (která navíc musí být absolutní!), cesta uvnitř kontejneru (která navíc musí být v <code>Dockerfile</code> označená pomocí <code>VOLUME</code>) a práva k zápisu.</p>
+<p>Syntaxe je přibližně <code>-v local_path:/docs:rw</code>. Jako dobrá ukázka mi to přijde, protože se do jednoho parametru cpou tři různé hodnoty: cesta v počítači na kterém příkaz pouštíte (která navíc musí být absolutní!), cesta uvnitř kontejneru a práva k zápisu.</p>
 <p>K naprosté dokonalosti to bylo dovedeno <a href="https://docs.docker.com/storage/volumes">novým</a> parametrem <code>--mount</code>, který dělá to samé, ale zavádí pro to úplně novou syntaxi, jenž přináší úplně jiná pravidla parsování:</p>
 <pre><code>--mount source=local_path,target=/docs</code></pre>
 <p>Komplexnější ukázka může vypadat například takto:</p>
