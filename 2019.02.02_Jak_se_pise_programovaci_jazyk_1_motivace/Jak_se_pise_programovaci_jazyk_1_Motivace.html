@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Jak se píše programovací jazyk 1: Motivace</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
+</head>
+
+<body>
+
+
+<p>Cca před rokem a něco jsem začal tvořit vlastní programovací jazyk a na <i>obrazu paměti</i> založené interaktivní prostředí ve stylu Smalltalku či <a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi">Selfu</a>. Zpočátku jsem vůbec neměl tušení jak na to, nakonec jsem však začal řešit jeden problém za druhým a tak vznikl tento seriál.</p>
+
+
+<!-- break -->
+
+
+<p>Seriál jsem pojal tak trochu jako zápisky z cest touto pro mě nepoznanou a exotickou zemí interpretrů a objektových reprezentací. Mým cílem je ukázat čtenářům, že na dosah ruky existují zajímavé cizokrajné krajiny plné skrytých tajemství. Místa tvořená z kódu a logiky, zařící zvláštní vnitřní krásou. Chtěl bych vás inspirovat a podnítit vydat se do nich svou vlastní trasou.</p>
+
+
+<p>Z tohoto cíle plyne omezení; seriál není průvodcem. Není to mapa, učebnice, či ukázka jak to správně dělat. Je to cestopis. Pracuji jako programátor v Pythonu, čímž byla do velké míry definována moje konkrétní cesta. Plně uznávám a respektuji, že ostatní můžou zvolit jinou cestu, či jiná rozhodnutí.</p>
+
+
+<h2>Motivace</h2>
+<p>Je mi jasné, že hodně lidí teď napadá proč vlastně, k čemu tvořit nový programovací jazyk, proč se vůbec na tuhle cestu vydat.</p>
+
+
+<p>Mojí motivací je provést experimenty na následující témata:</p>
+
+
+<ol>
+    <li>Reprezentace dat objektovým programovacím jazykem, místo datově orientovanými formáty, jako JSON a XML.</li>
+    <li>Na objektových prototypech založené grafické prostředí a jeho vztah a využitelnost k reprezentaci a práci s daty a informacemi.</li>
+    <li>Reflexe. Skrz jazyk, interpreter, ale i grafické rozhraní.</li>
+    <li>Test filosofické koncepce „explicitně strukturovaných dat“.</li>
+    <li>Otestovat některé z myšlenek Engelbarta ohledně práce s infosférou.</li>
+    <li>Vytvořit platformu, na které bych mohl experimentálně otestovat některé z myšlenek Alana Kaye a Davida Ungara.</li>
+    <li>Získat, otestovat a popsat na míru dělané prostředí <i>tight-coupled-loop</i> technologie, kterou popsal J. C. R. Licklider ve své stati <a href="https://en.wikipedia.org/wiki/Man-Computer_Symbiosis">Man-Computer Symbiosis</a>.</li>
+</ol>
+
+
+<p>Výsledky experimentů budou postupně vycházet na mém notion.so blogu: <a href="https://www.notion.so/Bystroushaak-s-blog-702b4a575ecf4c2298f76a2786c46053">Bystroushaak's blog</a>.</p>
+
+
+<p>Ač to možná bude vypadat na první pohled paradoxně, tak součástí motivace nikdy nebylo tvořit programovací jazyk. Přestože tenhle seriál bude primárně o tomto, cesta kterou jsem se vydal byla diktována tím, že mě v podstatě nezajímala konkrétní implementace, rychlost, nebo praktičnost k běžnému programování. Nechtěl jsem tvořit konkurenci Javy, Pythonu, nebo C. Nešlo mi o iterativní vylepšení existujících jazyků, či o získání co největší trakce, aby se toho chytla komunita.</p>
+
+
+<p>Moje snažení bylo diktováno výše uvedenými body. Chtěl jsem vyzkoušet jazyk jako na míru dělaný interface ke stroji. Věci zaměřené na průměrný set uživatelů jsou průměrné. Židle dělaná na průměrný zadek bude horší, než židle dělaná <a href="https://www.reddit.com/r/cpp/comments/a1c0yb/creating_a_virtual_kernel_platform_abstraction/">přímo na mírů</a> mému zadku a rozměrům. Jazyk formovaný konsenzem desítek a stovek uživatelů bude pro mě osobně v některých ohledech horší (specificky bod 7), než jazyk který si udělám přesně na míru sám, tak abych s ním mohl co nejvíc „srůst“. Podobně jako <a href="https://thenewstack.io/the-troubled-legacy-of-terry-davis-gods-lonely-programmer/">Terry Davis</a> se svým <a href="https://motherboard.vice.com/en_us/article/wnj43x/gods-lonely-programmer">Temple OS</a> jsem se rozhodl vydat kompletně jiným „pološíleným“ směrem, bez ohledu na to co si myslí a přejí ostatní.</p>
+
+
+<p>Jako výchozí bod jsem si vzal programovací jazyk a grafické prostředí jazyka Self. Když jsem hledal věc, která by byla co nejpodobnější mé představě, Self byl to k čemu jsem dospěl oklikou přes rebol, lispy a smalltalky.</p>
+
+
+<p>Self je v jádru podobně jednoduchý jako lisp, akorát místo polí a funkcí používá objekty. Více se o něm můžete dozvědět v paralelně vycházejícím seriálu o něm: <a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi">Prostředí a programovací jazyk Selfu (díl první; prostředí)</a>.</p>
+
+
+<h2>Proč to není sebevražda</h2>
+<p>Originální Self je velký. 114 tisíc řádků C++ kódu a cca 350 tisíc řádek Self kódu (serializovaný výstup, reálně jich bude míň). Jak bych tomuhle mohl konkurovat?</p>
+
+
+<p>Self byl v době vzniku původně výzkumný projekt. To znamená, že je tam všechno možné. Garbage collector, JIT. Různé experimenty ohledně (v té době průlomového) vývoje na poli kompilátorů a interpretrů, ale i grafického rozhraní.</p>
+
+
+<p>Od začátku mi bylo jasné, že nechci psát vlastní interpreter na zelené louce. Přemýšlel jsem, jak kód transpilovat pro existující virtuální stroje, které používá například Java, C#, Python, Smalltalk nebo Lua. Ideálně tak, abych nemusel řešit garbage collector, ani JIT, což jsou složité věci, které stejně lépe nevymyslím.</p>
+
+
+<p>Pokud by kód mého jazyka běžel nad některým z těchto prostředí, získal bych zároveň automaticky výhodu jejich standardní knihovny, což by mi ušetřilo další desítky tisíc řádků kódu a vynalézání věcí, jako je součet dvou velkých čísel.</p>
+
+
+<p>Tím se celá snaha smrskla v podstatě na Lexer, který jednotlivé prvky jazyka rozřeže na pole, Parser, který z toho potom sestaví objektový strom v paměti (AST), což se dá poměrně jednoduše symbolicky vyhodnocovat (s tím mám zkušenosti z toho mého lispu) a tím i snadno debugovat. Dál taky &quot;kompilátor&quot; do bytecode cílového prostředí, což nemusí být nic moc fancy. Prostředí se ideálně postará i o JITování, a tedy smysluplně rychlý běh. Navrch pak musím přidat nějakou standardní knihovnu, ta se ale může do velké míry opírat o prostředí interpretru, vlastní objektový model, který bude stejný jako v Selfu (= jednoduché prototypy), grafické rozhraní, které nezaložím na prehistorické verzi Xlibu, ale na něčem modernějším, a způsob ukládání a načítání image.</p>
+
+
+<p>Pořád hodně práce, ale signifikantně méně, než kdybych to psal celé odznova.</p>
+
+
+<p>Založil jsem si na to poznámkovou nodu a pár týdnů prováděl výzkum. Hledal jsem jednak tutoriály, dokumentace a různé projekty na githubu. Protože Self je podobný Smalltalku, měl jsem dobrý výchozí bod kde začít.</p>
+
+
+<p>Postupně jsem vyloučil jako cílovou platformu Luu i JVM. Hledáním jsem narazil na RPython, ve kterém je psán projekt Pypy. Když jsem přečetl zdroje jako <a href="https://media.readthedocs.org/pdf/building-an-interpreter-with-rpython/latest/building-an-interpreter-with-rpython.pdf">Building an Interpreter With RPython</a>, <a href="http://www.esug.org/data/ESUG2016/IWST/Papers/IWST_2016_paper_4.pdf">How to Build a High-Performance VM for Squeak/Smalltalk in Your Spare Time</a> a <a href="http://stefan-marr.de/2014/02/how-to-get-a-jit-compiler-for-free-implementing-som-smalltalk-with-rpython-and-truffle/">How to get a JIT Compiler for Free: Implementing SOM Smalltalk with RPython and Truffle</a>, které popisují stavbu interpretrů v pythonu s velmi dobrými zkušenostmi, měl jsem jasno. Některé z těch interpretrů navíc byly Smalltalk, či od něj odvozené jazyky, od čeho je k Selfu jen kousek. Navíc jsem v Pythonu zdaleka nejzkušenější, programuji v něm každý den už celé roky a těžko mě v něm něco překvapí. Rozhodně lepší, než cílit třeba na JVM a psát to celé v Javě.</p>
+
+
+<p>Jako inspirace mi pak sloužily projekty:</p>
+
+
+<ul>
+    <li><a href="https://github.com/SOM-st/RPySOM">https://github.com/SOM-st/RPySOM</a></li>
+    <li><a href="https://github.com/HPI-SWA-Lab/RSqueak">https://github.com/HPI-SWA-Lab/RSqueak</a></li>
+    <li><a href="https://github.com/joshsharp/python-braid/">https://github.com/joshsharp/python-braid/</a></li>
+    <li><a href="https://github.com/Julian/BuildingAnInterpreter">https://github.com/Julian/BuildingAnInterpreter</a></li>
+    <li><a href="https://github.com/darius/tinyhiss">https://github.com/darius/tinyhiss</a></li>
+    <li><a href="https://som-st.github.io/">https://som-st.github.io/</a></li>
+</ul>
+
+
+<h2>RPython</h2>
+<p><a href="https://rpython.readthedocs.io/">RPython</a> je omezený subset jazyka Python vytvořený autořy alternativního python interpretru <a href="https://pypy.org/">pypy</a> právě za účelem snadné tvorby interpretrů, kde se za vás postarají o ty opravdu složité části. Na vás pak je napsat jazykový frontend, vymyslet si objektový model a dodat uživateli nějakou standardní knihovnu ve vašem jazyce. Jako bonus získáváte <i>state-of-the-art</i> JIT a kompilaci do C.</p>
+
+
+<p>Alternativní řečeno: RPython vám dovolí podvádět. V podstatě vám umožňuje vyhnout se vší těžké práci.</p>
+
+
+<p>Pokud bych psal akademický projekt, nebo prováděl výzkum na poli objektových modelů, či JIT kompilátorů, asi bych si to chtěl udělat po svém. Ale jak už jsem psal na začátku, mým cílem nikdy nebylo vytvářet si vlastní programovací jazyk. Chtěl jsem systém. Potřebuji nástroj, ve kterém budu tvořit. Dělat si vlastní programovací jazyk je pro mě spíš opruz, než co jiného. Překážka na cestě, ne cíl.</p>
+
+
+<p>RPython má oproti standardnímu několik omezení. Například nejde mixovat datové typy ve standardních kontejnerech (pokud dáte do pole <tt>int</tt>, už tam nemůžete dát <tt>str</tt>). Taky nefunguje spousta modulů ze základní knihovny. Přesto se však stále jedná o docela vyskoúrovňový a relativně pohodlný jazyk.</p>
+
+
+<p>Pokud vás zajímají detaily, na rootu o tom vyšel docela hezký seriál: <a href="https://www.root.cz/clanky/rpython-prekvapive-vykonny-dialekt-pythonu-na-nemz-je-zalozen-pypy/">https://www.root.cz/clanky/rpython-prekvapive-vykonny-dialekt-pythonu-na-nemz-je-zalozen-pypy/</a></p>
+
+
+<h2>Pokračování</h2>
+<p>V příštím díle se podíváme, jak v něm napsat lexer, což bude následováno dílem o parseru, specifikách RPythonu, objektovém modelu, virtuálním stroji a kompilátoru syntaktických stromů do bytecode.
+</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>
