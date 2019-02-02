@@ -1,12 +1,6 @@
-<HTML>
-<head>
-    <title>Prostředí a programovací jazyk Selfu (Díl první; prostředí)</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
-  <p>Přináším vám zvěst o jazyku, který stál u zrodu mnoha dalších, leč skoro nikdo ho nezná. Zvěst o grafickém prostředí nabízejícím možnosti jako žádné jiné, leč skoro nikdo ho nepoužívá. Přináším také zvěst o virtuální mašině podporující reflexi téměř do nekonečna, a svého času dosahující v numerických výpočtech výkonu poloviny C, přesto dnes zapomenuté.</p>
+<p>Přináším vám zvěst o jazyku, který stál u zrodu mnoha dalších, leč skoro nikdo ho nezná. Zvěst o grafickém prostředí nabízejícím možnosti jako žádné jiné, leč skoro nikdo ho nepoužívá. Přináším také zvěst o virtuální mašině podporující reflexi téměř do nekonečna, a svého času dosahující v numerických výpočtech výkonu poloviny C, přesto dnes zapomenuté.</p>
 
-  <!-- break -->
+  <!--break-->
 
   <p>Dnes vám budu povídat o Selfu. Různí lidé řekli o Selfu různé věci:</p>
 
@@ -32,7 +26,7 @@
   <p>Prakticky je to binárka s virtuálním strojem a k tomu separátně soubor <em>image</em> paměti, ve které jsou uloženy objekty tvořící prostředí. Situace se trochu podobá běžným scriptovacím jazykům, akorát místo scriptu spouštíte obraz paměti ve stavu, v němž script minule skončil.</p>
   <p>Obraz paměti v sobě obsahuje celé vývojové prostředí a vlastní grafické rozhraní s bindingy na Xlib.</p>
   <p>
-      <a href="222616-self-protoze-smalltalk-nebyl-dostatecne-hip-3613234652234006010-eaa672d3-a8d1-4bea-a7a1-8031203eb4f8.png"><img src="222616-self-protoze-smalltalk-nebyl-dostatecne-hip-3613234652234006010-eaa672d3-a8d1-4bea-a7a1-8031203eb4f8_thumb.png" /></a>
+      <a href="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--2718635860964175237.png"><img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--1646964835417731120.png" /></a>
   </p>
   <p>Také jsou v něm kompilátory pro programovací jazyk, celá standardní knihovna a tak podobně.</p>
   <h2>Programovací jazyk</h2>
@@ -41,7 +35,7 @@
   <p><em>Smalltalkovského typu</em> znamená, že vše se točí kolem posílání <em>zpráv</em> objektům. Kromě pár základních syntaktických <em>suggar candy</em> zde nenajdete nic jiného, než posílání zpráv sem a tam.</p>
   <p>Jako jazyk je Self velmi jednoduchý na naučení. Prakticky všechny vlastnosti programovacího jazyka se vejdou na <a href="https://github.com/SelfBatteries/SelfCheatSheet">jednu stránku</a> o velikosti A4 i s popisky a vysvětlivkami.</p>
   <p>
-      <a href="self_syntax_overview-0c133486-3e00-423a-84a5-8e5b5b424fa0.png"><img src="self_syntax_overview-0c133486-3e00-423a-84a5-8e5b5b424fa0_thumb.png" /></a>
+      <a href="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--8018757513680200357.png"><img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--1084813799550195204.png" /></a>
   </p>
   <p>Tolik tedy ke krátkému přehledu. Podrobnostem se budu dále věnovat v následujících kapitolách.</p>
   <h2>Interpret</h2>
@@ -130,7 +124,7 @@ VM#</code>
   <p>Předtím, než se pustím do popisu jazyka bych rád prvně vysvětlil základy uživatelského rozhraní a vývojového prostředí Selfu.</p>
   <p>Když Self poprvé spustíte, zobrazí se vám bílá obrazovka, jakási plocha. Umím si představit, že pro mnohé to může být šok. Když jsem sel poprvé pustil já, tak jsem ho po asi třiceti vteřinách zmateného koukání a klikání myší zase zavřel a smazal.</p>
   <p>
-      <img src="self-a1132fe1-b293-4534-a623-8271c8920839.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--9128087536911431559.png" />
   </p>
   <p>Strohá prázdná bílá plocha zrovna nepovzbuzuje k prozkoumávání toho na co jste narazili.</p>
 
@@ -140,7 +134,7 @@ VM#</code>
   <p>Věřte mi, že pokud si myslíte, že víte co očekávat z klasických grafických klikacích aplikací, tak nemáte tušení. V Selfu je myš nejenom primárním ovládacím prvkem, doslova kromě psaní kódu metod nemusíte na klávesnici ani sáhnout. I programovat se dá do jisté míry jen myší.</p>
   <p>Pokud kliknete na plochu, tak levé i pravé tlačítko nedělají nic a prostřední vyvolá menu.</p>
   <p>
-      <img src="middle_click_menu-fa03ce7b-4d18-4a5d-a869-06c97a6d4fdc.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--3573676149268020481.png" />
   </p>
   <p>Z tohoto menu se dají (myší samozřejmě) vybrat základní nástroje a také je možné uložit obraz paměti, či vše ukončit.</p>
 
@@ -150,37 +144,37 @@ VM#</code>
   <p>Ten obdélník s nápisem <code>shell</code> vpravo nahoře představuje cosi jako konzoli, do které je možné psát příkazy. Zároveň se však také jedná o grafickou reprezentaci objektu programovacího jazyka, takzvaný <em>outliner</em>.</p>
   <p>Šipka vlevo v roku umožňuje zobrazit jednotlivé sloty - prvky v objektu.</p>
   <p>
-      <img src="shells_slots-f246d71b-f9de-4fa9-b9dd-f39bfaa5fe47.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--3208713669985878474.png" />
   </p>
   <p>Jak je možné vidět, v tomto objektu jsou sloty <code>db*</code>, <code>shortcuts*</code> a <code>help</code>. První dva jsou takzvané parent sloty, tedy sloty odkazující se na objekty, do kterých je prováděna delegace nenalezených zpráv.</p>
   <p>Tomuto objektu je možné poslat zprávu se jménem slotu a on vrátí její obsah. Zprávu je možné taky poslat graficky a on vrátí obsah graficky (bude ukázáno dále).</p>
   <p>Tři tečky vedle názvu objektu umožňují zobrazit dokumentační komentář objektu.</p>
   <p>
-      <img src="docstring-04f01f6c-934c-4806-9d38-2e6771edc6cb.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--155685293175278708.png" />
   </p>
   <p>Jedná se o docstring zadaný při vytvoření objektu.</p>
   <p>Dále vidíme sérii tlačítek vpravo v rohu, které se zobrazují trochu divně, protože nemám nainstalované očekávané fonty. Tlačítko označené <code>/\</code> zobrazuje parent sloty. Když na něj kliknu, ocitnou se mi na pozici kurzoru a já je dalším kliknutím můžu položit na plochu.</p>
   <p>
-      <img src="parents-eb08391c-88a0-469a-b8ff-6e32f808e2b5.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--6536313861191394160.png" />
   </p>
   <p>
-      <img src="Snmekobrazovkypozen2018-12-1322-43-26-badc4b0f-78c6-4b7b-a729-1d49a275989d.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--701903666607822.png" />
   </p>
   <p>Že se jedná skutečně o <em>parent sloty</em> je možné zobrazit kliknutím na pravé boxíky na straně <em>parent slotů</em>:</p>
   <p>
-      <img src="relations-5a972773-9739-43dd-b1ec-d51ed6a40f21.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--1177803682179216073.png" />
   </p>
   <p>Důležité tlačítko je <code>E</code>, které se zobrazuje u všech outlinerů. To vám zobrazí vstupní pole, kterým můžete objektu posílat zprávy.</p>
   <p>
-      <img src="input-971b6f22-45e0-4137-992e-c5f4f8fdcc7b.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--4029043072242517083.png" />
   </p>
   <p>Zde můžete vidět poslání zprávy help, kterou odešlu kliknutím dole na <code>Get it</code>, či stisknutím <code>CTRL+enter</code>. To shellu říká, aby mi vrátil outliner pro objekt stringu. Mohl bych také zmáčknout <code>Do it</code>, což by způsobilo provedení zprávy a zahození vrácené hodnoty.</p>
   <p>
-      <img src="help-b2079479-c312-4563-98a2-d0215720a66d.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--2211935560644278055.png" />
   </p>
   <p>Vrácený outliner je samozřejmě možné dále prozkoumávat:</p>
   <p>
-      <img src="pruzkum-1a4ceb1e-c66c-4bcd-b4a2-bb43bde6602f.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--4233221199502819467.png" />
   </p>
   <p>Vrácenému objektu můžu posílat zprávy, referencovat ho z jiných objektů a tak podobně.</p>
   <p>Za zmínku stojí, že celé prostředí se chová jako gigantická 2D plocha, po které je možné scrollovat a skákat pomocí <code>WIN+šipka</code>.</p>
@@ -199,7 +193,7 @@ VM#</code>
   <p>Pokud je na obrazovce zobrazen outliner, pro konkrétní objekt, ostatní objekty ho také používají k zobrazení.</p>
   <p>Pěkný příklad je pokud si zobrazíte outliner pro <code>nil</code>:</p>
   <p>
-      <img src="sloty-f1b31fd3-863b-40b5-93ee-61733f4d7b4d.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--2865607019834852958.png" />
   </p>
   <p>V ukázce jde pěkně vidět, jak dva sloty ukazují na jeden konkrétní objekt. Outliner pro konkrétní objekt by neměl být na obrazovce víc jak jednou.</p>
   <h2>Uniformita</h2>
@@ -216,7 +210,7 @@ VM#</code>
   <p>Animace jsou většinou skryté na pozadí, například dojde k deformaci okna a vykreslení šedých blobů na místě kudy se pohybuje, čímž je pohybu dodán vjem rychlosti a konkrétního směru. Tyto techniky byly přímo inspirovány animovanými seriály.</p>
   <p>Další příklad animace je když dostanete chybovou hlášku, třeba Syntax error a jen jeho box umístíte na plochu. Po čase sám odjede mimo obrazovku, aby nepřekážel.</p>
   <p>
-      <img src="out-c816b328-63b7-4110-a350-f1cb36e16871.gif" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--2951194934628060390.gif" />
   </p>
   <h2>K filosofii</h2>
   <p>Osobně mi na tom přijde vysoce zajímavý důraz kladený na možnost uživatele kompletně prozkoumat a podle své chuti modifikovat grafické prostředí. Autoři se poměrně úspěšně snažili nabídnout uživatelům možnost vytvářet poměrně jednoduchým způsobem vlastní grafická rozhraní, což je jinak věc, která je pro běžné lidi nad rámec Powerpointu prakticky nemožná.</p>
@@ -254,32 +248,32 @@ VM#</code>
   </ul>
   <p>Ukázka kontextového menu slotu v outlineru:</p>
   <p>
-      <img src="outliner-2b21f616-e90c-426c-8a38-369d4209e711.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--4600472071357831209.png" />
   </p>
   <h2>Shell</h2>
   <p>Shell je jen outliner s předem nastavenými významnými rodičovskými sloty. Pokud otevřete shell pomocí <code>E</code> u standardního objektu, všechny zprávy se vykonávají v kontextu objektu, který outliner reprezentuje. Pokud se jedná o objekt bez rodičovských slotů, tak nemáte dostupné ani běžné objekty, jako <code>true</code> a <code>false</code>. Shell vám nabízí podstatně větší pohodlí v podobě rozšířeného namespace.</p>
   <p>
-      <img src="shell-bff44791-c4c1-43c0-9677-e88e4c4a7e15.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--5270397830175479717.png" />
   </p>
   <p>Vyvolat se dá kliknutím kolečkem kamkoliv na plochu a vybráním položky <em>New shell</em>.</p>
   <p>
-      <img src="new_shell-eebe07f2-05be-4db7-90b2-d26dbb2360ad.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--1057110930861129327.png" />
   </p>
   <h2>Core sampler</h2>
   <p>Core sampler je na pohled taková divná věcička, kterou je možné vyvolat kontextovým menu (pravý klik) skoro z libovolného <em>morphu</em>.</p>
   <p>
-      <img src="core_sampler-e16cd4b0-d37a-4967-9341-7346c53678cd.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--5351519436346320039.png" />
   </p>
   <p>Na první pohled podivný zaměřovač s šedým boxem umožňuje provádět reflexi celého morphic interface zobrazením z čeho se skládá prostě tím, že ho myší přesunete nad konkrétní prvek který si přejete prozkoumat:</p>
   <p>
-      <img src="core_sampler_in_action-0fcee008-17d0-4c9e-b3f6-fbe746ef908a.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--8621144732286295860.png" />
   </p>
   <p>Z tohoto menu je možné okamžitě začít měnit vlastnosti jednotlivých vrstev morphů, upravovat jejich layout, pořizovat kopie a tak podobně.</p>
-  <p>Pokud vás zajímají detaily, sepsal jsem na tohle téma už kdysi článek <a href="http://www.abclinuxu.cz/blog/bystroushaak/2017/1/reflexe-grafickych-rozhrani">Reflexe grafických rozhraní</a>.</p>
+  <p>Pokud vás zajímají detaily, sepsal jsem na tohle téma už kdysi článek <a href="/blog/bystroushaak/2017/1/reflexe-grafickych-rozhrani">Reflexe grafických rozhraní</a>.</p>
   <h2>Factory window</h2>
   <p>Z menu, které se zobrazí kliknutím kolečkem na prázdnou plochu je možné vybrat nástroj <em>factory window</em>. Ten zobrazuje seznam klávesových zkratek, ale i různé druhy <em>morphů</em> připravených k použití. Stačí na ně kliknout a přetáhnout je na prázdnou plochu a můžete začít vytvářet vaše uživatelské rozhraní jejich skládáním.</p>
   <p>
-      <img src="factory_window-012cbe63-34a0-4053-9805-2483e3ea48d7.png" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--8019621730525212306.png" />
   </p>
   <h2>Radar</h2>
   <p>Za zmínku stojí jakási obrazovka zhruba uprostřed vlevo. Jedná se o prototyp aplikace <code>radarView</code>, který můžete prostě vzít a přetáhnout na plochu.</p>
@@ -294,7 +288,7 @@ desktop w hands first addMorph: radarView</code>
   <p>První příkaz zobrazí <em>morph</em> na kraji obrazovky, druhý příkaz vám ho vloží na pozici kurzoru, takže ho můžete položit kam chcete.</p>
   <p>Příkaz je také možné vložit přímo do konzole, ze které Self spouštíte:</p>
   <p>
-      <img src="out-71c70e56-3113-4f65-9de5-81cb5ad69fd2.gif" />
+      <img src="/images/screenshots/4/4/236544-prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi--2377675800442687900.gif" />
   </p>
   <h2>Transporter</h2>
   <p>Transporter je Selfový způsob, jak z objektů v paměti udělat zpět zdrojový kód, který se dá poté třeba verzovat v klasických VCS, jako je Git.</p>
@@ -323,7 +317,7 @@ desktop w hands first addMorph: radarView</code>
           <a href="https://en.wikipedia.org/wiki/Self_(programming_language)">https://en.wikipedia.org/wiki/Self_(programming_language)</a>
       </li>
       <li>
-          <a href="https://www.abclinuxu.cz/blog/squeaker/2018/12/objektovy-model-jazyka-self">https://www.abclinuxu.cz/blog/squeaker/2018/12/objektovy-model-jazyka-self</a>
+          <a href="/blog/squeaker/2018/12/objektovy-model-jazyka-self">https://www.abclinuxu.cz/blog/squeaker/2018/12/objektovy-model-jazyka-self</a>
       </li>
   </ul>
   <p>Jedním z mála koherentních zdrojů dokumentace jsou <em>Self papery</em>, takový archiv vědeckých prací, který je možné najít přímo v repozitáři na githubu:</p>
@@ -413,5 +407,3 @@ desktop w hands first addMorph: radarView</code>
   <hr />
   <p>Toliko tedy k prvnímu dílu. V příštích dílech se podíváme na samotný programovací jazyk a standardní knihovnu, filosofické a metafyzické přesahy a tak dál. Celkem by měl vyjít ještě díl, nebo dva, podle toho jak se mi to podaří rozdělit.</p>
   <p>Paralelně s tímto seriálem jsem rozjel ještě jeden: Jak se píše programovací jazyk.</p>
-</body>
-</HTML>
