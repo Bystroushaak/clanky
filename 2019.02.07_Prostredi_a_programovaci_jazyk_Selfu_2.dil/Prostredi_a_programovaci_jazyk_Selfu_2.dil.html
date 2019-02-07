@@ -416,7 +416,7 @@ mapBy: eb Into: c</pre>
 <p>Jedná se o <em>„předky“</em>, tedy objekty obsahující sdílenou funkcionalitu, které často nejsou samy o sobě plně funkční. Tyto objekty jsou vytvářeny za účelem aby na ně ostatní odkazovaly <code>parent*</code> sloty.</p>
 <p>Self má poměrně bohatou hierarchii <em>traitů</em>, jak je možné vidět například v předchozích kapitolách na ukázce kolekcí.</p>
 <h2>Mixiny</h2>
-<p>Mixiny jsou malá klubíčka sdílené funkcionality, typicky bez <code>parent*</code> slotu, sdílená je na nějaké úrovni. Jejich smyslem má být funkcionalita, která je <em>zmixována</em> do objektu. Jejich ekvivalentem je něco jako interface s částečnou implementací.</p>
+<p>Mixiny jsou malá klubíčka sdílené funkcionality, typicky bez <code>parent*</code> slotu, sdílená jen na nějaké úrovni. Smyslem má být funkcionalita, která je <em>zmixována</em> do objektu. Jejich ekvivalentem je něco jako interface s částečnou implementací.</p>
 <h1>Reflexe pomocí zrcadel</h1>
 <p>Zrcadla jsou specialitou Selfu, kterou jsem snad v žádném jiném programovacím jazyce neviděl. Široce používané programovací jazyky zpravidla řeší reflexí pomocí různých interních properties. Python například používá <code>.__class__</code>, či <code>.__dict__</code>, nebo <code>.__name__</code> pro přístup k interním informacím o objektu.</p>
 <p>Self používá zrcadla. Zrcadlo vytvoříme posláním zprávy <code>reflect:</code> objektu majícímu někde v parent hierarchii <code>traits clonable</code>.</p>
