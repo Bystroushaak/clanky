@@ -114,11 +114,11 @@
   }
 |)</pre>
 <p>Což například řekne grafickému rozhraní, aby slot zobrazilo v kategorii accessing:</p>
-<div class="figure">
+<div>
   <img src="accessing_kategorie-d01c6928-31cb-4db1-bdce-85be52c69e1e.png" />
 </div>
 <p>Osobně mi anotace přijdou syntakticky poněkud matoucí a podařilo se mi způsobit všelijaké druhy errorů, když jsem jen tak vytvářel anotace s různými náhodnými popisky:</p>
-<div class="figure">
+<div>
   <img src="errory_u_anotaci-49ae0e36-a757-4bad-9240-c6b63299da63.png" />
 </div>
 <p>Přesto anotace jsou použity všude, především však pro Transporter, který si pomocí nich označuje který objekt patří do jakého modulu, kdy byl naposledy updatován a tak podobně.</p>
@@ -334,12 +334,12 @@ mapBy: eb Into: c</pre>
 <p>Datové struktury jsou složené v hierarchiích traitů, které na sebe postupně vrství jednotlivou funkcionalitu.</p>
 <p>Všechny kolekce jsou založeny na key-value párech, dokonce i seznamy jsou na tomto založeny, s tím že jednotlivé prvky jsou použity zároveň jako klíče i jako hodnoty.</p>
 <p>Self nabízí poměrně bohatou variaci <em>setů</em>, <em>slovníků</em> a <em>stromů</em>:</p>
-<div class="figure">
+<div>
   <img src="dicts_and_trees-16f4def9-7ff4-4049-ac0c-7db2039993f3.png" />
 </div>
 <p>Stromy se od slovníků liší použití nebalancovaných binárních stromů, což může vést k degeneraci a špatnému výkonu.</p>
 <p>Dále je také přítomna variace <em>seznamů</em>, <em>vektorů</em>, <em>stringů</em> a <em>front</em>:</p>
-<div class="figure">
+<div>
   <img src="lists_vectors_strings_and_queues-2f568279-12e4-4daa-891d-411ccde52686.png" />
 </div>
 <p>Mezi nejdůležitější zprávy podporované prakticky všemi kolekcemi patří:</p>
@@ -360,41 +360,41 @@ mapBy: eb Into: c</pre>
 <h2>Ukázka</h2>
 <p>Pokud chcete kolekci použít, prostě napíšete do shellu / kódu její jméno a naklonujete jí. To je možné provést příkazem <code>clone</code>, či <code>copy</code> (jedná se o to samé).</p>
 <p>Je opravdu důležité nezapomenout kolekci naklonovat, protože ostatní prototypy si jí berou ze stejného místa a pokud do ní začnete cpát data, všechny ostatní kus kódu s tím budou začínat!</p>
-<div class="figure">
+<div>
   <img src="dict1-f59efb7f-cbd9-4dbd-a1e2-786658dfee26.png" />
 </div>
 <p>Nyní kliknu na <em>Get it</em>.</p>
-<div class="figure">
+<div>
   <img src="dict2-1742cef6-d22e-460b-a2fd-96a08578909a.png" />
 </div>
 <p>Objekt si položím na plochu a „rozbalím“ pomocí šipky vlevo v rohu:</p>
-<div class="figure">
+<div>
   <img src="dict3-990bbcb6-45ee-463a-8c62-204294bf8443.png" />
 </div>
 <p>Vidím, že v něm je nula prvků (<code>size 0</code>). Otevřu si v něm tedy shell a zkusím do něj něco přidat:</p>
-<div class="figure">
+<div>
   <img src="dict4-16328a8e-2eac-4880-b5c6-35b68a6da9e9.png" />
 </div>
 <p>Nyní zvolím Do it, protože hodnotu volání zprávy nechci získat „do ruky“ jako outliner, chci jen provést kód.</p>
-<div class="figure">
+<div>
   <img src="dict5-ebd6337b-50ad-4716-8ad8-fdb07c22e8f1.png" />
 </div>
 <p>Jak je vidět, hodnota se změnila. Nyní se můžu podívat třeba co je zač objekt vrácený na zprávu <code>values</code>.</p>
-<div class="figure">
+<div>
   <img src="dict6-3b7e94db-cc56-41f7-ae25-7db5ed847896.png" />
 </div>
 <p>A zde je výsledek outliner. Položím si ho na plochu..</p>
-<div class="figure">
+<div>
   <img src="dict7-514f9c4b-1861-4c2e-b433-7ab45b5f6f9b.png" />
 </div>
 <p>.. a rozbalím, abych se podíval dovnitř:</p>
-<div class="figure">
+<div>
   <img src="dict8-7ad00b28-07be-432c-9bc1-853dbd1475a7.png" />
 </div>
 <p>Jak můžu vidět, ve vektoru je na indexu <code>1</code> hodnota <code>'value'</code>, přesně tak jak jsem chtěl. Jen připomínám, že dictionary je nesetřízený.</p>
 <p>Divného vzhledu shellu vlevo nahoře si nevšímejte, mám nějak rozbité ovladače na grafiku a Self používá tak prehistorické bindingy na X, že mi to celé laguje a překresluje se to divně. Na notebooku mi to funguje jak má.</p>
 <p>Zde je ještě ukázka, kde si pomocí zprávy <code>do:</code> nechám vypsat prvky a klíče do konzole:</p>
-<div class="figure">
+<div>
   <img src="dict_do-409aba4d-13b6-4903-9b33-25022f189ddf.png" />
 </div>
 <p><code>do:</code> podobně jako všechny iterátory v Selfu očekává blok, který může mít dva volitelné parametry, hodnotu a klíč pojmenované v ukázce pro jednoduchost <code>v</code> a <code>k</code>. Všimněte si poněkud divného pořadí, člověk by to logicky čekal naopak.</p>
@@ -404,7 +404,7 @@ mapBy: eb Into: c</pre>
 <p>Collector není ani pole, ani dictionary, ale dá se na všechny možné struktury zkonvertovat posláním zprávy as<em>Něco</em>.</p>
 <h1>Výjimky</h1>
 <p>Výjimky v Selfu jednoduše nejsou podporovány. Zprávy, které můžou skončit nějakou chybou nabízají zpravidla alternativu v podobě keyword zprávy s parametrem <code>IfFail:</code>. Hezky to jde vidět třeba na objektu pro přístup k operačnímu systému:</p>
-<div class="figure">
+<div>
   <img src="IfFail-5ad5c30d-ab92-4ea6-9bfb-d485e76426ae.png" />
 </div>
 <p>Je na programátorovi, aby použil a ošetřil patřičnou chybu (předáním parametru s blokem který na chybu reaguje). Pokud to neudělá, měl by se zobrazit debugger, nebo program spadne.</p>
@@ -422,52 +422,52 @@ mapBy: eb Into: c</pre>
 <h1>Reflexe pomocí zrcadel</h1>
 <p>Zrcadla jsou specialitou Selfu, kterou jsem snad v žádném jiném programovacím jazyce neviděl. Široce používané programovací jazyky zpravidla řeší reflexí pomocí různých interních properties. Python například používá <code>.__class__</code>, či <code>.__dict__</code>, nebo <code>.__name__</code> pro přístup k interním informacím o objektu.</p>
 <p>Self používá zrcadla. Zrcadlo vytvoříme posláním zprávy <code>reflect:</code> objektu majícímu někde v parent hierarchii <code>traits clonable</code>.</p>
-<div class="figure">
+<div>
   <img src="mirror1-0803a029-24a9-48a6-a5bc-3bed0e2ec34b.png" />
 </div>
 <p>Tím získáme objekt <em>mirrorující</em> (zrcadlící) objekt předaný jako parametr.</p>
-<div class="figure">
+<div>
   <img src="mirror2-11d03269-43c6-417b-8207-a72c70eef0d8.png" />
 </div>
 <p>Zde můžeme vidět, že v něm je pseudoslot odkazující se na mirrorovaný objekt.</p>
-<div class="figure">
+<div>
   <img src="mirror3-02a2b3cb-9345-4596-a1db-b7e533181e87.png" />
 </div>
-<div class="figure">
+<div>
   <img src="mirror4-9e6c75dc-3582-489b-8d28-b99de50e22ed.png" />
 </div>
 <p>Pokud si rozklikneme parenta, můžem se podívat na co všechno za zprávy umí reagovat:</p>
-<div class="figure">
+<div>
   <img src="mirror5-bc0823dc-ca78-4290-b7aa-91e7eaf4b77b.png" />
 </div>
 <p>Všímejte si, že skáču po ploše doleva a doprava zkratkami WIN+šipka. Nyní jsem skočil o půl plochy doprava.</p>
 <p>V <code>traits mirrors slots</code> parentovi vidíme, že toho moc neumí, podíváme se tedy do jeho parenta:</p>
-<div class="figure">
+<div>
   <img src="mirror6-bb775225-738f-4a6c-a9b9-bc328f3c4626.png" />
 </div>
 <p>Zde je vidět bohatý seznam kategorií, které nám umožňují se zrcadlem dělat všechno možné:</p>
-<div class="figure">
+<div>
   <img src="mirror7-66a08a7f-127d-4cd8-9725-7401e9e1d9ad.png" />
 </div>
 <p>Například se podívat na seznam zpráv na které reaguje:</p>
-<div class="figure">
+<div>
   <img src="mirror8-9b259f16-9905-4c0f-bc1f-65a4abeb76ca.png" />
 </div>
 <p>Což vidíme že je prázdný set:</p>
-<div class="figure">
+<div>
   <img src="mirror9-8d7ec4e9-2b96-4531-b1ca-2e95445f656f.png" />
 </div>
 <p>Pro vysvětlenou: objekt, ke kterému jsme vytvořili mirror neobsahuje žádné zprávy, jen dva sloty. Mezi zprávy se v tomto kontextu počítají objekty vykonávající kód.</p>
 <p>Samotné sloty je možné zobrazit zprávami z kategorie <code>slotAccess</code>:</p>
-<div class="figure">
+<div>
   <img src="mirror10-8d2543a9-f994-44d8-9a88-f30a4663c615.png" />
 </div>
 <p>Zde je možné například příhodně vyzkoušet <code>firstKey</code></p>
-<div class="figure">
+<div>
   <img src="mirror11-04fcb491-bbe8-4ca6-bdf5-7363e0923bb2.png" />
 </div>
 <p>Odpověď byla skutečně jméno slotu „a“. Pokud si zobrazím hodnotu na klíči „a“, dostanu očekávaný výsledek:</p>
-<div class="figure">
+<div>
   <img src="mirror12-9557653b-4997-4340-b164-e3ae20e3416f.png" />
 </div>
 <p>Krása mirrorů je, že se dají zakázat. Prostě vám stačí odstranit z kódu, kde je chcete zakázat zprávu <code>reflect:</code> například jejím přepsáním za objekt vracející <code>nil</code>. Tím je možné relativně bezpečně vykonávat kód pomocí funkcí jako eval (samozřejmě pokud zároveň odstraníte i třeba přístup k syscalům a filesystému).</p>
@@ -477,13 +477,13 @@ mapBy: eb Into: c</pre>
 <p>Aby objekt podporoval zprávu <code>copy</code>, musí dědit nějakou základní funkčnost. Tu je možné najít v <code>traits clonable</code>.</p>
 <h2>Zobrazení parent slotů v outlineru</h2>
 <p>Je poněkud nešťastné otevírat v outlineru neustále <code>parenty*</code>, abych viděl co mám k dispozici za poděděné sloty.</p>
-<div class="figure">
+<div>
   <img src="shared_slots_in_parent-e87c86f7-33c1-4396-bba7-58ace13fad18.png" />
 </div>
 <p>Outliner se dá naštěstí jednoduše nakonfigurovat tak, aby zobrazoval i poděděné sloty nastavením:</p>
 <pre>preferences outliner kevooidal: true</pre>
 <p>Ukázka:</p>
-<div class="figure">
+<div>
   <img src="kevooidal-0eb9f1d0-190a-403b-9802-bcd98a055a52.png" />
 </div>
 <h2>Otevření všech podkategorií</h2>
@@ -499,27 +499,27 @@ mapBy: eb Into: c</pre>
 <p>pro otevření grafického rozhraní, nebo ho můžete uložit příkazy z předchozí podkapitoly.</p>
 <h2>Vyhledávání</h2>
 <p>Z libovolného outlineru je možné prostředním tlačítkem vyvolat menu „<em>Find slot</em>“:</p>
-<div class="figure">
+<div>
   <img src="find_slot-d3c631a0-bd7d-4e86-ac96-f93eff3b2ab2.png" />
 </div>
 <p>To vám dá k dispozici objekt, který vám umožňuje hledat sloty podle názvu:</p>
-<div class="figure">
+<div>
   <img src="find_slot2-700466d7-c5a1-4bbf-88d5-5e5142243486.png" />
 </div>
 <p>Dolu se zadává root, ze kterého se bude hledat, nahoru pak co se má vyhledávat:</p>
-<div class="figure">
+<div>
   <img src="find_slot3-4ed3ef46-4e4d-4aad-b3aa-ab25e90f070b.png" />
 </div>
 <p>Input bary se schvalují kliknutím na zelený čtvereček, nebo stiskem CTRL+enter. Kliknutím na šipku vlevo nahoře dojde ke spuštění vyhledávání:</p>
-<div class="figure">
+<div>
   <img src="find_slot4-0d7f348c-5cf2-477e-9451-a121dad5043f.png" />
 </div>
 <p>Jednotlivé sloty je možné otevřít kliknutím na čtvereček vedle nich..</p>
-<div class="figure">
+<div>
   <img src="find_slot5-9f938a1f-b667-4ed2-ac14-b71a2c1a6063.png" />
 </div>
 <p>Či z kontextového menu je možné s nimi provádět různé operace:</p>
-<div class="figure">
+<div>
   <img src="find_slot6-1efbc50d-d557-4c58-b96f-9778992e39d3.png" />
 </div>
 <h2>Načtení uloženého scriptu</h2>
