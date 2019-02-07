@@ -1,0 +1,543 @@
+<h1 id="prostředí-a-programovací-jazyk-selfu-díl-druhý-jazyk">Prostředí a programovací jazyk Selfu (díl druhý; jazyk)</h1>
+<p>2019/02/07</p>
+<p>Minulý díl <a href="https://www.notion.so/9740cb45-6680-4c9c-b530-a61efdf8f82a">Prostředí a programovací jazyk Selfu (díl první; prostředí)</a> představil Self jako projekt, ukázal kde ho stáhnout a jak se orientovat v prostředí morphic interface. Dnes se podíváme na jazyk samotný a jeho standardní knihovnu.</p>
+<h1 id="z-hlediska-jazyka">Z hlediska jazyka</h1>
+<p>Self je syntakticky inspirován Smalltalkem. Však se také zrodil na stejném místě, v Xeroxu PARC, i když o desetiletí později. V Selfu se podobně jako ve Smalltalku vše točí kolem posílání zpráv. Oproti Smalltalku ale zavádí syntaktický konstrukt pro objekty.</p>
+<p>Objekt je možné vnímat jako <em>key: val</em> (<em>klíč: hodnota</em>) úložiště. Jednotlivé klíče jsou v terminologii Selfu nazývány <em>sloty</em>.</p>
+<p>Poté co objektu pošleme <em>zprávu</em>, je v paměti vyhledán obsah konkrétního slotu. Pokud se jedná o datový slot (objekt v něm uložený neobsahuje kód) je vrácen. Pokud se jedná o objekt s kódem, je vrácena hodnota zbylá po provedení kódu objektu.</p>
+<p>Zprávu objektu pošleme tím, že jí napíšeme napravo od něj.</p>
+<p>Kód</p>
+<pre><code>obj zpráva</code></pre>
+<p>je podobný výrazu v C-like syntaxi:</p>
+<pre><code>obj.zpráva()</code></pre>
+<h2 id="syntaxe-objektu">Syntaxe objektu</h2>
+<p><code>()</code> vytvoří prázdný objekt. To je objekt, ve kterém nejsou žádné metody a který neumí reagovat na žádné zprávy.</p>
+<p>Kód <code>(| a. b. |)</code> vytvoří objekt, ve kterém jsou dva sloty pojmenované jako <code>‚a‘</code> a <code>‚b‘</code>. Hodnoty obou budou nastaveny na <code>nil</code>.</p>
+<p>Znak svislé čáry <code>|</code> uvozuje definici slotů. Jednotlivé sloty jsou odděleny tečkami. Výše uvedený objekt je „krabička“, která má v sobě dva šuplíky <code>a</code> a <code>b</code>. Ty můžou uchovávat data, či kód.</p>
+<p>Objekt v Selfu funguje tak trochu jako hashmapa, či dictionary (slovník). Do konkrétního slotu se dá uložit konkrétní hodnota. Tuto hodnotu je možné přiřadit již při inicializaci:</p>
+<pre><code>(| a &lt;- nil. b = nil. |)</code></pre>
+<p>V příkladu je možné vidět hned dva styly přiřazení hodnoty. Liší se od sebe tím, že první je možné později přepisovat (<code>&lt;-</code>), druhý (<code>=</code>) nikoliv.</p>
+<p>Ve skutečnosti dochází na nízké úrovni v prvním případě k vytvoření dvou slotů - skutečného slotu a metody pro zápis do tohoto slotu. Ve druhém případě je vytvořen jen slot samotný a není tedy možné do něj zapsat. To má své využití pro různé konstanty.</p>
+<p>Objekt dále může obsahovat kód, který je uveden za druhou svislou čarou <code>|</code>:</p>
+<pre><code>(| a = 1 | a printLine)</code></pre>
+<p>Výše uvedená ukázka definuje nepojmenovaný objekt, který vytváří jeden slot <code>‚a‘</code> nastavený na objekt čísla <code>1</code>. Dále obsahuje kód spočívající v poslání zprávy <code>printLine</code> slotu <code>‚a‘</code>, tedy hodnotě v tomto slotu.</p>
+<h2 id="parent-sloty">Parent sloty</h2>
+<p>Speciálním typem slotů v Selfu jsou takzvané <em>parent sloty</em> (<em>rodičovské sloty</em>). Ty způsobí, že zprávy, které nejsou nalezeny v objektu jsou delegovány do objektů, na které ukazují tyto sloty.</p>
+<p>Pokud pošleme objektu</p>
+<pre><code>(| p* = traits clonable |)</code></pre>
+<p>zprávu <code>clone</code>, vrátí svojí vlastní kopii, i přestože v něm není metoda uložená ve slotu <code>&quot;clone&quot;</code>. Ta je však definována v objektu, na který odkazuje slot <code>p*</code>, či v nějakém nadřazeném, pokud tento objekt také obsahuje <em>parent slot</em>.</p>
+<p>Tímto mechanismem je efektivně implementována dědičnost. Pokud se nad tím zamyslíte, podobá se chování situaci, kdy voláme metodu předka objektu dědícího z <code>&quot;traits clonable&quot;</code> například v pythonu.</p>
+<h2 id="parametry">Parametry</h2>
+<p>Mezi <code>|sloty|</code> mohou být také parametry. Ty jsou uvozeny dvojtečkou v začátku názvu. Například objekt:</p>
+<pre><code>(|
+    x:Y: = (| :a. :b. | a printLine)
+|)</code></pre>
+<p>obsahuje jeden slot <code>‚x:Y:‘</code>, který odkazuje na objekt-metodu přijímající parametry <code>‚a‘</code> a <code>‚b‘</code>, který pošle parametru <code>a</code> zprávu <code>printLine</code>.</p>
+<h2 id="zprávy">Zprávy</h2>
+<p>Zprávy mohou být následujících typů:</p>
+<p><em>Unární</em>, například: <code>first</code></p>
+<p><em>Binární</em>, například: <code>&gt; a</code></p>
+<p><em>Keyword</em>, například <code>set: a</code>, nebo také <code>set: a And: b</code>.</p>
+<p><em>Unární</em> zprávy nemají parametry. <em>Binární</em> mají přesně jeden parametr a používají se pro operátory. <em>Keyword</em> zprávy můžou mít libovolný počet parametrů. Na rozdíl od Smalltalku začínají další slova víceparametrové zprávy vždy velkým písmenem. Díky tomu je jasně vidět kde končí.</p>
+<p>Zpráva <code>a first</code> najde v objektu <code>‚a‘</code> slot (property) nazvaný <code>&quot;first&quot;</code>. Pokud jsou v něm data, vrátí se. Pokud je v něm kód, vykoná se a vrátí se výsledek (poslední příkaz).</p>
+<p>Zpráva <code>a &gt; 1</code> najde v objektu <code>‚a‘</code> slot nazvaný <code>&quot;&gt;&quot;</code> a předá mu parametr <code>1</code>. Ve slotu tohoto typu může být jen kód (objekt-metoda), neboť vždy přijímá přesně jeden parametr.</p>
+<p>Zpráva <code>x set: a And: b</code> najde v objektu <code>‚x‘</code> slot nazvaný <code>&quot;set:And:&quot;</code> a předá mu parametry <code>a</code> a <code>b</code>.</p>
+<h2 id="primitiva">Primitiva</h2>
+<p>Čtvrtým typem zpráv jsou <em>primitivní zprávy</em>, které poznáme podle toho, že začínají podtržítkem:</p>
+<p><code>_print</code></p>
+<p><code>_set: s And: b</code></p>
+<p>Tyto zprávy se od ostatních liší tím, že jsou používány pouze pro volání primitiv interpretru, tedy částí implementovaných v C++.</p>
+<p>Celý Self jako programovací prostředí je možné chápat jako jazyk vystavený na axiomech definovaných primitivy.</p>
+<h2 id="self">Self</h2>
+<p>Self se jmenuje „Self“ protože na rozdíl od Smalltalku není třeba toto klíčové slovo uvádět před každou zprávou poslanou sama sobě.</p>
+<p>Pokud objekt chce volat svojí vlastní metodu print, může v kódu jiné metody použít:</p>
+<pre><code>self print</code></pre>
+<p><code>self</code> však lze vynechat a zavolat pouze:</p>
+<pre><code>print</code></pre>
+<p>Toto je poměrně zajímavá vlastnost, která stojí za zamyšlení. Každý identifikátor, který napíšete a není najit v namespace, je delegován do objektu samotného a dále do všech <em>parent slotů</em>. Co je vlastně lokální namespace, když objekt všechno implicitně pošle sám sobě?</p>
+<h2 id="bloky">Bloky</h2>
+<p>Bloky fungují podobně jako objekty, až na tři rozdíly: jsou vyhodnocovány až v době běhu, chovají se, jako by automaticky obsahovaly <em>parent slot</em> ukazující do <em>namespace</em> (jmenného prostoru), ve kterém byly vytvořeny a automaticky mají nastavený <code>parent*</code> na <code>traits block</code>.</p>
+<p>Díky těmto vlastnostem fungují jako <em>closures</em> známé z ostatních programovacích jazyků.</p>
+<p><code>[]</code> tvoří prázdný blok.</p>
+<p>Podobně jako objekty i bloky můžou obsahovat sloty: <code>[| a &lt;- 1. |]</code> vytvoří blok obsahující slot <code>‚a‘</code> o přepisovatelné hodnotě <code>1</code>.</p>
+<p>Bloky také můžou přijímat parametry: <code>[| :a | a printLine]</code> a tvořit například <em>code objekt</em>, který očekává jeden parametr a ten při zavolání vypíše. Jak blok zavolat? Stačí mu poslat zprávu <code>value</code>, případně <code>value:</code>, pokud přijímá jeden parametr a <code>value:With: .. With: ..</code> pokud jich přijímá více.</p>
+<p>Pomocí bloků jsou v Selfu implementovány veškeré kontrolní prvky. Větvení if podmínkami, cykly a tak dále.</p>
+<p>Například <em>if podmínka</em> jen <em>keyword zpráva</em> <code>ifTrue:</code>, či <code>ifTrue:False:</code> bool objektu, které se jako parametr předává blok s kódem:</p>
+<pre><code>(| :a. :b. |
+    (a &gt; b) ifTrue: [^a] False: [^b].
+)</code></pre>
+<p>Zde vidíte <em>code object</em> přijímající parametry <code>‚a‘</code> a <code>‚b‘</code>, které porovná mezi sebou (posláním binární zprávy <code>&gt; b</code> objektu <code>a</code> a výslednému bool objektu poté pošle zprávu <code>ifTrue:False:</code> s prvním parametrem obsahujícím blok vracející <code>‚a‘</code> a druhým parametrem obsahujícím blok vracející <code>‚b‘</code>.</p>
+<p>Znak stříšky <code>^</code> znamená <em>return</em>. Použit v bloku, vrací hodnotu nikoliv jen ze samotného bloku, ale i z nadřazeného <em>namespace</em>. V uvedeném případě tedy dojde k vrácení hodnoty z celého <em>code-objectu</em> / metody, nikoliv jen z bloku (to lze provést pomocí zprávy <code>return:</code>).</p>
+<p>Obecně co se týče návratových hodnot, tak je možné použít <code>^</code> k vrácení hodnoty, nebo hodnotu poslední zprávy v daném kódu.</p>
+<pre><code>(|
+    parent* = traits boolean.
+    a = (true ifTrue: [1])
+|)</code></pre>
+<p>Zde vidíme definici objektu, který obsahuje <em>parent slot</em> odkazující se na <code>traits boolean</code>. Tím nám zpřístupní kromě jiného i zprávu <code>true</code>.</p>
+<p>Metoda uložená ve slotu <code>‚a‘</code> potom pošle zprávu <code>true</code> sama sobě, což vrátí skrz delegaci na slot <code>true</code> definovaný někde v <code>traits boolean</code> kopii objektu obsahujíciho hodnotu <code>true</code>. Tomuto objektu je poté poslána <em>keyword zpráva</em> s blok parametrem, který obsahuje kód pouze s objektem <code>1</code>.</p>
+<p>Protože je objekt <code>1</code> poslední hodnotou v bloku, dojde k vrácení jeho hodnoty. Výsledek ze zprávy <code>ifTrue:</code> je také vrácen a stává se tak poslední hodnotou v metodě uložené ve slotu <code>‚a‘</code> a je tedy vrácen jako hodnota.</p>
+<h2 id="delegace">Delegace</h2>
+<p>Jak už jsem psal - Self obsahuje cosi, co funguje jako dědičnost, ale dědičností není. Jedná se o delegaci zpráv, kterým objekt nerozumí, na objekt definovaný v <em>parent slotu</em>.</p>
+<p>Objekt může mít <em>parent slotů</em> víc, v některých případech je tak nuté specifikovat, z jakého <em>parent slotu</em> se má slot vybrat. To je možné takzvaným <em>resend</em> slotem. Ten se definuje jako <code>parent.message</code>.</p>
+<p>Například pokud by jsme měli objekt:</p>
+<pre><code>(|
+  firstParent* = traits something.
+  secondParent* = traits different.
+|
+
+   copy.
+)</code></pre>
+<p>a pokud by oba objekty na které odkazují <em>parent sloty</em> definovaly slot <code>copy</code>, bylo by nutné vybrat konkrétní <em>resend</em> manuálně pomocí tečky takto: <code>secondParent.copy</code>.</p>
+<p>Delegace je poměrně zajímavý koncept, který jak je vidět umožňuje jak jednoduchou, tak vícenásobnou dědičnost. Kromě toho ale umožňuje i věci, které klasické jazyky nenabízí a to je například měnit <em>parent slot</em> za běhu a efektivně tak přepínat, na který objekt jsou nenalezené zprávy delegovány.</p>
+<p>Na první pohled poněkud divoká konstrukce má docela zajímavé využití například při psaní parserů, kde umožňuje měnit kontext.</p>
+<h2 id="komentáře">Komentáře</h2>
+<p>Komentáře se píší do uvozovek:</p>
+<pre><code>&quot;toto je komentar&quot;</code></pre>
+<h2 id="anotace">Anotace</h2>
+<p>Anotace jsou způsob přidávání metadat k objektům, kterému se dokumentace překvapivě málo věnuje, přestože je použít napříč celou image.</p>
+<p>Syntaxe používá složené závorky:</p>
+<pre><code>(|
+  p* = traits clonable.
+  {&#39;Category: accessing&#39;
+    slot = nil.
+  }
+|)</code></pre>
+<p>Což například řekne grafickému rozhraní, aby slot zobrazilo v kategorii accessing:</p>
+<div class="figure">
+<img src="accessing_kategorie-d01c6928-31cb-4db1-bdce-85be52c69e1e.png" />
+
+</div>
+<p>Osobně mi anotace přijdou syntakticky poněkud matoucí a podařilo se mi způsobit všelijaké druhy errorů, když jsem jen tak vytvářel anotace s různými náhodnými popisky:</p>
+<div class="figure">
+<img src="errory_u_anotaci-49ae0e36-a757-4bad-9240-c6b63299da63.png" />
+
+</div>
+<p>Přesto anotace jsou použity všude, především však pro Transporter, který si pomocí nich označuje který objekt patří do jakého modulu, kdy byl naposledy updatován a tak podobně.</p>
+<p>Anotace jako takové nejsou vidět v samotném objektu pomocí například Outlineru, k tomu je zapotřebí použít mirror (viz následující kapitola).</p>
+<h1 id="z-hlediska-stdlib">Z hlediska Stdlib</h1>
+<p>Chyták jednoduchých jazyků, jejichž syntaxe se příslovečně vejde na pohlednici, spočívá především v přehození složitosti na stdlib. Self v tomhle není výjimka, proto nebudu ukazovat úplně celou stdlib, jen některé části. Zvědavý čtenář si může konkrétní detaily zobrazit v samotném Selfu.</p>
+<h1 id="podmínky">Podmínky</h1>
+<p>Jak bývá v jazycích smalltakovského typu zvykem, if podmínky jsou implementovány jako zprávy objektu typu bool. K dispozici jsou zprávy:</p>
+<ul>
+<li><code>ifTrue: []</code></li>
+<li><code>ifFalse: []</code></li>
+</ul>
+<p>a jejich ekvivalenty s &quot;else&quot; větví:</p>
+<ul>
+<li><code>ifTrue: [] False: []</code></li>
+<li><code>ifFalse: [] True: []</code></li>
+</ul>
+<h1 id="cykly">Cykly</h1>
+<p>Podobně jako podmínky, tak i cykly jsou realizovány jako zprávy posílané buďto kolekcím, nebo objektu bloku.</p>
+<p>Základní zprávou je <code>loop</code>:</p>
+<ul>
+<li><code>[ ... ] loop</code></li>
+</ul>
+<p>Toto způsobí, že tělo bloku bude voláno do nekonečna.</p>
+<p>Dále jsou k dispozici podmíněné smyčky:</p>
+<ul>
+<li><code>[ podmínka ] whileTrue: [ ... ]</code></li>
+</ul>
+<p>a ekvivalenty <code>whileFalse:</code>, <code>untilTrue:</code>, <code>ultilFalse:</code>, <code>loopExit</code> and <code>loopExitValue</code>.</p>
+<p>Dalšími cykly jsou <code>do:</code> zprávy číselným typům, s alternativami v podobě <code>to:Do:</code> a <code>to:By:Do:</code>, které cyklí od do nějaké hodnoty, podobně jako třeba iterátor <code>range()</code> v pythonu.</p>
+<p>K dispozici jsou také různé transformátory a iterátory nad kolekcemi, které fungují podobně. Například lze poli poslat zprávu <code>mapBy:</code>, <code>mapBy:Into:</code>, <code>gather:</code>, <code>filterBy:</code> a tak podobně.</p>
+<p>V tomhle ohledu doporučuji se vždycky podívat na danou kolekci. Zpráv tohoto druhu je tam několik desítek a umožňují vše od filtrování po vyhledávání, sortování, mapování, transformování, počítání výskytu a tak podobně. Dá se říct, že těch zpráv je víc než třeba v pythonu.</p>
+<p>Čistě pro zajímavost, jen kolekce typu <code>list</code> reaguje na tyto zprávy:</p>
+<pre><code>&lt;= x
+&gt; x
+&gt;= x
+areKeysOrdered
+copare: x IfLess: lb Equal: eb Greater: gb
+copy
+KeyedStoreStringIfFail: fb
+max: x
+min: x</code></pre>
+<h2 id="accessing">Accessing</h2>
+<pre><code>at: k
+at: i IfAbsent: b
+first
+first: v
+firstIfAbsent: noneBlk
+isEmpty
+last
+firstLinkFor: elem IfPresent: presentBlock ifAbsent: absentBlock
+firstLinkSatisfying: conditionBlock IfPresent: presentBlock ifAbsent: absentBlock
+ifNone: noneBlock
+ifNone: noneBlock IfOne: oneBlock IfMany: manyBlock
+keys
+last: v
+soleElement</code></pre>
+<h2 id="adding">Adding</h2>
+<pre><code>add: elem
+add: v WithKey: k
+addAll: c
+add:allFirst: c
+addFirst: elem
+addLast: elem</code></pre>
+<h2 id="coercing">Coercing</h2>
+<pre><code>asList</code></pre>
+<h2 id="comparing">Comparing</h2>
+<pre><code>&lt; c
+= c
+compare: c IfLess: lb Equal: eb Greater: gb
+hash
+isPrefixOf: c
+isSuffixOf: c
+equalsCollection: c</code></pre>
+<h2 id="concatenating">Concatenating</h2>
+<pre><code>, c</code></pre>
+<h2 id="copying">Copying</h2>
+<pre><code>copy
+copyContaining: c
+copyRemoveAll</code></pre>
+<h2 id="double-dispatch-from-universalsetordictionary">Double dispatch from universalSetOrDictionary</h2>
+<pre><code>unsafe_with: c1 Do: b FirstKey: firstK1 FirstValue: firstV1</code></pre>
+<h2 id="inserting">Inserting</h2>
+<pre><code>insert: x AfterElementSatisfying: blk IfAbsent: aBlk
+insert: x BeforeElementSatisfying: blk IfAbsent: aBlk
+insertAll: x AfterElementSatisfying: blk IfAbsent: aBlk
+insertAll: x BeforeElementSatisfying: blk IfAbsent: aBlk</code></pre>
+<h2 id="iterating">Iterating</h2>
+<pre><code>do: b
+doFirst: f Middle: m Last: lst IfEmpty: mt
+reverseDo:
+with: x Do: b
+with: x ReverseDo: b
+withNonindexable: c Do: b</code></pre>
+<h2 id="interatingwithends">InteratingWithEnds</h2>
+<pre><code>do: elementBlk SeparatedBy: inBetweenBlk
+doFirst: f Middle: m Last: lst
+doFirst: f Middle: m Last: lst IfEmpty: e
+doFirst: f MiddleLast: ml
+doFirst: f MiddleLast: ml IfEmpty: e
+doFirstLast: f Middle: ml
+doFirstLastt: f Middle: ml IfEmpty: e
+doFirstMiddle: fm Last: lst
+doFirstMiddle: fm Last: lst IfEmpty: e</code></pre>
+<h2 id="printing">Printing</h2>
+<pre><code>collectionName
+comment1
+printStringSize: smax Depth: dmax
+statePrintString
+storeStringForUnkeyedCollectorIfFail: fb
+storeStringIfFail: fb
+storeStringNeeds
+unkeyedStoreStringIfFail: fb
+buildStringWith: block
+continued
+defaultPrintSize
+leftBracket
+minContentsSize
+minElSize
+printStringKey: k
+rightBracket
+separator
+statePrintStringOfElements
+statePrintStringOfSize</code></pre>
+<h2 id="reducing">Reducing</h2>
+<pre><code>countHowMany: testBlock
+dotProduct: aCollection
+harmonicMean
+max
+mean
+median
+min
+percentile: nth
+product
+reduceWith: b
+reduceWith: b IfSingleton: sb
+reduceWith: b IfSingleton: sb IfEmpty: mt
+rootMeanSquare
+standardDeviation
+sum</code></pre>
+<h2 id="removing">Removing</h2>
+<pre><code>remove: x
+remove elem IfAbsent: block
+removeAll
+removeAll: aCollection
+removeFirstIfAbsent: ab
+removeLast
+removeLastIfAbsent: ab</code></pre>
+<h2 id="searching">Searching</h2>
+<pre><code>allSatisfy: b
+anySatisfy: b
+findFirst: eb IfPresent: fb
+findFirst: eb IfPresent: fb IfAbsent: fail
+includes: v
+keyOf: elem
+keyOf: elem IfAbsent: ab
+noneSatisfy: b
+occurrencesOf: v
+occurrencesOfEachElement</code></pre>
+<h2 id="setlikeoperations">setLikeOperations</h2>
+<pre><code>includesAll: c
+intersect: c
+difference: c</code></pre>
+<h2 id="sizing">Sizing</h2>
+<pre><code>isEmpty
+nonEmpty
+size</code></pre>
+<h2 id="sorting">Sorting</h2>
+<pre><code>ascendingOrder
+comment2
+copySort
+copySortBy: cmp
+copySortBySelector: sel
+isAlreadyKnownToBeSortedBy: cmp
+sortedBy: cmp Do: b
+sortedDo: b</code></pre>
+<h2 id="testing">Testing</h2>
+<pre><code>isOrdered</code></pre>
+<h2 id="transforming">Transforming</h2>
+<pre><code>asByteVector
+asDictionary
+asList
+asOrderedSet
+asSequence
+asSet
+asString
+asTreeBag
+asTreeSet
+asVMByteVector
+asVector
+copyFilteredBy: eb
+copyMappedBy: eb
+filterBy: filterBlock
+filterBy: eb Into: c
+gather: aBlock
+gather: aBlock Into: aCollection
+mapBy: eb
+mapBy: eb Into: c</code></pre>
+<p>To není zrovna málo, že?</p>
+<h1 id="datové-struktury">Datové struktury</h1>
+<p>Datové struktury jsou složené v hierarchiích traitů, které na sebe postupně vrství jednotlivou funkcionalitu.</p>
+<p>Všechny kolekce jsou založeny na key-value párech, dokonce i seznamy jsou na tomto založeny, s tím že jednotlivé prvky jsou použity zároveň jako klíče i jako hodnoty.</p>
+<p>Self nabízí poměrně bohatou variaci <em>setů</em>, <em>slovníků</em> a <em>stromů</em>:</p>
+<div class="figure">
+<img src="dicts_and_trees-16f4def9-7ff4-4049-ac0c-7db2039993f3.png" />
+
+</div>
+<p>Stromy se od slovníků liší použití nebalancovaných binárních stromů, což může vést k degeneraci a špatnému výkonu.</p>
+<p>Dále je také přítomna variace <em>seznamů</em>, <em>vektorů</em>, <em>stringů</em> a <em>front</em>:</p>
+<div class="figure">
+<img src="lists_vectors_strings_and_queues-2f568279-12e4-4daa-891d-411ccde52686.png" />
+
+</div>
+<p>Mezi nejdůležitější zprávy podporované prakticky všemi kolekcemi patří:</p>
+<p><a href="https://www.notion.so/9851930d27224119b2eb00626d1917cc">Nejdůležitější zprávy</a></p>
+<h2 id="ukázka">Ukázka</h2>
+<p>Pokud chcete kolekci použít, prostě napíšete do shellu / kódu její jméno a naklonujete jí. To je možné provést příkazem <code>clone</code>, či <code>copy</code> (jedná se o to samé).</p>
+<p>Je opravdu důležité nezapomenout kolekci naklonovat, protože ostatní prototypy si jí berou ze stejného místa a pokud do ní začnete cpát data, všechny ostatní kus kódu s tím budou začínat!</p>
+<div class="figure">
+<img src="dict1-f59efb7f-cbd9-4dbd-a1e2-786658dfee26.png" />
+
+</div>
+<p>Nyní kliknu na <em>Get it</em>.</p>
+<div class="figure">
+<img src="dict2-1742cef6-d22e-460b-a2fd-96a08578909a.png" />
+
+</div>
+<p>Objekt si položím na plochu a „rozbalím“ pomocí šipky vlevo v rohu:</p>
+<div class="figure">
+<img src="dict3-990bbcb6-45ee-463a-8c62-204294bf8443.png" />
+
+</div>
+<p>Vidím, že v něm je nula prvků (<code>size 0</code>). Otevřu si v něm tedy shell a zkusím do něj něco přidat:</p>
+<div class="figure">
+<img src="dict4-16328a8e-2eac-4880-b5c6-35b68a6da9e9.png" />
+
+</div>
+<p>Nyní zvolím Do it, protože hodnotu volání zprávy nechci získat „do ruky“ jako outliner, chci jen provést kód.</p>
+<div class="figure">
+<img src="dict5-ebd6337b-50ad-4716-8ad8-fdb07c22e8f1.png" />
+
+</div>
+<p>Jak je vidět, hodnota se změnila. Nyní se můžu podívat třeba co je zač objekt vrácený na zprávu <code>values</code>.</p>
+<div class="figure">
+<img src="dict6-3b7e94db-cc56-41f7-ae25-7db5ed847896.png" />
+
+</div>
+<p>A zde je výsledek outliner. Položím si ho na plochu..</p>
+<div class="figure">
+<img src="dict7-514f9c4b-1861-4c2e-b433-7ab45b5f6f9b.png" />
+
+</div>
+<p>.. a rozbalím, abych se podíval dovnitř:</p>
+<div class="figure">
+<img src="dict8-7ad00b28-07be-432c-9bc1-853dbd1475a7.png" />
+
+</div>
+<p>Jak můžu vidět, ve vektoru je na indexu <code>1</code> hodnota <code>'value'</code>, přesně tak jak jsem chtěl. Jen připomínám, že dictionary je nesetřízený.</p>
+<p>Divného vzhledu shellu vlevo nahoře si nevšímejte, mám nějak rozbité ovladače na grafiku a Self používá tak prehistorické bindingy na X, že mi to celé laguje a překresluje se to divně. Na notebooku mi to funguje jak má.</p>
+<p>Zde je ještě ukázka, kde si pomocí zprávy <code>do:</code> nechám vypsat prvky a klíče do konzole:</p>
+<div class="figure">
+<img src="dict_do-409aba4d-13b6-4903-9b33-25022f189ddf.png" />
+
+</div>
+<p><code>do:</code> podobně jako všechny iterátory v Selfu očekává blok, který může mít dva volitelné parametry, hodnotu a klíč pojmenované v ukázce pro jednoduchost <code>v</code> a <code>k</code>. Všimněte si poněkud divného pořadí, člověk by to logicky čekal naopak.</p>
+<h1 id="collector">Collector</h1>
+<p>Collector je speciální datová struktura, která reaguje na binární zprávy <code>&amp;</code>. V podstatě existuje protože Self nemá literál pro vytváření polí. Pokud chceme vytvořit pole, nejjednodušší způsob je collectorem:</p>
+<pre><code>(1 &amp; 2 &amp; 3) asList</code></pre>
+<p>Collector není ani pole, ani dictionary, ale dá se na všechny možné struktury zkonvertovat posláním zprávy as<em>Něco</em>.</p>
+<h1 id="výjimky">Výjimky</h1>
+<p>Výjimky v Selfu jednoduše nejsou podporovány. Zprávy, které můžou skončit nějakou chybou nabízají zpravidla alternativu v podobě keyword zprávy s parametrem <code>IfFail:</code>. Hezky to jde vidět třeba na objektu pro přístup k operačnímu systému:</p>
+<div class="figure">
+<img src="IfFail-5ad5c30d-ab92-4ea6-9bfb-d485e76426ae.png" />
+
+</div>
+<p>Je na programátorovi, aby použil a ošetřil patřičnou chybu (předáním parametru s blokem který na chybu reaguje). Pokud to neudělá, měl by se zobrazit debugger, nebo program spadne.</p>
+<p>Stejně tak pokud umožňujete jako programátor nějaké knihovny ošetření chyby, je třeba přidat variantu zprávy s <code>IfFail:</code> parametrem.</p>
+<p>Osobně mi to nepřijde jako úplně nejšťastnější řešení, ale co se dá dělat.</p>
+<h1 id="objektový-model">Objektový model</h1>
+<p>Poznámka: poměrně zajímavá diskuze na téma objektového modelu Selfu se strhla zde: <a href="https://news.ycombinator.com/item?id=14409088" class="uri">https://news.ycombinator.com/item?id=14409088</a></p>
+<p>Jak už jsem vysvětloval, Self používá na prototypech založený objektový model. Ten se dá shrnout pod tvrzení, že nové objekty kopírujete zprávou <code>clone</code> či <code>copy</code>, nebo vytváříte prázdné v zdrojovém kódu s odkazem na nějakého <code>parenta*</code> dodávající funkčnost podobnou dědičnosti.</p>
+<p>Co se týče hierarchie různých objektů, tak ty se dělí mezi <em>traity</em> a <em>mixiny</em>.</p>
+<h2 id="traity">Traity</h2>
+<p>Jedná se o <em>„předky“</em>, tedy objekty obsahující sdílenou funkcionalitu, které často nejsou samy o sobě plně funkční. Tyto objekty jsou vytvářeny za účelem aby na ně ostatní odkazovaly <code>parent*</code> sloty.</p>
+<p>Self má poměrně bohatou hierarchii <em>traitů</em>, jak je možné vidět například v předchozích kapitolách na ukázce kolekcí.</p>
+<h2 id="mixiny">Mixiny</h2>
+<p>Mixiny jsou malá klubíčka sdílené funkcionality, typicky bez <code>parent*</code> slotu, sdílená je na nějaké úrovni. Jejich smyslem má být funkcionalita, která je <em>zmixována</em> do objektu. Jejich ekvivalentem je něco jako interface s částečnou implementací.</p>
+<h1 id="reflexe-pomocí-zrcadel">Reflexe pomocí zrcadel</h1>
+<p>Zrcadla jsou specialitou Selfu, kterou jsem snad v žádném jiném programovacím jazyce neviděl. Široce používané programovací jazyky zpravidla řeší reflexí pomocí různých interních properties. Python například používá <code>.__class__</code>, či <code>.__dict__</code>, nebo <code>.__name__</code> pro přístup k interním informacím o objektu.</p>
+<p>Self používá zrcadla. Zrcadlo vytvoříme posláním zprávy <code>reflect:</code> objektu majícímu někde v parent hierarchii <code>traits clonable</code>.</p>
+<div class="figure">
+<img src="mirror1-0803a029-24a9-48a6-a5bc-3bed0e2ec34b.png" />
+
+</div>
+<p>Tím získáme objekt <em>mirrorující</em> (zrcadlící) objekt předaný jako parametr.</p>
+<div class="figure">
+<img src="mirror2-11d03269-43c6-417b-8207-a72c70eef0d8.png" />
+
+</div>
+<p>Zde můžeme vidět, že v něm je pseudoslot odkazující se na mirrorovaný objekt.</p>
+<div class="figure">
+<img src="mirror3-02a2b3cb-9345-4596-a1db-b7e533181e87.png" />
+
+</div>
+<div class="figure">
+<img src="mirror4-9e6c75dc-3582-489b-8d28-b99de50e22ed.png" />
+
+</div>
+<p>Pokud si rozklikneme parenta, můžem se podívat na co všechno za zprávy umí reagovat:</p>
+<div class="figure">
+<img src="mirror5-bc0823dc-ca78-4290-b7aa-91e7eaf4b77b.png" />
+
+</div>
+<p>Všímejte si, že skáču po ploše doleva a doprava zkratkami WIN+šipka. Nyní jsem skočil o půl plochy doprava.</p>
+<p>V <code>traits mirrors slots</code> parentovi vidíme, že toho moc neumí, podíváme se tedy do jeho parenta:</p>
+<div class="figure">
+<img src="mirror6-bb775225-738f-4a6c-a9b9-bc328f3c4626.png" />
+
+</div>
+<p>Zde je vidět bohatý seznam kategorií, které nám umožňují se zrcadlem dělat všechno možné:</p>
+<div class="figure">
+<img src="mirror7-66a08a7f-127d-4cd8-9725-7401e9e1d9ad.png" />
+
+</div>
+<p>Například se podívat na seznam zpráv na které reaguje:</p>
+<div class="figure">
+<img src="mirror8-9b259f16-9905-4c0f-bc1f-65a4abeb76ca.png" />
+
+</div>
+<p>Což vidíme že je prázdný set:</p>
+<div class="figure">
+<img src="mirror9-8d7ec4e9-2b96-4531-b1ca-2e95445f656f.png" />
+
+</div>
+<p>Pro vysvětlenou: objekt, ke kterému jsme vytvořili mirror neobsahuje žádné zprávy, jen dva sloty. Mezi zprávy se v tomto kontextu počítají objekty vykonávající kód.</p>
+<p>Samotné sloty je možné zobrazit zprávami z kategorie <code>slotAccess</code>:</p>
+<div class="figure">
+<img src="mirror10-8d2543a9-f994-44d8-9a88-f30a4663c615.png" />
+
+</div>
+<p>Zde je možné například příhodně vyzkoušet <code>firstKey</code></p>
+<div class="figure">
+<img src="mirror11-04fcb491-bbe8-4ca6-bdf5-7363e0923bb2.png" />
+
+</div>
+<p>Odpověď byla skutečně jméno slotu „a“. Pokud si zobrazím hodnotu na klíči „a“, dostanu očekávaný výsledek:</p>
+<div class="figure">
+<img src="mirror12-9557653b-4997-4340-b164-e3ae20e3416f.png" />
+
+</div>
+<p>Krása mirrorů je, že se dají zakázat. Prostě vám stačí odstranit z kódu, kde je chcete zakázat zprávu <code>reflect:</code> například jejím přepsáním za objekt vracející <code>nil</code>. Tím je možné relativně bezpečně vykonávat kód pomocí funkcí jako eval (samozřejmě pokud zároveň odstraníte i třeba přístup k syscalům a filesystému).</p>
+<h1 id="z-hlediska-tipů-a-triků">Z hlediska tipů a triků</h1>
+<p>Časem jsem v osobní wiki nasbíral užitečné poznámky, tipy a triky které člověku můžou zpříjemnit programování v Selfu.</p>
+<h2 id="podpora-copy">Podpora copy</h2>
+<p>Aby objekt podporoval zprávu <code>copy</code>, musí dědit nějakou základní funkčnost. Tu je možné najít v <code>traits clonable</code>.</p>
+<h2 id="zobrazení-parent-slotů-v-outlineru">Zobrazení parent slotů v outlineru</h2>
+<p>Je poněkud nešťastné otevírat v outlineru neustále <code>parenty*</code>, abych viděl co mám k dispozici za poděděné sloty.</p>
+<div class="figure">
+<img src="shared_slots_in_parent-e87c86f7-33c1-4396-bba7-58ace13fad18.png" />
+
+</div>
+<p>Outliner se dá naštěstí jednoduše nakonfigurovat tak, aby zobrazoval i poděděné sloty nastavením:</p>
+<pre><code>preferences outliner kevooidal: true</code></pre>
+<p>Ukázka:</p>
+<div class="figure">
+<img src="kevooidal-0eb9f1d0-190a-403b-9802-bcd98a055a52.png" />
+
+</div>
+<h2 id="otevření-všech-podkategorií">Otevření všech podkategorií</h2>
+<p>Občas je velmi otravné rozklikávat černé šipky, pokud máte víc vnořených kategorií. Dvojklik na šipku zároveň otevře i všechny podšipky.</p>
+<h2 id="ukončení-posláním-zprávy">Ukončení posláním zprávy</h2>
+<p>Prostředí je možné ukončit zprávou <code>saveThenQuit</code> či <code>quitNoSave</code> i z kódu. Osobně si rád vytáhnu na plochu tlačítko, které po zmáčknutí volá jednu z těchto zpráv, což mi šetří trochu času.</p>
+<h2 id="zbuildění-nového-světa">Zbuildění nového světa</h2>
+<p>Pokud nechcete používat image dodávanou s distribucí Selfu a z nějakého důvodu si chcete vybuildit vlastní, lze to provést z adresáře <code>objects/</code> v repozitáři zdrojových kódů projektu (pozor, je skutečně nutné přijít do tohoto adresáře) pustěním příkazu:</p>
+<pre><code>Self -f worldBuilder.self -o morphic</code></pre>
+<p><code>-o</code> nespecifikuje jméno výstupního souboru (!) ale overclock a <code>morphic</code> parametr říká, že se má zbuildit i grafické rozhraní.</p>
+<p>Poté co script doběhne to chce do konzole zadat:</p>
+<pre><code>desktop open</code></pre>
+<p>pro otevření grafického rozhraní, nebo ho můžete uložit příkazy z předchozí podkapitoly.</p>
+<h2 id="vyhledávání">Vyhledávání</h2>
+<p>Z libovolného outlineru je možné prostředním tlačítkem vyvolat menu „<em>Find slot</em>“:</p>
+<div class="figure">
+<img src="find_slot-d3c631a0-bd7d-4e86-ac96-f93eff3b2ab2.png" />
+
+</div>
+<p>To vám dá k dispozici objekt, který vám umožňuje hledat sloty podle názvu:</p>
+<div class="figure">
+<img src="find_slot2-700466d7-c5a1-4bbf-88d5-5e5142243486.png" />
+
+</div>
+<p>Dolu se zadává root, ze kterého se bude hledat, nahoru pak co se má vyhledávat:</p>
+<div class="figure">
+<img src="find_slot3-4ed3ef46-4e4d-4aad-b3aa-ab25e90f070b.png" />
+
+</div>
+<p>Input bary se schvalují kliknutím na zelený čtvereček, nebo stiskem CTRL+enter. Kliknutím na šipku vlevo nahoře dojde ke spuštění vyhledávání:</p>
+<div class="figure">
+<img src="find_slot4-0d7f348c-5cf2-477e-9451-a121dad5043f.png" />
+
+</div>
+<p>Jednotlivé sloty je možné otevřít kliknutím na čtvereček vedle nich..</p>
+<div class="figure">
+<img src="find_slot5-9f938a1f-b667-4ed2-ac14-b71a2c1a6063.png" />
+
+</div>
+<p>Či z kontextového menu je možné s nimi provádět různé operace:</p>
+<div class="figure">
+<img src="find_slot6-1efbc50d-d557-4c58-b96f-9778992e39d3.png" />
+
+</div>
+<h2 id="načtení-uloženého-scriptu">Načtení uloženého scriptu</h2>
+<p>Pokud si chcete spustit nějaký ze scriptů, nebo načíst váš uložený modul, dají se k tomu použít dva přístupy:</p>
+<pre><code>bootstrap read: &#39;name&#39; From: &#39;directory&#39;</code></pre>
+<p>Všimněte si že na konci name není <code>.self</code>, nebo:</p>
+<pre><code>&#39;path to file.self&#39; runScript</code></pre>
+<p>Podrobnosti zde: <a href="http://kitakitsune.org/bhole/self_tutorial/Language/ImportantObjects/ReadingModules.html">Reading a module</a>.</p>
+<h2 id="radarview">Radarview</h2>
+<p>Jak už jsem psal, radarView je možné zobrazit takhle:</p>
+<pre><code>desktop worlds first addMorph: radarView</code></pre>
+<p>nebo</p>
+<pre><code>desktop w hands first addMorph: radarView</code></pre>
+<h2 id="lepší-fonty">Lepší fonty</h2>
+<p>Pokud vám přijde základní font Selfu hrozný, tak skutečně je. Původně hledá verdanu, ale na linuxu se mu jí nepodaří najít, takže použije fallback. Řešení je popsané tady:</p>
+<ul>
+<li><a href="https://bluishcoder.co.nz/2015/01/08/improving-linux-font-support-in-self.html" class="uri">https://bluishcoder.co.nz/2015/01/08/improving-linux-font-support-in-self.html</a></li>
+</ul>
+<h2 id="editor-morph">Editor morph</h2>
+<p>Experimentálně jsem zjistil, že to chce <code>editorRowMorph</code>, ve kterém je zastrčený <code>editorMorph</code>. Reaguje na <code>contentsString</code>.</p>
+<p>Jak se používají <code>ui2_textField</code>, <code>ui2_textBuffer</code>, <code>textViewerMorph</code> a <code>uglyTextEditorMorph</code> jsem nezjistil.</p>
+<h1 id="pokračování">Pokračování</h1>
+<p>V příštím díle se podíváme na historii Selfu, komunitu kolem něj i některé praktické aspekty programování v něm.</p>
