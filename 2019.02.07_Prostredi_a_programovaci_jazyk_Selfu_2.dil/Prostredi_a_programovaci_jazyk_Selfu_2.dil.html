@@ -71,7 +71,7 @@
 <p>Podobně jako objekty i bloky můžou obsahovat sloty: <code>[| a &lt;- 1. |]</code> vytvoří blok obsahující slot <code>‚a‘</code> o přepisovatelné hodnotě <code>1</code>.</p>
 <p>Bloky také můžou přijímat parametry: <code>[| :a | a printLine]</code> a tvořit například <em>code objekt</em>, který očekává jeden parametr a ten při zavolání vypíše. Jak blok zavolat? Stačí mu poslat zprávu <code>value</code>, případně <code>value:</code>, pokud přijímá jeden parametr a <code>value:With: .. With: ..</code> pokud jich přijímá více.</p>
 <p>Pomocí bloků jsou v Selfu implementovány veškeré kontrolní prvky. Větvení if podmínkami, cykly a tak dále.</p>
-<p>Například <em>if podmínka</em> jen <em>keyword zpráva</em><code>ifTrue:</code>, či <code>ifTrue:False:</code> bool objektu, které se jako parametr předává blok s kódem:</p>
+<p>Například <em>if podmínka</em> je jen <em>keyword zpráva</em><code>ifTrue:</code>, či <code>ifTrue:False:</code> bool objektu, které se jako parametr předává blok s kódem:</p>
 <pre>(| :a. :b. |
     (a &gt; b) ifTrue: [^a] False: [^b].
 )</pre>
