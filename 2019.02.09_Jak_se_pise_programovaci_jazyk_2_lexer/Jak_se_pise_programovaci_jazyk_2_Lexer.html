@@ -1,28 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<HTML>
-<head>
-    <title>Jak se píše programovací jazyk 2: Lexer</title>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
-</head>
-
-<body>
-
-
 <p><a href="/blog/bystroushaak/2019/2/jak-se-pise-programovaci-jazyk-1-motivace">V předchozí části</a> jsem popsal motivaci, jenž mě zavedla na trnitou cestu vývojářů vlastního jazyka. V dnešní části se podíváme na to jak vlastně má můj jazyk vypadat a taky se na první a pravděpodobně nejjednodušší komponentu: lexer.</p>
 
 
-<!-- break -->
+<!--break-->
 
 
 <h1>Self</h1>
 <p>Základní syntaxi Selfu dobře popisuje následující obrázek:</p>
 
 
-<p><a href="self_syntax_overview.png"><img src="self_syntax_overview_thumb.png" /></a></p>
+<p><a href="/images/screenshots/0/6/236560-jak-se-pise-programovaci-jazyk-2-lexer-5428879890449217203.png"><img src="/images/screenshots/0/6/236560-jak-se-pise-programovaci-jazyk-2-lexer-5466907730825556109.png" /></a></p>
 
 
 <p>Pokud by vás zajímaly podrobnosti, doporučuji <a href="https://en.wikipedia.org/wiki/Self_(programming_language)#Description">anglickou wikipedii</a>, <a href="http://handbook.selflanguage.org">Self handbook</a>, či můj paralelně vycházející seriál <a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi">Prostředí a programovací jazyk Selfu</a>.</p>
@@ -217,11 +203,7 @@ Komentář začínající středníkem, končící koncem řádku.</p>
 )</pre>
 <p>Celý kód lexeru se vejde na 40 řádek a jde jen o definici jednotlivých elementů jazyka pomocí regexpů:</p>
 
-<pre class="brush: py">#! /usr/bin/env pypy
-# -*- coding: utf-8 -*-
-#
-# Interpreter version: pypy 2.7
-#
+<pre class="brush: py"># -*- coding: utf-8 -*-
 from rply import LexerGenerator
 
 
@@ -230,7 +212,7 @@ lg.ignore(r'\s+')
 
 lg.add('SELF', r'self')
 
-lg.add('NUMBER', r'((\-)?\d+(\.\d)?)|(\\x[0-9a-fA-F]+)')
+lg.add('NUMBER', r'(0x[0-9a-fA-F]+)|((\-)?\d+(\.\d)?)')
 
 lg.add('OBJ_START', r'\(')
 lg.add('OBJ_END', r'\)')
@@ -241,7 +223,7 @@ lg.add('BLOCK_END', r'\]')
 lg.add('SINGLE_Q_STRING', r&quot;'(?:\\.|[^'\\])*'&quot;)
 lg.add('DOUBLE_Q_STRING', r'&quot;(?:\\.|[^&quot;\\])*&quot;')
 
-lg.add('FIRST_KW', r'[a-z_]+[a-zA-Z0-9_]*:')
+lg.add('FIRST_KW', r'([a-zA-Z_]*[a-zA-Z0-9_]+\.)*[a-z_]+[a-zA-Z0-9_]*:')
 lg.add('KEYWORD', r'[A-Z]+[a-zA-Z0-9_]*:')
 lg.add('ARGUMENT', r':[a-zA-Z_]*[a-zA-Z0-9_]+')
 
@@ -253,14 +235,15 @@ lg.add('END_OF_EXPR', r'\.')
 lg.add('SEPARATOR', r'\|')
 lg.add('CASCADE', r'\;')
 
-lg.add('IDENTIFIER', r'[a-zA-Z_]*[a-zA-Z0-9_\*]+')
+lg.add('IDENTIFIER', r'([a-zA-Z_]*[a-zA-Z0-9_]+\.)*[a-zA-Z_]*[a-zA-Z0-9_\*]+')
 
 lg.add('ASSIGNMENT', r'=')
 
 lg.add('COMMENT', r'#.*[\n|$]?')
 
 
-lexer = lg.build()</pre>
+lexer = lg.build()
+</pre>
 
 <p>Možná se někdo pozastaví, proč je kód psaný v pythonu 2. Důvod je jednoduchý - pypy v době psaní stále ještě nepodporuje nejnovější python3 v rpython translator toolkitu. Jakmile tam bude podpora pythonu 3.6, mám v plánu kód přeportovat.</p>
 
@@ -277,7 +260,3 @@ lexer = lg.build()</pre>
     - http://www.giuspen.com/cherrytree/
     - https://github.com/Bystroushaak/cherrytree2html.py
 -->
-
-
-</body>
-</HTML>
