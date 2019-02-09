@@ -1,0 +1,204 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="1" foreground="" is_bold="False" name="Jak se píše programovací jazyk 2: Lexer" prog_lang="custom-colors" readonly="False" tags="" ts_creation="1516715725.48" ts_lastsave="1540067150.64" unique_id="584"><rich_text>V předchozí části jsem popsal motivaci, jenž mě zavedla na trnitou cestu vývojářů vlastního jazyka. V dnešní části se podíváme na to jak vlastně má můj jazyk vypadat a taky se na první a pravděpodobně nejjednodušší komponentu: lexer.
+
+</rich_text><rich_text scale="h1">Self</rich_text><rich_text>
+Základní syntaxi Selfu dobře popisuje následující obrázek:
+
+-- self_syntax_overview.png --
+
+Pokud by vás zajímaly podrobnosti, doporučuji </rich_text><rich_text link="webs https://en.wikipedia.org/wiki/Self_(programming_language)#Description">anglickou wikipedii</rich_text><rich_text>, či </rich_text><rich_text link="webs http://handbook.selflanguage.org">Self handbook</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h1">tinySelf</rich_text><rich_text>
+tinySelf, jak jsem se rozhodl můj jazyk nazvat, je v podstatě Self, i když trochu „vylepšený“ po stránce syntaxe.
+
+Například jsem přidal podporu pro kaskády (</rich_text><rich_text family="monospace">;</rich_text><rich_text>), jak je používá Smalltalk. Nikdy jsem nechápal, proč v původním Selfu nejsou, když tam dokonale sednou. Taky jsem změnil </rich_text><rich_text family="monospace">&quot;komentář&quot;</rich_text><rich_text> na </rich_text><rich_text family="monospace"># komentář</rich_text><rich_text>, protože uvozovky se podle mého názoru víc hodí na stringy, než na komentáře a také se lépe píšou na české klávesnici, než standardní Selfovské </rich_text><rich_text family="monospace">'stringy'</rich_text><rich_text> psané jednoduchými uvozovkami. Pro stringy je nyní možné používat obojí, což člověku šetří escapování, pokud zrovna potřebuje napsat string s uvozovkami.
+
+Kromě toho jsem změnil i syntaxi objektů a bloků, kde jsem umožnil vynechání otevíracího </rich_text><rich_text family="monospace">|</rich_text><rich_text>, takže je možné psát </rich_text><rich_text family="monospace">(slot |)</rich_text><rich_text> místo </rich_text><rich_text family="monospace">(| slot |)</rich_text><rich_text>. K parsování to stejně není zapotřebí a vždycky mi to přišlo jako zbytečný opruz. Chtěl jsem přidat i </rich_text><rich_text family="monospace">(| code)</rich_text><rich_text>, ale ukázalo se, že to už parseru vadí hodně, takže je nutné zapisovat objekty bez slotů jako </rich_text><rich_text family="monospace">(|| code)</rich_text><rich_text>.
+
+Oproti Selfu také není podtržítko na začátku zprávy rezervované pro volání primitivních zpráv. </rich_text><rich_text family="monospace">_s</rich_text><rich_text> je normálně použitelná unární zpráva. Primitivní zprávy (volání kódu interpretru) jsou implementované jako zprávy poslané objektu </rich_text><rich_text family="monospace">primitive</rich_text><rich_text>. Primitivních zpráv je stejně v běžném kódu minimum, tak mi nikdy nebylo jasné, proč by pro ně měla být vyhrazená syntaxe.
+
+</rich_text><rich_text scale="h1">Lexer</rich_text><rich_text>
+Psaní jazyka začíná lexerem. Ten definuje, z jakých komponent se jazyk skládá rozřezáním zdrojového kódu na </rich_text><rich_text style="italic">tokeny</rich_text><rich_text>. Ve standardním imperativním jazyce to můžou být různé příkazy, definice funkce, if podmínky, klíčová slova a tak podobně. V tinySelfu je to vesměs definice objektů, slotů, bloků, nebo posílání zpráv mezi nimi.
+
+Lexer vám kód rozřeže na pole jednotlivých elementů. Z kódu jako:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+vám udělá pole ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+</rich_text><rich_text foreground="#ffff00000000">TODO ^ jako obrázek</rich_text><rich_text>
+
+Výstupem je plochá struktura, do které byl jen rozřezán vstupní řetězec a kde byly ke každé části přiřazeny typy tokenu.
+
+Lexer je možné si napsat ručně, formou stavového automatu, který v cyklu prochází kód znak po znaku a postupně ho rozřezává a analyzuje rozřezané kousky (</rich_text><rich_text style="italic">tokeny</rich_text><rich_text>), aby jim přisoudil typ. Kdysi jsem něco podobného z neznalosti a z nutnosti </rich_text><rich_text link="webs https://github.com/Bystroushaak/pyDHTMLParser/blob/master/src/dhtmlparser/__init__.py#L43">udělal</rich_text><rich_text> (tenkrát v D nebyl žádný lexer), když jsem si psal </rich_text><rich_text link="webs https://github.com/Bystroushaak/pyDHTMLParser">HTML parser</rich_text><rich_text>, proto mi věřte, když vám tento přístup </rich_text><rich_text weight="heavy">DÚRAZNĚ NEDOPORUČÍM</rich_text><rich_text>.
+
+Jedná o nepružný, k chybám náchylný, na pochopení složitý a těžce udržitelný přístup. Až na některé velmi speciální případy, kdy přesně víte co děláte a proč, se vám vždy vyplatí použít nějakou knihovnu, kterou nakrmíte popisy tokenů a ona vám stavový automat na základě popisu vygeneruje.
+
+V mém případě se jedná o knihovnu </rich_text><rich_text link="webs https://rply.readthedocs.io">rply</rich_text><rich_text> (podrobnosti viz příští díl), konkrétně část </rich_text><rich_text link="webs https://rply.readthedocs.io/en/latest/users-guide/lexers.html">rply.LexerGenerator</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h2">tinySelfové tokeny</rich_text><rich_text>
+tinySelf je tvořen následujícími tokeny:
+
+</rich_text><rich_text scale="h3">SELF</rich_text><rich_text>
+Klíčové slovo </rich_text><rich_text family="monospace">self</rich_text><rich_text> tvoří token Self. Použití je podobné jako třeba v pythonu, či </rich_text><rich_text family="monospace">this</rich_text><rich_text> v javě.
+
+</rich_text><rich_text scale="h3">NUMBER</rich_text><rich_text>
+Čísla. </rich_text><rich_text family="monospace">5</rich_text><rich_text> je číslo. </rich_text><rich_text family="monospace">-5</rich_text><rich_text> je číslo. </rich_text><rich_text family="monospace">4.32</rich_text><rich_text> je taky číslo, stejně jako </rich_text><rich_text family="monospace">\xFF</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h3">OBJ_START</rich_text><rich_text>
+Začátek definice objektu. Jedná se jednoduše o závorku </rich_text><rich_text family="monospace">(</rich_text><rich_text> za níž následuje zbytek objektu.
+
+</rich_text><rich_text scale="h3">OBJ_END</rich_text><rich_text>
+Ukončovací závorka </rich_text><rich_text family="monospace">)</rich_text><rich_text> značící konec objektu. Nejkratší (prázdný) objekt v Selfu je </rich_text><rich_text family="monospace">()</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h3">BLOCK_START</rich_text><rich_text>
+Začátek bloku </rich_text><rich_text family="monospace">[</rich_text><rich_text>. Bloky jsou objekty, které mají </rich_text><rich_text style="italic">parenta</rich_text><rich_text> nadefinovaného na </rich_text><rich_text style="italic">lokální scope</rich_text><rich_text>, takže se chovají podobně jako lambda funkce.
+
+</rich_text><rich_text scale="h3">BLOCK_END</rich_text><rich_text>
+Konec bloku </rich_text><rich_text family="monospace">]</rich_text><rich_text>. Nejkratší blok vypadá takhle; </rich_text><rich_text family="monospace">[]</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h3">SINGLE_Q_STRING a DOUBLE_Q_STRING</rich_text><rich_text>
+Definice stringů. Jak jsem zmiňoval, bere se 'string' a &quot;string&quot; se standardníma escape sekvencema.
+
+</rich_text><rich_text scale="h3">FIRST_KW</rich_text><rich_text>
+V Selfu existují tři druhy zpráv objektům; unární, binární a </rich_text><rich_text style="italic">keyword</rich_text><rich_text>. Unární nepřijímá žádný parametr. Binární jeden, </rich_text><rich_text style="italic">keyword</rich_text><rich_text> pak libovolný počet.
+
+Self přinesl oproti Smalltalku drobné vylepšení, kde </rich_text><rich_text style="italic">keyword</rich_text><rich_text> zprávy jsou jednoznačně parsovatelné prostým okem tím, že vynucuje každé následující klíčové slovo zprávy začínat velkým písmenem.
+
+Ve Smalltalku může zpráva </rich_text><rich_text family="monospace">at: 1 put: 2</rich_text><rich_text> znamenat buď </rich_text><rich_text family="monospace">(at: 1) put: 2</rich_text><rich_text>, tedy poslání zprávy </rich_text><rich_text family="monospace">at:</rich_text><rich_text> a následné poslání zprávy </rich_text><rich_text family="monospace">put:</rich_text><rich_text> výsledku z prvního volání, nebo poslání zprávy </rich_text><rich_text family="monospace">at:put:</rich_text><rich_text>  se dvěma parametry </rich_text><rich_text family="monospace">1</rich_text><rich_text> a </rich_text><rich_text family="monospace">2</rich_text><rich_text>. V Selfu je nutné druhý popsaný případ zapsat jako </rich_text><rich_text family="monospace">at: 1 Put: 2</rich_text><rich_text>, což jednoznačně identifikuje kde </rich_text><rich_text style="italic">keyword</rich_text><rich_text> zpráva začíná a končí. Proto taky lexer rozlišuje začátek </rich_text><rich_text style="italic">keyword</rich_text><rich_text> zprávy (string začínající malým písmenem s dvojtečkou na konci) a pokračování.
+
+</rich_text><rich_text scale="h3">KEYWORD</rich_text><rich_text>
+Zmiňované pokračování zprávy. String začínající velkým písmenem, s dvojtečkou na konci.
+
+</rich_text><rich_text scale="h3">IDENTIFIER</rich_text><rich_text>
+String začínající malým či velkým písmenem, či podtržítkem následující tím samým, či číslicí. </rich_text><rich_text family="monospace">asd</rich_text><rich_text>, </rich_text><rich_text family="monospace">BSD</rich_text><rich_text>, </rich_text><rich_text family="monospace">_A</rich_text><rich_text> či </rich_text><rich_text family="monospace">_35</rich_text><rich_text> jsou validní identifikátory, respektive unární zprávy.
+
+</rich_text><rich_text scale="h3">OPERATOR</rich_text><rich_text>
+Jako operátor (binární zprávu) je možné použít znaky z množiny: </rich_text><rich_text family="monospace">!@$%&amp;*-+~/?&lt;&gt;,</rich_text><rich_text> v libovolném počtu opakování. </rich_text><rich_text family="monospace">@</rich_text><rich_text> je operátor, stejně jako </rich_text><rich_text family="monospace">@@</rich_text><rich_text>.
+
+Operátory vždy očekávají jeden parametr. </rich_text><rich_text family="monospace">a + b</rich_text><rich_text> je binární zpráva oprerátoru </rich_text><rich_text family="monospace">+</rich_text><rich_text> s parametrem </rich_text><rich_text family="monospace">b</rich_text><rich_text> zaslaná objektu </rich_text><rich_text family="monospace">a</rich_text><rich_text>.
+
+</rich_text><rich_text scale="h3">ARGUMENT</rich_text><rich_text>
+Hlavně u bloků je potřeba napsat co za argumenty přijímají. Argumenty se zapisují jako identifikátory začínající dvojtečkou.
+
+Ukázky:
+
+• </rich_text><rich_text family="monospace">:a</rich_text><rich_text>
+• </rich_text><rich_text family="monospace">:parameter</rich_text><rich_text>
+• </rich_text><rich_text family="monospace">:_</rich_text><rich_text>
+• </rich_text><rich_text family="monospace">:_5OK</rich_text><rich_text>
+
+</rich_text><rich_text scale="h3">ASSIGNMENT</rich_text><rich_text>
+Speciální operátor přiřazení. Má význam v definici slotů, kde definuje sloty pouze ke čtení. Také je ho možné použít jako běžný operátor (binární zprávu). Zapisuje se jako znak pro rovná se (</rich_text><rich_text family="monospace">=</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h3">RW_ASSIGNMENT</rich_text><rich_text>
+Přiřazení do slotu ke čtení i zápisu. Takto jde přiřazovat pouze konstanty, nebo reference na jiné objekty, nikoliv metody.
+
+Zapisuje se jako šipka do leva (</rich_text><rich_text family="monospace">&lt;-</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h3">RETURN</rich_text><rich_text>
+Vrácení hodnoty z objektu / bloku. Zapisuje se jako stříška (</rich_text><rich_text family="monospace">^</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h3">END_OF_EXPR</rich_text><rich_text>
+Konec výrazu. Odděluje řetězce zpráv. Zapisuje se stejně jako ve Smalltalku tečkou (</rich_text><rich_text family="monospace">.</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h3">SEPARATOR</rich_text><rich_text>
+Oddělovač slotů od kódu. Zapisuje se jako svislá čárka (</rich_text><rich_text family="monospace">|</rich_text><rich_text>).
+
+</rich_text><rich_text scale="h3">CASCADE</rich_text><rich_text>
+Vyhrazený operátor kaskády. Zapisuje se jako středník (</rich_text><rich_text family="monospace">;</rich_text><rich_text>). Sděluje interpretru, že následující zpráva se posílá stejnému objektu jako předchozí.
+
+COMMENT
+Komentář začínající středníkem, končící koncem řádku.
+
+</rich_text><rich_text scale="h2">Ještě k lexeru</rich_text><rich_text>
+Může se zdát, že v lexeru je toho spousta, ale ve skutečnosti je celý jazyk dost jednoduchý a ukázka všeho co je v něm možné se vejde tak nějak na pohlednici:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Celý kód lexeru se vejde na 40 řádek a jde jen o definici jednotlivých elementů jazyka pomocí regexpů:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+V příštím díle se podíváme na parser, který tokeny bere a sestavuje z nich AST - </rich_text><rich_text link="webs https://cs.wikipedia.org/wiki/Syntaktický_strom">abstraktní syntaktický strom</rich_text><rich_text>.
+</rich_text><codebox char_offset="2160" frame_height="50" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">(| asd = 1 | ^asd.)</codebox><codebox char_offset="2189" frame_height="260" frame_width="1065" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">[
+  Token(&quot;OBJ_START&quot;, &quot;(&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;ASSIGNMENT&quot;, &quot;=&quot;),
+  Token(&quot;NUMBER&quot;, &quot;1&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;RETURN&quot;, &quot;^&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;OBJ_END&quot;, &quot;)&quot;)
+]</codebox><codebox char_offset="6423" frame_height="635" frame_width="1110" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">()  # Prázdný objekt.
+(| |)  # Taky prázdný objekt, ale s definicí (prázdných) slotů.
+(| slot |)  # Objekt obsahující jeden slot (key/val storage, kde slot = nil.).
+
+# Ebjekt obsahující definic dvou read only slotu ‚s‘ a zapisovatelného slotu ‚s2‘.
+# Ekvivalentní slovníku {&quot;s&quot;: None, &quot;s2&quot;: 1}, když pominu zapisovatelnost slotů.
+(| s = nil. s2 &lt;- 1 |)
+
+# Objekt obsahující slot ‚s‘, a taky kód, který tomuto slotu pošle unární zprávu ‚printLine‘. Poslední výraz je vždy vrácen, takže bude vrácena hodnota slotu ‚s‘.
+(s = 1 | s printLine. s)
+(| s = 1. | s printLine. ^s. )  # Totožný kód jako v předchozím případě s alternativní syntaxí slotů a explicitní return.
+
+[ ]  # prázdný blok
+[:a | a printLine. a]  # blok přijímající parametr ‚a‘, který vypíše posláním zprávy ‚printLine‘ a vrátí.
+[| :a | a printLine. exit: a.]  # totožný kód - return v bloku vrací z nadřazeného scope, nikoliv jen z bloku samotného!.
+
+# Komplexnější objekt obsahující asi všechny elementy jazyka.
+( a = 1. b &lt;- 2. c |
+  (a + b) &gt; 0
+    ifTrue: [c: a+b. ^c]
+    False: [self logger log: a; log b.].
+
+  logger log: 'Vsechny zpravy se prvne resolvuji na Self'.
+  self logger log: &quot;Toto je tedy totozna zprava&quot;.
+
+  ^ (| output = &quot;vysledek&quot;. line &lt;- &quot;metody&quot; |)
+)</codebox><codebox char_offset="6530" frame_height="899" frame_width="1015" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="python" width_in_pixels="True">#! /usr/bin/env pypy
+# -*- coding: utf-8 -*-
+#
+# Interpreter version: pypy 2.7
+#
+from rply import LexerGenerator
+
+
+lg = LexerGenerator()
+lg.ignore(r'\s+')
+
+lg.add('SELF', r'self')
+
+lg.add('NUMBER', r'((\-)?\d+(\.\d)?)|(\\x[0-9a-fA-F]+)')
+
+lg.add('OBJ_START', r'\(')
+lg.add('OBJ_END', r'\)')
+
+lg.add('BLOCK_START', r'\[')
+lg.add('BLOCK_END', r'\]')
+
+lg.add('SINGLE_Q_STRING', r&quot;'(?:\\.|[^'\\])*'&quot;)
+lg.add('DOUBLE_Q_STRING', r'&quot;(?:\\.|[^&quot;\\])*&quot;')
+
+lg.add('FIRST_KW', r'[a-z_]+[a-zA-Z0-9_]*:')
+lg.add('KEYWORD', r'[A-Z]+[a-zA-Z0-9_]*:')
+lg.add('ARGUMENT', r':[a-zA-Z_]*[a-zA-Z0-9_]+')
+
+lg.add('RW_ASSIGNMENT', r'\&lt;-')
+
+lg.add('OPERATOR', r'[!@\$%&amp;\*\-\+~/?&lt;&gt;,]+|==+')
+lg.add('RETURN', r'\^')
+lg.add('END_OF_EXPR', r'\.')
+lg.add('SEPARATOR', r'\|')
+lg.add('CASCADE', r'\;')
+
+lg.add('IDENTIFIER', r'[a-zA-Z_]*[a-zA-Z0-9_\*]+')
+
+lg.add('ASSIGNMENT', r'=')
+
+lg.add('COMMENT', r'#.*[\n|$]?')
+
+
+lexer = lg.build()</codebox></node></cherrytree>

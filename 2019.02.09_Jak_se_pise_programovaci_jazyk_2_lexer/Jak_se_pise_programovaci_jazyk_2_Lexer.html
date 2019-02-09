@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Jak se píše programovací jazyk 2: Lexer</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
+</head>
+
+<body>
+
+
+<p><a href="/blog/bystroushaak/2019/2/jak-se-pise-programovaci-jazyk-1-motivace">V předchozí části</a> jsem popsal motivaci, jenž mě zavedla na trnitou cestu vývojářů vlastního jazyka. V dnešní části se podíváme na to jak vlastně má můj jazyk vypadat a taky se na první a pravděpodobně nejjednodušší komponentu: lexer.</p>
+
+
+<!-- break -->
+
+
+<h1>Self</h1>
+<p>Základní syntaxi Selfu dobře popisuje následující obrázek:</p>
+
+
+<p><a href="self_syntax_overview.png"><img src="self_syntax_overview_thumb.png" /></a></p>
+
+
+<p>Pokud by vás zajímaly podrobnosti, doporučuji <a href="https://en.wikipedia.org/wiki/Self_(programming_language)#Description">anglickou wikipedii</a>, <a href="http://handbook.selflanguage.org">Self handbook</a>, či můj paralelně vycházející seriál <a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi">Prostředí a programovací jazyk Selfu</a>.</p>
+
+
+<h1>tinySelf</h1>
+<p>tinySelf, jak jsem se kdysi nerozvážně (ukázalo se, že stejně pojmenovaný projekt už kdysi existoval) rozhodl můj jazyk nazvat, je v podstatě Self, i když trochu „vylepšený“ po stránce syntaxe.</p>
+
+
+<p>Například jsem přidal podporu pro kaskády (<tt>;</tt>), jak je používá Smalltalk. Nikdy jsem nechápal, proč v původním Selfu nejsou, když tam dokonale sednou. Taky jsem změnil <tt>&quot;komentář&quot;</tt> na <tt># komentář</tt>, protože uvozovky se podle mého názoru víc hodí na stringy, než na komentáře a také se lépe píšou na české klávesnici, než standardní Selfovské <tt>'stringy'</tt> psané jednoduchými uvozovkami. Pro stringy je nyní možné používat obojí, což člověku šetří escapování, pokud zrovna potřebuje napsat string s uvozovkami.</p>
+
+
+<p>Kromě toho jsem změnil i syntaxi objektů a bloků, kde jsem umožnil vynechání otevíracího <tt>|</tt>, takže je možné psát <tt>(slot |)</tt> místo <tt>(| slot |)</tt>. K parsování to stejně není zapotřebí a vždycky mi to přišlo jako zbytečný opruz. Chtěl jsem přidat i <tt>(| code)</tt>, ale ukázalo se, že to už parseru vadí hodně, takže je nutné zapisovat objekty bez slotů jako <tt>(|| code)</tt>.</p>
+
+
+<p>Oproti Selfu také není podtržítko na začátku zprávy rezervované pro volání primitivních zpráv. <tt>_s</tt> je normálně použitelná unární zpráva. Primitivní zprávy (volání nativního kódu interpretru) jsou implementované jako zprávy poslané objektu <tt>primitive</tt>. Primitivních zpráv je stejně v běžném kódu minimum, tak mi nikdy nebylo jasné, proč by pro ně měla být vyhrazená syntaxe.</p>
+
+
+<p>Repozitář je momentálně hostovaný na githubu:</p>
+
+<ul>
+    <li><a href="https://github.com/Bystroushaak/tinySelf">https://github.com/Bystroushaak/tinySelf</a></li>
+</ul>
+
+
+<h1>Lexer</h1>
+<p>Psaní jazyka začíná lexerem. Ten definuje, z jakých komponent se jazyk skládá rozřezáním zdrojového kódu na <i>tokeny</i>. Ve standardním imperativním jazyce to můžou být různé příkazy, definice funkce, if podmínky, klíčová slova a tak podobně. V tinySelfu je to vesměs definice objektů, slotů, bloků, nebo posílání zpráv mezi nimi.</p>
+
+
+<p>Lexer vám kód rozřeže na pole jednotlivých elementů. Z kódu jako:</p>
+
+<pre>(| asd = 1 | ^asd.)</pre>
+
+<p>vám udělá pole ve stylu:</p>
+
+<pre class="brush: py">[
+  Token(&quot;OBJ_START&quot;, &quot;(&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;ASSIGNMENT&quot;, &quot;=&quot;),
+  Token(&quot;NUMBER&quot;, &quot;1&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;RETURN&quot;, &quot;^&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;OBJ_END&quot;, &quot;)&quot;)
+]</pre>
+
+<p>Výstupem je plochá struktura, do které byl rozřezán vstupní řetězec a kde byly ke každé části přiřazeny typy tokenu.</p>
+
+
+<p>Lexer je možné si napsat ručně, formou stavového automatu, který v cyklu prochází kód znak po znaku a postupně ho rozřezává a analyzuje rozřezané kousky (<i>tokeny</i>), aby jim přisoudil typ. Kdysi jsem něco podobného z neznalosti a z nutnosti <a href="https://github.com/Bystroushaak/pyDHTMLParser/blob/master/src/dhtmlparser/__init__.py#L43">udělal</a> (tenkrát v D nebyl žádný lexer), když jsem si psal <a href="https://github.com/Bystroushaak/pyDHTMLParser">HTML parser</a>, proto mi věřte, když vám tento přístup <strong>DÚRAZNĚ NEDOPORUČÍM</strong>.</p>
+
+
+<p>Jedná o nepružný, k chybám náchylný, na pochopení složitý a těžce udržitelný přístup. Až na některé velmi speciální případy, kdy přesně víte co děláte a proč, se vám vždy vyplatí použít nějakou knihovnu, kterou nakrmíte popisy tokenů a ona vám stavový automat na základě popisu vygeneruje.</p>
+
+
+<p>V mém případě se jedná o knihovnu <a href="https://rply.readthedocs.io">rply</a> (podrobnosti přinese příští díl), konkrétně část <a href="https://rply.readthedocs.io/en/latest/users-guide/lexers.html">rply.LexerGenerator</a>.</p>
+
+
+<h2>tinySelfové tokeny</h2>
+<p>tinySelf je tvořen následujícími tokeny:</p>
+
+
+<h3>SELF</h3>
+<p>Klíčové slovo <tt>self</tt> tvoří token Self. Použití je podobné jako třeba v pythonu, či <tt>this</tt> v javě.</p>
+
+
+<h3>NUMBER</h3>
+<p>Čísla. <tt>5</tt> je číslo. <tt>-5</tt> je číslo. <tt>4.32</tt> je taky číslo, stejně jako <tt>\xFF</tt>.</p>
+
+
+<h3>OBJ_START</h3>
+<p>Začátek definice objektu. Jedná se jednoduše o závorku <tt>(</tt> za níž následuje zbytek objektu.</p>
+
+
+<h3>OBJ_END</h3>
+<p>Ukončovací závorka <tt>)</tt> značící konec objektu. Nejkratší (prázdný) objekt v Selfu je <tt>()</tt>.</p>
+
+
+<h3>BLOCK_START</h3>
+<p>Začátek bloku <tt>[</tt>. Bloky jsou objekty, které mají <i>parenta</i> nadefinovaného na <i>lokální scope</i>, takže se chovají podobně jako lambda funkce.</p>
+
+
+<h3>BLOCK_END</h3>
+<p>Konec bloku <tt>]</tt>. Nejkratší blok vypadá takhle; <tt>[]</tt>.</p>
+
+
+<h3>SINGLE_Q_STRING a DOUBLE_Q_STRING</h3>
+<p>Definice stringů. Jak jsem zmiňoval, bere se 'string' a &quot;string&quot; se standardníma escape sekvencema.</p>
+
+
+<h3>FIRST_KW</h3>
+<p>V Selfu existují tři druhy zpráv objektům; unární, binární a <i>keyword</i>. Unární nepřijímá žádný parametr. Binární jeden, <i>keyword</i> pak libovolný počet.</p>
+
+
+<p>Self přinesl oproti Smalltalku drobné vylepšení, kde <i>keyword</i> zprávy jsou jednoznačně parsovatelné prostým okem tím, že vynucuje každé následující klíčové slovo zprávy začínat velkým písmenem.</p>
+
+
+<p>Ve Smalltalku může zpráva <tt>at: 1 put: 2</tt> znamenat buď <tt>(at: 1) put: 2</tt>, tedy poslání zprávy <tt>at:</tt> a následné poslání zprávy <tt>put:</tt> výsledku z prvního volání, nebo poslání zprávy <tt>at:put:</tt>  se dvěma parametry <tt>1</tt> a <tt>2</tt>. V Selfu je nutné druhý popsaný případ zapsat jako <tt>at: 1 Put: 2</tt>, což jednoznačně identifikuje kde <i>keyword</i> zpráva začíná a končí. Proto taky lexer rozlišuje začátek <i>keyword</i> zprávy (string začínající malým písmenem s dvojtečkou na konci) a pokračování.</p>
+
+
+<h3>KEYWORD</h3>
+<p>Zmiňované pokračování zprávy. String začínající velkým písmenem, s dvojtečkou na konci.</p>
+
+
+<h3>IDENTIFIER</h3>
+<p>String začínající malým či velkým písmenem, či podtržítkem následující tím samým, či číslicí. <tt>asd</tt>, <tt>BSD</tt>, <tt>_A</tt> či <tt>_35</tt> jsou validní identifikátory, respektive unární zprávy.</p>
+
+
+<h3>OPERATOR</h3>
+<p>Jako operátor (binární zprávu) je možné použít znaky z množiny: <tt>!@$%&amp;*-+~/?&lt;&gt;,</tt> v libovolném počtu opakování. <tt>@</tt> je operátor, stejně jako <tt>@@</tt>.</p>
+
+
+<p>Operátory vždy očekávají jeden parametr. <tt>a + b</tt> je binární zpráva oprerátoru <tt>+</tt> s parametrem <tt>b</tt> zaslaná objektu <tt>a</tt>.</p>
+
+
+<h3>ARGUMENT</h3>
+<p>Hlavně u bloků je potřeba napsat co za argumenty přijímají. Argumenty se zapisují jako identifikátory začínající dvojtečkou.</p>
+
+
+<p>Ukázky:</p>
+
+
+<ul>
+    <li><tt>:a</tt></li>
+    <li><tt>:parameter</tt></li>
+    <li><tt>:_</tt></li>
+    <li><tt>:_5OK</tt></li>
+</ul>
+
+
+<h3>ASSIGNMENT</h3>
+<p>Speciální operátor přiřazení. Má význam v definici slotů, kde definuje sloty pouze ke čtení. Také je ho možné použít jako běžný operátor (binární zprávu). Zapisuje se jako znak pro rovná se (<tt>=</tt>).</p>
+
+
+<h3>RW_ASSIGNMENT</h3>
+<p>Přiřazení do slotu ke čtení i zápisu. Takto jde přiřazovat pouze konstanty, nebo reference na jiné objekty, nikoliv metody.</p>
+
+
+<p>Zapisuje se jako šipka do leva (<tt>&lt;-</tt>).</p>
+
+
+<h3>RETURN</h3>
+<p>Vrácení hodnoty z objektu / bloku. Zapisuje se jako stříška (<tt>^</tt>).</p>
+
+
+<h3>END_OF_EXPR</h3>
+<p>Konec výrazu. Odděluje řetězce zpráv. Zapisuje se stejně jako ve Smalltalku tečkou (<tt>.</tt>).</p>
+
+
+<h3>SEPARATOR</h3>
+<p>Oddělovač slotů od kódu. Zapisuje se jako svislá čárka (<tt>|</tt>).</p>
+
+
+<h3>CASCADE</h3>
+<p>Vyhrazený operátor kaskády. Zapisuje se jako středník (<tt>;</tt>). Sděluje interpretru, že následující zpráva se posílá stejnému objektu jako předchozí.</p>
+
+
+<p>COMMENT
+Komentář začínající středníkem, končící koncem řádku.</p>
+
+
+<h2>Ještě k lexeru</h2>
+<p>Může se zdát, že v lexeru je toho spousta, ale ve skutečnosti je celý jazyk dost jednoduchý a ukázka všeho co je v něm možné se vejde tak nějak na pohlednici:</p>
+
+<pre>()  # Prázdný objekt.
+(| |)  # Taky prázdný objekt, ale s definicí (prázdných) slotů.
+(| slot |)  # Objekt obsahující jeden slot (key/val storage, kde slot = nil.).
+
+# Ebjekt obsahující definic dvou read only slotu ‚s‘ a zapisovatelného slotu ‚s2‘.
+# Ekvivalentní slovníku {&quot;s&quot;: None, &quot;s2&quot;: 1}, když pominu zapisovatelnost slotů.
+(| s = nil. s2 &lt;- 1 |)
+
+# Objekt obsahující slot ‚s‘, a taky kód, který tomuto slotu pošle unární zprávu ‚printLine‘. Poslední výraz je vždy vrácen, takže bude vrácena hodnota slotu ‚s‘.
+(s = 1 | s printLine. s)
+(| s = 1. | s printLine. ^s. )  # Totožný kód jako v předchozím případě s alternativní syntaxí slotů a explicitní return.
+
+[ ]  # prázdný blok
+[:a | a printLine. a]  # blok přijímající parametr ‚a‘, který vypíše posláním zprávy ‚printLine‘ a vrátí.
+[| :a | a printLine. exit: a.]  # totožný kód - return v bloku vrací z nadřazeného scope, nikoliv jen z bloku samotného!.
+
+# Komplexnější objekt obsahující asi všechny elementy jazyka.
+( a = 1. b &lt;- 2. c |
+  (a + b) &gt; 0
+    ifTrue: [c: a+b. ^c]
+    False: [self logger log: a; log b.].
+
+  logger log: 'Vsechny zpravy se prvne resolvuji na Self'.
+  self logger log: &quot;Toto je tedy totozna zprava&quot;.
+
+  ^ (| output = &quot;vysledek&quot;. line &lt;- &quot;metody&quot; |)
+)</pre>
+<p>Celý kód lexeru se vejde na 40 řádek a jde jen o definici jednotlivých elementů jazyka pomocí regexpů:</p>
+
+<pre class="brush: py">#! /usr/bin/env pypy
+# -*- coding: utf-8 -*-
+#
+# Interpreter version: pypy 2.7
+#
+from rply import LexerGenerator
+
+
+lg = LexerGenerator()
+lg.ignore(r'\s+')
+
+lg.add('SELF', r'self')
+
+lg.add('NUMBER', r'((\-)?\d+(\.\d)?)|(\\x[0-9a-fA-F]+)')
+
+lg.add('OBJ_START', r'\(')
+lg.add('OBJ_END', r'\)')
+
+lg.add('BLOCK_START', r'\[')
+lg.add('BLOCK_END', r'\]')
+
+lg.add('SINGLE_Q_STRING', r&quot;'(?:\\.|[^'\\])*'&quot;)
+lg.add('DOUBLE_Q_STRING', r'&quot;(?:\\.|[^&quot;\\])*&quot;')
+
+lg.add('FIRST_KW', r'[a-z_]+[a-zA-Z0-9_]*:')
+lg.add('KEYWORD', r'[A-Z]+[a-zA-Z0-9_]*:')
+lg.add('ARGUMENT', r':[a-zA-Z_]*[a-zA-Z0-9_]+')
+
+lg.add('RW_ASSIGNMENT', r'\&lt;-')
+
+lg.add('OPERATOR', r'[!@\$%&amp;\*\-\+~/?&lt;&gt;,]+|==+')
+lg.add('RETURN', r'\^')
+lg.add('END_OF_EXPR', r'\.')
+lg.add('SEPARATOR', r'\|')
+lg.add('CASCADE', r'\;')
+
+lg.add('IDENTIFIER', r'[a-zA-Z_]*[a-zA-Z0-9_\*]+')
+
+lg.add('ASSIGNMENT', r'=')
+
+lg.add('COMMENT', r'#.*[\n|$]?')
+
+
+lexer = lg.build()</pre>
+
+<p>Možná se někdo pozastaví, proč je kód psaný v pythonu 2. Důvod je jednoduchý - pypy v době psaní stále ještě nepodporuje nejnovější python3 v rpython translator toolkitu. Jakmile tam bude podpora pythonu 3.6, mám v plánu kód přeportovat.</p>
+
+
+<h2>Pokračování</h2>
+
+<p>V příštím díle se podíváme na parser, který tokeny bere a sestavuje z nich AST - <a href="https://cs.wikipedia.org/wiki/Syntaktický_strom">abstraktní syntaktický strom</a>.
+</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>
