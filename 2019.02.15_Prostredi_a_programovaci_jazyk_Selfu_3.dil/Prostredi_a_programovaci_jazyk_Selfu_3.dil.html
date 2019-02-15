@@ -1,0 +1,334 @@
+<p>Dneska se bude jednat o mezi-díl, kam jsem nacpal věci, jenž se mi moc nevešly nikam jinam. Podíváme se detailněji na debugger a transporter a taky si rozebreme nevýhody Selfu jako jazyka, prostředí, ale i obecně principu používání prototypového programování.</p>
+
+<!--break-->
+
+<h1>Z hlediska uživatelského použití transporteru</h1>
+<p>Nebudu se věnovat tomu, jak přesně transporter funguje, to je možné vyčíst například z paperu <a href="http://bibliography.selflanguage.org/gold.html">Sifting Out the Gold: Delivering Compact Applications From an Exploratory Object-Oriented Environment</a>. Zaměřím se spíš na uživatelskou stránku, tak jak je ukázána ve videu na stránce <a href="https://bluishcoder.co.nz/2015/11/19/exporting-self-objects-to-source-files-via-transporter.html">https://bluishcoder.co.nz/2015/11/19/exporting-self-objects-to-source-files-via-transporter.html</a>.</p>
+<p>Obrázkově je tahle podkapitola hrozně dlouhá, proto chci předem říct, že ve skutečnosti se neděje nic moc komplikovaného. Vytvořím anonymní objekt. Přidám ho v transporteru do nového modulu. Pak vytvořím slot v globální hierarchii, uložím do něj tento objekt a taky ho přidám do již vytvořeného modulu. Potom řeknu anotací transporteru, aby slot nenastavoval na defaultní hodnotu, ale „sledoval“ objekt co je v něm uložený. Pak všechno uložím na disk skrz dialog transporteru.</p>
+<p>Začnu vytvořením naprosto jednoduchého objektu, obsahujícího jeden slot „a“ o hodnotě „1“.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--6901895481749911818.png" />
+</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--4273977680541949351.png" />
+</p>
+<p>Na outliner potom kliknu prostředním tlačítkem (kolečkem) a vyberu z menu <em>„Set module...“</em>:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5502412234553876860.png" />
+</p>
+<p>Nyní se bude objevovat série dialogů, kde se mě transporter poptá na různé informace. Jako první se ptá na sloty:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5025267927652372092.png" />
+</p>
+<p>Chci všechny.</p>
+<p>Dál se ptá na jméno modulu, do kterého objekt uložit.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--3264572434872967039.png" />
+</p>
+<p>Chci „other“, což vyvolá dialog s názvem. Já chci svůj modul pojmenovat „test“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--6343452791628152621.png" />
+</p>
+<p>Dialog se mě nyní ptá zda chci modul vytvořit, nebo jsem se splet. Chci ho skutečně vytvořit:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--441781627173144792.png" />
+</p>
+<p>Nechci ho udělat submodulem ostatních modulů, proto nechávám následující pole prázdné:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5476643336926078399.png" />
+</p>
+<p>Ještě to znova potvrzuji:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--4465399178982030476.png" />
+</p>
+<p>Vybírám složku do které by se měl soubor uložit. Nechávám defaultní „applications“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--6465395175147810050.png" />
+</p>
+<p>Můj objekt je nyní oficiálně součástí modulu, akorát se prostě jen tak vznáší ve vzduchu, což znamená, že by po načtení nešel moc dobře referencovat. Já ho chci uložit na cestu <code>globals test</code>. Otevřu si tedy outliner pro <code>globals</code> kliknutím na plochu kolečkem:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--7086513790611688404.png" />
+</p>
+<p>a otevřu si podsekci „applications“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--3612299314680717704.png" />
+</p>
+<p>Vidím, že už v ní jsou čtyři aplikace. Kliknutím na nápis „applications“ prostředním se objeví kontextové menu, kde vyberu „Add Slot“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1763825629570339763.png" />
+</p>
+<p>Z dialogu pro přidání slotu smažu defaultní text s nápovědou:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1328304373496640204.png" />
+</p>
+<p>a nastavím slot na <code>nil</code>.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--93964071123628183.png" />
+</p>
+<p>Uložím kliknutím na zelený obdélník, či stisknutím CTRL+enter.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--4282863226776476106.png" />
+</p>
+<p>Nyní místo <code>nil</code>u graficky přenesu referenci na můj anonymní objekt na ploše. Stejně tak bych ale mohl přijít do mého anonymního objektu, otevřít si v něm shell a zadat cosi jako <code>globals test: self</code>.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5142833038668679609.png" />
+</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--9221621163981832890.png" />
+</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--7093285927033925550.png" />
+</p>
+<p>Slot <code>globals test</code> nyní ukazuje na můj objekt, neboli můj objekt nyní existuje na této cestě.</p>
+<p>Nyní zbývá ještě nastavit modul pro tento slot kliknutím prostředním tlačítkem a vybráním „Set module“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5970121531151593788.png" />
+</p>
+<p>Zobrazí se podstatně větší menu, kde doscrolluju až dolu a vyberu other:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--3119815863340013046.png" />
+</p>
+<p>Tam znova zadám „test“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5664318072320705084.png" />
+</p>
+<p>Abych teď nemusel jak blázen scrollovat zase nahoru, dvakrát kliknu na prázdnou plochu a vyberu že chci jít „home“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5318539936423604970.png" />
+</p>
+<p>Což mě vrátí tam kde jsem byl. Nyní ještě potřebuji upravit anotaci slotu <code>globals test</code>, kliknu na něj tedy opět kolečkem a vyberu „Show Annotation“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--3813112184691107346.png" />
+</p>
+<p>V nastavení modulu vyberu že chci „Follow“, nikoliv nastavovat slot na <code>nil</code>.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--8194175746094876947.png" />
+</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--7929726157880586438.png" />
+</p>
+<p>Nyní kliknu do prázdného místa na ploše prostředním a vyberu z menu „Changed Modules“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--6407597800627001510.png" />
+</p>
+<p>Zobrazí se mi dialog ukazující změněné moduly:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--2539875517813797089.png" />
+</p>
+<p>Ty můžu zapsat klikáním na tlačítka. Kliknu na tlačítko s nápisem „W“ vedle:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1542959708467570389.png" />
+</p>
+<p>Tak a to je vše. Zdá se to jako hodně kroků, ale ve skutečnosti je to celé docela logické. Nyní se můžu podívat, že o úroveň výš (neptejte se mě proč) vznikl ve složce „objects/applications/“ soubor „test.self“:</p>
+<pre><code>&#39;&#39;
+ &#39;
+Copyright 1992-2016 AUTHORS.
+See the legal/LICENSE file for license information and legal/AUTHORS for authors.
+&#39;
+[ 
+&quot;prefileIn&quot; self] value
+
+
+ &#39;-- Module body&#39;
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot&#39;
+        
+         test = bootstrap define: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () ToBe: bootstrap addSlotsTo: (
+             bootstrap remove: &#39;directory&#39; From:
+             bootstrap remove: &#39;fileInTimeString&#39; From:
+             bootstrap remove: &#39;myComment&#39; From:
+             bootstrap remove: &#39;postFileIn&#39; From:
+             bootstrap remove: &#39;revision&#39; From:
+             bootstrap remove: &#39;subpartNames&#39; From:
+             globals modules init copy ) From: bootstrap setObjectAnnotationOf: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( |
+             {} = &#39;ModuleInfo: Creator: globals modules test.
+
+CopyDowns:
+globals modules init. copy 
+SlotsToOmit: directory fileInTimeString myComment postFileIn revision subpartNames.
+
+\x7fIsComplete: &#39;.
+            | ) .
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot\x7fVisibility: public&#39;
+        
+         directory &lt;- &#39;applications&#39;.
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: InitializeToExpression: (_CurrentTimeString)\x7fVisibility: public&#39;
+        
+         fileInTimeString &lt;- _CurrentTimeString.
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot&#39;
+        
+         myComment &lt;- &#39;&#39;.
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot&#39;
+        
+         postFileIn = ( |
+            | resend.postFileIn).
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: InitializeToExpression: (\&#39;30.21.0\&#39;)\x7fVisibility: public&#39;
+        
+         revision &lt;- &#39;30.21.0&#39;.
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;modules&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot\x7fVisibility: private&#39;
+        
+         subpartNames &lt;- &#39;&#39;.
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; () From: ( | {
+         &#39;Category: applications\x7fModuleInfo: Module: test InitialContents: FollowSlot&#39;
+        
+         test &lt;- bootstrap setObjectAnnotationOf: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;test&#39; -&gt; () From: ( |
+             {} = &#39;ModuleInfo: Creator: globals test.
+&#39;.
+            | ) .
+        } | ) 
+
+ bootstrap addSlotsTo: bootstrap stub -&gt; &#39;globals&#39; -&gt; &#39;test&#39; -&gt; () From: ( | {
+         &#39;ModuleInfo: Module: test InitialContents: FollowSlot&#39;
+        
+         a = 1.
+        } | ) 
+
+
+
+ &#39;-- Side effects&#39;
+
+ globals modules test postFileIn</code>
+</pre>
+<p>V něm jsou nastaveny všechna možná metadata. Tento soubor můžu verzovat gitem a také načíst do nové image:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1637103798756375718.png" />
+</p>
+<p>Což mi dá do ruky metadata o modulu a vedle v outlineru pro <code>globals</code> si můžete všimnout že se objevil nový slot „test“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1049043538072259170.png" />
+</p>
+<p>Ve kterém je skutečně můj objekt:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--3489136496573714070.png" />
+</p>
+<h1>Z hlediska debuggeru</h1>
+<p>Self nabízí debugger smalltalkovského typu, ze kterého je možné interaktivně měnit kód. Krátká ukázka myslím řekne víc než tisíc slov.</p>
+<p>V Shellu vytvořím jednoduchý objekt, který má slot „a“, kde je uložen kód, který by měl na standardní výstup vypsat hodnotu čísla „1“. Záměrně se ale upíši a místo zprávy „<code>printLine</code>“ pošlu pouze zprávu „<code>printLin</code>“, tedy bez „<code>e</code>“ na konci:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5493464086171092074.png" />
+</p>
+<p>To mi <em>„do ruky“</em> vloží objekt, který jsem popsal.</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--6133212158489737760.png" />
+</p>
+<p>Můžu si zkontrolovat, že je to skutečně on tím že ho položím na plochu a rozbalím sloty:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5054377871638079532.png" />
+</p>
+<p>V objektu otevřu <em>podshell</em> kliknutím na E vpravo v rohu a pošlu mu zprávu „a“:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--7872108288940115479.png" />
+</p>
+<p>Nyní kliknu na <em>Get it</em>, což by mělo kód provést (tedy vypsat do konzole jedničku) a zároveň mi do kurzoru umístit výsledek volání (také jednička). V kódu mám ale popsanou chybu, takže místo toho dostanu do ruky debugger:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--2064602539713243881.png" />
+</p>
+<p>Debugger vypadá trochu podobně jako outliner. Krabička, která se dá rozklikávat. Zde je celá rozkliknutá:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--667432199178916578.png" />
+</p>
+<p>Můžeme vidět celý stack trace, ale nejenom to, dá se s ním krásně interagovat. Například vlevo nahoře vidíme jedničku, což je receiver zprávy (selektoru). Na jedničku lze kliknout a dostaneme přímo objekt:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1899592859847649557.png" />
+</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--2017110061867674637.png" />
+</p>
+<p>V případě jedničky to sice úplně nedává smysl, ale u jiných objektů může být velmi užitečné si je živě prozkoumat.</p>
+<p>Z editoru lze také chybu hned opravit:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--1896562872000486261.png" />
+</p>
+<p>Po kliknutí na zelený čtvereček se upraví přímo kód, všimněte si outlineru vedle:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5847136025827723634.png" />
+</p>
+<p>Nyní kliknu na continue a celý interpret bude pokračovat tam, kde by pokračoval normálně, kdyby k žádné chybě nedošlo, tedy do konzole se vypíše jednička a ta se mi taky octne v ruce:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5731440647745664458.png" />
+</p>
+<p>Debugger nyní vypíše, že je mrtvý a minimalizuje se. Když nyní znova kliknu na <em>Get it</em> tlačítko, vše již napodruhé proběhne správně;</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--7617552550415383652.png" />
+</p>
+<h1>Z hlediska problémů</h1>
+<p>Z praktického hlediska je Self docela smutná kupka. Nejprve bych rád řekl, že je do velké míry použitelný, ale zdaleka ne tolik, aby to bylo přístupné pro začínající uživatele. Pokud něco budete řešit, zapomeňte na to, že vygooglíte řešení. S vysokou pravděpodobností jste nejspíš první, kdo má daný problém. A pokud ne, tak je stejně slušná šance, že problém je nevyřešen.</p>
+<h2>32 bit</h2>
+<p>Self je 32 bitový program. Portace na 64 bitů je sice možná, ale netriviální a nikdo se do toho nehrne. Očekávám, že v příštích deseti letech se na tom asi nic nezmění.</p>
+<p>Na jednu stranu je to docela nemilé, protože vás to omezuje na maximálně čtyřgigabajtové image, ale tenhle problém se dá vyřešit například použitím víc instancí a hlavně narazíte na problémy se vším možným daleko dřív. Například samotné ukládání image je docela pomalé už u velikostí kolem desítek megabajtů a gigabajtové velikosti by trvaly pravděpodobně celé minuty.</p>
+<h2>Problémy prototypů</h2>
+<p>Prototypy jsou jednoduché na pochopení a spolu s delegaci (koukám se na tebe, javascripte!) nabízejí silný a efektivní mechanismus organizace kódu.</p>
+<p>Mají ovšem jednu nevýhodu; jednou zapomenete na clone a přepíšete půlku systému.</p>
+<p>Například s prototypovým <code>dictionary</code> se pracuje prostě tak, že si ho naklonujete a zapisujete do něj hodnoty. Pokud ovšem zapomenete provést klonování a rovnou píšete do dictionary, píšete zároveň do všech nových dictionary co budou vytvořeny kopírováním. To většinou vede k velmi rychlému pádu systému.</p>
+<p>Self bohužel nenabízí žádnou možnost, jak se tomuhle bránit. Osobně bych se tomu ve svém jazyce rád vyvaroval <em>zamykáním</em> systémových objektů tak, aby bylo vynuceno klonování předtím, než je možné do nich zapsat. Nebo možná nějakým automatickým klonováním.</p>
+<h2>Bezejmennost prototypových objektů</h2>
+<p>Selfovské je na tom se svými literály (zkrácený nativní zápis definice objektu) podobně, jako jazyky podporující pouze lambda funkce. Anonymní objekty jsou super, ale přeci jen člověk se snáze orientuje pokud může věci pojmenovat.</p>
+<p>V Selfu je toto řešeno anotacemi, kde je možné nastavit jméno objektu, které se pak zobrazuje v outlinerech, nebo prostě umístěním objektu do patřičné hierarchie. Pokud umístíme objekt do cesty <code>globals dictionary</code>, tak je asi jasné, že se jedná o slovník.</p>
+<p>Stojí za zamyšlení si to srovnat s <em>na třídách založenými jazyky</em>, které zpravidla trpí přesně opačným problémem, kde se snaží pojmenovat úplně všechno. Třída má svoje jasně dané jméno a instance má jméno proměnné kde existuje.</p>
+<p>Co je pro lidi lepší a přirozenější? Aby měl objekt jasně dané jméno, nebo aby bylo jméno dané proměnou (či cestou) ve které je uložený?</p>
+<h2>No undo</h2>
+<p>Edit morphy nepodporují undo. Pešek. A všechny ostatní klávesové zkratky jsou nějaký subset části emacsu.</p>
+<h2>Ctrl+c / Ctrl+v</h2>
+<p>Bohužel nefunguje, protože používá nějaké prehistorické X bindingy. Řešení je nainstalovat si program <a href="https://www.nongnu.org/autocutsel/">autocutsel</a> a pustit ho na pozadí.</p>
+<h2>Chybějící dokumentace</h2>
+<p>Dokumentace prostě kromě toho co jsem už odkazoval není. Většinou se dá zeptat v konferenci, ale to není zrovna ideální.</p>
+<h2>Sloty jsou unordered</h2>
+<p>To je trochu smutné z hlediska používání objektů samotných k uchovávání informací, neboť vás to nutí používat ordered kolekce.</p>
+<h2>Self nemá podporu kaskádování</h2>
+<p>Pokud nevíte co to je, tak vám to asi vadit nebude, přicházíte-li ale ze Smalltalku, tak to bude bolest.</p>
+<h2>Unicode vstup / výstup se nekoná</h2>
+<p>Self používá jako kódování ISO 8859-1, takže nebere žádné znaky mimo toto (doslova se nedají napsat) a nic mimo toho ani neumí zobrazit.</p>
+<p>Pokud by se s tím někomu chtělo zabývat, tak zde:</p>
+<ul>
+  <li>
+    <a href="https://github.com/russellallen/self/issues/113">https://github.com/russellallen/self/issues/113</a>
+  </li>
+</ul>
+<h2>Outlinery sajou</h2>
+<p>Outlinery jsou zajímavý koncept, který ale začne být otravný docela rychle. Proč je možné vidět například zde:</p>
+<ul>
+  <li>
+    <a href="http://kitakitsune.org/ltas/long_outliner_is_long/traits_xlib_display/">http://kitakitsune.org/ltas/long_outliner_is_long/traits_xlib_display/</a>
+  </li>
+</ul>
+<p>či ve své plné kráse zde:</p>
+<ul>
+  <li>
+    <a href="http://kitakitsune.org/ltas/long_outliner_is_long/traits_xlib_display_expanded/">http://kitakitsune.org/ltas/long_outliner_is_long/traits_xlib_display_expanded/</a>
+  </li>
+</ul>
+<p>Taky když zkoumáte nějakou komplexnější věc, tak končíte s desítkami outlinerů.</p>
+<p>Osobně bych to doplnil browserem modulů ve stylu Smalltalku:</p>
+<p>
+  <img src="/images/screenshots/9/4/236749-prostredi-a-programovaci-jazyk-selfu-dil-treti--5950233426857803267.png" />
+</p>
+<h2>Self a obrázky</h2>
+<p>Self neumí zobrazovat obrázky v žádném z normálních formátů. Jediné co umí je nějaký <a href="https://en.wikipedia.org/wiki/Sun_Raster">Sunovský rastrový formát</a>:</p>
+<ul>
+  <li>
+    <a href="https://bluishcoder.co.nz/2009/07/27/displaying-images-with-self.html">https://bluishcoder.co.nz/2009/07/27/displaying-images-with-self.html</a>
+  </li>
+</ul>
+<h1>Pokračování</h1>
+<p>V posledním díle se podíváme na komunitu kolem Selfu, historii, budoucnost a dojde i na nějaké to filosofování.</p>
