@@ -1,12 +1,6 @@
-<HTML>
-  <head>
-      <title>Jak se píše programovací jazyk 3: Parser a AST</title>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
 <p>Ve třetím dílu seriálu <em>Jak se píše programovací jazyk</em> se podíváme na způsob, kterým se z jednorozměrného pole <code>Token</code> objektů udělá syntaktický strom, který pak následně můžeme dále zpracovávat a vyhodnocovat.</p>
 
-<!-- break -->
+<!--break-->
 
 <h1>Parser</h1>
 <p>Jak bylo popsáno v minulém dílu, Lexer vám kód rozřeže na pole jednotlivých elementů. V mém případě z kódu jako:</p>
@@ -91,7 +85,7 @@ def expression_number(p):
 <p>V kódu nahoře se vezme první token (index 0) a vratí se objekt <code>Number</code> s tokenem, jehož hodnota byla převedena na číslo.</p>
 <p>Number není žádný magický objekt, nadefinoval jsem si ho sám po vzoru ostatních parserů. Dohromady mám tyto objekty, ze kterých se sestavuje syntaktický strom:</p>
 <p>
-  <a href="ast.png"><img src="ast_thumb.png" /></a>
+  <a href="/images/screenshots/1/6/236761-jak-se-pise-programovaci-jazyk-3-parser-a-ast-6758553457721134173.png"><img src="/images/screenshots/1/6/236761-jak-se-pise-programovaci-jazyk-3-parser-a-ast-9052345942210070464.png" /></a>
 </p>
 <p>Jak je vidět, v tinySelfu existují pouze objekty, bloky, akt poslání zprávy, přeposlání zprávy, kaskáda zpráv (akt poslání několika zpráv jednomu objektu), návrat hodnoty, tři typy zpráv (unární, binární, <em>keyword</em>) a poté čtyři zkratky pro často používané objekty: čísla, stringy, Self a Nil. Self by existovat teoreticky nemusel, mohla by to být jen <code>Message(&quot;self&quot;)</code> poslaná nikomu, ale zpřehledňuje to kód i výsledný strom. Nil je jen zkratka pro singleton, který by mohl být uložený v globálním namespace.</p>
 <h2>Složitější rekurzivní pravidla</h2>
@@ -117,11 +111,9 @@ def unary_message_to_expression(p):
 </ul>
 <p>Nikdy dřív jsem nepsal takhle složitý EBNF parser a musím říct, že to pro mě byl docela záhul. Naučit se přemýšlet v rekurzivně skládaných definicích mi dalo zabrat, a to ani nemluvím o tom, že jsem pro Self nenašel žádnou EBNF definici, takže jsem si jí podle manuálu +- skládal sám.</p>
 <p>
-  <img src="passing_tests.png" />
+  <img src="/images/screenshots/1/6/236761-jak-se-pise-programovaci-jazyk-3-parser-a-ast-7742075132581642212.png" />
 </p>
 <p>Nakonec se však povedlo a kód prošel všemi testy, které jsem pro něj napsal. Myslel jsem si, že tím to pro mě končí, ale jak se ukázalo, byl to jen začátek další parsovací bolesti, tentokrát spočívající ve snaze kód upravit pro překlad RPythonem.</p>
 
 <h1>Pokračování</h1>
 <p>Příští díl bude takovým mezidílem na téma RPythonu a některých praktických problémů, které jsem musel vyřešit, abych mohl parser a lexer pod ním zkompilovat.</p>
-</body>
-</HTML>
