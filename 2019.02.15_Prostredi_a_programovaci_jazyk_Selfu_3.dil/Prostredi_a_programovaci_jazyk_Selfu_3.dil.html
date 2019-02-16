@@ -278,7 +278,7 @@ SlotsToOmit: directory fileInTimeString myComment postFileIn revision subpartNam
 <p>Self je 32 bitový program. Portace na 64 bitů je sice možná, ale netriviální a nikdo se do toho nehrne. Očekávám, že v příštích deseti letech se na tom asi nic nezmění.</p>
 <p>Na jednu stranu je to docela nemilé, protože vás to omezuje na maximálně čtyřgigabajtové image, ale tenhle problém se dá vyřešit například použitím víc instancí a hlavně narazíte na problémy se vším možným daleko dřív. Například samotné ukládání image je docela pomalé už u velikostí kolem desítek megabajtů a gigabajtové velikosti by trvaly pravděpodobně celé minuty.</p>
 <h2>Problémy prototypů</h2>
-<p>Prototypy jsou jednoduché na pochopení a spolu s delegaci (koukám se na tebe, javascripte!) nabízejí silný a efektivní mechanismus organizace kódu.</p>
+<p>Prototypy jsou jednoduché na pochopení a spolu s delegací (koukám se na tebe, javascripte!) nabízejí silný a efektivní mechanismus organizace kódu.</p>
 <p>Mají ovšem jednu nevýhodu; jednou zapomenete na clone a přepíšete půlku systému.</p>
 <p>Například s prototypovým <code>dictionary</code> se pracuje prostě tak, že si ho naklonujete a zapisujete do něj hodnoty. Pokud ovšem zapomenete provést klonování a rovnou píšete do dictionary, píšete zároveň do všech nových dictionary co budou vytvořeny kopírováním. To většinou vede k velmi rychlému pádu systému.</p>
 <p>Self bohužel nenabízí žádnou možnost, jak se tomuhle bránit. Osobně bych se tomu ve svém jazyce rád vyvaroval <em>zamykáním</em> systémových objektů tak, aby bylo vynuceno klonování předtím, než je možné do nich zapsat. Nebo možná nějakým automatickým klonováním.</p>
