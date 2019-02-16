@@ -77,7 +77,7 @@ DOUBLE_QUOTED_STRING: &quot;\\&quot;[^\\\\&quot;]*\\&quot;&quot;;</pre>
 
 
 <h1>RPLY</h1>
-<p>Chybějící dokumentace mě časem donutila od RPythonního <code>ebnfparse</code> odejít, speciálně když jsem si procházel ostatní projekty, které používaly jiné parsery. Časem jsem narazil na <a href="https://rply.readthedocs.io/en/latest/">rply</a>, což port parseru <a href="https://github.com/dabeaz/ply">ply</a> přímo pro RPython. Funguje tak, že píšete dekorátory funkcím ve stylu:</p>
+<p>Chybějící dokumentace mě časem donutila od RPythonního <code>ebnfparse</code> odejít, speciálně když jsem si procházel ostatní projekty, které používaly jiné parsery. Časem jsem narazil na <a href="https://rply.readthedocs.io/en/latest/">rply</a>, což je port parseru <a href="https://github.com/dabeaz/ply">ply</a> přímo pro RPython. Funguje tak, že píšete dekorátory funkcím ve stylu:</p>
 <pre class="brush: py">@pg.production(&#39;expression : NUMBER&#39;)
 def expression_number(p):
     return Number(int(p[0].getstr()))</pre>
