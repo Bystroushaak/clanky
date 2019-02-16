@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<head>
+    <title>Jak se píše programovací jazyk 3: Parser a AST</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="alternate"  type="application/atom+xml" href="atom.xml" />
+</head>
+
+<body>
+
+
+<p>Ve třetím dílu seriálu <i>Jak se píše programovací jazyk</i> se podíváme na jakým způsobem se z jednorozměrného pole <tt>Token</tt> objektů, udělá syntaktický strom, který pak následně můžeme dále zpracovávat a vyhodnocovat.</p>
+
+<!-- break -->
+
+<h1>Parser</h1>
+<p>Jak bylo popsáno v minulém dílu, Lexer vám kód rozřeže na pole jednotlivých elementů. V mém případě z kódu jako:</p>
+
+<pre>(| asd = 1 | ^asd.)</pre>
+
+<p>udělá pole ve stylu:</p>
+
+<pre class="brush: py">[
+  Token(&quot;OBJ_START&quot;, &quot;(&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;ASSIGNMENT&quot;, &quot;=&quot;),
+  Token(&quot;NUMBER&quot;, &quot;1&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;RETURN&quot;, &quot;^&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;OBJ_END&quot;, &quot;)&quot;)
+]</pre>
+
+<p>Jde o seznam <a href="https://github.com/solanolabs/rply/blob/master/rply/token.py">Token</a> objektů, kde v property <tt>.name</tt> je uložen název tokenu (například <i>„IDENTIFIER“</i>) a v <tt>.value</tt> jeho hodnota (například <i>„asd“</i>). Na parseru je poté kód vzít a udělat z něj AST (abstraktní syntaktický strom) ve stylu:</p>
+
+<pre class="brush: py">Object(
+  slots={&quot;asd&quot;: Number(1)},
+  params=[],
+  parents={},
+  code=[
+    Return(
+      Send(Self(), Message(&quot;asd&quot;))
+    )
+  ],
+)</pre>
+
+<p>Na to jak je tinySelf jednoduchý jazyk mi dal parser docela zabrat. Původně jsem ho začal psát v RPythonním <a href="http://rpython.readthedocs.io/en/latest/rlib.html#ebnf">rpython.rlib.parsing.ebnfparse</a>, což vypadalo opticky dobře a jednoduše:</p>
+
+<pre>IGNORE: &quot; |\n&quot;;
+
+root: (expression [&quot;\.&quot;])* expression;
+
+object: [&quot;(&quot;] slots? sends* [&quot;)&quot;];
+block: [&quot;[&quot;] slots? sends* [&quot;]&quot;];
+
+return: [&quot;^&quot;] expression;
+expression: IDENTIFIER | value | object | block | send;
+
+#sends: (send [&quot;\.&quot;])* send [&quot;\.&quot;]?;
+sends: (expression [&quot;\.&quot;])* expression [&quot;\.&quot;]?;
+send: (receiver? keyword) | (receiver? message) | (receiver? receiver? operator receiver);
+receiver: IDENTIFIER | object | block;
+message: IDENTIFIER;
+keyword: FIRST_KW_IDENTIFIER &gt;expression&lt; (KEYWORD_IDENTIFIER &gt;expression&lt;)*;
+operator: operator_characters+;
+operator_characters: &quot;!&quot; | &quot;@&quot; | &quot;#&quot; | &quot;$&quot; | &quot;%&quot; | &quot;&amp;&quot; | &quot;*&quot; | &quot;-&quot; | &quot;+&quot; | \
+                     &quot;=&quot; | &quot;~&quot; | &quot;/&quot; | &quot;?&quot; | &quot;&lt;&quot; | &quot;&gt;&quot; | &quot;,&quot; | &quot;;&quot;;
+
+slots: [&quot;|&quot;] (&gt;slot_definition&lt; [&quot;\.&quot;])* &gt;slot_definition&lt;? [&quot;\.&quot;]? [&quot;|&quot;];
+slot_definition: IDENTIFIER | (FIRST_KW_IDENTIFIER &gt;expression&lt;) | ARGUMENT;
+
+value: &lt;string&gt; | &lt;float&gt; | &lt;integer&gt;;
+
+float: integer &quot;\.&quot; POSINT;
+integer: &quot;\-&quot; POSINT | POSINT;
+
+POSINT: &quot;0|[1-9][0-9]*&quot;;
+
+ARGUMENT: &quot;:[a-z_][a-zA-Z0-9_\*]*&quot;;
+IDENTIFIER: &quot;[a-z_][a-zA-Z0-9_\*]*&quot;;
+FIRST_KW_IDENTIFIER: &quot;[a-z_][a-zA-Z0-9_]*:&quot;;
+KEYWORD_IDENTIFIER: &quot;[A-Z][a-zA-Z0-9_]*:&quot;;
+
+string: SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING;
+SINGLE_QUOTED_STRING: &quot;'[^\\\']*'&quot;;
+DOUBLE_QUOTED_STRING: &quot;\\&quot;[^\\\\&quot;]*\\&quot;&quot;;</pre>
+
+<p>Poměrně záhy jsem však narazil na nedostatek dokumentace a taky na chování, které mi vysloveně vadilo (všechny ty <tt>&gt;&lt;</tt> a <tt>&lt;&gt;</tt> kolem identifikátorů, divná rekurze s <tt>|</tt>, mixování s reguláry atd..). Od začátku jsem to pojal jako TDD development (psatní testů před kódem) a jen díky tomu jsem se z toho nezcvokl, neměl jsem k tomu však daleko.</p>
+
+
+<p>Bystřejší čtenáři si jistě všimli, že v kódu jsou použity jiné tokeny, než v předchozím díle. Je tomu tak proto, že <tt>ebnfparse</tt> umožňuje definovat tokeny zároveň s parserem, což <a href="https://rply.readthedocs.io">rply</a> neumožňuje a to co bylo uvedeno v minulém díle je má pozdější snaha.</p>
+
+
+<h2>RPLY</h2>
+<p>Chybějící dokumentace mě časem donutila od RPythonního <tt>ebnfparse</tt> odejít, speciálně když jsem si procházel ostatní projekty, které používaly jiné parsery. Časem jsem narazil na <a href="https://rply.readthedocs.io/en/latest/">rply</a>, což port parseru <a href="https://github.com/dabeaz/ply">ply</a> přímo pro RPython. Funguje tak, že píšete dekorátory funkcím ve stylu:</p>
+
+<pre class="brush: py">@pg.production('expression : NUMBER')
+def expression_number(p):
+    return Number(int(p[0].getstr()))</pre>
+
+<p>Dekorátor určuje pattern z tokenů. Dekorovaná funkce pak co se s tokeny provede. Všechny tokeny jsou předány v poli v proměnné ‚<tt>p</tt>‘.</p>
+
+
+<p>V kódu nahoře se vezme první token (index 0) a vratí se objekt <tt>Number</tt> s tokenem, jehož hodnota byla převedena na číslo.</p>
+
+
+<p>Number není žádný magický objekt, nadefinoval jsem si ho sám po vzoru ostatních parserů. Dohromady mám tyto objekty, ze kterých se sestavuje syntaktický strom:</p>
+
+
+<p><a href="ast.png"><img src="ast_thumb.png" /></a></p>
+
+
+<!-- <ul>
+  <li>Root</li>
+</ul>
+
+<ul>
+  <li>Self</li>
+  <li>Nil</li>
+</ul>
+
+<ul>
+  <li>Object</li>
+  <li>Block</li>
+</ul>
+
+<ul>
+  <li>Number</li>
+  <li>String</li>
+</ul>
+
+<ul>
+  <li>Message</li>
+  <li>KeywordMessage</li>
+  <li>BinaryMessage</li>
+</ul>
+
+<ul>
+  <li>Send</li>
+  <li>Resend</li>
+  <li>Cascade</li>
+</ul>
+
+<ul>
+  <li>Return</li>
+  <li>AssignmentPrimitive</li>
+  <li>Comment</li>
+</ul> -->
+
+
+<p>Jak je vidět, v tinySelfu existují pouze objekty, bloky, akt poslání zprávy, přeposlání zprávy, kaskáda zpráv (akt poslání několika zpráv jednomu objektu), návrat hodnoty, tři typy zpráv (unární, binární, <em>keyword</em>) a poté čtyři zkratky pro často používané objekty: čísla, stringy, Self a Nil. Self by existovat teoreticky nemusel, mohla by to být jen <tt>Message(&quot;self&quot;)</tt> poslaná nikomu, ale zpřehledňuje to kód i výsledný strom. Nil je jen zkratka pro singleton, který by mohl být uložený v globálním namespace.</p>
+
+
+<p>Zde je ukázka složitějšího transformačního pravidla:</p>
+
+<pre class="brush: py">@pg.production('expression : IDENTIFIER')
+def unary_message(p):
+    return Send(obj=Self(), msg=Message(p[0].getstr()))
+
+@pg.production('expression : expression IDENTIFIER')
+def unary_message_to_expression(p):
+    return Send(obj=p[0], msg=Message(p[1].getstr()))</pre>
+  
+<p>Na ukázce je dobře vidět, jak vzniká poslání zpráv a jak je řešeno vkládání implicitního Selfu. Pokud je identifikátor poslán zdánlivě ničemu, je aktu poslání zprávy předán jako cíl <tt>Self()</tt>. Pokud je před identifikátorem nějaký výraz, je cíli poslání zprávy předán první token obsahující tento výraz (což už je naparsovaná expression, tedy prvek AST).</p>
+
+
+<p>Podobnými pravidly je složen celý jazyk. Zde je také hezky vidět rekurzivní povaha parseru, který definuje <i>expression</i> jako identifikátor a poté také jako <i>expression</i> následované identifikátorem. Parser takhle provede rekurzivní <i>pattern matching</i> na všechny odpovídající tokeny, v samotných funkcích se pak jen definuje, co se z toho má složit za AST.</p>
+
+
+<p>Tenhle přístup má svou výhodu, protože vám dovoluje skládat AST přímo tak jak ho chcete. Předtím používaný <tt>ebnf</tt> z RPythonu vypadal sice zapsán elegantněji jako jeden krásný string, ale neumožňoval žádné skoro žádné manipupace s AST a vyplivl vám strom z tokenů, který bylo dále třeba zpracovávat. I když to bylo na vyšší úrovni, než samotné pole tokenů, stejně to byl masivní opruz. Oproti tomu přímý přístup k datům v rply vám umožňuje vygenerovat rovnou hotový a upravený AST.</p>
+
+Zde je zdrojový kód celého parseru:
+
+<ul>
+  <li><a href="https://github.com/Bystroushaak/tinySelf/blob/master/src/tinySelf/parser/parser.py">parser.py</a></li>
+</ul>
+
+<p>Nikdy dřív jsem nepsal EBNF parser a musím říct, že to pro mě bylo docela utrpení. Naučit se přemýšlet v rekurzivně skládaných definicích mi dalo zabrat, a to ani nemluvím o tom, že jsem pro Self nenašel žádnou EBNF definici, takže jsem si jí podle manuálu +- skládal sám.</p>
+
+
+<img src="passing_tests.png" />
+
+
+<p>Nakonec se však povedlo a kód prošel všemi testy, které jsem pro něj napsal. Myslel jsem si, že tím to pro mě končí, ale jak se ukázalo, byl to jen začátek další parsovací bolesti, tentokrát se týkající snahy kód upravit tak, aby šel přeložit RPythonem.</p>
+
+
+<!--
+    Written in CherryTree, converted to HTML by cherrytree2html.py
+
+    - http://www.giuspen.com/cherrytree/
+    - https://github.com/Bystroushaak/cherrytree2html.py
+-->
+
+
+</body>
+</HTML>

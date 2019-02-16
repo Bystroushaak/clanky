@@ -1,0 +1,132 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="1" foreground="" is_bold="False" name="Jak se píše programovací jazyk 3: Parser a AST" prog_lang="custom-colors" readonly="False" tags="" ts_creation="1516718308.35" ts_lastsave="1540069750.68" unique_id="585"><rich_text>Ve třetím dílu seriálu </rich_text><rich_text style="italic">Jak se píše programovací jazyk</rich_text><rich_text> se podíváme na jakým způsobem se z jednorozměrného pole </rich_text><rich_text family="monospace">Token</rich_text><rich_text> objektů, udělá syntaktický strom, který pak následně můžeme dále zpracovávat a vyhodnocovat.
+
+</rich_text><rich_text scale="h1">Parser</rich_text><rich_text>
+Jak bylo popsáno v minulém dílu, Lexer vám kód rozřeže na pole jednotlivých elementů. V mém případě z kódu jako:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+udělá pole ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Jde o seznam Token objektů, kde v property </rich_text><rich_text family="monospace">.name</rich_text><rich_text> je uložen název tokenu (například </rich_text><rich_text style="italic">„IDENTIFIER“</rich_text><rich_text>) a v </rich_text><rich_text family="monospace">.value</rich_text><rich_text> jeho hodnota (například </rich_text><rich_text style="italic">„asd“</rich_text><rich_text>). Na parseru je poté kód vzít a udělat z něj AST (abstraktní syntaktický strom) ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Na to jak je tinySelf jednoduchý jazyk mi dal parser docela zabrat. Původně jsem ho začal psát v RPythonním </rich_text><rich_text link="webs http://rpython.readthedocs.io/en/latest/rlib.html#ebnf">rpython.rlib.parsing.ebnfparse</rich_text><rich_text>, což vypadalo opticky dobře a jednoduše:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Poměrně záhy jsem však narazil na nedostatek dokumentace a taky na chování, které mi vysloveně vadilo (všechny ty </rich_text><rich_text family="monospace">&gt;&lt;</rich_text><rich_text> a </rich_text><rich_text family="monospace">&lt;&gt;</rich_text><rich_text> kolem identifikátorů, divná rekurze s </rich_text><rich_text family="monospace">|</rich_text><rich_text>, mixování s reguláry atd..). Od začátku jsem to pojal jako TDD development (psatní testů před kódem) a jen díky tomu jsem se z toho nezcvokl, neměl jsem k tomu však daleko.
+
+Bystřejší čtenáři si jistě všimli, že v kódu jsou použity jiné tokeny, než v předchozím díle. Je tomu tak proto, že </rich_text><rich_text family="monospace">ebnfparse</rich_text><rich_text> umožňuje definovat tokeny zároveň s parserem, což </rich_text><rich_text link="webs https://rply.readthedocs.io">rply</rich_text><rich_text> neumožňuje a to co bylo uvedeno v minulém díle je má pozdější snaha.
+
+</rich_text><rich_text scale="h2">RPLY</rich_text><rich_text>
+Chybějící dokumentace mě časem donutila od RPythonního </rich_text><rich_text family="monospace">ebnfparse</rich_text><rich_text> odejít, speciálně když jsem si procházel ostatní projekty, které používaly jiné parsery. Časem jsem narazil na </rich_text><rich_text link="webs https://rply.readthedocs.io/en/latest/">rply</rich_text><rich_text>, což port parseru </rich_text><rich_text link="webs https://github.com/dabeaz/ply">ply</rich_text><rich_text> přímo pro RPython. Funguje tak, že píšete dekorátory funkcím ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Dekorátor určuje pattern z tokenů. Dekorovaná funkce pak co se s tokeny provede. Všechny tokeny jsou předány v poli v proměnné ‚</rich_text><rich_text family="monospace">p</rich_text><rich_text>‘.
+
+V kódu nahoře se vezme první token (index 0) a vratí se objekt </rich_text><rich_text family="monospace">Number</rich_text><rich_text> s tokenem, jehož hodnota byla převedena na číslo.
+
+Number není žádný magický objekt, nadefinoval jsem si ho sám po vzoru ostatních parserů. Dohromady mám tyto objekty, ze kterých se sestavuje syntaktický strom:
+
+• Self
+
+• Object
+• Block
+
+• Number
+• String
+
+• Message
+• KeywordMessage
+• BinaryMessage
+
+• Send
+• Cascade
+
+• Return
+• AssignmentPrimitive
+
+Jak je vidět, v tinySelfu existují pouze objekty, bloky, akt poslání zprávy, kaskáda zpráv (akt poslání několika zpráv jednomu objektu), návrat hodnoty, tři druhy zpráv a poté tři speciální typy objektů: čísla, a stringy a Self, což jsou ve skutečnosti jen syntaktické zkratky pro něco, co by se jinak muselo rozepisovat. Self by existovat teoreticky nemusel, mohla by to být jen Message(&quot;self&quot;) neposlaná nikomu, ale zpřehledňuje to kód i výsledný strom.
+
+</rich_text><rich_text strikethrough="true">Komentáře?</rich_text><rich_text>
+
+Zde je ukázka složitějšího transformačního pravidla:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Na ukázce je dobře vidět, jak vzniká poslání zpráv a jak je řešeno vkládání implicitního Selfu. Pokud je identifikátor poslán zdánlivě ničemu, je aktu poslání zprávy předán jako cíl </rich_text><rich_text family="monospace">Self()</rich_text><rich_text>. Pokud je před identifikátorem nějaký výraz, je cíli poslání zprávy předán první token obsahující tento výraz (což už je naparsovaná expression, tedy prvek AST!).
+
+Podobnými pravidly je složen celý jazyk. Zde je také hezky vidět rekurzivní povaha parseru, který definuje </rich_text><rich_text style="italic">expression</rich_text><rich_text> jako identifikátor a poté také jako </rich_text><rich_text style="italic">expression</rich_text><rich_text> následované identifikátorem. Parser takhle provede rekurzivní </rich_text><rich_text style="italic">pattern matching</rich_text><rich_text> na všechny odpovídající tokeny, v samotných funkcích se pak jen definuje, co se z toho má složit za AST.
+
+Tenhle přístup má svou výhodu, protože vám dovoluje skládat AST přímo tak jak ho chcete. Předtím používaný </rich_text><rich_text family="monospace">ebnf</rich_text><rich_text> z RPythonu vypadal sice zapsán elegantněji jako jeden krásný string, ale neumožňoval žádné skoro žádné manipupace s AST a vyplivl vám strom z tokenů, který bylo dále třeba zpracovávat. I když to bylo na vyšší úrovni, než samotné pole tokenů, stejně to byl masivní opruz. Oproti tomu přímý přístup k datům v rply vám umožňuje vygenerovat rovnou hotový a upravený AST.
+
+Nikdy dřív jsem nepsal EBNF parser a musím říct, že to pro mě bylo docela utrpení. Naučit se přemýšlet v rekurzivně skládaných definicích mi dalo zabrat, a to ani nemluvím o tom, že jsem pro Self nenašel žádnou EBNF definici, takže jsem si jí podle manuálu +- skládal sám.
+
+Nakonec se však povedlo a kód prošel všemi testy, které jsem pro něj napsal. Myslel jsem si, že tím to pro mě končí, ale jak se ukázalo, byl to jen začátek další parsovací bolesti, tentokrát se týkající snahy kód upravit tak, aby šel přeložit RPythonem.</rich_text><codebox char_offset="331" frame_height="50" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">(| asd = 1 | ^asd.)</codebox><codebox char_offset="356" frame_height="275" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">[
+  Token(&quot;OBJ_START&quot;, &quot;(&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;ASSIGNMENT&quot;, &quot;=&quot;),
+  Token(&quot;NUMBER&quot;, &quot;1&quot;),
+  Token(&quot;SEPARATOR&quot;, &quot;|&quot;),
+  Token(&quot;RETURN&quot;, &quot;^&quot;),
+  Token(&quot;IDENTIFIER&quot;, &quot;asd&quot;),
+  Token(&quot;OBJ_END&quot;, &quot;)&quot;)
+]</codebox><codebox char_offset="588" frame_height="245" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">Object(
+  slots={&quot;asd&quot;: Number(1)},
+  params=[],
+  code=[
+    Return(
+      Send(Self(), Message(&quot;asd&quot;))
+    )
+  ],
+)</codebox><codebox char_offset="772" frame_height="740" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">IGNORE: &quot; |\n&quot;;
+
+root: (expression [&quot;\.&quot;])* expression;
+
+object: [&quot;(&quot;] slots? sends* [&quot;)&quot;];
+block: [&quot;[&quot;] slots? sends* [&quot;]&quot;];
+
+return: [&quot;^&quot;] expression;
+expression: IDENTIFIER | value | object | block | send;
+
+#sends: (send [&quot;\.&quot;])* send [&quot;\.&quot;]?;
+sends: (expression [&quot;\.&quot;])* expression [&quot;\.&quot;]?;
+send: (receiver? keyword) | (receiver? message) | (receiver? receiver? operator receiver);
+receiver: IDENTIFIER | object | block;
+message: IDENTIFIER;
+keyword: FIRST_KW_IDENTIFIER &gt;expression&lt; (KEYWORD_IDENTIFIER &gt;expression&lt;)*;
+operator: operator_characters+;
+operator_characters: &quot;!&quot; | &quot;@&quot; | &quot;#&quot; | &quot;$&quot; | &quot;%&quot; | &quot;&amp;&quot; | &quot;*&quot; | &quot;-&quot; | &quot;+&quot; | \
+                     &quot;=&quot; | &quot;~&quot; | &quot;/&quot; | &quot;?&quot; | &quot;&lt;&quot; | &quot;&gt;&quot; | &quot;,&quot; | &quot;;&quot;;
+
+slots: [&quot;|&quot;] (&gt;slot_definition&lt; [&quot;\.&quot;])* &gt;slot_definition&lt;? [&quot;\.&quot;]? [&quot;|&quot;];
+slot_definition: IDENTIFIER | (FIRST_KW_IDENTIFIER &gt;expression&lt;) | ARGUMENT;
+
+value: &lt;string&gt; | &lt;float&gt; | &lt;integer&gt;;
+
+float: integer &quot;\.&quot; POSINT;
+integer: &quot;\-&quot; POSINT | POSINT;
+
+POSINT: &quot;0|[1-9][0-9]*&quot;;
+
+ARGUMENT: &quot;:[a-z_][a-zA-Z0-9_\*]*&quot;;
+IDENTIFIER: &quot;[a-z_][a-zA-Z0-9_\*]*&quot;;
+FIRST_KW_IDENTIFIER: &quot;[a-z_][a-zA-Z0-9_]*:&quot;;
+KEYWORD_IDENTIFIER: &quot;[A-Z][a-zA-Z0-9_]*:&quot;;
+
+string: SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING;
+SINGLE_QUOTED_STRING: &quot;'[^\\\']*'&quot;;
+DOUBLE_QUOTED_STRING: &quot;\\&quot;[^\\\\&quot;]*\\&quot;&quot;;</codebox><codebox char_offset="1642" frame_height="95" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">@pg.production('expression : NUMBER')
+def expression_number(p):
+    return Number(int(p[0].getstr()))</codebox><codebox char_offset="2722" frame_height="200" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">@pg.production('expression : IDENTIFIER')
+def unary_message(p):
+    return Send(obj=Self(), msg=Message(p[0].getstr()))
+
+@pg.production('expression : expression IDENTIFIER')
+def unary_message_to_expression(p):
+    return Send(obj=p[0], msg=Message(p[1].getstr()))</codebox></node></cherrytree>

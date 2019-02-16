@@ -1,0 +1,172 @@
+package rply {
+    class BaseBox {
+    }
+}
+
+
+class Root {
+    .ast : list
+    ---
+    .compile()
+    .__str__()
+}
+
+class Self {
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Nil {
+    --
+    .compile()
+    .__str__()
+}
+
+class Object {
+    .slots : OrderedDict
+    .params : list
+    .code : list
+    .parents : OrderedDict
+    --
+    ._add_slot_to_bytecode()
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Block {
+    --
+    .compile()
+}
+
+class Number {
+    .value : int
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class String {
+    .value : str
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class MessageBase {
+    .true_name : str
+    .name : str
+    .parent_name : str
+    --
+    .is_resend : property
+}
+
+class Message {
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class KeywordMessage {
+    .parameters : list
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class BinaryMessage {
+    .name : str
+    .parameter : BaseBox
+    --
+    .is_resend : property
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Send {
+    .obj : Object
+    .msg : Message
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class ReSend {
+    .parent_name : str
+    .msg : Message
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Cascade {
+    .obj : Object
+    .msgs : list(Message)
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Return {
+    .value : Object
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class AssignmentPrimitive {
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+    .__str__()
+}
+
+class Comment {
+    .msg : str
+    --
+    .compile()
+    .__eq__()
+    .__ne__()
+}
+
+
+Root -u-|> BaseBox
+Self -u-|> BaseBox
+Nil -u-|> Self
+Object -u-|> BaseBox
+Block -u-|> Object
+Number -u-|> BaseBox
+String -u-|> BaseBox
+MessageBase -u-|> BaseBox
+Message -u-|> MessageBase
+KeywordMessage -u-|> MessageBase
+BinaryMessage -u-|> BaseBox
+Send -u-|> BaseBox
+ReSend -u-|> BaseBox
+Cascade -u-|> BaseBox
+Return -u-|> BaseBox
+AssignmentPrimitive -u-|> BaseBox
+Comment -u-|> BaseBox
