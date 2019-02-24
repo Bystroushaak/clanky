@@ -1,0 +1,143 @@
+<?xml version="1.0" ?><cherrytree><node custom_icon_id="1" foreground="" is_bold="False" name="Jak se píše programovací jazyk 3.5: RPython" prog_lang="custom-colors" readonly="False" tags="" ts_creation="1518701675.83" ts_lastsave="1540069856.46" unique_id="591"><rich_text>Parser parsuje, testy procházejí a svítí zeleně. Co víc si přát. Snad jen .. Ve všech možných článcích psali, že je dobré provádět časté testy, zda jde kód přeložit RPythonem. Během psaní parseru to nemělo smysl, protože parser je obtížně dělitelný kus a moje soustředění mířilo směrem k projití unittesty. Řešit u toho ještě datové typy a všechna omezení RPythonu mi přišlo jako zbytečný masochismus, který by mohl způsobit, že projekt nikdy nedodělám.
+
+Normální unittesty pouštím scriptem </rich_text><rich_text family="monospace">run_tests.sh</rich_text><rich_text>, který obsahuje následující kód:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Ten je následně pouštěn scriptem </rich_text><rich_text link="webs https://github.com/joh/when-changed">when-changed</rich_text><rich_text>, jenž detekuje změny na disku a při každé úpravě zdrojových kódů pustí testy:
+ 
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+</rich_text><rich_text foreground="#ffff00000000">--screenshot passing_tests.png--</rich_text><rich_text>
+
+</rich_text><rich_text scale="h2">RPython testy</rich_text><rich_text>
+RPython takto pouštět nemůžu, neboť se nejedná o unittesty, ale spíš test kompilace trvající na mém domácím počítači klidně desítky vteřin, a na notebooku i minuty.
+
+Pro RPython jsem si napsal následující scriptík </rich_text><rich_text family="monospace">run_rpython_test.sh</rich_text><rich_text>:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+</rich_text><rich_text scale="h3">Pypy</rich_text><rich_text>
+Jak je možné vidět, ten předpokládá, že v adresáři </rich_text><rich_text family="monospace">$HOME/Plocha/tests</rich_text><rich_text> je naklonovaný repozitář projektu </rich_text><rich_text link="webs https://bitbucket.org/pypy/pypy">pypy</rich_text><rich_text>. To je možné udělat například příkazem:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+ve složce </rich_text><rich_text family="monospace">$HOME/Plocha/tests</rich_text><rich_text>.
+
+Repozitář je možné zkompilovat a zajistit si tak nejnovější verzi pypy. Osobně to tak ale nedělám, protože to trvá dlouho, nejnovější revize repozitáře typicky obsahuje bugy a navíc kompilace má spoustu závislostí. Proto používám pypy z repozitáře (</rich_text><rich_text family="monospace">sudo apt install pypy</rich_text><rich_text>) a využívám jen nejnovější </rich_text><rich_text style="italic">RPython toolkit</rich_text><rich_text>, který je s pypy distribuovaný.
+
+Jakmile mám pypy nainstalované, stáhnu si ještě PIP (python package manager) pro pypy (standardní funguje jen pro cpython): 
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Poté do pypy doinstaluji nejnovější verzi parsovacího balíku </rich_text><rich_text link="webs https://github.com/alex/rply">rply</rich_text><rich_text>:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+V repozitáři debian based systémů se nachází balík pypy-rply, který ale nedoporučuji používat, protože může být zastaralý vůči PIPu (v době psaní článku je v debian repozitáři verze 0.7.4-3 a v pipu 0.7.5).
+
+</rich_text><rich_text scale="h3">První puštění testů</rich_text><rich_text>
+První puštění testů samozřejmě neprojde.
+
+</rich_text><rich_text foreground="#ffff00000000">--screenshot rpython_first_fail.png--</rich_text><rich_text>
+
+Žádné překvapení. Jak jsem psal, RPython používá silně omezenou verzi pythonu a můj kód nijak nešetří </rich_text><rich_text style="italic">list comprehensionama</rich_text><rich_text>, </rich_text><rich_text style="italic">closures</rich_text><rich_text> a dalšími „vysokoúrovňovými“ konstrukty.
+
+Kód je nyní zapotřebí </rich_text><rich_text style="italic">„zhloupit“</rich_text><rich_text> a přidat typové hinty, které RPythonu pomohou anotovat </rich_text><rich_text style="italic">flow graph</rich_text><rich_text> v místech, kde si je nedokáže odvodit sám.
+
+</rich_text><rich_text scale="h2">Redukce na RPython</rich_text><rich_text>
+Nyní musím vzít dynamický a relativně vyskoúrovňový python a převést ho na typovaný kód, který by se psal například v javě. To vše čistě v syntaxi pythonu.
+
+Část omezení je popsána v oficiální dokumentaci:
+
+• </rich_text><rich_text link="webs http://rpython.readthedocs.io/en/latest/rpython.html">http://rpython.readthedocs.io/en/latest/rpython.html</rich_text><rich_text>
+
+Mnohem lepší představu však dává článek
+
+• </rich_text><rich_text link="webs https://refi64.com/posts/the-magic-of-rpython.html">The Magic of RPython</rich_text><rich_text> </rich_text><rich_text scale="sup">(</rich_text><rich_text link="webs http://web.archive.org/web/20180317140809/https://refi64.com/posts/the-magic-of-rpython.html" scale="sup">webarchive</rich_text><rich_text scale="sup">)</rich_text><rich_text>
+
+Mezi významná omezení patří například omezení proměnných pouze na jeden datový typ v daném scope. To znamená, že do nich nemůžete přiřadit hodnotu s jiným datovým typem, jakmile je jednou použijete. Seznamy musí být celé tvořeny z jednoho datového typu. Closures nefungují vůbec. List comprehensions fungují, ale ne úplně tak jak by člověk čekal. Generátory jsou více/méně podporovány, ale nejdou s nimi dělat různé psí kusy.
+
+Otravně omezující je nutnost všech funkcí v parseru vracet stejný datový typ, resp. třídu odvozenou od stejného datového typu. </rich_text><rich_text family="monospace">rply</rich_text><rich_text> k tomu nabízí </rich_text><rich_text link="webs https://github.com/alex/rply/blob/master/rply/token.py#L1">rply.token.BaseBox</rich_text><rich_text>, od které musí být poděděny všechny AST prvky. Navíc je však ale třeba přepsat i všechny parsovací funkce tak, aby nevracely </rich_text><rich_text family="monospace">list</rich_text><rich_text>, </rich_text><rich_text family="monospace">dict</rich_text><rich_text>, nebo jiné nativní typy, ale datový typ odvozený od </rich_text><rich_text family="monospace">BaseBox</rich_text><rich_text>u.
+
+Proto jsem byl nucen nadefinovat třídy </rich_text><rich_text family="monospace">StrContainer</rich_text><rich_text>, </rich_text><rich_text family="monospace">DictContainer</rich_text><rich_text>, </rich_text><rich_text family="monospace">ListContainer</rich_text><rich_text> a </rich_text><rich_text family="monospace">KwSlotContainer</rich_text><rich_text>, a používat je na místech, kde jsem dříve používal prostě jen </rich_text><rich_text family="monospace">dict</rich_text><rich_text>, nebo </rich_text><rich_text family="monospace">list</rich_text><rich_text>. Původně jsem chtěl použít jen Container, který by udržoval obecný datový typ, ale ukázalo se, že na něj taky platí omezení a pro jednu instanci je možné použít jen jeden datový typ. Do třídy ve stylu:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+není možné v různých instancích uložit různé datové typy.
+
+Hezky je to vidět například na parsovací funkci </rich_text><rich_text family="monospace">kw_slot_definition()</rich_text><rich_text>, která se proměnila z
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+na
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Za povšimnutí stojí také několik použití </rich_text><rich_text family="monospace">assert isinstance(..)</rich_text><rich_text>. V prvním případě používám </rich_text><rich_text family="monospace">assert</rich_text><rich_text> tak, jak byl zamýšlen, tedy k ujištění se, že do funkce nepoleze datový typ jiný než objekt a pokud ano, tak vyhodím chybovou hlášku.
+
+Ve druhém případě </rich_text><rich_text family="monospace">assert</rich_text><rich_text> nefunguje jako příkaz pro ujištění, ale jako </rich_text><rich_text style="italic">type hint</rich_text><rich_text> (</rich_text><rich_text style="italic">typová nápověda</rich_text><rich_text>) pro RPython, který mu říká, jakého datového typu jsou dané parametry. Pokud bych ho neuvedl, došlo by v době překladu k vyhození vyjímky, která může vypadat například takto:
+
+</rich_text><rich_text justification="left"></rich_text><rich_text>
+
+Z chyby je jasně vidět, že RPython nechápe, proč se snažím u neznámého objektu přistupovat k členské proměnné </rich_text><rich_text family="monospace">params</rich_text><rich_text>.
+
+Na konci funkce pak vracím </rich_text><rich_text family="monospace">DictContainer</rich_text><rich_text> čistě jen proto, že vrácené parsované hodnoty musí být všechny stejným datovým typem, nebo jeho potomky. To je způsobeno vnitřním fungováním parseru, který jednotlivé odekorované funkce zpracovává v různých kolekcích, ve kterých nemůžou být pod RPythonem různé datové typy.
+
+Zajímavé jsou chyby </rich_text><rich_text family="monospace">Blocked block -- operation cannot succeed</rich_text><rich_text>, které mi jeden večer docela zamotaly hlavu. Nakonec jsem však prohledáním konference zjistil, že se jedná o chybu když RPython type annotator prvně vleze do metody objektu a ještě neprošel </rich_text><rich_text family="monospace">.__init__()</rich_text><rich_text> metodu. Pokud je v metodě přistoupeno k členským proměnným, tak dojde chybě, jelikož anotátor neví o tom že byly definovány. Řešení je docela prosté, stačí objekt prostě předtím někde použít, aby byla o-anotována </rich_text><rich_text family="monospace">.__init__()</rich_text><rich_text> metoda.
+
+</rich_text><rich_text scale="h2">Překlad</rich_text><rich_text>
+Výše uvedené potíže jsou jen malá část toho, s čím se člověk setká. Osobně jsem postupoval tak, že jsem celý parser až na první pravidlo a poslední parsovací funkci </rich_text><rich_text family="monospace">parse_and_lex()</rich_text><rich_text> zakomentoval a postupně převáděl jednotlivá pravidla. Tímhle postupem mi to trvalo poměrně dlouho, ale nakonec se dostavil výsledek:
+
+570kB
+
+• </rich_text><rich_text link="webs https://youtu.be/A_OhtmUH830">https://youtu.be/A_OhtmUH830</rich_text><rich_text>
+
+Příště se podíváme na návrh rozložení a reprezentace objektů v paměti před tím, než přijde na řadu psaní virtuálního stroje a kompilátoru do bytecode.</rich_text><codebox char_offset="538" frame_height="104" frame_width="1015" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="sh" width_in_pixels="True">#! /usr/bin/env bash
+export PYTHONPATH=&quot;src/:$PYTHONPATH&quot;
+
+python2 -m py.test tests $@</codebox><codebox char_offset="667" frame_height="44" frame_width="1015" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="sh" width_in_pixels="True">when-changed -s -r src/tinySelf/*.py -r tests/*.py -c ./run_tests.sh -s</codebox><codebox char_offset="954" frame_height="59" frame_width="1015" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="sh" width_in_pixels="True">#! /usr/bin/env bash
+$HOME/Plocha/tests/pypy/rpython/bin/rpython src/tinySelf/target.py</codebox><codebox char_offset="1112" frame_height="40" frame_width="700" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">hg clone https://bitbucket.org/pypy/pypy</codebox><codebox char_offset="1619" frame_height="40" frame_width="700" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">curl https://bootstrap.pypa.io/get-pip.py | sudo pypy</codebox><codebox char_offset="1690" frame_height="40" frame_width="700" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">pypy -m pip install --user rply</codebox><codebox char_offset="3853" frame_height="65" frame_width="915" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="python" width_in_pixels="True">class Container(object):
+  def __init__(self, data):
+    self.data = data</codebox><codebox char_offset="4007" frame_height="235" frame_width="895" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="python" width_in_pixels="True">@pg.production('slot_definition : kw_slot_name ASSIGNMENT expression')
+def kw_slot_definition(p):
+    assert isinstance(p[2], Object), &quot;Only objects are assignable to kw slots!&quot;
+
+    slot_name = p[0][0]
+    parameters = p[0][1]
+
+    obj = p[2]
+    obj.params.extend(parameters)
+
+    return {slot_name: obj}</codebox><codebox char_offset="4014" frame_height="250" frame_width="955" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="python" width_in_pixels="True">@pg.production('slot_definition : kw_slot_name ASSIGNMENT expression')
+def kw_slot_definition(p):
+    slot_info = p[0]
+    obj = p[2]
+
+    assert isinstance(slot_info, KwSlotContainer)
+    assert isinstance(obj, Object)
+
+    obj.params.extend(slot_info.parameters)
+
+    return DictContainer({slot_info.slot_name: obj})</codebox><codebox char_offset="4522" frame_height="460" frame_width="835" highlight_brackets="True" show_line_numbers="False" syntax_highlighting="plain-text" width_in_pixels="True">[translation:ERROR] NoSuchAttrError: 
+
+the attribute 'params' goes here to &lt;ClassDef 'rply.token.BaseBox'&gt;, but it is forbidden here
+
+
+    v0 = getattr(obj_0, ('params'))
+
+In &lt;FunctionGraph of (parser:453)kw_slot_definition at 0x55b7e3841cc8&gt;:
+Happened at file src/tinySelf/parser.py line 461
+
+        slot_info = p[0]
+        obj = p[2]
+    
+        # assert isinstance(slot_info, KwSlotContainer)
+        # assert isinstance(obj, Object)
+    
+==&gt;     obj.params.extend(slot_info.parameters)
+    
+        return DictContainer({slot_info.slot_name: obj})
+
+Known variable annotations:
+ obj_0 = SomeInstance(can_be_None=True, classdef=rply.token.</codebox></node></cherrytree>
