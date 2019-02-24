@@ -1,0 +1,154 @@
+<h1 id="jak-se-píše-programovací-jazyk-3.5-rpython">Jak se píše programovací jazyk 3.5: RPython</h1>
+<p>Parser parsuje, testy procházejí a svítí zeleně. Co víc si přát. Snad jen .. Ve všemožných článcích psali, že je dobré provádět časté testy, zda jde kód přeložit RPythonem. Během psaní parseru to nemělo smysl, protože parser je obtížně dělitelný kus a moje soustředění mířilo směrem k projití unittesty. Řešit u toho ještě datové typy a všechna omezení RPythonu mi přišlo jako zbytečný masochismus, který by mohl způsobit, že projekt nikdy nedodělám.</p>
+<p>Normální unittesty pouštím scriptem <code>run_tests.sh</code>, který obsahuje následující kód:</p>
+<pre><code>#! /usr/bin/env bash
+export PYTHONPATH=&quot;src/:$PYTHONPATH&quot;
+python2 -m py.test tests $@</code></pre>
+<p>Ten je následně pouštěn scriptem <a href="https://github.com/joh/when-changed">when-changed</a>, jenž detekuje změny na disku a při každé úpravě zdrojových kódů pustí testy:</p>
+<pre><code>when-changed -s -r src/tinySelf/*.py -r tests/*.py -c ./run_tests.sh -s</code></pre>
+<p>Parametr <code>-s</code> zachycuje stdout z testů.</p>
+<div class="figure">
+<img src="passing_tests-35de88f6-c771-41d7-bd76-86861574bc3e.png" />
+
+</div>
+<h2 id="rpython-testy">RPython testy</h2>
+<p>RPython takto pouštět nemůžu, neboť se nejedná o unittesty, ale spíš test kompilace trvající na mém domácím počítači klidně minutu.</p>
+<p>Pro RPython jsem si do začátku napsal následující scriptík <code>run_rpython_test.sh</code>:</p>
+<pre><code>#! /usr/bin/env bash
+$HOME/Plocha/tests/pypy/rpython/bin/rpython src/tinySelf/target.py</code></pre>
+<h3 id="pypy">Pypy</h3>
+<p>Jak je možné vidět, ten předpokládá, že v adresáři <code>$HOME/Plocha/tests</code> je naklonovaný repozitář projektu <a href="https://bitbucket.org/pypy/pypy">pypy</a>. To je možné udělat například příkazem:</p>
+<pre><code>hg clone https://bitbucket.org/pypy/pypy</code></pre>
+<p>ve složce <code>$HOME/Plocha/tests</code>.</p>
+<p>Repozitář je možné zkompilovat a zajistit si tak nejnovější verzi pypy. Osobně to tak ale nedělám, protože to trvá dlouho, nejnovější revize repozitáře typicky obsahuje bugy a navíc kompilace má spoustu závislostí. Proto používám pypy z repozitáře (<code>sudo apt install pypy</code>) a využívám jen nejnovější <em>RPython toolkit</em>, který je s pypy distribuovaný.</p>
+<p>Jakmile mám pypy nainstalované, stáhnu si ještě PIP (python package manager) pro pypy (standardní funguje jen pro cpython):</p>
+<pre><code>curl https://bootstrap.pypa.io/get-pip.py | sudo pypy</code></pre>
+<p>Poté do pypy doinstaluji nejnovější verzi parsovacího balíku <a href="https://github.com/alex/rply">rply</a>:</p>
+<pre><code>pypy -m pip install --user rply</code></pre>
+<p>V repozitáři debian based systémů se nachází balík pypy-rply, který ale nedoporučuji používat, protože může být zastaralý vůči PIPu (v době psaní článku je v debian repozitáři verze 0.7.4-3 a v pipu 0.7.5).</p>
+<h1 id="target.py">target.py</h1>
+<p>Pouštěný script <code>[target.py](http://target.py)</code> definuje vstupní kompilační bod. V něm musí být minimálně dvě funkce - <code>target()</code> a poté funkce která slouží jako vstupní bod spuštěného programu. V podstatě se jedná o takové <code>meta-main()</code> známé z C jazyků, tedy funkci určující funkci main. Mám pocit, že na linuxu se k tomu pod libc <a href="https://stackoverflow.com/questions/15919356/c-program-start">běžně používá</a> __start.</p>
+<p>Obsah funkce <code>target()</code> se spouští v době překladu a proto je možné v něm provádět různé meta-programování, například volat funkce, které vygenerují funkce, které jsou poté zkompilovány.</p>
+<p>Osobně jsem do začátku použil jen nejjednodušší target.py:</p>
+<pre><code>#! /usr/bin/env python2
+# -*- coding: utf-8 -*-
+from rpython.jit.codewriter.policy import JitPolicy
+from parser import lex_and_parse
+
+
+def main(argv):
+    print lex_and_parse(&quot;1&quot;)
+    return 1
+
+
+def target(driver, args):
+    return main, None
+
+
+def jitpolicy(driver):
+    return JitPolicy()
+
+
+def untranslated_main():
+    import sys
+    sys.exit(main(sys.argv))
+
+
+if __name__ == &#39;__main__&#39;:
+    untranslated_main()</code></pre>
+<p>Jak je vidět, jen se pustí funkce <code>lex_and_parse(&quot;1&quot;)</code>, tedy pokus o zparsování zdrojového kódu obsahujícího jen číslo jedna.</p>
+<p>Pokud by vás zajímal princip fungování překladu na C kód, tak znovu doporučuji následující odkazy:</p>
+<ul>
+<li><a href="https://www.root.cz/clanky/rpython-prekvapive-vykonny-dialekt-pythonu-na-nemz-je-zalozen-pypy/">RPython: překvapivě výkonný dialekt Pythonu, na němž je založen PyPy</a></li>
+<li><a href="https://rpython.readthedocs.io/en/latest/translation.html">The RPython Toolchain</a></li>
+</ul>
+<p>Hezky to celé shrnuje následující graf:</p>
+<div class="figure">
+<img src="https://rpython.readthedocs.io/en/latest/_images/translation-detail-0.9.png" />
+
+</div>
+<p>Ve zkratce je vytvořen <em>flow graf</em> kódu, který je poté projit analyzátorem datových typů, jenž se snaží jednotlivým elementům přiřadit statické datové typy. Pokud se podaří, jsou aplikovány optimizace, případně přidán JIT, vyplivnut C kód a celé je to zkompilováno pomocí normálního C kompilátoru.</p>
+<p>To že jde o <em>flow graf</em> ovšem znamená, že části kódu, které nejsou volány nejsou překládány. Celé je možné si to představit jako kompilaci AST, i když ve skutečnosti se kód prvně kompiluje do pythonního bytecode a teprve ten se poté analyzuje a z něj se staví <a href="https://en.wikipedia.org/wiki/Control_flow_graph">control flow graph</a>.</p>
+<p>Prakticky to znamená, že pokud máte v objektu metodu, kterou nejde přeložit, tak na to nepřijdete, dokud v kódu nebude někde místo, odkud se volá. Do té doby vůbec není součástí <em>flow grafu</em>.</p>
+<h1 id="první-puštění-testů">První puštění testů</h1>
+<p>První puštění testů mi samozřejmě neprošlo:</p>
+<div class="figure">
+<img src="rpython_first_fail-cc372ca9-a665-43dc-897b-bd6c2968048e.png" />
+
+</div>
+<p>Žádné překvapení. Jak jsem psal, RPython používá silně omezenou verzi pythonu a můj kód nijak nešetří <em>list comprehensionama</em>, <em>closures</em> a dalšími „vysokoúrovňovými“ konstrukty.</p>
+<p>Kód je nyní zapotřebí <em>„zhloupit“</em> a přidat typové hinty, které RPythonu pomohou anotovat <em>flow graph</em> v místech, kde si je nedokáže odvodit sám.</p>
+<h2 id="redukce-na-rpython">Redukce na RPython</h2>
+<p>Nyní musím vzít dynamický a relativně vyskoúrovňový python a převést ho na staticky typovaný kód, který by se psal podobně jako třeba v Javě. To vše čistě v syntaxi pythonu.</p>
+<p>Část omezení je popsána v oficiální dokumentaci:</p>
+<ul>
+<li><a href="http://rpython.readthedocs.io/en/latest/rpython.html">RPython Language</a></li>
+</ul>
+<p>Mnohem lepší představu však dává článek</p>
+<ul>
+<li><a href="https://refi64.com/posts/the-magic-of-rpython.html">The Magic of RPython</a> (<a href="http://web.archive.org/web/20180317140809/https://refi64.com/posts/the-magic-of-rpython.html">webarchive</a>)</li>
+</ul>
+<p>Mezi významná omezení patří například omezení proměnných pouze na jeden datový typ v daném <em>scope</em>. To znamená, že do nich nemůžete přiřadit hodnotu s jiným datovým typem, jakmile je jednou použijete. Seznamy musí být celé tvořeny z jednoho datového typu. Closures nefungují vůbec. List comprehensions fungují, ale ne úplně tak jak by člověk čekal. Generátory jsou více/méně podporovány, ale nejdou s nimi dělat různé psí kusy, jako třeba kompozice.</p>
+<p>Otravně omezující je nutnost všech funkcí v parseru vracet stejný datový typ, resp. třídu odvozenou od stejného datového typu. <code>rply</code> k tomu nabízí <a href="https://github.com/alex/rply/blob/master/rply/token.py#L1">rply.token.BaseBox</a>, od které musí být poděděny všechny AST prvky. Navíc je však ale třeba přepsat i všechny parsovací funkce tak, aby nevracely <code>list</code>, <code>dict</code>, nebo jiné nativní typy, ale datový typ odvozený od <code>BaseBox</code>u.</p>
+<p>Proto jsem byl nucen nadefinovat třídy <code>StrContainer</code>, <code>DictContainer</code>, <code>ListContainer</code> a <code>KwSlotContainer</code>, a používat je na místech, kde jsem dříve používal prostě jen <code>dict</code>, nebo <code>list</code>. Původně jsem chtěl použít jen Container, který by udržoval obecný datový typ, ale ukázalo se, že na něj taky platí omezení a pro jednu instanci je možné použít jen jeden datový typ. Do třídy ve stylu:</p>
+<pre><code>class Container(object):
+  def __init__(self, data):
+    self.data = data</code></pre>
+<p>není možné v různých instancích uložit různé datové typy. To je pro mě jakožto dlouhodobého programátora v pythonu docela nezvyk.</p>
+<p>Hezky je to vidět například na parsovací funkci <code>kw_slot_definition()</code>, která se proměnila z</p>
+<pre><code>@pg.production(&#39;slot_definition : kw_slot_name ASSIGNMENT expression&#39;)
+def kw_slot_definition(p):
+    assert isinstance(p[2], Object), &quot;Only objects are assignable to kw slots!&quot;
+
+    slot_name = p[0][0]
+    parameters = p[0][1]
+
+    obj = p[2]
+    obj.params.extend(parameters)
+
+    return {slot_name: obj}</code></pre>
+<p>na</p>
+<pre><code>@pg.production(&#39;slot_definition : kw_slot_name ASSIGNMENT expression&#39;)
+def kw_slot_definition(p):
+    slot_info = p[0]
+    obj = p[2]
+
+    assert isinstance(slot_info, KwSlotContainer)
+    assert isinstance(obj, Object)
+
+    obj.params.extend(slot_info.parameters)
+
+    return DictContainer({slot_info.slot_name: obj})</code></pre>
+<p>Za povšimnutí stojí také několik použití <code>assert isinstance(..)</code>. V prvním případě používám <code>assert</code> tak, jak byl zamýšlen, tedy k ujištění se, že do funkce nepoleze datový typ jiný než objekt a pokud ano, tak vyhodím chybovou hlášku.</p>
+<p>Ve druhém případě <code>assert</code> nefunguje jako příkaz pro ujištění, ale jako <em>type hint</em> (<em>typová nápověda</em>) pro RPython, který mu říká, jakého datového typu jsou dané parametry. Pokud bych ho neuvedl, došlo by v době překladu k vyhození výjimky, která může vypadat například takto:</p>
+<pre><code>[translation:ERROR] NoSuchAttrError: 
+
+the attribute &#39;params&#39; goes here to &lt;ClassDef &#39;rply.token.BaseBox&#39;&gt;, but it is forbidden here
+
+
+    v0 = getattr(obj_0, (&#39;params&#39;))
+
+In &lt;FunctionGraph of (parser:453)kw_slot_definition at 0x55b7e3841cc8&gt;:
+Happened at file src/tinySelf/parser.py line 461
+
+        slot_info = p[0]
+        obj = p[2]
+    
+        # assert isinstance(slot_info, KwSlotContainer)
+        # assert isinstance(obj, Object)
+    
+==&gt;     obj.params.extend(slot_info.parameters)
+    
+        return DictContainer({slot_info.slot_name: obj})</code></pre>
+<p>Z chyby je jasně vidět, že RPython nechápe, proč se snažím u neznámého objektu přistupovat k členské proměnné <code>params</code>.</p>
+<p>Na konci funkce pak vracím <code>DictContainer</code> čistě jen proto, že vrácené parsované hodnoty musí být všechny stejným datovým typem, nebo jeho potomky. To je způsobeno vnitřním fungováním parseru, který jednotlivé odekorované funkce zpracovává v různých kolekcích, ve kterých nemůžou být pod RPythonem různé datové typy.</p>
+<p>Zajímavé jsou chyby <code>Blocked block -- operation cannot succeed</code>, které mi jeden večer docela zamotaly hlavu. Nakonec jsem však prohledáním konference zjistil, že se jedná o chybu když RPython type annotator prvně vleze do metody objektu a ještě neprošel <code>.__init__()</code> metodu. Pokud je v metodě přistoupeno k členským proměnným, tak dojde chybě, jelikož anotátor neví o tom že byly definovány. Řešení je docela prosté, stačí objekt prostě předtím někde použít, aby byla o-anotována <code>.__init__()</code> metoda.</p>
+<h2 id="překlad">Překlad</h2>
+<p>Výše uvedené potíže jsou jen malá část toho, s čím se člověk setká. Osobně jsem postupoval tak, že jsem celý parser až na první pravidlo a poslední parsovací funkci <code>parse_and_lex()</code> zakomentoval a postupně převáděl jednotlivá pravidla. Tímhle postupem mi to trvalo poměrně dlouho, ale nakonec se dostavil výsledek:</p>
+<div class="figure">
+<img src="compilation-92d6198a-c70f-4abe-b738-0b9ac7879c43.gif" />
+
+</div>
+<p><em>(Kompilační fraktály v původní kvalitě: <a href="https://youtu.be/A_OhtmUH830" class="uri">https://youtu.be/A_OhtmUH830</a>)</em></p>
+<h1 id="pokračování">Pokračování</h1>
+<p>Příště se podíváme na návrh rozložení a reprezentace objektů v paměti před tím, než přijde na řadu psaní virtuálního stroje a kompilátoru do bytecode.</p>
