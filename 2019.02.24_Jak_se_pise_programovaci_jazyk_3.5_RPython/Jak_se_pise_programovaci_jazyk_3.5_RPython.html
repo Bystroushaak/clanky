@@ -1,28 +1,21 @@
-<HTML>
-<head>
-    <title>Jak se píše programovací jazyk 3.5: RPython</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
-
 <p>Parser parsuje, testy procházejí a svítí zeleně. Co víc si přát. Snad jen .. Ve všemožných článcích psali, že je dobré provádět časté testy, zda jde kód přeložit RPythonem. Během psaní parseru to nemělo smysl, protože parser je obtížně dělitelný kus a moje soustředění mířilo směrem k projití unittesty. Řešit u toho ještě datové typy a všechna omezení RPythonu mi přišlo jako zbytečný masochismus, který by mohl způsobit, že projekt nikdy nedodělám.</p>
 
-<!-- break -->
+<!--break-->
 
 <p>Normální unittesty pouštím scriptem <code>run_tests.sh</code>, který obsahuje následující kód:</p>
 
-<pre class="brush: sh">#! /usr/bin/env bash
+<pre class="brush: bash">#! /usr/bin/env bash
 export PYTHONPATH=&quot;src/:$PYTHONPATH&quot;
 python2 -m py.test tests $@</pre>
 
 <p>Ten je následně pouštěn scriptem <a href="https://github.com/joh/when-changed">when-changed</a>, jenž detekuje změny na disku a při každé úpravě zdrojových kódů pustí testy:</p>
 
-<pre class="brush: sh">when-changed -s -r src/tinySelf/*.py -r tests/*.py -c ./run_tests.sh -s</pre>
+<pre class="brush: bash">when-changed -s -r src/tinySelf/*.py -r tests/*.py -c ./run_tests.sh -s</pre>
 
 <p>Parametr <code>-s</code> zachycuje stdout z testů.</p>
 
 <p>
-  <img src="passing_tests.png" />
+  <img src="/images/screenshots/6/9/236896-jak-se-pise-programovaci-jazyk-3-5-rpython-5432967667200944981.png" />
 </p>
 
 <h2>RPython testy</h2>
@@ -104,7 +97,7 @@ if __name__ == &#39;__main__&#39;:
 
 <p>
 
-  <a href="https://rpython.readthedocs.io/en/latest/_images/translation-detail-0.9.png"><img src="translation-detail-0.9.png" /></a>
+  <a href="https://rpython.readthedocs.io/en/latest/_images/translation-detail-0.9.png"><img src="/images/screenshots/6/9/236896-jak-se-pise-programovaci-jazyk-3-5-rpython-1074418730909232327.png" /></a>
 
 </p>
 
@@ -118,7 +111,7 @@ if __name__ == &#39;__main__&#39;:
 
 <p>První puštění testů mi samozřejmě neprošlo:</p>
 
-<p><img src="rpython_first_fail.png" /></p>
+<p><img src="/images/screenshots/6/9/236896-jak-se-pise-programovaci-jazyk-3-5-rpython-4118443037413695605.png" /></p>
 
 <p>Žádné překvapení. Jak jsem psal, RPython používá silně omezenou verzi pythonu a můj kód nijak nešetří <em>list comprehensionama</em>, <em>closures</em> a dalšími „vysokoúrovňovými“ konstrukty.</p>
 
@@ -221,6 +214,3 @@ Happened at file src/tinySelf/parser.py line 461
 <h1>Pokračování</h1>
 
 <p>Příště se podíváme na návrh rozložení a reprezentace objektů v paměti před tím, než přijde na řadu psaní virtuálního stroje a kompilátoru do bytecode.</p>
-
-</body>
-</HTML>
