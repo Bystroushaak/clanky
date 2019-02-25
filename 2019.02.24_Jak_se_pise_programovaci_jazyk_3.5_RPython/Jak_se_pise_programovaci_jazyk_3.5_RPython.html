@@ -49,7 +49,7 @@ $HOME/Plocha/tests/pypy/rpython/bin/rpython src/tinySelf/target.py</pre>
 
 <h1>target.py</h1>
 
-<p>Pouštěný script <code>[target.py](http://target.py)</code> definuje vstupní kompilační bod. V něm musí být minimálně dvě funkce - <code>target()</code> a poté funkce která slouží jako vstupní bod spuštěného programu. V podstatě se jedná o takové <code>meta-main()</code> známé z C jazyků, tedy funkci určující funkci main. Mám pocit, že na linuxu se k tomu pod libc <a href="https://stackoverflow.com/questions/15919356/c-program-start">běžně používá</a> __start.</p>
+<p>Pouštěný script <code>target.py</code> definuje vstupní kompilační bod. V něm musí být minimálně dvě funkce - <code>target()</code> a poté funkce která slouží jako vstupní bod spuštěného programu. V podstatě se jedná o takové <code>meta-main()</code> známé z C jazyků, tedy funkci určující funkci main. Mám pocit, že na linuxu se k tomu pod libc <a href="https://stackoverflow.com/questions/15919356/c-program-start">běžně používá</a> <code>__start</code>.</p>
 
 <p>Obsah funkce <code>target()</code> se spouští v době překladu a proto je možné v něm provádět různé meta-programování, například volat funkce, které vygenerují funkce, které jsou poté zkompilovány.</p>
 
