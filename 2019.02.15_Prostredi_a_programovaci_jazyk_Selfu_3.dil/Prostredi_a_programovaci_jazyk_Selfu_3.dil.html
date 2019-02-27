@@ -2,6 +2,15 @@
 
 <!--break-->
 
+<h1>Obsah seriálu</h1>
+
+<ol>
+    <li><a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-prvni-prostredi">Prostředí</a></li>
+    <li><a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-druhy-jazyk">Jazyk</a></li>
+    <li>Debugger, transporter a problémy</li>
+    <li><a href="/blog/bystroushaak/2019/2/prostredi-a-programovaci-jazyk-selfu-dil-ctvrty">Komunita, historie, budoucnost a metafyzika</a></li>
+</ol>
+
 <h1>Z hlediska uživatelského použití transporteru</h1>
 <p>Nebudu se věnovat tomu, jak přesně transporter funguje, to je možné vyčíst například z paperu <a href="http://bibliography.selflanguage.org/gold.html">Sifting Out the Gold: Delivering Compact Applications From an Exploratory Object-Oriented Environment</a>. Zaměřím se spíš na uživatelskou stránku, tak jak je ukázána ve videu na stránce <a href="https://bluishcoder.co.nz/2015/11/19/exporting-self-objects-to-source-files-via-transporter.html">https://bluishcoder.co.nz/2015/11/19/exporting-self-objects-to-source-files-via-transporter.html</a>.</p>
 <p>Obrázkově je tahle podkapitola hrozně dlouhá, proto chci předem říct, že ve skutečnosti se neděje nic moc komplikovaného. Vytvořím anonymní objekt. Přidám ho v transporteru do nového modulu. Pak vytvořím slot v globální hierarchii, uložím do něj tento objekt a taky ho přidám do již vytvořeného modulu. Potom řeknu anotací transporteru, aby slot nenastavoval na defaultní hodnotu, ale „sledoval“ objekt co je v něm uložený. Pak všechno uložím na disk skrz dialog transporteru.</p>
