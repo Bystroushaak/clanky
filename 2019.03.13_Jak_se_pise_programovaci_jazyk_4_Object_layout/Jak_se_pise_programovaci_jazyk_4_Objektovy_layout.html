@@ -34,9 +34,11 @@ obj.keyword:Message:(anotherObj, evenMoreObjs)</pre>
     <pre>class Object:
     def __init__(self):
         self.slots = {}
-        self.parameters = []
         self.parents = {}
-        self.code = None</pre>
+
+        self.scope_parent = None
+        self.primitive_code = None
+        self.parameters = []</pre>
 
     <p>Tedy <code>Objekt</code> může obsahovat sloty jako hashmapu, seznam přijímaných parametrů jako pole, slovník odkazů na rodiče a kód, což je zase jiný objekt, něco jako pole zpráv, které se postupně zasílají.</p>
     <p>Od začátku jsem chtěl, aby sloty byly uloženy se zachováním pořadí v <code>OrderedDictu</code>, místo v klasické hashmapě. To není tak moc podstatné, pro samotný programovací jazyk, jako pro jeho využití k ukládání strukturovaných informací. Díky tomu je možné do stromové struktury například 1:1 konvertovat XML s poměrně malým <em>overheadem</em>.</p>
@@ -49,22 +51,27 @@ obj.keyword:Message:(anotherObj, evenMoreObjs)</pre>
 class Object:
     def __init__(self, map=None):
         self.map = map
-        self.slot_references = []
+        self.scope_parent = None
+        self._slot_values = []
+        self._parent_slot_values = []
 
     def clone(self):
         o = Object(self.map)
-        o.slot_values = self.values[:]
+        o.map = self.map
+        o.scope_parent = self.scope_parent
+        o._slot_values = self._slot_values[:]
+        o._parent_slot_values = self._parent_slot_values[:]
 
         return o
 
 
 class Map:
     def __init__(self):
-        self.slots = OrderedDict()
+        self._slots = OrderedDict()
+        self._parent_slotss = OrderedDict()
 
-        self.parameters = []
-        self.parents = {}
-        self.code = None</pre>
+        self.primitive_code = None
+        self.parameters = []</pre>
 
     <p>V jakémsi pseudoUML to vypadá takto:</p>
     <p>
