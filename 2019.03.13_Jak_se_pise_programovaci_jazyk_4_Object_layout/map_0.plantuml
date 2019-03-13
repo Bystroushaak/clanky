@@ -1,0 +1,30 @@
+class map as "ObjectMap <i>id:2000</i>" {
+    {field}._slots : {
+    {field}\t'a': 0,
+    {field}\t'a:': 1,
+    {field}\t'value': 2
+    {field}}
+    {field}._parent_slots : {
+    {field}\t'p*': 0
+    {field}}
+    .primitive_code : None
+    .parameters : [ ]
+}
+
+class obj as "Object <i>id:100</i>" {
+!definelong OBJ_CONTENT()
+    {field}.map : ObjectMap(id:2000)
+    {field}.scope_parent : None
+    {field}._slot_values : [
+    {field}\tPrimitiveIntObject(1),
+    {field}\tObject(id:50),
+    {field}\tPrimitiveIntObject(2)
+    {field}]
+    {field}._parent_slot_values : [
+    {field}\tObject(id:99)
+    {field}]
+!enddefinelong
+OBJ_CONTENT()
+}
+
+obj -u-> map: use

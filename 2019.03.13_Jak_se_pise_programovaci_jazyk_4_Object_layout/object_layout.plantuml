@@ -1,0 +1,83 @@
+class _BareObject {
+    .map : ObjectMap
+    .scope_parent : Object
+    .visited : bool
+    ._parent_slot_values : list
+    ._slot_values : list
+    ._local_lookups : int
+    --Properties--
+    .has_code : bool <i>(r)</i>
+    .has_primitive_code : bool <i>(r)</i>
+    .is_assignment_primitive : bool <i>(r)</i>
+    --Methods--
+    .set_slot()
+    .get_slot()
+    .parent_lookup()
+    .slot_lookup()
+    ._local_cache_counter()
+    .clone()
+    .__str__()
+}
+
+class _ObjectWithMapEncapsulation {
+    --Properties--
+    .slot_keys : iterator <i>(r)</i>
+    .parent_slot_keys : iterator <i>(r)</i>
+    .expensive_parent_slots : dict <i>(r)</i>
+    .is_block : bool <i>(rw)</i>
+    .parameters : bool <i>(rw)</i>
+    .ast : Ast object <i>(rw)</i>
+    .code_context : CodeContext <i>(rw)</i>
+    .primitive_code : native code <i>(r)</i>
+    .primitive_code_self : Object <i>(r)</i>
+    .has_slots : bool <i>(r)</i>
+    .has_parents : bool <i>(r)</i>
+}
+
+class _ObjectWithMetaOperations {
+    --Methods--
+    ._clone_map_if_used_by_multiple_objects()
+    .meta_add_slot()
+    .meta_remove_slot()
+    .meta_insert_slot()
+    .meta_add_parent()
+    .meta_get_parent()
+    .meta_remove_parent()
+    .meta_set_parameters()
+    .meta_set_ast()
+    .meta_set_code_context()
+}
+
+class Object {
+}
+
+class ObjectMap {
+    ._slots : dict
+    ._parent_slots : dict
+    .is_block : bool
+    .used_in_multiple_objects : bool
+    .ast : AST object
+    .code_context : CodeContext
+    .primitive_code : fn reference1
+    .primitive_code_self : Object
+    .parameters : list
+    --Methods--
+    .clone()
+    .add_slot()
+    .remove_slot()
+    .insert_slot()
+    .add_parent()
+    .remove_parent()
+}
+
+_BareObject <|-r- _ObjectWithMapEncapsulation: extends
+_ObjectWithMapEncapsulation <|-r- _ObjectWithMetaOperations: extends
+_ObjectWithMetaOperations <|-d- Object: extends
+
+_BareObject .u.> ObjectMap: works with
+_ObjectWithMetaOperations .u.> ObjectMap: works with
+_ObjectWithMapEncapsulation .u.> ObjectMap: works with
+
+note top of _BareObject
+Properties -> python's @property
+end note
