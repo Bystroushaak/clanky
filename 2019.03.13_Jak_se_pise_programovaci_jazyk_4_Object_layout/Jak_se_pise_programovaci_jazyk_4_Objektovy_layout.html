@@ -1,12 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<HTML>
-  <head>
-    <title>Jak se píše programovací jazyk 4: Objektový layout</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  </head>
-  <body>
-    <p>Dalším logickým krokem by mělo být vytvoření virtuálního stroje, který bude programovací jazyk interpretovat, a kompilátoru, který pro tento virtuální stroj zkompiluje zdrojový kód. Před tím, než se do toho můžu pustit je však třeba ujasnit si, nejlépe formou konkrétní implementace, jak bude vypadat reprezentace a rozložení objektů v paměti.</p>
-    <!-- break -->
+<p>Dalším logickým krokem by mělo být vytvoření virtuálního stroje, který bude programovací jazyk interpretovat, a kompilátoru, který pro tento virtuální stroj zkompiluje zdrojový kód. Před tím, než se do toho můžu pustit je však třeba ujasnit si, nejlépe formou konkrétní implementace, jak bude vypadat reprezentace a rozložení objektů v paměti.</p>
+    <!--break-->
     <p>Specificky následující věci;</p>
     <ol>
       <li>Jak budou objekty reprezentovány.</li>
@@ -75,19 +68,19 @@ class Map:
 
     <p>V jakémsi pseudoUML to vypadá takto:</p>
     <p>
-      <img src="map_0.png" />
+      <img src="/images/screenshots/9/3/237139-jak-se-pise-programovaci-jazyk-4-objektovy-layout-4699352094847762872.png" />
     </p>
     <p>Pokud dojde ke klonování objektu, je vytvořen nový objekt obsahující pole s odkazy na hodnoty. Všechny ostatní informace, jako rodičovské sloty, seznam parametrů a kód objektu jsou pro všechny klony uložené v jedné mapě, na kterou si předávají reference. Díky tomu je možné signifikantním způsobem šetřit paměť.</p>
     <p>
-      <img src="map_1.png" />
+      <img src="/images/screenshots/9/3/237139-jak-se-pise-programovaci-jazyk-4-objektovy-layout-4422162006679089740.png" />
     </p>
     <p>To platí, i když se změní hodnota konkrétního slotu:</p>
     <p>
-      <img src="map_2.png" />
+      <img src="/images/screenshots/9/3/237139-jak-se-pise-programovaci-jazyk-4-objektovy-layout-7456684192313435761.png" />
     </p>
     <p>Celá implementace se ovšem kapku zesložiťuje v případě kdy se změní struktura, neboť je potřeba patřičně ošetřit všechny manipulace objektu tak, aby došlo k vytvoření nové mapy.</p>
     <p>
-      <img src="map_3.png" />
+      <img src="/images/screenshots/9/3/237139-jak-se-pise-programovaci-jazyk-4-objektovy-layout-8674515545992458913.png" />
     </p>
     <p>To jsem osobně vyřešil spoustou <code>meta_</code> metod. Například <code>.meta_add_slot()</code>, která do klonu přidá nový slot, před tím však vytvoří <em>klon mapy</em>, takže tento nový objekt již používá vlastní mapu, kterou si může upravovat jak chce.</p>
     <p>Překlad názvu slotu probíhá následujícím způsobem:</p>
@@ -99,7 +92,7 @@ class Map:
     <p>Vzhledem k tomu, že počet řádků narostl z původní několikařádkové myšlenky na pěkných pár stovek, rozhodl jsem se Objekt pro lepší čitelnost dekomponovat do několika tříd. Tato dekompozice nemá vliv na běh programu (stejně je z toho nakonec masivně <em>inlinované</em> C, které objekty nezná), je čistě jen pro lepší strukturovanost zdrojového kódu.</p>
     <p>Zde je UML výsledné podoby <em>objektového layoutu</em>:</p>
     <p>
-      <img src="object_layout.png" />
+      <img src="/images/screenshots/9/3/237139-jak-se-pise-programovaci-jazyk-4-objektovy-layout-2376888213318258690.png" />
     </p>
     <p>Zdrojový kód je možné najít v souboru:</p>
     <ul>
@@ -114,6 +107,3 @@ class Map:
     <p>Druhá jmenovaná metoda <code>.slot_lookup()</code> se prvně podívá do vlastního seznamu slotů pomocí <code>.get_slot()</code> a pokud tam nic nenajde, pokračuje metodou <code>.parent_lookup()</code>. Tím je implementovaná dědičnost.</p>
     <h1>Pokračování</h1>
     <p>Příště se podíváme na bajtkód a literály a v jaké je to celé uložené datové struktuře.</p>
-  </body>
-</HTML>
-
