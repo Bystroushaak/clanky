@@ -1,11 +1,5 @@
-<HTML>
-<head>
-    <title>Jak se píše programovací jazyk 5: Bajtkód a literály</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
 <p>Lexer rozděluje vstupní text na tokeny, které jsou parserem transformovány na abstraktní syntaktické stromy. Ty by měl vzít kompilátor a udělat z nich bytecode. Předtím je ovšem nutné si důkladně rozmyslet, jak má vlastně výsledný bytekód vypadat, a tedy hlavně jak má vypadat virtuální stroj, kterým bude interpretován.</p>
-<!-- break -->
+<!--break-->
 
 
 <p>Jak už jsem zmiňoval, nejsem ani v nejmenším odborník na tvorbu programovacích jazyků. Když jsem se pustil do psaní specifikace VM, byly mi známé následující přístupy:</p>
@@ -137,12 +131,12 @@
 
 <p>Stojí za zmínku se podívat, v čem a jak jsou vlastně bajtkódy i literály ukládány. Jedná se o třídu <code>CodeContext</code>, která obsahuje string s bajtkódy. Řešil jsem na #pypy v čem je nejlepší uchovávat bajtkódy, protože sám bych měl asi tendence použít bytearray, ale ten jednak po rpythonem funguje divně (měl jsem s tím nějaké problémy, už nevím přesně jaké), ale hlavně je pomalejší než zpracování stringů.</p>
 <p>Dále obsahuje pole <code>literals</code> s tabulkou literálů, z nihž každý je zabalen v nějakém boxu (viz omezení RPythonu na jeden datový typ polí).</p>
-<p><img src="code_context-94a5ab0c-b06d-40e0-a9b7-988c016d8612.png" /></p>
+<p><img src="/images/screenshots/8/1/237618-jak-se-pise-programovaci-jazyk-5-bajtkod-a-literaly-5902510762887796997.png" /></p>
 <p>Pak jsou zde ještě dočasně uloženy různé speciální hodnoty, například se tu cacheují dočasné mezi-objekty, které uchovávají parametry.</p>
 
 <h2>Zásobníky</h2>
 <p>Zasobníky jsem implementoval jako hierarchickou strukturu tří tříd;</p>
-<p><img src="frames-ba183ddf-2054-4e91-a979-a83b67d0da09.png" /></p>
+<p><img src="/images/screenshots/8/1/237618-jak-se-pise-programovaci-jazyk-5-bajtkod-a-literaly-2922953415200123635.png" /></p>
 
 <h3>MethodStack</h3>
 <p>Třída MethodStack tvoří prostý zásobník, na jehož vrcho je možné vložit instanci Objektu metodou <code>.push()</code>, sundat z vrcholu Objekt metodou <code>.pop()</code> a jako bonus implementuje <code>.pop_or_nil()</code>, která v případě že je zásobník prázdný vrátí singleton Objektu <code>nil</code>.</p>
@@ -160,5 +154,3 @@
 
 <h2>Pokračování</h2>
 <p>V dalším díle se podíváme na implementace kompilátoru do výše uvedeného bajtkódu. Ačkoliv jsem intuitivně čekal, že půjde o něco složitého, nakonec se to ukázalo jako jedna z nejjednodušších věcí na celém projektu.</p>
-</body>
-</HTML>
