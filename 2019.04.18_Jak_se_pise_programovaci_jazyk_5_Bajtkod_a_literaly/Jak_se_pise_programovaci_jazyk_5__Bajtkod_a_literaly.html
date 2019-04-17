@@ -1,91 +1,107 @@
-<h1 id="jak-se-píše-programovací-jazyk-5-bajtkód-a-literály">Jak se píše programovací jazyk 5: Bajtkód a literály</h1>
-<p>2019/04/18</p>
+<HTML>
+<head>
+    <title>Jak se píše programovací jazyk 5: Bajtkód a literály</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
 <p>Lexer rozděluje vstupní text na tokeny, které jsou parserem transformovány na abstraktní syntaktické stromy. Ty by měl vzít kompilátor a udělat z nich bytecode. Předtím je ovšem nutné si důkladně rozmyslet, jak má vlastně výsledný bytekód vypadat, a tedy hlavně jak má vypadat virtuální stroj, kterým bude interpretován.</p>
+<!-- break -->
+
+
 <p>Jak už jsem zmiňoval, nejsem ani v nejmenším odborník na tvorbu programovacích jazyků. Když jsem se pustil do psaní specifikace VM, byly mi známé následující přístupy:</p>
-<ol style="list-style-type: decimal">
-<li>Interpretace AST</li>
-<li>Interpretace imperativního bytekódu</li>
-<li>Interpretace <em>stack based</em> bytekódu</li>
+<ol>
+  <li>Interpretace AST</li>
+  <li>Interpretace imperativního bytekódu</li>
+  <li>Interpretace <em>stack based</em> bytekódu</li>
+
 </ol>
 <p>Pavel Křivánek ve své bakalářské práci <a href="http://kitakitsune.org/ltas/resources/Podpora_beztridniho_programovani_ve_Squeak_Smalltalku.pdf">Podpora beztřídního programování ve Squeak Smalltalku</a> použil pro svůj Selfem inspirovaný jazyk Marvin <em>stack based</em> (na zásobníku založený) bytekód ve stylu forthu.</p>
 <p>Oproti tomu <a href="https://pdfs.semanticscholar.org/7a9f/b345d1372f99c47f68fbcf5187f10af87704.pdf">The Design and Implementation of the Self Compiler, an Optimizing Compiler for Object-Oriented Programming Languages</a> (dále jen <em>DISCOCOOPL</em>) zmiňuje spíše imperativní bytekód ve stylu assembleru.</p>
 <p>V krátké výměně mailů, které jsem Pavlovi Křivánkovi poslal, zmiňoval, abych zkusil zkombinovat první a druhý přístup.</p>
 <p>Dále zde byly dva projekty <em>Smalltalků</em> napsaných v RPythonu:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://github.com/SOM-st/RPySOM" class="uri">https://github.com/SOM-st/RPySOM</a></li>
-<li><a href="https://github.com/hpi-swa/RSqueak" class="uri">https://github.com/hpi-swa/RSqueak</a> (viz paper <a href="https://www.hpi.uni-potsdam.de/hirschfeld/publications/media/FelgentreffPapeReinHirschfeld_2016_HowToBuildAHighPerformanceVmForSqueakSmalltalkInYourSpareTimeAnExperienceReportOfUsingTheRPythonToolchain_AcmDL.pdf">How to Build a High-Performance VM for Squeak/Smalltalk in Your Spare Time</a>)</li>
+<ol>
+  <li><a href="https://github.com/SOM-st/RPySOM">https://github.com/SOM-st/RPySOM</a></li>
+  <li><a href="https://github.com/hpi-swa/RSqueak">https://github.com/hpi-swa/RSqueak</a> (viz paper <a href="https://www.hpi.uni-potsdam.de/hirschfeld/publications/media/FelgentreffPapeReinHirschfeld_2016_HowToBuildAHighPerformanceVmForSqueakSmalltalkInYourSpareTimeAnExperienceReportOfUsingTheRPythonToolchain_AcmDL.pdf">How to Build a High-Performance VM for Squeak/Smalltalk in Your Spare Time</a>)</li>
 </ol>
 <p>Oba dva sloužily jako lehká technická inpisrace při tvorbě interpretru.</p>
-<h2 id="souslednost">Souslednost</h2>
+
+<h2>Souslednost</h2>
 <p>Za zmínku pravděpodobně stojí, že tato a následující dvě kapitoly byly psány až po dokončení většiny práce na bajtkódech, interpreteru a kompilátoru. Práce na těchto komponentách však probíhala zároveň a jednalo se do jisté míry o iterativní proces. Člověk přidá jeden parametr bajtkódu, upraví kompilátor a interpreter a hned vidí, že to ovlivnilo celkový obraz tak, že nyní není třeba kousek tady a je třeba přidat kousek támhle, což vede ke změnám v kompilátoru tady a támhle, díky čemuž není třeba v interpretru tohle a támhleto může fungovat jinak..</p>
 <p>Vytvářet něco, kde se zároveň tři a více komponent ovlivňuje a bez samotné implementace se dopředu těžko představuje, jak konkrétně by to mělo celé vypadat, je zajímavá zkušenost. Nyní při psaní zpětně vidím, jak se to celé podepsalo na celkové podobě interpretru a hned mě napadá, že by šlo upravit spoustu komponent trochu jinak.</p>
 <p>Vývoj, a zde a v následujících kapitolách popsaná podoba, byla ovšem diktována snahou o co nejrychlejší bootstrapping, s tím že na optimalizace a úpravy bude dost času později, pokud projekt vyhodnotím jako hodný dalšího pokračování.</p>
-<h2 id="literály">Literály</h2>
+
+<h2>Literály</h2>
 <p>Bajtkód se neskládá pouze z jednotlivých instrukcí, skládá se také z tabulky literálů. V té jsou uloženy všechny konstantní hodnoty známé v době kompilace.</p>
 <p>Mezi ně patří:</p>
 <ul>
-<li>Řetězce</li>
-<li>Čísla</li>
-<li>Nil</li>
-<li>Object</li>
-<li>Block</li>
-<li>Assignment primitive</li>
+  <li>Řetězce</li>
+  <li>Čísla</li>
+  <li>Nil</li>
+  <li>Object</li>
+  <li>Block</li>
+  <li>Assignment primitive</li>
 </ul>
 <p>Když pak interpreter dojde na část kde je nutné použít nějaký literál, nemusí ho v tu chvíli rekonstruovat z bajtkódu, místo toho se jednoduše podívá do tabulky literálů na patřičný index a vytvoří podle něj objekt.</p>
-<h2 id="bytecodes">Bytecodes</h2>
+
+<h2>Bytecodes</h2>
 <p>Pavel Křivánek navrhoval pro Marvina následující bytekódy:</p>
 <ul>
-<li><strong>send:</strong> Zašle objektu na vrcholu zásobníku zprávu identifikovanou určitým selektorem.</li>
-<li><strong>selfSend:</strong> Zašle příjemci zprávu identifikovanou určitým selektorem.</li>
-<li><strong>resend:</strong> Zašle příjemci zprávu identifikovanou určitým selektorem v kontextu předka.</li>
-<li><strong>pushSelf</strong> Na vrchol zásobníku umístí příjemce zprávy.</li>
-<li><strong>pushLiteral:</strong> Na vrchol zásobníku umístí referenci na určený literál.</li>
-<li><strong>pop</strong> Odebere jednu položku z vrcholu zásobnı́ku a získanou hodnotu zahodı́.</li>
-<li><strong>returnTop</strong> Návrat z metody s vrcholem zásobnı́ku jako výsledkem.</li>
-<li><strong>returnImplicit</strong> Implicitní návrat z kontextu.</li>
+  <li><strong>send:</strong> Zašle objektu na vrcholu zásobníku zprávu identifikovanou určitým selektorem.</li>
+  <li><strong>selfSend:</strong> Zašle příjemci zprávu identifikovanou určitým selektorem.</li>
+  <li><strong>resend:</strong> Zašle příjemci zprávu identifikovanou určitým selektorem v kontextu předka.</li>
+  <li><strong>pushSelf</strong> Na vrchol zásobníku umístí příjemce zprávy.</li>
+  <li><strong>pushLiteral:</strong> Na vrchol zásobníku umístí referenci na určený literál.</li>
+  <li><strong>pop</strong> Odebere jednu položku z vrcholu zásobnı́ku a získanou hodnotu zahodı́.</li>
+  <li><strong>returnTop</strong> Návrat z metody s vrcholem zásobnı́ku jako výsledkem.</li>
+  <li><strong>returnImplicit</strong> Implicitní návrat z kontextu.</li>
 </ul>
 <p>Osobně jsem se tímto setem hodně inspiroval, nakonec jsem však pro některé nenašel použití a naopak, některé které v Marvinovi nebyly mi tam přišly jako užitečné.</p>
 <p>Nakonec jsem skončil s následujícím setem:</p>
 <ul>
-<li>SEND</li>
-<li>PUSH_SELF</li>
-<li>PUSH_LITERAL</li>
-<li>ADD_SLOT</li>
-<li>RETURN_TOP</li>
-<li>RETURN_IMPLICIT</li>
+  <li>SEND</li>
+  <li>PUSH_SELF</li>
+  <li>PUSH_LITERAL</li>
+  <li>ADD_SLOT</li>
+  <li>RETURN_TOP</li>
+  <li>RETURN_IMPLICIT</li>
 </ul>
 <p>Přičemž některé z nich jsou parametrizované a můžou tak zabrat až tři bajty. Instrukce pracují se zásobníkem, na který vkládají, či z něj odebírají hodnoty. Zásobník je tvořen zvlášť pro každou metodu, proto například chybí instrukce pro odstranění hodnot ze zásobníku - vzhledem k tomu že instrukce hodnoty ze zásobníku odebírají implicitně, na konci se prostě celý zásobník zahodí, někdy s tím, že hodnota na vrcholu je vložená na vrchol zásobníku, ze kterého vznikl tento.</p>
 <p>Musím říct, že mě docela překvapilo, jak málo instrukcí mi stačilo. Intuitivně jsem čekal, že jich bude minimálně dvacet. Že by mi jich stačilo šest, respektive pět bez <code>ADD_SLOT</code>, která je tam jen protože je to častá operace, to mě ani ve snu nenapadlo.</p>
-<h3 id="push_literal">PUSH_LITERAL</h3>
+
+<h3>PUSH_LITERAL</h3>
 <p>Instrukce, kterou začíná prakticky každý set bajtkódů. Jako první vezmeme něco z tabulky literálů a vložíme to na stack.</p>
 <p>Instrukce má dva parametry:</p>
-<ol style="list-style-type: decimal">
-<li><code>literal_type</code></li>
-<li><code>literal_index</code></li>
+<ol>
+  <li><code>literal_type</code></li>
+  <li><code>literal_index</code></li>
 </ol>
 <p>Druhý určuje index v tabulce, první pak typ literálů, kterým v současnosti můžou být:</p>
-<ol style="list-style-type: decimal">
-<li><code>Nil</code></li>
-<li><code>Int</code></li>
-<li><code>String</code></li>
-<li><code>Object</code></li>
-<li><code>Block</code></li>
-<li><code>Assignment primitive</code></li>
+<ol>
+  <li><code>Nil</code></li>
+  <li><code>Int</code></li>
+  <li><code>String</code></li>
+  <li><code>Object</code></li>
+  <li><code>Block</code></li>
+  <li><code>Assignment primitive</code></li>
 </ol>
 <p>Detaily fungování budou vysvětleny v kapitole o interpretru.</p>
 <p>Délka instrukce: 3 batkódy.</p>
-<h3 id="push_self">PUSH_SELF</h3>
+
+<h3>PUSH_SELF</h3>
 <p>Na vrchol zásobníku vlož <em>self</em>, tedy objekt v jehož kontextu aktuálně probíhá kód.</p>
 <p>Délka instrukce: 1 bajtkód.</p>
-<h3 id="add_slot">ADD_SLOT</h3>
+
+<h3>ADD_SLOT</h3>
 <p>Z vrcholu zásobníku seber jeden objekt jako <em>hodnotu</em>, druhý objekt jako <em>jméno</em> a třetí objekt jako <em>příjemce</em>. Do <em>příjemce</em> potom ulož <em>hodnotu</em> na dané <em>jméno</em>. Výsledný objekt vlož na vrchol zásobníku.</p>
 <p>Tato instrukce by nemusela existovat, šlo by to celé implementovat pomocí <em>mirrorů</em>, ale vzhledem k tomu o jak často používanou záležitost se jedná, a jak strašně moc to zjednodušuje zbytek kódu, rozhodl jsem se jí takhle použít.</p>
 <p>Délka instrukce: 1 bajtkód.</p>
-<h3 id="return_top">RETURN_TOP</h3>
+
+<h3>RETURN_TOP</h3>
 <p>Z vrcholu zásobníku vyber hodnotu a vrať jí.</p>
 <p>Vrácení probíhá tak, že pokud jsou v tomto procesu předchozí zásobníky, vlož jí na vrchol předchozího zásobníku. Pokud ne, ulož jí jako návratovou hodnotu procesu.</p>
 <p>Délka instrukce: 1 bajtkód.</p>
-<h3 id="return_implicit">RETURN_IMPLICIT</h3>
+
+<h3>RETURN_IMPLICIT</h3>
 <p>Docela dlouho jsem přemýšlel k čemu byla Pavlovi <code>returnImplicit</code>, došlo mi to až když jsem implementoval bloky.</p>
 <p>Z vrcholu zásobníku vyber hodnotu a vrať jí skrz tolik framů, dokud nebudeš ve scope ke kterému se return vztahuje.</p>
 <p>Tohle je Selfová specialita, kde return z bloku nevrací jen z bloku, ale ze scope, kde je blok použit.</p>
@@ -93,12 +109,17 @@
 <pre><code>(|| something ifTrue: [^ something].)</code></pre>
 <p>vrací nejen z bloku, ale i z method-objectu kolem něj.</p>
 <p>Délka instrukce 1 bajtkód.</p>
-<h3 id="send">SEND</h3>
+
+<h3>SEND</h3>
 <p>Nejkomplexnější instrukce, která objektu na zásobníku pošle zprávu.</p>
 <p>Instrukce má dva parametry:</p>
-<ol style="list-style-type: decimal">
-<li><code>message_type</code></li>
-<li><code>number_of_parameters</code></li>
+<ol>
+  <li>
+    <code>message_type</code>
+  </li>
+  <li>
+    <code>number_of_parameters</code>
+  </li>
 </ol>
 <p>Akt poslání zprávy probíhá tak, že ze zásobníku je nejdříve vybráno <code>number_of_parameters</code> objektů do pole parametrů. V případě, že <code>message_type</code> je jeden z resend typů (<code>UNARY_RESEND</code> či <code>KEYWORD_RESEND</code>, je navíc ještě z vrcholu zásobníku sebráno jméno rodiče, kterému se má zpráva přeposlat. Dále je z vrcholu zásobníku sebráno jméno zprávy (<em>selector</em>) a objekt, kterému bude zpráva poslána.</p>
 <p>Pokud jde o resend, je zpráva přeposlána parentovi - slot je vyhledán v patřičném rodičovi a je vrácen či vykonán v současném kontextu.</p>
@@ -107,34 +128,37 @@
 <p>Pokud jde o hodnotu, je vložena na vrchol zásobníku.</p>
 <p>SEND je nejsložitější instrukcí, kterou možná časem rozdělím na víc menších.</p>
 <p>Délka instrukce: 3 batkódy.</p>
-<h3 id="budoucí-rozvoj">Budoucí rozvoj</h3>
+
+<h3>Budoucí rozvoj</h3>
 <p>Bytecode je od slova <em>byte</em>. Samozřejmě nemusí mít přesně jeden bajt, ostatně moje instrukční sada by se mohla vejít do čtyř bitů. Do budoucna by ale mohlo interpreter zrychlit, kdybych provedl rozvoj všech často používaných instrukcí a převedl je z několika bajtových parametrizovaných na jedno-bajtovové. Například bych mohl zavést bytekód pro <code>SELF_SEND</code>, který by zkombinoval funkcionalitu <code>PUSH_SELF</code> a <code>SEND</code>. Nebo <code>SENDKW1</code>, který automaticky vybere jeden parametr ze zásobníku a bere ho jako <em>keyword message</em>. Některé instrukce by mohly obcházet <code>PUSH_LITERAL</code> bajtkód a rovnou si sahat na index do tabulky literálů. A tak podobně.</p>
 <p>Taky limitace parametrů na jeden bajtkód momentálně znamená, že je možné použít pouze 256 literálů v jedné metodě, což ovšem v současné fázi vývoje bohatě stačí a nemá smysl to řešit. Časem chci přidat rozvoj na minimálně dvoubajtové definice, takže PUSH_LITERAL se prodlouží.</p>
 <p>Zatím se však budu držet současné podoby, jelikož mám větší problémy k vyřešení a jak pravil klasik, předčasná optimalizace je kořenem všeho zla.</p>
-<h2 id="codecontext">CodeContext</h2>
+<h2>CodeContext</h2>
+
 <p>Stojí za zmínku se podívat, v čem a jak jsou vlastně bajtkódy i literály ukládány. Jedná se o třídu <code>CodeContext</code>, která obsahuje string s bajtkódy. Řešil jsem na #pypy v čem je nejlepší uchovávat bajtkódy, protože sám bych měl asi tendence použít bytearray, ale ten jednak po rpythonem funguje divně (měl jsem s tím nějaké problémy, už nevím přesně jaké), ale hlavně je pomalejší než zpracování stringů.</p>
 <p>Dále obsahuje pole <code>literals</code> s tabulkou literálů, z nihž každý je zabalen v nějakém boxu (viz omezení RPythonu na jeden datový typ polí).</p>
-<div class="figure">
-<img src="code_context-94a5ab0c-b06d-40e0-a9b7-988c016d8612.png" />
-
-</div>
+<p><img src="code_context-94a5ab0c-b06d-40e0-a9b7-988c016d8612.png" /></p>
 <p>Pak jsou zde ještě dočasně uloženy různé speciální hodnoty, například se tu cacheují dočasné mezi-objekty, které uchovávají parametry.</p>
-<h2 id="zásobníky">Zásobníky</h2>
-<p>Zasobníky jsem implementoval jako hierarchickou strukturu tří tříd;</p>
-<div class="figure">
-<img src="frames-ba183ddf-2054-4e91-a979-a83b67d0da09.png" />
 
-</div>
-<h3 id="methodstack">MethodStack</h3>
+<h2>Zásobníky</h2>
+<p>Zasobníky jsem implementoval jako hierarchickou strukturu tří tříd;</p>
+<p><img src="frames-ba183ddf-2054-4e91-a979-a83b67d0da09.png" /></p>
+
+<h3>MethodStack</h3>
 <p>Třída MethodStack tvoří prostý zásobník, na jehož vrcho je možné vložit instanci Objektu metodou <code>.push()</code>, sundat z vrcholu Objekt metodou <code>.pop()</code> a jako bonus implementuje <code>.pop_or_nil()</code>, která v případě že je zásobník prázdný vrátí singleton Objektu <code>nil</code>.</p>
 <p>Třída dále uchovává nějaké obecné properties, jako <code>.error_handler</code>, <code>.code_context</code>, <code>.bc_index</code> a <code>.self</code>. Error handler je použit k řešení výjimek, code_context uchovává bajtkǒdy a bc_index slouží jako program counter.</p>
 <p>Při běhu metody se sem ukládají jednotlivé literály a postupně si je z toho tahají instrukce tak jak jdou za sebou. V případě že je volána další metoda, tak na vrchol zásobníku se vloží výsledek poté co skončí. To řeší následující třída metodou <code>.pop_frame_down()</code>.</p>
 <p>Momentálně jsou k dispozici dvě implementace, jedna jako před-alokované pole, která je trochu rychlejší v kódu bez JITu a druhá jako linked-list, která je trochu rychlejší s JITem.</p>
-<h3 id="processstack">ProcessStack</h3>
+
+<h3>ProcessStack</h3>
 <p>Na tuto třídu navazuje <code>ProcessStack</code>, který je zásobníkem zásobníků a v podstatě reprezentuje jeden běžící proces. Pokaždé, když je vykonáván nějaký <code>Object</code> s kódem, je v ní vytvořen nový zásobník. Když kód doběhne, tak vezme poslední hodnotu z posledního zásobníku a vloží jí na vrchol zásobníku předtím. Ten co je na vrchu pak zahodí (proto nejsou potřeba samostatné <code>POP</code> bajtkódy).</p>
 <p>Jak už napovídá název, taky uchovává další kontext „procesu“, jako výsledek běhu programu, informaci o tom jestli proces ještě stále běží, nebo ne.</p>
 <p>Za zmínku stojí, že aktuální frame navrchu je vždy uchováván v proměnné <code>.frame</code>.</p>
-<h3 id="processcycler">ProcessCycler</h3>
+
+<h3>ProcessCycler</h3>
 <p>Poslední třídou je <code>ProcessCycler</code>, který přepíná aktuálně prováděný proces tím, že ho vždy uloží do proměnné <code>.process</code>. Vzhledem k tomu, že smyčka interpreteru vždy načte tuto hodnotu, provede jeden bajtkód a zavolá cyklování procesu, je tím docíleno jednoduché paralelizace.</p>
-<h2 id="pokračování">Pokračování</h2>
+
+<h2>Pokračování</h2>
 <p>V dalším díle se podíváme na implementace kompilátoru do výše uvedeného bajtkódu. Ačkoliv jsem intuitivně čekal, že půjde o něco složitého, nakonec se to ukázalo jako jedna z nejjednodušších věcí na celém projektu.</p>
+</body>
+</HTML>
