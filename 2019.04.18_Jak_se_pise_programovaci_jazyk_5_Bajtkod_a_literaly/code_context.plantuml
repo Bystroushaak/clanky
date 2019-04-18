@@ -1,0 +1,50 @@
+class CodeContext {
+    ._finalized : bool
+    ._mutable_bytecodes : list[int]
+    ._params_cache : None / Object
+    .str_literal_cache : set() / None
+
+    .bytecodes : str
+    .literals : list
+    -- Properties --
+    .method_stack_size : int
+    -- Methods --
+    .add_literal()
+    .add_literal_str()
+    .add_literal_int()
+    .add_literal_float()
+    .add_literal_obj()
+    .add_bytecode()
+    .add_literal_str_push_bytecode()
+    .finalize()
+    .debug_repr()
+}
+
+class LiteralBox {
+}
+
+class IntBox {
+    .value : int
+    .literal_type : Int(LITERAL_TYPE_INT)
+    --
+}
+
+class StrBox {
+    .value : str
+    .literal_type : Int(LITERAL_TYPE_STR)
+    --
+}
+
+class ObjBox {
+    .value : Object
+    .literal_type : Int(LITERAL_TYPE_OBJ)
+    --
+}
+
+IntBox -u-|> LiteralBox
+StrBox -u-|> LiteralBox
+ObjBox -u-|> LiteralBox
+
+IntBox ..> CodeContext
+StrBox ..> CodeContext
+ObjBox ..> CodeContext

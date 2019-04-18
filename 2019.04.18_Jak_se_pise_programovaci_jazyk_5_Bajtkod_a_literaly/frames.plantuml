@@ -1,0 +1,79 @@
+class ObjectHolder {
+    .obj : Object
+    .prev : ObjectHolder / None
+}
+
+class MethodStackLinkedList {
+    ._stack : ObjectHolder / None
+    ._length : int
+    .prev_stack : MethodStackLinkedList / None
+
+    .bc_index : int
+    .code_context : CodeContext instance
+    .error_handler : Object / None
+    .self : Object / None
+
+    .tmp_method_obj_reference : Object / None
+    --
+    .push()
+    .pop()
+    .pop_or_nil()
+}
+
+class MethodStackPreallocatedArray {
+    ._stack : list[Object]
+    ._stack_max_size : int
+    ._length : int
+
+    .bc_index : int
+    .code_context : CodeContext instance
+    .error_handler : Object / None
+    .self : Object / None
+
+    .tmp_method_obj_reference : Object / None
+    --
+    .push()
+    .pop()
+    .pop_or_nil()
+}
+
+class ProcessStack {
+    .frame : MethodStack
+    ._length : int
+
+    .result : Object / None
+    .finished : bool
+    .finished_with_error : bool
+    --
+    .is_nested_call()
+    .push_frame()
+    .top_frame()
+    ._cleanup_frame()
+    .pop_frame()
+    .pop_and_clean_frame()
+    .pop_frame_down()
+    .pop_and_cleanup_frame()
+    .as_tself_object()
+}
+
+class ProcessCycler {
+    .cycler : int
+    .process : ProcessStack
+    .processes : list[ProcessStack]
+    .process_count : int
+    --
+    .add_process()
+    .has_processes_to_run()
+    .remove_process()
+    .remove_active_process()
+    .next_process()
+}
+
+ObjectHolder .l.> MethodStackLinkedList: is used by
+MethodStackLinkedList .d.> MethodStack
+MethodStackPreallocatedArray .d.> MethodStack
+
+MethodStackLinkedList -[hidden]l-> MethodStackPreallocatedArray
+
+MethodStack .r.> ProcessStack: is used in
+ProcessStack .r.> ProcessCycler: is used in
