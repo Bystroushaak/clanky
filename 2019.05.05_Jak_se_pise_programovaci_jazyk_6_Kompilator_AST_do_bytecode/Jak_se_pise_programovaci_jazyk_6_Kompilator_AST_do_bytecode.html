@@ -3,6 +3,7 @@
 <!--break-->
 
 <p>Ke každému prvku AST stromu jsem přidal metodu <code>.compile(code_context)</code>, která do <code>code_context</code> objektu zkompiluje sebe sama, tedy vloží do něj patřičné literály a do bajtkódu vloží instrukce pro jejich použití.</p>
+
 <p>Například pro objekt Self to vypadá takto:</p>
 
 <pre class="brush: py">def compile(self, context):
@@ -11,6 +12,7 @@
     return context</pre>
 
 <p>Pro objekt představující čísla už je to trochu složitější, neboť je třeba prvně číslo vložit do seznamu literálů:</p>
+
 <pre class="brush: py">def compile(self, context):
     index = context.add_literal_int(self.value)
 
@@ -21,7 +23,9 @@
     return context</pre>
 
 <p>V bajtkódu je vložená instrukce <code>PUSH_LITERAL</code>, poté typ literálu a jeho index.</p>
+
 <p>U binární zprávy je krásně vidět, jak se prvně zkompiluje čemu se má zpráva poslat a poté teprve samotná zpráva:</p>
+
 <pre class="brush: py">def compile(self, context):
     context.add_literal_str_push_bytecode(self.name)
 
@@ -80,10 +84,15 @@ def compile(self, context):
     return context</pre>
 
 <p>Složitost je do velké míry dána tím, že jsem se rozhodl, že objektové literály budu vkládat mezi literály jako poměrně jednoduché objekty, které nemají nic moc kromě parametrů předvyplněno. Vyplnění probíhá ve chvíli, kdy je objekt vytvořen.</p>
+
 <p>Výše je možné vidět, že je nejdřív vytvořen prázdný objekt, do kterého je uložena jen AST reprezentace pro pozdější referenci a seznam parametrů, které přijímá. Celý zbytek je pak dodán až dynamicky za běhu - všechny <em>sloty</em>, všechny <em>parent sloty</em> a samozřejmě když obsahuje kód, tak je vše rekurzivně provedeno i pro kód.</p>
+
 <h2>Disassembler</h2>
-<p>Když už jsem měl hotový triviální kompilátor, rozhodl jsem se také napsat si k němu jednoduchý disassembler, tedy něco co mi poněkud lečeji zobrazí zkompilovaný kód. V podstatě to funguje inverzně ke kompilátoru; postupně bere instrukce a jejich parametry a překládá je na mnemotechnické zkratky instrukcí:</p>
+
+<p>Když už jsem měl hotový triviální kompilátor, rozhodl jsem se také napsat si k němu jednoduchý <a href="https://cs.wikipedia.org/wiki/Disassembler">disassembler</a> (ehm, <i>disbytecoder</i>), tedy něco co mi poněkud lehčeji zobrazí zkompilovaný kód. V podstatě to funguje inverzně ke kompilátoru; postupně bere instrukce a jejich parametry a překládá je na mnemotechnické zkratky instrukcí:</p>
+
 <p>Napsal jsem to celé maximálně triviálně:</p>
+
 <pre class="brush: py">def _compute_index(bytecodes_len, bytecodes):
     return str(bytecodes_len - len(bytecodes))
 
@@ -178,6 +187,7 @@ def disassemble(bytecodes_bytearray):
     return disassembled</pre>
 
 <p>Pokud se někomu zdá ten kód trochu divný a říká si proč jsem třeba nepoužil tuple místo listů, nebo proč tam šaším s přetypováváním na stringy, tak odpověď je <a href="/blog/bystroushaak/2019/2/jak-se-pise-programovaci-jazyk-3.5-rpython">RPython magie</a>. Výsledek vypadá zabalený v samotné Selfové syntaxi například takto:</p>
+
 <pre class="brush: py">(|
   literals = (| l &lt;- dict clone. |
     l
@@ -274,6 +284,9 @@ bytecodes = (||
 <p><sub>(Kód byl pro větší přehlednost zalomen)</sub></p>
 
 <p>Původně jsem měl výsledek obalen v JSONu, ale nakonec mi kamarád připoměl, že součástí experimentu s tinySelfem je vyzkoušet používat jeho <em>objektové literály</em>, čehož je výsledkem výše uvedený výpis.</p>
+
 <p>Tedy interpreter vypisuje jako debug věci v syntaxi sama sebe. Nutno dodat, že zatím nevyzkoušený, neboť ve chvíli kdy byl tento blog napsán nebyly v tinySelfu podporovány ani pole, ani slovníky a jedná se tedy spíš jen o takový nástřel. Tomu taky napovídají ty AST stringy na začátku, které jsou silně nepřehledné, a které to bude chtít časem určitě vylepšit.</p>
+
 <h2>Pokračování</h2>
+
 <p>Příště se už konečně podíváme jak vlastně uvnitř vypadá interpreter a smyčka vykonávání příkazů.</p>
