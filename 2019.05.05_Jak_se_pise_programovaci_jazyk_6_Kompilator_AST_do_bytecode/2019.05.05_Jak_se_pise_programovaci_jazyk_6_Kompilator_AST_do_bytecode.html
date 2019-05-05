@@ -1,0 +1,231 @@
+<h1 id="jak-se-píše-programovací-jazyk-6-kompilátor-ast-do-bytecode">Jak se píše programovací jazyk 6: Kompilátor AST do bytecode</h1>
+<p>V minulém díle jsem rozepsal jak vypadají moje bajtkódy. Jak se k nim ale dostat? Přes moje původní obavy se ukázalo, že neoptimalizující kompilátor je v případě, že existuje abstraktní syntaktický strom krásně jednoduchý.</p>
+<p>Ke každému prvku AST stromu jsem přidal metodu <code>.compile(code_context)</code>, která do <code>code_context</code> objektu zkompiluje sebe sama, tedy vloží do něj patřičné literály a do bajtkódu vloží instrukce pro jejich použití.</p>
+<p>Například pro objekt Self to vypadá takto:</p>
+<pre><code>def compile(self, context):
+    context.add_bytecode(BYTECODE_PUSH_SELF)
+
+    return context</code></pre>
+<p>Pro objekt představující čísla už je to trochu složitější, neboť je třeba prvně číslo vložit do seznamu literálů:</p>
+<pre><code>def compile(self, context):
+    index = context.add_literal_int(self.value)
+
+    context.add_bytecode(BYTECODE_PUSH_LITERAL)
+    context.add_bytecode(LITERAL_TYPE_INT)
+    context.add_bytecode(index)
+
+    return context</code></pre>
+<p>V bajtkódu je vložená instrukce <code>PUSH_LITERAL</code>, poté typ literálu a jeho index.</p>
+<p>U binární zprávy je krásně vidět, jak se prvně zkompiluje čemu se má zpráva poslat a poté teprve samotná zpráva:</p>
+<pre><code>def compile(self, context):
+    context.add_literal_str_push_bytecode(self.name)
+
+    self.parameter.compile(context)
+
+    context.add_bytecode(BYTECODE_SEND)
+    context.add_bytecode(SEND_TYPE_BINARY)
+    context.add_bytecode(1)
+
+    return context</code></pre>
+<p>Prvně se resolvne název, poté se zkompiluje obsah parametru a poté se tento obsah pošle objektu na názvu. Poslední řádek <code>context.add_bytecode(1)</code> určuje počet parametrů, což je u binárních zpráv vždy jeden.</p>
+<p>Krásně se to kombinuje s objektem <code>Send</code>, který specifikuje fakt že se má něco něčemu poslat:</p>
+<pre><code>def compile(self, context):
+    self.obj.compile(context)
+    self.msg.compile(context)
+
+    return context</code></pre>
+<p>Prvně zkompiluj objekt kterému bude něco posílat, což muže být třeba <code>Self</code>, poté samotnou zprávu, což může být třeba výše uvedená <code>BinaryMessage</code>.</p>
+<p>Asi nejzajímavějším a nejsložitějším na zkompilování se ukázal <code>Object</code>:</p>
+<pre><code>def _add_slot_to_bytecode(self, context, name, value):
+    boxed_name = String(name)
+    boxed_name.compile(context)
+
+    value.compile(context)
+
+    context.add_bytecode(BYTECODE_ADD_SLOT)
+
+def compile(self, context):
+    obj = ObjectRepresentation()
+    obj.meta_set_ast(self)
+    obj.meta_set_parameters(self.params)
+
+    index = context.add_literal_obj(obj)
+    context.add_bytecode(BYTECODE_PUSH_LITERAL)
+    context.add_bytecode(LITERAL_TYPE_OBJ)
+    context.add_bytecode(index)
+
+    for name, value in self.slots.iteritems():
+        self._add_slot_to_bytecode(context, name, value)
+        context.add_bytecode(SLOT_NORMAL)
+
+    for name, value in self.parents.iteritems():
+        self._add_slot_to_bytecode(context, name, value)
+        context.add_bytecode(SLOT_PARENT)
+
+    if self.code:
+        new_context = CodeContext()
+        obj.meta_set_code_context(new_context)
+        for item in self.code:
+            item.compile(new_context)
+
+        obj.map.code_context = new_context
+
+    return context</code></pre>
+<p>Složitost je do velké míry dána tím, že jsem se rozhodl, že objektové literály budu vkládat mezi literály jako poměrně jednoduché objekty, které nemají nic moc kromě parametrů předvyplněno. Vyplnění probíhá ve chvíli, kdy je objekt vytvořen.</p>
+<p>Výše je možné vidět, že je nejdřív vytvořen prázdný objekt, do kterého je uložena jen AST reprezentace pro pozdější referenci a seznam parametrů, které přijímá. Celý zbytek je pak dodán až dynamicky za běhu - všechny <em>sloty</em>, všechny <em>parent sloty</em> a samozřejmě když obsahuje kód, tak je vše rekurzivně provedeno i pro kód.</p>
+<h2 id="disassembler">Disassembler</h2>
+<p>Když už jsem měl hotový triviální kompilátor, rozhodl jsem se také napsat si k němu jednoduchý disassembler, tedy něco co mi poněkud lečeji zobrazí zkompilovaný kód. V podstatě to funguje inverzně ke kompilátoru; postupně bere instrukce a jejich parametry a překládá je na mnemotechnické zkratky instrukcí:</p>
+<p>Napsal jsem to celé maximálně triviálně:</p>
+<pre><code>def _compute_index(bytecodes_len, bytecodes):
+    return str(bytecodes_len - len(bytecodes))
+
+
+def disassemble(bytecodes_bytearray):
+    disassembled = []
+
+    bytecodes = [ord(c) for c in bytecodes_bytearray]
+    bytecodes_len = len(bytecodes)
+    while bytecodes:
+        index = _compute_index(bytecodes_len, bytecodes)
+        bytecode = bytecodes.pop(0)
+
+        if bytecode == BYTECODE_SEND:
+            send_type = bytecodes.pop(0)
+
+            send_type_str = {
+                SEND_TYPE_UNARY: &quot;UNARY&quot;,
+                SEND_TYPE_BINARY: &quot;BINARY&quot;,
+                SEND_TYPE_KEYWORD: &quot;KEYWORD&quot;,
+                SEND_TYPE_UNARY_RESEND: &quot;UNARY_RESEND&quot;,
+                SEND_TYPE_KEYWORD_RESEND: &quot;KEYWORD_RESEND&quot;,
+            }[send_type]
+
+            number_of_params = bytecodes.pop(0)
+
+            disassembled.append([
+                index,
+                &quot;SEND&quot;,
+                &quot;type:&quot; + send_type_str,
+                &quot;params:&quot; + str(number_of_params)
+            ])
+            continue
+
+        elif bytecode == BYTECODE_PUSH_SELF:
+            disassembled.append([
+                index,
+                &quot;PUSH_SELF&quot;
+            ])
+            continue
+
+        elif bytecode == BYTECODE_PUSH_LITERAL:
+            literal_type = bytecodes.pop(0)
+            literal_index = bytecodes.pop(0)
+
+            literal_type_str = {
+                LITERAL_TYPE_NIL: &quot;NIL&quot;,
+                LITERAL_TYPE_INT: &quot;INT&quot;,
+                LITERAL_TYPE_STR: &quot;STR&quot;,
+                LITERAL_TYPE_OBJ: &quot;OBJ&quot;,
+                LITERAL_TYPE_FLOAT: &quot;FLOAT&quot;,
+                LITERAL_TYPE_BLOCK: &quot;BLOCK&quot;,
+                LITERAL_TYPE_ASSIGNMENT: &quot;ASSIGNMENT&quot;,
+            }[literal_type]
+
+            disassembled.append([
+                index,
+                &quot;PUSH_LITERAL&quot;,
+                &quot;type:&quot; + literal_type_str,
+                &quot;index:&quot; + str(literal_index)
+            ])
+            continue
+
+        elif bytecode == BYTECODE_RETURN_TOP:
+            disassembled.append([
+                index,
+                &quot;RETURN_TOP&quot;
+            ])
+            continue
+
+        elif bytecode == BYTECODE_RETURN_IMPLICIT:
+            disassembled.append([
+                index,
+                &quot;RETURN_IMPLICIT&quot;
+            ])
+            continue
+
+        elif bytecode == BYTECODE_ADD_SLOT:
+            slot_type = bytecodes.pop(0)
+            slot_type_str = {
+                SLOT_NORMAL: &quot;SLOT_NORMAL&quot;,
+                SLOT_PARENT: &quot;SLOT_PARENT&quot;,
+            }[slot_type]
+
+            disassembled.append([
+                index,
+                &quot;ADD_SLOT&quot;,
+                &quot;type:&quot; + slot_type_str,
+            ])
+            continue
+
+    return disassembled</code></pre>
+<p>Výsledek vypadá zabalený v samotné Selfové syntaxi například takto:</p>
+<pre><code>(|
+  literals = (| l &lt;- dict clone. |
+    l
+      at: 0 Put: &quot;ObjBox(Object(slots={benchmark: Object(slots={i: IntNumber(0), i:: AssignmentPrimitive()}, code=[Send(obj=Block(code=[Send(obj=Send(obj=Self(), msg=Message(i)), msg=BinaryMessage(name=&lt;, parameter=IntNumber(1000000)))]), msg=KeywordMessage(name=whileTrue:, parameters=[Block(code=[Send(obj=Self(), msg=KeywordMessage(name=i:, parameters=[Send(obj=Send(obj=Self(), msg=Message(i)), msg=BinaryMessage(name=+, parameter=IntNumber(1)))]))])]))]), run_benchmark: Object(slots={start_time: Nil(), start_time:: AssignmentPrimitive(), end_time: Nil(), end_time:: AssignmentPrimitive()}, code=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(interpreter)), msg=KeywordMessage(name=runScript:, parameters=[&#39;objects/stdlib.tself&#39;])), Send(obj=Self(), msg=KeywordMessage(name=start_time:, parameters=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(time)), msg=Message(timestamp))])), Send(obj=Self(), msg=Message(benchmark)), Send(obj=Self(), msg=KeywordMessage(name=end_time:, parameters=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(time)), msg=Message(timestamp))])), Send(obj=Send(obj=Send(obj=Send(obj=Send(obj=Self(), msg=Message(end_time)), msg=BinaryMessage(name=-, parameter=Send(obj=Self(), msg=Message(start_time)))), msg=Message(asString)), msg=BinaryMessage(name=+, parameter=&#39;
+&#39;)), msg=Message(print))])}))&quot;;
+      at: 1 Put: &quot;StrBox(benchmark)&quot;;
+      at: 2 Put: &quot;ObjBox(Object(slots={i: IntNumber(0), i:: AssignmentPrimitive()}, code=[Send(obj=Block(code=[Send(obj=Send(obj=Self(), msg=Message(i)), msg=BinaryMessage(name=&lt;, parameter=IntNumber(1000000)))]), msg=KeywordMessage(name=whileTrue:, parameters=[Block(code=[Send(obj=Self(), msg=KeywordMessage(name=i:, parameters=[Send(obj=Send(obj=Self(), msg=Message(i)), msg=BinaryMessage(name=+, parameter=IntNumber(1)))]))])]))]))&quot;;
+      at: 3 Put: &quot;StrBox(i)&quot;;
+      at: 4 Put: &quot;IntBox(0)&quot;;
+      at: 5 Put: &quot;StrBox(i:)&quot;;
+      at: 6 Put: &quot;StrBox(run_benchmark)&quot;;
+      at: 7 Put: &quot;ObjBox(Object(slots={start_time: Nil(), start_time:: AssignmentPrimitive(), end_time: Nil(), end_time:: AssignmentPrimitive()}, code=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(interpreter)), msg=KeywordMessage(name=runScript:, parameters=[&#39;objects/stdlib.tself&#39;])), Send(obj=Self(), msg=KeywordMessage(name=start_time:, parameters=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(time)), msg=Message(timestamp))])), Send(obj=Self(), msg=Message(benchmark)), Send(obj=Self(), msg=KeywordMessage(name=end_time:, parameters=[Send(obj=Send(obj=Send(obj=Self(), msg=Message(primitives)), msg=Message(time)), msg=Message(timestamp))])), Send(obj=Send(obj=Send(obj=Send(obj=Send(obj=Self(), msg=Message(end_time)), msg=BinaryMessage(name=-, parameter=Send(obj=Self(), msg=Message(start_time)))), msg=Message(asString)), msg=BinaryMessage(name=+, parameter=&#39;
+&#39;)), msg=Message(print))]))&quot;;
+      at: 8 Put: &quot;StrBox(start_time)&quot;;
+      at: 9 Put: &quot;StrBox(start_time:)&quot;;
+      at: 10 Put: &quot;StrBox(end_time)&quot;;
+      at: 11 Put: &quot;StrBox(end_time:)&quot;.
+  ).
+
+  disassembled = (||
+    (&quot;0&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:OBJ&quot;, &quot;index:0&quot;), 
+    (&quot;3&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:1&quot;), 
+    (&quot;6&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:OBJ&quot;, &quot;index:2&quot;), 
+    (&quot;9&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:3&quot;), 
+    (&quot;12&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:INT&quot;, &quot;index:4&quot;), 
+    (&quot;15&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;17&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:5&quot;), 
+    (&quot;20&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:ASSIGNMENT&quot;, &quot;index:0&quot;), 
+    (&quot;23&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;25&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;27&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:6&quot;), 
+    (&quot;30&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:OBJ&quot;, &quot;index:7&quot;), 
+    (&quot;33&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:8&quot;), 
+    (&quot;36&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:NIL&quot;, &quot;index:0&quot;), 
+    (&quot;39&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;41&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:9&quot;), 
+    (&quot;44&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:ASSIGNMENT&quot;, &quot;index:0&quot;), 
+    (&quot;47&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;49&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:10&quot;), 
+    (&quot;52&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:NIL&quot;, &quot;index:0&quot;), 
+    (&quot;55&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;57&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:11&quot;), 
+    (&quot;60&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:ASSIGNMENT&quot;, &quot;index:0&quot;), 
+    (&quot;63&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;65&quot;, &quot;ADD_SLOT&quot;, &quot;type:SLOT_NORMAL&quot;), 
+    (&quot;67&quot;, &quot;PUSH_LITERAL&quot;, &quot;type:STR&quot;, &quot;index:6&quot;), 
+    (&quot;70&quot;, &quot;SEND&quot;, &quot;type:UNARY&quot;, &quot;params:0&quot;), 
+    (&quot;73&quot;, &quot;RETURN_TOP&quot;), 
+    (&quot;74&quot;, &quot;RETURN_TOP&quot;), 
+    (&quot;75&quot;, &quot;RETURN_TOP&quot;), 
+    (&quot;76&quot;, &quot;RETURN_TOP&quot;)
+  ).
+
+bytecodes = (||
+    3, 3, 0, 3, 2, 1, 3, 3, 2, 3, 2, 3, 3, 1, 4, 6, 0, 3, 2, 5, 3, 6, 0, 6, 0, 6, 0, 3, 2, 6, 3, 3, 7, 3, 2, 8, 3, 0, 0, 6, 0, 3, 2, 9, 3, 6, 0, 6, 0, 3, 2, 10, 3, 0, 0, 6, 0, 3, 2, 11, 3, 6, 0, 6, 0, 6, 0, 3, 2, 6, 0, 0, 0, 4, 4, 4, 4
+).</code></pre>
+<p>Původně jsem měl výsledek obalen v JSONu, ale nakonec mi kamarád připoměl, že součástí experimentu s tinySelfem je vyzkoušet používat jeho <em>objektové literály</em>, čehož je výsledkem výše uvedený výpis.</p>
+<p>Tedy interpreter vypisuje jako debug věci v syntaxi sama sebe. Nutno dodat, že zatím nevyzkoušený, neboť ve chvíli kdy byl tento blog napsán nebyly v tinySelfu podporovány ani pole, ani slovníky a jedná se tedy spíš jen o takový nástřel. Tomu taky napovídají ty AST stringy na začátku, které jsou silně nepřehledné, a které to bude chtít časem určitě vylepšit.</p>
+<h2 id="pokračování">Pokračování</h2>
+<p>Příště se už konečně podíváme jak vlastně uvnitř vypadá interpreter a smyčka vykonávání příkazů.</p>
