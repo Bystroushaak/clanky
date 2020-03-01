@@ -1,11 +1,5 @@
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Racionální příprava na virus</title>
-  </head>
-  <body>
-      <p>Částečně na základě diskuze s ostatními a jejich názorů, částečně na základě vlastních úvah jsem sepsal článek na téma koronaviru a jak se na něj připravit. Pojďme se podívat na nějaká čísla, z nich plynoucí dedukce a závěry.</p>
-      <!-- break -->
+<p>Částečně na základě diskuze s ostatními a jejich názorů, částečně na základě vlastních úvah jsem sepsal článek na téma koronaviru a jak se na něj připravit. Pojďme se podívat na nějaká čísla, z nich plynoucí dedukce a závěry.</p>
+      <!--break-->
       <p>Rád bych deklaroval, že mým cílem určitě není vyvolat paniku. Naopak. Tenhle článek berte z velké části jako několik odhadů a myšlenkových experimentů, díky kterým se psychicky připravíte na možné eventuality. Sám si myslím, že to ve skutečnosti pravděpodobně nebude tak špatné, jak se možná může po přečtení článku zdát. Bude to místy opruz, ale život jde dál.</p>
       <h1>Predikce procent nákazy</h1>
       <p>Wuhanský koronavirus má r0, tedy průměrný počet, kolik jeden člověk nakazí lídí někde mezi 1.5 až 6, v závislosti na studii (<a href="https://www.medrxiv.org/content/10.1101/2020.01.23.20018549v2">Novel coronavirus 2019-nCoV: early estimation of epidemiological parameters and epidemic predictions</a>, <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3524675">Early Transmissibility Assessment of a Novel Coronavirus in Wuhan, China</a>, <a href="https://www.medrxiv.org/content/10.1101/2020.02.07.20021154v1">The Novel Coronavirus, 2019-nCoV, is Highly Contagious and More Infectious Than Initially Estimated</a>), s tím že většina studií uvádí minimálně tři. Běžná chřipka má něco jako 2 až 3.</p>
@@ -15,15 +9,14 @@
       <p>Dále pak:</p>
       <blockquote>Chřipka se vyskytuje celosvětově, ročně onemocní přibližně 10 až 15 procent populace.</blockquote>
       <p>Prvně zjistíme kolik lidí umírá na chřipku. Z deseti milionů lidí jí chytí přibližně 10-15%. Budem počítat že je fakt nakažlivá a chytí jí 15. A umře na to v průměru 2000 lidí. To dává..</p>
-      <pre><code>&gt;&gt;&gt; 2000 / ((10_000_000 * 0.15) / 100.0)
-0.13333333333333333</code>
+      <pre>&gt;&gt;&gt; 2000 / ((10_000_000 * 0.15) / 100.0)
+0.13333333333333333
 </pre>
       <p>.. 0.13% úmrtnost. Wuhanský virus má přibližně 2 - 3%. Pokud budeme vycházet z naprosto nemístného optimismu a předpokládat, že se bude šířit stejně málo jako chřipka, dává to ..</p>
-      <pre><code>&gt;&gt;&gt; 10_000_000 * 0.10 * 0.02
+      <pre>&gt;&gt;&gt; 10_000_000 * 0.10 * 0.02
 20000.0
 &gt;&gt;&gt; 10_000_000 * 0.15 * 0.03
-45000.0Rád bych zopakoval deklaraci ze začátku, že život půjde dál.</code>
-</pre>
+45000.0</pre>
       <p>.. něco mezi dvaceti a pětačtyřiceti tisíci mrtvých ročně v našem prostředí, v závislosti od 2-3% úmrtnosti a 10-15% nakažlivosti.</p>
       <p>Stránka Worldometer uvádí tabulky pro <a href="https://www.worldometers.info/coronavirus/coronavirus-age-sex-demographics/">Age, Sex, Existing Conditions of COVID-19 Cases and Deaths</a>, kde je možné najít různé pravděpodobnosti pro různé věkové skupiny, nemocné a tak dál.</p>
       <h2>Komplikace</h2>
@@ -36,10 +29,10 @@
       <p>— <a href="https://www.aljazeera.com/news/2020/02/cloneof200215224437270-200216231809757.html">China coronavirus outbreak: All the latest updates</a></p>
       <p>Tedy asi 80% lidí se z toho dostane v pohodě samo. 14% lidí má vážné komplikace, a okolo pěti procent lidí upadne do kritického stavu, kdy není schopná přežít bez přístrojů a péče. Obecně se dá říct, že až 20% lidí potřebuje lékařskou péči, či hospitalizaci.</p>
       <p>Procentuálně to znamená, že za rok bude potřebovat akutní lékařskou péči až teoreticky hospitalizaci přibližně ..</p>
-      <pre><code>&gt;&gt;&gt; 10_000_000 * 0.10 * 0.2
+      <pre>&gt;&gt;&gt; 10_000_000 * 0.10 * 0.2
 200000.0
 &gt;&gt;&gt; 10_000_000 * 0.15 * 0.2
-300000.0</code>
+300000.0
 </pre>
       <p>.. dvě stě až tři sta tisíc lidí. I kdyby nemocnice braly jen lidi, kteří upadnou do naprosto kritického stavu, tak se stále jedná o přibližně 50-75 tisíc lidí.</p>
       <p>Samozřejmě, že nemoc se neprojeví ve stejný okamžik, takže s trochou nadsázky můžeme čísla vydělit dvanácti, stále se ale dostáváme na čísla kolem čtyř až šesti tisíc lůžek pro kritické případy a něco kolem šestnácti až pětadvaceti tisíc pro ty s těžkými příznaky. Za měsíc. Jo, a taky minimálně někteří lidi <a href="https://www.novinky.cz/zahranicni/koronavirus/clanek/vylecena-zena-se-koronavirem-znovu-nakazila-40314800">můžou podle všeho chytit virus znova</a>.</p>
@@ -49,12 +42,12 @@
       <p>Na hranicích a v letištích používají různé bezdotykové teploměry ve snaze odchytit lidi, kteří již nemocí trpí. To je samozřejmě téměř k ničemu, protože horečka a potíže nastávají až v pozdější fázi nemoci, kdy nakažený už několik dní šíří virus do svého okolí.</p>
       <p>Faktem je, že na nemoc minimálně u nás nejsou dostupné rychlé a jednoduché testy. To nejlepší co se momentálně dá udělat je odebrat podezřelému člověku tekutiny, ty poslat do laboratoře, a za hodiny se dozvědět výsledek.</p>
       <p>Z toho plyne, že rychlost a dostupnost testování bude omezené kapacitou laboratoří a rychlostí přepravy vzorků. Nezanedbatelným faktorem bude taky cena. Zábavný je tenhle článek, kde vykoukla informace o ceně testu v českém prostředí - <a href="https://www.novinky.cz/domaci/clanek/vratili-se-z-italie-a-chteli-test-na-koronavirus-odmitli-je-40314671">Vrátili se z Itálie a chtěli test na koronavirus, odmítli je</a>:</p>
-      <blockquote>„Řekli nám, že takové veřejné testy na koronavirRád bych zopakoval deklaraci ze začátku, že život půjde dál.us nedělají a že soukromé testy stojí patnáct tisíc korun,“ řekl Právu Kraus.</blockquote>
+      <blockquote>„Řekli nám, že takové veřejné testy na koronavirus nedělají a že soukromé testy stojí patnáct tisíc korun,“ řekl Právu Kraus.</blockquote>
       <p>Patnáct tisíc. Asi si umíte představit, jak budou všichni nadšení, když budou muset někoho testovat, že právě vylítlo komínem patnáct tisíc.</p>
-      <p>Časem se dá očekávat zlepšení, jak co do rychlosti (bude víc laboratoří, přenosné kity budou mít i doktoři), tak co do ceny. Minimálně první týdny, či měsíce, budou ovšem zcela bez pochyb provázeny falešným optimizmem. Z příkladu začátku šíření epidemie v číně můžeme vidět, že autority lehce nabudou pocitu, že vše je v pořádku, protože čísla říkají že vše je v pořádku. Přitom máme jen nedostatečný měřák, který nám zkresluje pohled na věc.</p>
+      <p>Časem se dá očekávat zlepšení, jak co do rychlosti (bude víc laboratoří, přenosné kity budou mít i doktoři), tak co do ceny. Minimálně první týdny, či měsíce, budou ovšem zcela bez pochyb provázeny falešným optimizmem. Z příkladu začátku šíření epidemie v Číně můžeme vidět, že autority lehce nabudou pocitu, že vše je v pořádku, protože čísla říkají že vše je v pořádku. Přitom máme jen nedostatečný měřák, který nám zkresluje pohled na věc.</p>
 
-        <a href="imgs/568803.jpg">
-          <img src="imgs/568803.jpg" />
+        <a href="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-4461043513414862265.jpg">
+          <img src="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-6252534399617806315.jpg" />
         </a>
         <p>
           <em>(Kity poslané čínskou vládou do Japonska. Zdroj: <a href="https://www.chinadaily.com.cn/a/202001/27/WS5e2e5f2ba3101282172735b5.html">chinadaily</a>.)</em>
@@ -64,18 +57,12 @@
       <p>Osobně v tomhle doporučuji vycházet z axiomů; víme jak moc se to šíří mezi lidmi, víme jak moc je to nakažlivé. Náhlý pokles počtu nakažených může být způsoben v podstatě jen:</p>
       <ol>
         <li>Účinností karantény.</li>
-      </ol>
-      <ol>
         <li>Nepředpokládanou rezistencí. Může se stát, že virus zmutuje v méně škodlivý.</li>
-      </ol>
-      <ol>
         <li>Nedostatečnou schopností, či neochotou provádět testy. Například se dá čekat, že nikdo nebude chtít vyhazovat patnáct tisíc na testování každé mrtvoly, takže u nás spousta případů spadne do jiné kategorie.</li>
-      </ol>
-      <ol>
         <li>Nefunkční testy. Viz <a href="https://ct24.ceskatelevize.cz/veda/3054432-testy-na-koronavirus-v-usa-nefunguji-vyrobce-udelal-chybu?fbclid=IwAR02ItC1rPLFLLf-4gw1WhvY8s_M61PCrxBMdFxGuGG5hap3lDDsm30rZ1Q">Testy na koronavirus v USA nefungují, výrobce udělal chybu</a>.</li>
       </ol>
       <h1>Vakcíny a léky</h1>
-      <p>Hned několik států a několik firem pracuje na přípravě vakcíny a léků. Je to samozřejmě bohulibá činnost, ale je třeba počítat s tím, že testování může trvat dloRád bych zopakoval deklaraci ze začátku, že život půjde dál.uho, a pak také distribuce a výroba může trvat další měsíce.</p>
+      <p>Hned několik států a několik firem pracuje na přípravě vakcíny a léků. Je to samozřejmě bohulibá činnost, ale je třeba počítat s tím, že testování může trvat dlouho, a pak také distribuce a výroba může trvat další měsíce.</p>
       <p>Dá se taky očekávat, že každý stát, který vyvine a bude mít k dispozici účinné aktivní řešení, bude myslet především na sebe a své vlastní občany, což může znamenat další zpoždění v dodávkách.</p>
       <p>Pro vás z toho hlavně plyne, že až se objeví hurá zpráva, že je k dispozici lék, tak není na místě slavit, ale ptát se kdy reálně asi tak bude dostupný pro nás, pro čechy, ale ještě lépe přímo pro vás, jakožto konkrétního jedince. To může být v pesimistických odhadech klidně třeba půl roku daleko od doby ohlášení léku.</p>
       <h1>Společenské změny</h1>
@@ -92,7 +79,7 @@
       <h1>Ekonomické škody</h1>
       <p>V dnešní době spousta firem spoléhá na to že dodavatelé doručí objednanou závislost v konkrétním termínu. Co se stane, když budou muset čekat o týdny, či měsíce déle, protože subdodavatel byl zavřený karanténou poté co někdo z firmy chytil virus?</p>
       <p>V době, kdy se nic neděje, je do jisté míry racionální být co nejtěsněji navázán na ostatní firmy. Když vyrábím auto, tak nemusím vyrábět všechno. Například světla mi dodá jiná firma, mám nasmlouvané termíny, smluvní pokuty a tak dál. V podstatě všechny firmy dneska jsou na někom dalším závislé a trendem je mít co nejmenší zásoby na skladě, protože to <a href="https://en.wikipedia.org/wiki/The_Goal_(novel)">negeneruje zisk a jen stojí peníze</a>. Je zázrakem moderního světa, skladových a plánovacích systémů, že tohle všechno většinu času funguje.</p>
-      <p>Najednou ovšem vstupuje do hry nepředvídaná <strong>globální</strong> katastrofa, která bude způsobovat různě dlouhé výpadky na různých úrovních dodavatelského řetězce. Síťový efekt způsobí znásobení projevů výpadků napříč celým systémem, zvýší prodlevy. Některé firmy kvůli tomu zkrachují, protože nebudou moct vyrobit produkt, jelikož nebude nikdo kdo by dodal subkomponentu. A až najednou za měsíc zase budou dodávky subkomponent obnoveny, bude mít zase výpadek odběratel. Mezitím je třeba platit faktury, daně a zaměstnancRád bych zopakoval deklaraci ze začátku, že život půjde dál.e. Firmy, které žijí z ruky do huby si tohle prostě nebudou moct dovolit.</p>
+      <p>Najednou ovšem vstupuje do hry nepředvídaná <strong>globální</strong> katastrofa, která bude způsobovat různě dlouhé výpadky na různých úrovních dodavatelského řetězce. Síťový efekt způsobí znásobení projevů výpadků napříč celým systémem, zvýší prodlevy. Některé firmy kvůli tomu zkrachují, protože nebudou moct vyrobit produkt, jelikož nebude nikdo kdo by dodal subkomponentu. A až najednou za měsíc zase budou dodávky subkomponent obnoveny, bude mít zase výpadek odběratel. Mezitím je třeba platit faktury, daně a zaměstnance. Firmy, které žijí z ruky do huby si tohle prostě nebudou moct dovolit.</p>
       <p>I giganti jako automobilky a například Apple otevřeně mluví o tom, že například nové modely telefonů budou zpožděny a nebudou v dostatečných počtech.</p>
       <p>Už teď je možné vidět další efekt způsobený panikou mezi lidmi, kdy najednou nejsou k dispozici respirátory. Pak nejsou k dispozici roušky, ale i dezinfekce a některé druhy potravin. Vzhledem k tomu, že se to děje tak nějak globálně, tak v některých případech není moc kde brát, protože stejná, či horší panika probíhá i v okolních zemích. To dále násobí síťové efekty.</p>
       <p>Osobně nemám data a jsem moc líný momentálně zkoumat jak se čísla, která jsem navrhl projeví na zdravotním a sociálním pojištění a jaké asi budou náklady na ošetřování a personál. Intuice mi říká, že rozhodně nepůjde o nic dobrého.</p>
@@ -101,33 +88,25 @@
       <p>Z toho co jsem napsal je očividně racionální se připravit na následující eventuality a situace:</p>
       <ol>
         <li>Protekce vás a vašeho okolí.</li>
-      </ol>
-      <ol>
         <li>Vy sami chytnete virus.</li>
-      </ol>
-      <ol>
         <li>Někdo ve vašem blízkém okolí, či rodině chytne virus.</li>
-      </ol>
-      <ol>
         <li>Karantény a davová psychologie způsobuje nedostatek zboží a služeb.</li>
-      </ol>
-      <ol>
         <li>Karantény způsobují že nemáte práci.</li>
       </ol>
       <h2>Protekce vás a vašeho okolí</h2>
       <p>Na tohle se tak nějak zaměřuje většina médií, od novinek po idnes. Viděl jsem návody od všech, ať už to byli hygienici, doktoři, nebo nedávno snad dokonce svaz lékárníků.</p>
-      <p>Obecně platí, že to chce dbát zvýšené hygieny, dezinfikovat si ruce, necpat se do davů. Osobně bych ještě doporučil nekupovat si věci, které volně leží v obchodě, jako nebalené ovoce, či rohlíky. Stačí aby si jeden člověk odkašlal a nakazí desítky ostatních a už jsem to v životě několikrát viděl na vlastní oči.Rád bych zopakoval deklaraci ze začátku, že život půjde dál.</p>
+      <p>Obecně platí, že to chce dbát zvýšené hygieny, dezinfikovat si ruce, necpat se do davů. Osobně bych ještě doporučil nekupovat si věci, které volně leží v obchodě, jako nebalené ovoce, či rohlíky. Stačí aby si jeden člověk odkašlal a nakazí desítky ostatních a už jsem to v životě několikrát viděl na vlastní oči.</p>
       <p>Pokud chcete skutečnou ochranu, i když jdete mezi nakažené, tak samozřejmě respirátor, a to druhu FFP3. Existují ještě FFP1 a 2, ale ty jsou proti prachovým částicím a virus jimi bez problému pronikne. Některé respirátory, či filtry mají označení prostě jen někde v popisku obsahující P3, v závislosti na výrobci může a nemusí jít o to samé.</p>
       <p>
-        <a href="imgs/respirators.jpg">
-          <img src="imgs/respirators.jpg" />
+        <a href="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-3271833418121719098.jpg">
+          <img src="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-203373377990901802.jpg" />
         </a>
       </p>
       <p>Samozřejmě, že kromě dýchacích cest to chce chránit ještě oči. Někdo používá plavecké brýle, doktoři používají obličejové štíty. Prodávají se plastové brýle za cenu kolem stovky korun, pod které se vejdou i ty dioptrické.</p>
       <p>Osobně jsem si po zkušenosti s jednorázovými respirátory koupil masku 3M řady 7500, v mém konkrétním případě 7503. K té se dají připojovat různé filtry, typ proti viru je 6035 P3. Důvody proč jsem si koupil tuto (podstatně dražší) masku jsou: 1) dají se z ní vyndat filtry a masku samotnou omýt, 2) komfortem je naprosto někde jinde, než běžný respirátor. Lépe se přes ní dýchá a není nepříjemná po pěti minutách.</p>
       <p>
-        <a href="imgs/3M_mask.jpg">
-          <img src="imgs/3M_mask.jpg" />
+        <a href="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-1921884306368381358.jpg">
+          <img src="/images/screenshots/7/6/242267-racionalni-priprava-na-virus-2267062219475837159.jpg" />
         </a>
       </p>
       <p>Myslím si, že největší problém všech skutečně účinných ochran spočívá v tom že působí nepřirozeně. Spousta lidí tak bude mít velkou psychologickou bariéru je začít používat ve chvíli, kdy by měli. Například já jezdím každé ráno do práce tramvají a velmi často tam někdo kašle. Přesto bych si momentálně připadal nepříjemně, kdybych tam měl jediný sám sedět v masce.</p>
@@ -154,13 +133,10 @@
       <h2>Karantény způsobují že nemáte práci</h2>
       <p>Opět stejně jako v minulém případě, i nyní si myslím, že je dobré se připravit na eventualitu, že náhle přijdete o práci, i v době kdy se nic neděje. Příprava typicky vyžaduje našetření nějaké zálohy, kterou nepoužíváte k běžným útratám. Někteří lidé zmiňují ekvivalent půl roku mzdy, i menší částky v řádu například jedné výplaty, či dvou nájmů vás můžou dělit od nutnosti si dělat dluhy.</p>
       <p>Jak jsem psal, pravděpodobně bude docházet k výpadkům fungování různých firem. Zvláště menší firmy a firmy, které nemají moc velké rezervy na to budou dost možná reagovat propouštěním, či neplaceným volnem.</p>
-      <p>Stát se vám ale může i spousta dalších věcí, jako že virus chytíte a sociální systém se na nějakou dobou zhroutí, takže nebudete dostávat nemocenskou. Nemyslím si že by tahle alternativa byla příliš pravděpodobná, ale obecně můžu jen doporučit vytvořit si rezervu, šance je totiž určitě většíé než v době kdy virus na scéně nebyl.</p>
+      <p>Stát se vám ale může i spousta dalších věcí, jako že virus chytíte a sociální systém se na nějakou dobou zhroutí, takže nebudete dostávat nemocenskou. Nemyslím si že by tahle alternativa byla příliš pravděpodobná, ale obecně můžu jen doporučit vytvořit si rezervu, šance je totiž určitě větší než v době kdy virus na scéně nebyl.</p>
       <h2>Shrnutí</h2>
       <p>Obecně je dobré si pořídit zásoby. Ne jen teď, ale ve všech životních situacích. Lékárnička v autě taky není nic jiného než zásoba pro případ nouze. Stejně tak se hodí přiměřená zásoba jídla a přiměřená zásoba peněz, prostě pro případy že věci nevyjdou tak jak očekáváte.</p>
       <h1>Život poté</h1>
       <p>Snažil jsem se zaměřovat hlavně na to co považuji za nedostatečně probrané v médiích a diskuzích. Díky tomu je možná vyznění článku poněkud negativní. Když se podíváme na videa z číny, tak je jasně vidět, že život sice podléhá omezením, ale vesměs jinak spousta ostatních věcí možná překvapivě není tak špatná, jak se může zdát z médií.</p>
       <p>Osobně doporučuji každému připravit se co nejvíc racionálně, načíst si dostupné informace a pak se v klidu připravit a chovat tak, aby co nejvíc minimalizoval riziko nákazy. Rozhodně nemá smysl panikařit, hned zítra vrhnout do obchodů, nebo třeba dávat tisíce korun za respirátory, které běžně stojí stovku.</p>
-      <p>Naopak; ve chvíli kdy budete mít silný pocit, že něco musíte rychle zařídit, protože všichni naléhají že to je to pravé, se zkuste zastavit a promyslet si, jestli nebude racionálnější například počkat až zítra neopadne nákupní špička. Pokud například již dnesk v obchodech něco nemají, jaká je pravděpodobnost, že to nebude i zítra, nebo třeba za týden? Pokud jde o základní věci, jako třeba mouka, která se dá vyrábět přímo tady v ČR, tak se v podstatě není třeba bát. Pokud jde o nějaký hi-tech výrobek, kde řetězec závislostí záleží na sto dalších firmách, tak tam bych se asi bál. Zkuste prostě přemýšlet, jestli to dává smysl, nebo ne.</p>
-  </body>
-</html>
-
+      <p>Naopak; ve chvíli kdy budete mít silný pocit, že něco musíte rychle zařídit, protože všichni naléhají že to je to pravé, se zkuste zastavit a promyslet si, jestli nebude racionálnější například počkat až zítra neopadne nákupní špička. Pokud například již dneska v obchodech něco nemají, jaká je pravděpodobnost, že to nebude i zítra, nebo třeba za týden? Pokud jde o základní věci, jako třeba mouka, která se dá vyrábět přímo tady v ČR, tak se v podstatě není třeba bát. Pokud jde o nějaký hi-tech výrobek, kde řetězec závislostí záleží na sto dalších firmách, tak tam bych se asi bál. Zkuste prostě přemýšlet, jestli to dává smysl, nebo ne.</p>
