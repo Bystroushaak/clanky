@@ -1,34 +1,26 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>3D TODO list 1; Držák na sluchátka</title>
-  </head>
-  <body>
-    <p>Jak jsem uvedl v mém posledním blogu <a href="/blog/bystroushaak/2021/1/-3d-tiskarna-prusa-mk3splus-sestaveni-a-prvni-tisk">3D tiskárna Průša MK3S+; sestavení a první tisk</a>, udělal jsem si před nákupem tiskárny si seznam deseti věcí k vytištění. Tady je první z nich.</p>
+<p>Jak jsem uvedl v mém posledním blogu <a href="/blog/bystroushaak/2021/1/-3d-tiskarna-prusa-mk3splus-sestaveni-a-prvni-tisk">3D tiskárna Průša MK3S+; sestavení a první tisk</a>, udělal jsem si před nákupem tiskárny si seznam deseti věcí k vytištění. Tady je první z nich.</p>
 
-    <!-- break -->
+    <!--break-->
 
     <p>K počítači používám sluchátka, a je opravdu otravné, když se povalují na stole a obecně se pletou do cesty a zabírají místo. Dřív jsem nějaký čas používal šroubek, našroubovaný do strany stolu, na který jsem sluchátka věšel. Používat jsem ho přestal, když jsem se na něj při manipulaci s věcmi na stole nabodl. Opticky je velmi malý a je jednoduché zapomenout, že tam je. Když jsem si nedával bacha, tak bylo opravdu jednoduché se na něj nabodnout.</p>
     <p>Přirozeně tedy jedna z prvních věcí, co jsem si chtěl vytisknout byl držák na sluchátka, protože to je věc, která mi okamžitě přinese jasný benefit a vyřeší jednu z mých potřeb. Změřil jsem si tedy stůll a sluchátka a přišel s následujícím nákresem, jak by to asi mohlo fungovat:</p>
     <p>
-      <a href="schema_idea.jpg">
-        <img src="schema_idea_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-876419743975762401.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-2116512023799780470.jpg" />
       </a>
     </p>
     <p>Jediný rozdíl mezi nákresy je, jak má držák držet na stole. První používá jakési pérko, druhý nějaký druh šroubu.</p>
     <h1>Blender</h1>
     <p>Modelování bylo triviální; vytvořil jsem velkou kostku, která reprezentovala stůl a dtruhou menší kostku, která reprezentovala držák. Potom jsem od kostky držáku odečetl boolean modifikací stůl.</p>
     <p>
-      <a href="holder_model1.jpg">
-        <img src="holder_model1_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-5478377797832069662.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-7539837887016107852.jpg" />
       </a>
     </p>
     <p>Z konce držáku jsem potom <em>extrudoval</em> (blendeří terminus technicus) konec držáku a přidal jsem další boolenovskou kostku, která vytvořila držák na sluchátka. Rozměry téhle kostky jsem nastavil na rozměry sluchátek.</p>
     <p>
-      <a href="holder_model2.jpg">
-        <img src="holder_model2_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-539543724780925252.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-6970763364998396983.jpg" />
       </a>
       <sub>
         <em>(Stůl a booleanovské kostky jsou nastaveny na wireframe, aby nepřekážely ve výhledu.)</em>
@@ -36,8 +28,8 @@
     </p>
     <p>Přidal jsem pár <em>bevelů</em> (zaoblených hran) a jakousi pružinu, která by měla držák přidržovat na stole. Takhle vypadala finální verze:</p>
     <p>
-      <a href="holder_final.png">
-        <img src="holder_final_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-247410693040693078.png">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-954513574354256786.jpg" />
       </a>
     </p>
     <p>Původně jsem chtěl přidat přítlačnou pružinu nahoru, ale pak jsem si řekl, že bude lepší dole, aby se do ní nezachytával prach a bordel.</p>
@@ -45,79 +37,79 @@
     <h1>Tisk</h1>
     <p>Původně jsem chtěl vytisknout držák ze strany, abych odstranil nutnost podpor, ale <em>PrusaSlicer</em> udělal divnou věc a pružinu úplně vyhodil, když jsem model (ve Sliceru) otočil do strany:</p>
     <p>
-      <a href="holder_slic3r_side.jpg">
-        <img src="holder_slic3r_side_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-7195645682462797609.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-4355280172937463861.jpg" />
       </a>
     </p>
     <p>Přitom tam to pérko bylo, dokud jsem model neotočil. Divné.</p>
     <p>Nakonec jsem vytiskl model s kopou podporu, což je něco čemu jsem se chtěl vyhnout. Ale pérko tam je, tak co.</p>
     <p>
-      <a href="holder_slic3r_flat.jpg">
-        <img src="holder_slic3r_flat_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-2287991140236669803.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-2428788060034716269.jpg" />
       </a>
     </p>
     <p>Tady je vytištěný předmět:</p>
     <p>
-      <a href="mk1_holder.jpg">
-        <img src="mk1_holder_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-7356745323821512003.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-2874516447195572967.jpg" />
       </a>
-      <a href="mk1_holder_headphones.jpg">
-        <img src="mk1_holder_headphones_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-6104409731796515740.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-1131455093370616215.jpg" />
       </a>
     </p>
     <p>Jakmile jsem model viděl v praxi fungovat, bylo mi jasné, že tohle není úplně ideální tvar. Tělo modelu je moc tenké, a taky se mi nelíbí jak málo to přilnává k desce stolu. A obecně jak to trčí do strany, to bylo inspirované původním šroubkem a bylo na čase vymyslet něco lepšího.</p>
     <p>
-      <a href="mk1_bending.jpg">
-        <img src="mk1_bending_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-8508947057727896747.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-300230626546769018.jpg" />
       </a>
     </p>
     <p>Pružina zespodu se taky ukázala jako moc malá a neužitečná.</p>
     <h1>Mk2</h1>
     <p>Díky praktickým zkušenostem z Mk1 verze modelu jsem se rozhodl zkusit jiný přístup k držáku, a upravit jeho tvar na tohle:</p>
     <p>
-      <a href="holder_mk2_model.jpg">
-        <img src="holder_mk2_model_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-7576990736353367397.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-6386327587763097094.jpg" />
       </a>
     </p>
     <p>Trvalo mi to několik iterací, ale nakonec fungoval podle očekávání a navíc se tiskl dost rychle, protože model jde tisknout na z boku a není třeba podpor.</p>
     <p>
-      <a href="mk2_holder_headphones.jpg">
-        <img src="mk2_holder_headphones_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-2022821732382970284.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-5662659672033700535.jpg" />
       </a>
     </p>
     <h1>Mk3</h1>
     <p>Mk2 skončil tak, že jsem udělal finální nízko-kvalitní verzi tisku s několika úpravami (velikost hrbolů uvnitř svorky), se kterou jsem byl velmi spokojený a která fungovala jak měla, takže jsem jí používal. Po několika dnech jsem si ale všiml, že držák nedrží jak bych čekal. Tady je důvod:</p>
     <p>
-      <a href="angled_after_a_day.jpg">
-        <img src="angled_after_a_day_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-373821085549239941.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-71018885477339492.jpg" />
       </a>
     </p>
     <p>Ukázalo se, že PLA se časem prohnul a ztratil flexibilitu, takže svorka zůstala jakoby otevřená. Takže zpět ke <del>kreslícím prknům</del> Blenderu. Tady je návrh verze Mk3 . Rozhodl jsem se přestat uvažovat o držáku jako o něčem dočasném a sundavacím a přišroubovat ho ke stolu.</p>
     <p>
-      <a href="mk3_model.jpg">
-        <img src="mk3_model_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-4079637252461766496.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-3564584155334153429.jpg" />
       </a>
     </p>
     <p>
-      <a href="headphones_on_mk3_holder.jpg">
-        <img src="headphones_on_mk3_holder_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-5876112031050144682.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-173265150441221063.jpg" />
       </a>
     </p>
     <p>Výsledek více/méně fungoval, dokud jsem se neotočil na židli a omylem ho neukopl:</p>
     <p>
-      <a href="kicked_mk3.jpg">
-        <img src="kicked_mk3_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-162527086620316324.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-1680820970625204290.jpg" />
       </a>
     </p>
     <p>Řešení tohohle problému bylo fakt jednoduché; prostě přidat trojuhelníkovou podporu, která ho učinila víc neukopnutelným:</p>
     <p>
-      <a href="mk3_with_holder_model_and_support.jpg">
-        <img src="mk3_with_holder_model_and_support_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-7340919440381461720.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-3624375207870594229.jpg" />
       </a>
     </p>
     <p>
-      <a href="mk3_with_angled_block.jpg">
-        <img src="mk3_with_angled_block_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-1361658953488033802.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-6302301809231461199.jpg" />
       </a>
     </p>
     <p>Výsledek funguje skvěle. Zkoušel jsem ho zlomit rukama, ale ať jsem se snažil jak chtěl, tak se mi to nepovedlo. Myslím že tahle verze přežije pár náhodných kopnutí.</p>
@@ -125,11 +117,8 @@
     <p>Ačkoliv se může zdát, že můj přístup byl poněkud plítvajícím, opravdu si velmi užívám schopnost dělat rychlé iterace, což mi umožnilo rychle se naučit něco nového a taky získat skill a pocit pro to jak optimálněji designovat věci k 3D tisku. Vidět co je možné a co je nepraktické a bude se třeba tisknout dlouho, nebo blbě.</p>
     <p>Taky mi to umožnilo vidět jaká verze je praktická a jak celý koncept rychle vylepšit do použitelnosti.</p>
     <p>
-      <a href="all_holders.jpg">
-        <img src="all_holders_thumb.jpg" />
+      <a href="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-207588218214438578.jpg">
+        <img src="/images/screenshots/2/0/248302-3d-todo-list-1-drzak-na-sluchatka-581998345375074722.jpg" />
       </a>
     </p>
     <p>Hodně se mi líbí, jak se člověk může zamyslet, vymyslet něco ve své hlavě a pak to během chvilky převést na hmotu.</p>
-  </body>
-</html>
-
