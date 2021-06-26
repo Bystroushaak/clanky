@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Geometrický střed Prahy</title>
+  </head>
+  <body>
+    <p><a href="https://www.youtube.com/channel/UCbpMZ4ri2yh342M6dH1GFIg">Kluci z Prahy</a> (známí taky jako <a href="https://www.youtube.com/c/HONESTGUIDE/featured">Honest guide</a>), publikovali nové video ohledně přesného středu Prahy. Když jsem to tak sledoval, těšil jsem se na popis hledání <a href="https://cs.wikipedia.org/wiki/Geometrick%C3%BD_st%C5%99ed">centroidu</a> nekonvexního polygonu.</p>
+    <!-- break -->
+    <p>
+      <a href="kluci_mapa.jpg">
+        <a href="https://www.youtube.com/watch?v=Hj5V6Gh0mOs"><img src="kluci_mapa_thumb.jpg" /></a>
+      </a>
+      <sub>
+        <em>(Zdroj obrázku:</em>
+        <em>
+          <a href="https://www.youtube.com/watch?v=Hj5V6Gh0mOs">https://www.youtube.com/watch?v=Hj5V6Gh0mOs</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <p>Přišlo mi docela smutné, že se o to ani nesnažili. Jednoduše vzali bod nejvíc na západě, východě, jihu a severu Prahy a nakreslili mezi nimi čáry. Tam kde se protnuly pak vybrali střed. Jak se dá najít pravý střed?</p>
+    <p>Poznámka: geometrický střed je místo, kde kdybyste mapu vystřihli z papíru, můžete papírový obrys položit na hrot špendlíku a mapa bude vyvážená a nebude padat mimo.</p>
+    <h1>Sežeň polygonovou mapu prahy</h1>
+    <p>Což může být poměrně náročné. Naštěstí se dá prostě vygooglit použitelný SVG. Jeden jsem <a href="https://img.kurzy.cz/mapa/pr/slepa/praha-okres.svg">našel tady</a>:</p>
+    <p>
+      <a href="http://kitakitsune.org/storage/clanky/Geometricky_stred_prahy/Obec_Praha_okres_Hlavn_msto_Praha.svg">
+        <img src="http://kitakitsune.org/storage/clanky/Geometricky_stred_prahy/Obec_Praha_okres_Hlavn_msto_Praha.svg" />
+      </a>
+      <sub>
+        <em>(Zdroj:</em>
+        <em>
+          <a href="https://img.kurzy.cz/mapa/pr/slepa/praha-okres.svg">https://img.kurzy.cz/mapa/pr/slepa/praha-okres.svg</a>
+        </em>
+        <em>, licencováno pod</em>
+        <em>
+          <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY SA</a>
+        </em>
+        <em>.)</em>
+      </sub>
+    </p>
+    <p>Otevřel jsem ho v textovém editoru a smazal všechno, kromě samotného polygonu:</p>
+    <p>
+      <a href="http://kitakitsune.org/storage/clanky/Geometricky_stred_prahy/Obec_Praha_okres_Hlavn_msto_Praha_1.svg">
+        <img src="http://kitakitsune.org/storage/clanky/Geometricky_stred_prahy/Obec_Praha_okres_Hlavn_msto_Praha_1.svg" />
+      </a>
+    </p>
+    <h1>Blender magie</h1>
+    <p>Výsledné SVG potom může být importované do <a href="https://www.blender.org/">Blenderu</a>:</p>
+    <p>
+      <a href="svg_import_1.png">
+        <img src="svg_import_1_thumb.jpg" />
+      </a>
+    </p>
+    <p>A naškálované na větší velikost:</p>
+    <p>
+      <a href="svg_import_2.png">
+        <img src="svg_import_2_thumb.jpg" />
+      </a>
+    </p>
+    <p>Uprostřed obrazovky je možné vidět <em>„origin point“</em>, který se nachází ve středu 3D kurzoru. Ta malá žlutá tečka. Blender má docela užitečnou funkci, kde vám umožňuje rychle přemístit <em>„origin point“</em> do středu geometrie. Ve 3D modelování se to používá docela často, protože typicky chcete dělat nějaký druh modifikace (rotaci třeba) závislý na geometrickém těžišti objektu.</p>
+    <p>
+      <a href="svg_import_3.png">
+        <img src="svg_import_3_thumb.jpg" />
+      </a>
+    </p>
+    <p>Potom už zbývá jen přemístit objekt (<em>polygonovou mapu</em>) na místo kurzoru a otočit jí o 180°, protože je z nějakého důvodu importovaná vzhůru nohama.</p>
+    <p>
+      <a href="svg_import_4.png">
+        <img src="svg_import_4_thumb.jpg" />
+      </a>
+    </p>
+    <p>Teď by bylo hezké to nějak zvizualizovat na reálné mapě, abysme zjistili kde přesně ten bod je. Použil jsem <a href="https://www.praha.eu/jnp/cz/doprava/cyklisticka/cyklisticka_old_zaloha/tistena_cyklomapa_a_dalsi_tistene.html">mapu z oficiálních stránek Města Prahy</a>. Pak jsem obrázek mapy orotoval o pár stupňů a škáloval ho, dokud <em>polygonová mapa</em> nepasovala na obrys v <em>obrázkové mapě</em>.</p>
+    <p>Rotace je třeba, protože data v SVG obrázku, který jsem použil, jsou z nějakého důvodu pootočena o pár stupňů a pak zkorigována SVG transformací. Eh.</p>
+    <p>
+      <a href="http://kitakitsune.org/storage/clanky/Geometricky_stred_prahy/polygon_with_center_in_geometry.jpg">
+        <img src="polygon_with_center_in_geometry_thumb.jpg" />
+      </a>
+      <sub>
+        <em>(Zdroj mapy:</em>
+        <em>
+          <a href="https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg">https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <p>Když se to pak zazoomuje, můžete vidět střed polygonu nad skutečnou mapou:</p>
+    <p>
+      <a href="polygon_with_center_in_geometry_zoomed.jpg">
+        <img src="polygon_with_center_in_geometry_zoomed_thumb.jpg" />
+      </a>
+      <sub>
+        <em>(Zdroj mapy:</em>
+        <em>
+          <a href="https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg">https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <h1>Výsledek</h1>
+    <p>
+      <a href="polygon_with_center_in_geometry_zoomed2.jpg">
+        <img src="polygon_with_center_in_geometry_zoomed2.jpg" />
+      </a>
+      <sub>
+        <em>(Zdroj:</em>
+        <em>
+          <a href="https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg">https://www.praha.eu/public/89/6a/ec/1099205_140344_cyklomapa_Praha_50_2010_MAPA_strana_1.jpg</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <p>Což je podle mého odhadu tady: <a href="https://en.mapy.cz/zakladni?x=14.4432308&amp;y=50.0579764&amp;z=18&amp;q=50.0579333N%2C%2014.4434400E&amp;source=coor&amp;id=14.44344%2C50.0579333">50.0579333N, 14.4434400E</a>.</p>
+    <p>
+      <a href="seznam_mapy.jpg">
+        <img src="seznam_mapy.jpg" />
+      </a>
+      <sub>
+        <em>(Zdroj:</em>
+        <em>
+          <a href="https://en.mapy.cz/zakladni?x=14.4432308&amp;y=50.0579764&amp;z=18&amp;q=50.0579333N%2C%2014.4434400E&amp;source=coor&amp;id=14.44344%2C50.0579333">http://mapy.cz</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <p>Docela rozdílný bod, že? Pobavilo mě, že se nachází tak hezky uprostřed ulice.</p>
+    <p>
+      <a href="difference.jpg">
+        <img src="difference_thumb.jpg" />
+      </a>
+      <sub>
+        <em>(Zdroj:</em>
+        <em>
+          <a href="https://en.mapy.cz/zakladni?x=14.4569154&amp;y=50.0838426&amp;z=13&amp;q=50.0579333N%2C%2014.4434400E%2050%C2%B05%2740%2C236%22N%2C%2014%C2%B028%2750%2C281%E2%80%9CE">http://mapy.cz</a>
+        </em>
+        <em>)</em>
+      </sub>
+    </p>
+    <p>Nalevo je bod který jsem našel, napravo bod od <em>Kluků z Prahy</em>.</p>
+    <h1>Definice středu</h1>
+    <p>Asi je úplně jedno, kde člověk bere střed Prahy. Ať tak nebo tak, tak stejně to bude záležet na tom jak kdo interpretuje pojem střed. Pro někoho je to tam kde se střetávají severo-jižní a východo-západní přímky. Pro někoho je to geometrický střed. A pocitově, kdybych měl vybrat kde se má střed nacházet, tak bych asi zvolil zase trochu jiný bod, někde psychologicky víc uprostřed.</p>
+    <p>
+      <a href="centers.jpg">
+        <img src="centers_thumb.jpg" />
+      </a>
+    </p>
+    <p>Co mě ovšem baví je mít jednoduchou možnost si takhle hrát a <a href="https://forensic-architecture.org/investigation/chemical-attacks-in-douma">zkoumat</a>, k tomu je Blender super.</p>
+    <h1>Zdrojové materiály</h1>
+    <p>Blender soubor:</p>
+    <p>
+      <a href="http://kitakitsune.org/storage/notion_retardace/geometricky_stred_prahy/geometricky_stred_prahy.blend">📎 geometricky_stred_prahy.blend</a>
+    </p>
+    <p>Pokud chcete dostat z SVG mapy set bodů, které definují polygon, následující script k tomu lze použít, za předpokladu že máte křivku mapy vybranou:</p>
+    <pre class="brush: py">import bpy
+
+obdata = bpy.context.object.data
+curve = bpy.context.object
+
+deg = bpy.context.evaluated_depsgraph_get()
+me = bpy.data.meshes.new_from_object(curve.evaluated_get(deg), depsgraph=deg)
+map_mesh = bpy.data.objects.new(curve.name + "_mesh", me)
+
+print(dir(map_mesh.data))
+
+for v in map_mesh.data.vertices:
+    print('{:.2f} {:.2f}'.format(v.index, v.co.x * 10000 + 700, v.co.y * 10000 + 500))
+</pre>
+    <p>
+    </p>
+  </body>
+</html>
+
